@@ -1,0 +1,10 @@
+---
+title: 'Lab 3: Analyzing functions (solutions)'
+author: \copyright 2005 Ben Bolker, modified at some places by Alejandro Morales, Ioannis Baltzakis & Bob Douma 2021
+date: "October 28, 2021"
+cache: true
+params:
+  solution: true
+---
+
+{{< include no_solution.qmd >}}

@@ -1,0 +1,40 @@
+project:
+  type: website
+execute:
+  freeze: auto # Avoid running computations as part of Github actions
+website:
+  title: "Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R"
+  sidebar:
+    style: "docked"
+    collapse-level: 1
+    search: false
+    contents:
+      - href: Lab1/no_solution.qmd
+        text: "Lab 1"
+      - href: Lab2/index.qmd
+        text: "Lab 2"
+      - href: Lab3/no_solution.qmd
+        text: "Lab 3"
+      - href: Lab4/no_solution.qmd
+        text: "Lab 4"
+      - href: Lab6/no_solution.qmd
+        text: "Lab 6 & 7"
+      - href: Lab9/no_solution.qmd
+        text: "Lab 9"
+      - section: "Solutions"
+        contents:
+          - href: Lab1/solution.qmd
+            text: "Lab 1 (solutions)"
+          - href: Lab3/solution.qmd
+            text: "Lab 3 (solutions)"
+          - href: Lab4/solution.qmd
+            text: "Lab 4 (solutions)"
+          - href: Lab6/solution.qmd
+            text: "Lab 6 & 7 (solutions)"
+          - href: Lab9/solution.qmd
+            text: "Lab 9 (solutions)"
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

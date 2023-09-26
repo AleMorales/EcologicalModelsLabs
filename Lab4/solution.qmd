@@ -1,0 +1,10 @@
+---
+title: "Lab 4: Probability distributions (solutions)"
+author: \copyright 2005 Ben Bolker, modified at some places by Alejandro Morales & Bob Douma 2019
+date: "October 11, 2019"
+cache: true
+params:
+  solution: true
+---
+
+{{< include no_solution.qmd >}}

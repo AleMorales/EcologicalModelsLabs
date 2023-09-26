@@ -1,0 +1,10 @@
+---
+title: "Lab 6 & 7 Fitting models to data, optimisation and bayesian statistics (solutions)"
+author: "Ben Bolker, modified at several places by Bob Douma and Alejandro Morales. Bayesian part by AM"
+date: "16 November 2022"
+cache: true
+params:
+  solution: true
+---
+
+{{< include no_solution.qmd >}}

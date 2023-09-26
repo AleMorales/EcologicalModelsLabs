@@ -1,0 +1,5 @@
+---
+title: "Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R"
+---
+
+Practical labs for the course [CSA-34306 Ecological Modelling and Data Analysis in R](https://ssc.wur.nl/Historie/Studiegids/2019/Vak/CSA-34306.html) at Wageningen University. Based on Ben Bolker's book [Ecological Models and Data in R](https://math.mcmaster.ca/~bolker/emdbook/index.html) modified by Bob Douma and Alejandro Morales. Use the sidebar to navigate through the labs.

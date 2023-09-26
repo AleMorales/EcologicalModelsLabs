@@ -1,0 +1,13 @@
+---
+title: "Lab 1: An introduction to `R` for ecological modeling (solutions)"
+author:
+- Stephen Ellner, modified by Ben Bolker & Bob Douma.
+- Adapted to R Markdown by Alejandro Morales.
+date: "October 25, 2023"
+cache: true
+visual: false
+params:
+  solution: true
+---
+
+{{< include no_solution.qmd >}}

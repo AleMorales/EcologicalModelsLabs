@@ -1,0 +1,10 @@
+---
+title: "Lab 9 + GLS and Mixed effect Models (solutions)"
+author: "Bob Douma"
+date: "3 December 2018"
+cache: true
+params:
+  solution: true
+---
+
+{{< include no_solution.qmd >}}
