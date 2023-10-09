@@ -364,7 +364,7 @@ data(dataset)
 
 # Plotting
 
-Below we will show you a diversity of possible graphs that you can produce in R. Graphics are really important to explore the data that you collected and want to analyse. A good data exploration improves the efficiency of your statistical analysis as you will have expectations how relations between variables look like. We show you how to make the graphics using the base plotting functions in `R`, even though specialized packages exist to make particular plots. In addition, we will show you how to make those graphs in `ggplot2` package. The `ggplot2` package is very popular as it can create basically any type of graph without much effort. Note that in ggplot2 the 'grammar' to produce a graph is different from how the other graphs in `R` are build.
+Below we will show you a diversity of possible graphs that you can produce in R. Graphics are really important to explore the data that you collected and want to analyse. A good data exploration improves the efficiency of your statistical analysis as you will have expectations how relations between variables look like. We show you how to make the graphics using the base plotting functions in `R`, even though specialized packages exist to make particular plots. At the end of this file we show you how to make those graphs in `ggplot2` package. The `ggplot2` package is very popular as it can create basically any type of graph without much effort. Note that in ggplot2 the 'grammar' to produce a graph is different from how the other graphs in `R` are build. 
 
 ## Scatter plot
 
@@ -410,23 +410,6 @@ The argument `cex` controls the size of the points. As you see the size of the b
 plot(`Seeds taken` ~ `Seeds available`,data=t2,cex=log(val)*2,
         xlim = c(0.3,5.8),ylim=c(-0.5,5.5))
 ```
-
-In ggplot this can be done as follows
-
-```{r}
-library(ggplot2)
-    ggplot(data=t2)+
-        geom_point(aes(x = `Seeds available`, y = `Seeds taken`, 
-                       size = log(val)/2))+
-      ylab("Seeds taken")+
-      xlab("Seeds available")
-    # or alternatively labs(x="Seeds taken",y="Seeds available")
-  
-```
-
-In `ggplot2` you need to specify the dataset the variables come from. You do this through `data=...`. Next you specify the type of plot you want. For example, a point plot can be specified through `geom_point`. Within `geom_point`, you need to specify the aesthetics (`aes(x...,y...)`) which determines what is plotted on the axes of the point plot. For example `aes(x=x,y=y)` put column `x` on the x-axis and column `y` on the y-axis.
-
-If data is specified in the `ggplot` statement, it means that all plotting commands below `ggplot(...)+` use that dataframe as reference. If the size command is put inside the `aes` then size is dependent on some variable, if put outside the `aes` it requires a single value (similarly for e.g. `colour`, `linetype` and `shape`). New commands can be added to the first statement (`ggplot`) by adding a `+` after each line. If a column name contains a space you can refer to it by putting it between backticks: `...`
 
 We could add the number of observations to the plot (`plot`) using the command `text`. The function `text` needs at least three arguments, the x position and the y position of the text and the text to be printed at this position. `text` allows vectors for each of those arguments. Therefore we can write:
 
@@ -482,33 +465,6 @@ text(34.5, 3.05, "Number taken")
 par(op)
 ```
 
-Alternatively through `ggplot`
-
-```{r}
-ggplot(data=t2)+
-  geom_bar(aes(x=`Seeds available`,y=log10(val+1),
-               fill=as.factor(`Seeds taken`)),
-           stat="identity",position=position_dodge())
-```
-
-Again through `aes` we specify what is on the `x` and `y`. Through `fill` we subdivide the bars by the values in `taken`. `stat=identity` expresses that the values assigned to `y` will be used (compare `stat="count"`). Through specifying `position_dodge()` bars are printed side by side instead of stacked bars (`position_fill()`).
-
-More impressively, the ggplot package can automatically plot a barplot of a three-way cross-tabulation (one barplot per species): try
-
-```{r}
-t1.species = table(data$available,data$remaining,data$species)
-t1.species = melt(t1.species,varnames=c("Seeds available","Seeds taken",
-                                        "species"),value.name="val")
-ggplot(data=t1.species)+
-  geom_bar(aes(x=`Seeds available`,y=log10(val+1),
-               fill=as.factor(`Seeds taken`)),stat="identity",
-           position=position_dodge())+
-  facet_wrap(~species)+
-  coord_flip()
-```
-
-with `facet_wrap` a sequence of panels is made a specified by the variable behind the `~`. The `coord_flip` rotates the plot.
-
 ```{block2, type = "exercisebox",latex.options="{2}"}
 Restricting your analysis to only the observations with 5 seeds available, create a barplot showing the distribution of number of seeds taken broken down by species. Choose whether you do this with `ggplot2` or through the base `plot` function.
 ```
@@ -558,19 +514,6 @@ arrows(bara[,1],mean_frac_by_avail-se_by_avail,bara[,1],
 
 ```
 
-With `ggplot2` this is possible through the following syntax. Note that there is a convenient function, called `summarySE` in the `Rmisc` package to compute the means and se:
-
-```{r}
-library(Rmisc)
-sum.data = summarySE(data,measurevar= "frac_taken",groupvars=c("available"))
-ggplot(aes(x=available,y=frac_taken),data=sum.data)+ 
-  geom_bar(,stat="identity")+
-  geom_errorbar(aes(ymin=frac_taken-se, ymax=frac_taken+se),
-                stat="identity")
-
-```
-
-Make sure that the data reference is in the `ggplot()` function so all other functions such as `geom_bar` and `geom_errobar` make use of the same `data.frame`.
 
 ## Histogram by species
 
@@ -595,20 +538,6 @@ sapply(data.s,hist,main="")
 for (i in 1:8){
   hist(data.s[[i]],main="")
 }
-```
-
-With `ggplot2` you can get the frequencies less easily, so will be plot the counts
-
-```{r}
-ggplot(data=data)+
-geom_bar(aes(x=frac_taken),stat="count")+
-  facet_wrap(~ species)
-```
-
-```{r}
-ggplot(data=data,aes(x=frac_taken))+
-  geom_histogram(aes(y = ..density..))+
-  facet_wrap(~species)
 ```
 
 I'm going to clear the workspace with `rm(list=ls())`. `ls()` lists all the objects in the workspace with `ls()` and then uses `rm()` to remove them. It is recommend to have this code at the top of every script, so every time you start working on the script you are sure the memory is cleared. You can also clear workspace from the menu in Rstudio (the little brush in the topright panel) and read in the measles data, which are space separated and have a header:
@@ -652,13 +581,6 @@ for (i in 2:length(unique.city)){
 legend("topright",legend=unique.city,col=1:8,lty=1)
 ```
 
-With ggplot2 we specify
-
-```{r,eval=F}
-ggplot() +
-  geom_line(aes(x=date,y=incidence, colour=city),data=data_long)
-```
-
 ## Histogram and density plots
 
 I'll start by just collapsing all the incidence data into a single, logged, non-NA vector (in this case I have to use `c(as.matrix(x))` to collapse the data and remove all of the data frame information):
@@ -680,14 +602,6 @@ Adding lines for the density is straightforward, since R knows what to do with a
 ```{r,eval=F}
 lines(density(logvals), lwd = 2)
 lines(density(logvals, adjust = 0.5), lwd = 2, lty = 2)
-```
-
-With ggplot2 we specify:
-
-```{r}
-ggplot()+
-  geom_histogram(aes(x=logvals,y=..density..))+
-  geom_density(aes(x=logvals,y=..density..))
 ```
 
 ## Scaling data
@@ -736,20 +650,6 @@ boxplot(log10(1 + incidence) ~ city, data = data_long, ylab = "Log(incidence+1)"
  names = city_abbr)
 ```
 
-Or through ggplot
-
-```{r,eval=F}
-ggplot(data=data_long)+
-  geom_boxplot((aes(x=city,y=log10(incidence+1))))
-```
-
-If I want to make a violin plot, you can specify:
-
-```{r,eval=F}
-ggplot(data=data_long)+
-  geom_violin((aes(x=city,y=log10(incidence+1))))
-```
-
 ## Pair plot
 
 First let's make sure the earthquake data are accessible:
@@ -775,3 +675,111 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 This is up to your creativity
 
 ```
+
+
+# Plotting with `ggplot2`
+
+For plotting with `ggplot` you need to install the `ggplot2` package. 
+
+## Scatter plot
+
+In ggplot a scatterplot can be made as follows
+
+```{r}
+library(ggplot2)
+    ggplot(data=t2)+
+        geom_point(aes(x = `Seeds available`, y = `Seeds taken`, 
+                       size = log(val)/2))+
+      ylab("Seeds taken")+
+      xlab("Seeds available")
+    # or alternatively labs(x="Seeds taken",y="Seeds available")
+  
+```
+
+In `ggplot2` you need to specify the dataset the variables come from. You do this through `data=...`. Next you specify the type of plot you want. For example, a point plot can be specified through `geom_point`. Within `geom_point`, you need to specify the aesthetics (`aes(x...,y...)`) which determines what is plotted on the axes of the point plot. For example `aes(x=x,y=y)` put column `x` on the x-axis and column `y` on the y-axis.
+
+If data is specified in the `ggplot` statement, it means that all plotting commands below `ggplot(...)+` use that dataframe as reference. If the size command is put inside the `aes` then size is dependent on some variable, if put outside the `aes` it requires a single value (similarly for e.g. `colour`, `linetype` and `shape`). New commands can be added to the first statement (`ggplot`) by adding a `+` after each line. If a column name contains a space you can refer to it by putting it between backticks: `...`
+
+## Bar plot (with error bars)
+
+A barplot can be created with `ggplot2` as follows:
+
+
+```{r}
+ggplot(data=t2)+
+  geom_bar(aes(x=`Seeds available`,y=log10(val+1),
+               fill=as.factor(`Seeds taken`)),
+           stat="identity",position=position_dodge())
+```
+
+Again through `aes` we specify what is on the `x` and `y`. Through `fill` we subdivide the bars by the values in `taken`. `stat=identity` expresses that the values assigned to `y` will be used (compare `stat="count"`). Through specifying `position_dodge()` bars are printed side by side instead of stacked bars (`position_fill()`).
+
+More impressively, the ggplot package can automatically plot a barplot of a three-way cross-tabulation (one barplot per species): try
+
+```{r}
+t1.species = table(data$available,data$remaining,data$species)
+t1.species = melt(t1.species,varnames=c("Seeds available","Seeds taken",
+                                        "species"),value.name="val")
+ggplot(data=t1.species)+
+  geom_bar(aes(x=`Seeds available`,y=log10(val+1),
+               fill=as.factor(`Seeds taken`)),stat="identity",
+           position=position_dodge())+
+  facet_wrap(~species)+
+  coord_flip()
+```
+
+with `facet_wrap` a sequence of panels is made a specified by the variable behind the `~`. The `coord_flip` rotates the plot.
+
+## Histogram by species
+
+To make a histogram with `ggplot2` you can get the frequencies less easily, so will be plot the counts
+
+```{r}
+ggplot(data=data)+
+geom_bar(aes(x=frac_taken),stat="count")+
+  facet_wrap(~ species)
+```
+
+```{r}
+ggplot(data=data,aes(x=frac_taken))+
+  geom_histogram(aes(y = ..density..))+
+  facet_wrap(~species)
+```
+
+
+## Multiple-line plots
+
+With ggplot2 we specify
+
+```{r,eval=F}
+ggplot() +
+  geom_line(aes(x=date,y=incidence, colour=city),data=data_long)
+```
+
+## Histogram and density plots
+
+With ggplot2 we specify:
+
+```{r}
+ggplot()+
+  geom_histogram(aes(x=logvals,y=..density..))+
+  geom_density(aes(x=logvals,y=..density..))
+```
+
+
+## Box-and-whisker and violin plots
+
+By ggplot
+
+```{r,eval=F}
+ggplot(data=data_long)+
+  geom_boxplot((aes(x=city,y=log10(incidence+1))))
+```
+
+If I want to make a violin plot, you can specify:
+
+```{r,eval=F}
+ggplot(data=data_long)+
+  geom_violin((aes(x=city,y=log10(incidence+1))))
+```
+
