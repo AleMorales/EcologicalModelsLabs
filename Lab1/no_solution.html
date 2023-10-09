@@ -105,6 +105,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,6 +125,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+.Exercise {
+  --color1: #00ff00;
+  --color2: #d9d9d9;
+}
+.Solution {
+  --color1: #80bfff;
+  --color2: #d9d9d9;
+}
+</style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -240,34 +251,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
-  <li><a href="#how-to-use-this-tutorial" id="toc-how-to-use-this-tutorial" class="nav-link" data-scroll-target="#how-to-use-this-tutorial">How to use this tutorial</a></li>
-  <li><a href="#what-is-r" id="toc-what-is-r" class="nav-link" data-scroll-target="#what-is-r">What is <code>R</code>?</a></li>
-  <li><a href="#installing-r-on-your-computer-basics" id="toc-installing-r-on-your-computer-basics" class="nav-link" data-scroll-target="#installing-r-on-your-computer-basics">Installing <code>R</code> on your computer: basics</a></li>
-  <li><a href="#installing-and-using-rstudio" id="toc-installing-and-using-rstudio" class="nav-link" data-scroll-target="#installing-and-using-rstudio">Installing and using Rstudio</a></li>
-  <li><a href="#the-r-package-system" id="toc-the-r-package-system" class="nav-link" data-scroll-target="#the-r-package-system">The <code>R</code> package system</a></li>
-  <li><a href="#interactive-calculations-in-the-console" id="toc-interactive-calculations-in-the-console" class="nav-link" data-scroll-target="#interactive-calculations-in-the-console">Interactive calculations in the console</a></li>
-  <li><a href="#the-help-system" id="toc-the-help-system" class="nav-link" data-scroll-target="#the-help-system">The help system</a></li>
-  <li><a href="#using-scripts-and-data-files" id="toc-using-scripts-and-data-files" class="nav-link" data-scroll-target="#using-scripts-and-data-files">Using scripts and data files</a></li>
-  <li><a href="#typical-workflow-in-r-an-example-using-linear-regression" id="toc-typical-workflow-in-r-an-example-using-linear-regression" class="nav-link" data-scroll-target="#typical-workflow-in-r-an-example-using-linear-regression">Typical workflow in <code>R</code>: an example using linear regression</a></li>
-  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types">Data types</a>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes"><span class="toc-section-number">1</span>  Learning outcomes</a></li>
+  <li><a href="#how-to-use-this-tutorial" id="toc-how-to-use-this-tutorial" class="nav-link" data-scroll-target="#how-to-use-this-tutorial"><span class="toc-section-number">2</span>  How to use this tutorial</a></li>
+  <li><a href="#what-is-r" id="toc-what-is-r" class="nav-link" data-scroll-target="#what-is-r"><span class="toc-section-number">3</span>  What is <code>R</code>?</a></li>
+  <li><a href="#installing-r-on-your-computer-basics" id="toc-installing-r-on-your-computer-basics" class="nav-link" data-scroll-target="#installing-r-on-your-computer-basics"><span class="toc-section-number">4</span>  Installing <code>R</code> on your computer: basics</a></li>
+  <li><a href="#installing-and-using-rstudio" id="toc-installing-and-using-rstudio" class="nav-link" data-scroll-target="#installing-and-using-rstudio"><span class="toc-section-number">5</span>  Installing and using Rstudio</a></li>
+  <li><a href="#the-r-package-system" id="toc-the-r-package-system" class="nav-link" data-scroll-target="#the-r-package-system"><span class="toc-section-number">6</span>  The <code>R</code> package system</a></li>
+  <li><a href="#interactive-calculations-in-the-console" id="toc-interactive-calculations-in-the-console" class="nav-link" data-scroll-target="#interactive-calculations-in-the-console"><span class="toc-section-number">7</span>  Interactive calculations in the console</a></li>
+  <li><a href="#the-help-system" id="toc-the-help-system" class="nav-link" data-scroll-target="#the-help-system"><span class="toc-section-number">8</span>  The help system</a></li>
+  <li><a href="#using-scripts-and-data-files" id="toc-using-scripts-and-data-files" class="nav-link" data-scroll-target="#using-scripts-and-data-files"><span class="toc-section-number">9</span>  Using scripts and data files</a></li>
+  <li><a href="#typical-workflow-in-r-an-example-using-linear-regression" id="toc-typical-workflow-in-r-an-example-using-linear-regression" class="nav-link" data-scroll-target="#typical-workflow-in-r-an-example-using-linear-regression"><span class="toc-section-number">10</span>  Typical workflow in <code>R</code>: an example using linear regression</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="toc-section-number">11</span>  Data types</a>
   <ul class="collapse">
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="toc-section-number">11.1</span>  Vectors</a>
   <ul class="collapse">
-  <li><a href="#functions-for-creating-vectors" id="toc-functions-for-creating-vectors" class="nav-link" data-scroll-target="#functions-for-creating-vectors">Functions for creating vectors</a></li>
-  <li><a href="#vector-indexing" id="toc-vector-indexing" class="nav-link" data-scroll-target="#vector-indexing">Vector indexing</a></li>
-  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators">Logical operators</a></li>
+  <li><a href="#functions-for-creating-vectors" id="toc-functions-for-creating-vectors" class="nav-link" data-scroll-target="#functions-for-creating-vectors"><span class="toc-section-number">11.1.1</span>  Functions for creating vectors</a></li>
+  <li><a href="#vector-indexing" id="toc-vector-indexing" class="nav-link" data-scroll-target="#vector-indexing"><span class="toc-section-number">11.1.2</span>  Vector indexing</a></li>
+  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators"><span class="toc-section-number">11.1.3</span>  Logical operators</a></li>
   </ul></li>
-  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices">Matrices</a>
+  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices"><span class="toc-section-number">11.2</span>  Matrices</a>
   <ul class="collapse">
-  <li><a href="#creating-matrices" id="toc-creating-matrices" class="nav-link" data-scroll-target="#creating-matrices">Creating matrices</a></li>
-  <li><a href="#cbind-and-rbind" id="toc-cbind-and-rbind" class="nav-link" data-scroll-target="#cbind-and-rbind"><code>cbind</code> and <code>rbind</code></a></li>
-  <li><a href="#matrix-indexing" id="toc-matrix-indexing" class="nav-link" data-scroll-target="#matrix-indexing">Matrix indexing</a></li>
+  <li><a href="#creating-matrices" id="toc-creating-matrices" class="nav-link" data-scroll-target="#creating-matrices"><span class="toc-section-number">11.2.1</span>  Creating matrices</a></li>
+  <li><a href="#cbind-and-rbind" id="toc-cbind-and-rbind" class="nav-link" data-scroll-target="#cbind-and-rbind"><span class="toc-section-number">11.2.2</span>  <code>cbind</code> and <code>rbind</code></a></li>
+  <li><a href="#matrix-indexing" id="toc-matrix-indexing" class="nav-link" data-scroll-target="#matrix-indexing"><span class="toc-section-number">11.2.3</span>  Matrix indexing</a></li>
   </ul></li>
-  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists">Lists</a></li>
-  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data frames</a></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="toc-section-number">11.3</span>  Lists</a></li>
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="toc-section-number">11.4</span>  Data frames</a></li>
   </ul></li>
-  <li><a href="#references-acknowlegdments" id="toc-references-acknowlegdments" class="nav-link" data-scroll-target="#references-acknowlegdments">References &amp; Acknowlegdments</a></li>
+  <li><a href="#references-acknowlegdments" id="toc-references-acknowlegdments" class="nav-link" data-scroll-target="#references-acknowlegdments"><span class="toc-section-number">12</span>  References &amp; Acknowlegdments</a></li>
   </ul>
 </nav>
     </div>
@@ -304,8 +315,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="learning-outcomes" class="level1">
-<h1>Learning outcomes</h1>
+<section id="learning-outcomes" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning outcomes</h1>
 <p>The aim of this tutorial is to learn the basics of <code>R</code>. After completing the tutorial you will be able to:</p>
 <ol type="1">
 <li><p>Install <code>R</code> and associated packages and Rstudio</p></li>
@@ -319,15 +330,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </section>
-<section id="how-to-use-this-tutorial" class="level1">
-<h1>How to use this tutorial</h1>
+<section id="how-to-use-this-tutorial" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> How to use this tutorial</h1>
 <ul>
 <li><p>This tutorial contains many sample calculations. It is important to do these yourself—<strong>type them in at your keyboard and see what happens on your screen</strong>—to get the feel of working in <code>R</code>.</p></li>
 <li><p><strong>Exercises</strong> in the middle of a section should be done immediately, and make sure you have them rightly solved before moving on. Some other, more challenging, exercises appear at the end of some sections, and these can be left until later.</p></li>
 </ul>
 </section>
-<section id="what-is-r" class="level1">
-<h1>What is <code>R</code>?</h1>
+<section id="what-is-r" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> What is <code>R</code>?</h1>
 <p><code>R</code> is an object-oriented scripting language that</p>
 <ul>
 <li><p>can be used for numerical simulation of deterministic and stochastic dynamic models.</p></li>
@@ -337,8 +348,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><code>R</code> is an open source project, available for free download via the Web. Originally a research project in statistical computing it is now managed by a development team that includes a number of well-regarded statisticians. It is widely used by statistical researchers and a growing number of theoretical ecologists and ecological modelers as a platform for making new methods available to users.</p>
 </section>
-<section id="installing-r-on-your-computer-basics" class="level1">
-<h1>Installing <code>R</code> on your computer: basics</h1>
+<section id="installing-r-on-your-computer-basics" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Installing <code>R</code> on your computer: basics</h1>
 <p>If <code>R</code> is already installed on your computer, you can skip this section.</p>
 <p>The main source for <code>R</code> is the CRAN home page <code>http://cran.r-project.org</code>. You can get the source code, but most users will prefer a precompiled version. To get one of these from CRAN:</p>
 <ul>
@@ -347,45 +358,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Read and follow the instructions (which are pretty much “click on the icon”).</p></li>
 </ul>
 </section>
-<section id="installing-and-using-rstudio" class="level1">
-<h1>Installing and using Rstudio</h1>
+<section id="installing-and-using-rstudio" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Installing and using Rstudio</h1>
 <p>Nowadays programs are available that integrate <code>R</code> in a sophisticated way by combining a console, a <em>syntax highlighting</em> editor (giving colors to <code>R</code> commands and allowing you to identify missing parentheses, quotation marks etc.), tools for plotting, debugging, workspace management and connections to versioning systems into one program. Rstudio is currently the most advanced wrapper around R and is highly recommended if <code>R</code> is the core of your work. Rstudio can be found and downloaded at https://www.rstudio.com.</p>
 <p>If a new <code>R</code> version is launched after you installed Rstudio, you can change the <code>R</code> version that is used in Rstudio by clicking on <code>Tools</code> and <code>Global Options</code>, choose <code>R general</code> and select the location of the most recent <code>R</code> version.</p>
 <p>Rstudio usually displays four panels. The default setting is a script editor at the top-left of the screen, the console at the bottom-left, the global environment (which shows what is stored in the memory) at the top-right, and a plotting region at bottom-right. As you see some panel have multiple tabs that include other useful features such as the help (bottom-right), the (available and loaded) packages (bottom-right) etc.</p>
 </section>
-<section id="the-r-package-system" class="level1">
-<h1>The <code>R</code> package system</h1>
+<section id="the-r-package-system" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> The <code>R</code> package system</h1>
 <p>The standard distributions of <code>R</code> include several <em>packages</em>, user-contributed suites of add-on functions. This lab uses some packages that are not part of the standard distribution. In general, you can install additional packages from within <code>R</code> using the <code>Packages</code> menu, or the <code>install.packages</code> command.</p>
-<p>You may be able to install new packages from a menu within <code>R</code>. Type and it will installe the package <code>ggplot2</code> that you will use in the next tutorial.</p>
-<div class="cell" data-hash="no_solution_cache/html/df-drop-2_63c9584264b5c87db0789a20abf524c9">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r bad-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You may be able to install new packages from a menu within <code>R</code>. Type and it will install the package <code>ggplot2</code> that you will use in the next tutorial.</p>
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-2_0446aef5081083e4e3b383a0a6d2bd32">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(for example — this installs the <code>ggplot2</code> package). You can install more than one package at a time:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-2_5ddc18d6f21e1f14b79ea593037a9878">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-3_819b0d9bf31f5f53653353f7d19b01d3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggplot2"</span>,<span class="st">"nlme"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(<code>c</code> stands for “combine”, and is the command for combining multiple things into a single object.)</p>
 <p>Some of the important functions and packages (collections of functions) for statistical modeling and data analysis are summarized in Table 2. Venables and Ripley (2002) give a good practical (although somewhat advanced) overview, and you can find a list of available packages and their contents at CRAN, the main <code>R</code> website (http://www.cran.r-project.org — select a mirror site near you and click on <code>Package sources</code>). For the most part, we will not be concerned here with this side of <code>R</code>.</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-3_4b3e7e0469d15dbc57ad2ecc5c985c91">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-4_63a899f50e0f202b559beb527fe6a7a6">
 <div class="cell-output-display">
 
 </div>
 </div>
 </section>
-<section id="interactive-calculations-in-the-console" class="level1">
-<h1>Interactive calculations in the console</h1>
+<section id="interactive-calculations-in-the-console" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Interactive calculations in the console</h1>
 <p>The console is where you enter commands for <code>R</code> to execute <em>interactively</em>, meaning that the command is executed and the result is displayed as soon as you hit the <code>Enter</code> key (bottom-left panel in Rstudio). For example, at the command prompt <code>&gt;</code>, type in <code>2+2</code> and hit <code>Enter</code>; you will see</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-4_e12a7a670355379410d1faf7be62057f">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-5_48bd6f0271d27b546aeb786c391fbc3e">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
 <p>To do anything complicated, you have to store the results from calculations by <em>assigning</em> them to variables, using <code>=</code> or <code>&lt;-</code>. For example:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-5_7f310682218eb6bc677e79ea51109831">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-6_f13578dfc02ab7f2a23d27c6355bfefc">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>R</code> automatically creates the variable <code>a</code> and stores the result (4) in it, but it doesn’t print anything. This may seem strange, but you’ll often be creating and manipulating huge sets of data that would fill many screens, so the default is to skip printing the results. To ask <code>R</code> to print the value, just type the variable name by itself at the command prompt:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-6_9dd4de2335186b9706579d2262b45bf3">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-7_315819f6f96e5c742b2ae4fb656b0329">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
@@ -393,14 +404,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>(the <code>[1]</code> at the beginning of the line is just <code>R</code> printing an index of element numbers; if you print a result that displays on multiple lines, <code>R</code> will put an index at the beginning of each line. <code>print(a)</code> also works to print the value of a variable.) By default, a variable created this way is a <em>vector</em>, and it is <em>numeric</em> because we gave <code>R</code> a number rather than some other type of data (e.g.&nbsp;a character string like <code>"pxqr"</code>). In this case <code>a</code> is a numeric vector of length 1, which acts just like a number.</p>
 <p>You could also type <code>a=2+2; a</code>, using a semicolon to put two or more commands on a single line. Conversely, you can break lines <em>anywhere that <code>R</code> can tell you haven’t finished your command</em> and <code>R</code> will give you a “continuation” prompt (<code>+</code>) to let you know that it doesn’t think you’re finished yet: try typing</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-7_8cc0fdc39bbf231d481e551170f5bcce">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-8_546533ec74397be4dc5b819f10de6a37">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">3</span><span class="sc">*</span>(<span class="dv">4</span><span class="sc">+</span> [Enter]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to see what happens. You will sometimes see the continuation prompt when you don’t expect it, e.g.&nbsp;if you forget to close parentheses.If you get stuck continuing a command you don’t want—e.g.&nbsp;you opened the wrong parentheses—just hit the <code>Escape</code> key or the stop icon in the menu bar to get out.</p>
 <p>Variable names in <code>R</code> must begin with a letter, followed by letters or numbers. You can break up long names with a period, as in <code>very.long.variable.number.3</code>, or an underscore (<code>_</code>), but you can’t use blank spaces in variable names (or at least it’s not worth the trouble). Variable names in <code>R</code> are case sensitive, so <code>Abc</code> and <code>abc</code> are different variables. Make variable names long enough to remember, short enough to type.<code>N.per.ha</code> or <code>pop.density</code> are better than <code>x</code> and <code>y</code> (too short) or <code>available.nitrogen.per.hectare</code> (too long). Avoid <code>c</code>, <code>l</code>, <code>q</code>, <code>t</code>, <code>C</code>, <code>D</code>, <code>F</code>, <code>I</code>, and <code>T</code>, which are either built-in <code>R</code> functions or hard to tell apart.</p>
 <p><code>R</code> does calculations with variables as if they were numbers. It uses <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>^</code> for addition, subtraction, multiplication, division and exponentiation, respectively. For example:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-8_439eeb26ddbb016c2bee73fc5d56e42e">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-9_baa6f771c7fabc2437270eb460c075ae">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="dv">5</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="dv">2</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>z1<span class="ot">=</span>x<span class="sc">*</span>y <span class="do">## no output</span></span>
@@ -417,11 +428,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Even though <code>R</code> did not display the values of <code>x</code> and <code>y</code>, it “remembers” that it assigned values to them. Type <code>x; y</code> to display the values.</p>
 <p>You can retrieve and edit previous commands. The up-arrow (<span class="math inline">\(\uparrow\)</span>) in the console recalls previous commands to the prompt. They also can be found in the top-right tab <code>History</code>. For example, you can bring back the second-to-last command and edit it into</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-9_d7fcf0f1f557a98fad5c8eeae4533bde">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-10_72d7b183732caa31aa7fa492b18ec534">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>z3<span class="ot">=</span><span class="dv">2</span><span class="sc">*</span>x<span class="sc">^</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can combine several operations in one calculation:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-10_b6149b7a7532f310a89caf777976f391">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-11_481791c568efe391192b0f992f93372f">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="dv">3</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>C<span class="ot">=</span>(A<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span><span class="fu">sqrt</span>(A))<span class="sc">/</span>(A<span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="fu">sqrt</span>(A))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -430,7 +441,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Parentheses specify the order of operations. The command</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-11_38f58b7dee974cd9c537bd0c139a12c4">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-12_b6e60c05e06bda789a080676c1a3845c">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>C<span class="ot">=</span>A<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span><span class="fu">sqrt</span>(A)<span class="sc">/</span>A<span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="fu">sqrt</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>is not the same as the one above; rather, it is equivalent to <code>C=A + 2*(sqrt(A)/A) + 5*sqrt(A)</code>.</p>
@@ -440,14 +451,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>b = -1^2 gives -(1^2) = -1</p>
 <p>b = (-1)^2 gives 1</p>
 <p>In complicated expressions you might start off by <em>using parentheses to specify explicitly what you want</em>, such as b = 12 - (4/(2^3)) or at least b = 12 - 4/(2^3); a few extra sets of parentheses never hurt, although when you get confused it’s better to think through the order of operations rather than flailing around adding parentheses at random. <code>R</code> also has many <em>built-in mathematical functions</em> that operate on variables (Table 1 shows a few).</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-12_0ca6067fdb770a75e8679fa388347396">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-13_5b2eeb9f792b98474e5c591aec3901c1">
 <div class="cell-output-display">
 
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-13_b8e0cbc741450c1784566463894fb0b7">
-
-<div class="exercisebox">
+<div id="Exercise-7.1" class="Exercise">
+<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 7.1</strong></summary><div>
 <p>Using editing shortcuts wherever you can, have <code>R</code> compute the values of:</p>
 <ol type="1">
 <li><p><span class="math inline">\(\frac{2^7}{2^7 - 1}\)</span> and compare it with <span class="math inline">\(({1 - \frac{1}{2^7}})^{-1}\)</span></p></li>
@@ -459,14 +469,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><p>The standard normal probability density, <span class="math inline">\(\frac{1}{\sqrt(2\pi)}\exp(-x^2/2)\)</span>, for values of <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span> (<code>R</code> knows <span class="math inline">\(\pi\)</span> as <code>pi</code>). You can check your answers against the built-in function for the normal distribution; <code>dnorm(1)</code> and <code>dnorm(2)</code> should give you the values for the standard normal for <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span>.</p></li>
 </ol>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-14_c5690396d066cffa91c346a07e9c9142">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-14_f6a05055b4fe5ef713d7667f9fffa166">
 
 </div>
 </section>
-<section id="the-help-system" class="level1">
-<h1>The help system</h1>
+<section id="the-help-system" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> The help system</h1>
 <p>R has a help system, although it is generally better for providing detail or reminding you how to do things than for basic ``how do I …?’’ questions.</p>
 <ul>
 <li><p>You can get help on any R function by entering</p>
@@ -476,8 +486,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>On-line help resources - just google it. In our experience, the help provided by <code>R</code> requires some experience in the <code>R</code> language to be able to understand it. Therefore, a general, but practical advice is to google your problem. In 99.9% of the cases someone else had a similar question in the past which were solved by the <code>R</code> community. Start you search string with “R-help” helps to filter relevant webpages. Place were you likely will find answers are https://stackoverflow.com or https://stat.ethz.ch.</p></li>
 </ul>
 </section>
-<section id="using-scripts-and-data-files" class="level1">
-<h1>Using scripts and data files</h1>
+<section id="using-scripts-and-data-files" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Using scripts and data files</h1>
 <p>Modeling and complicated data analysis are often much easier if you use <em>scripts</em>, which are a series of commands stored in a text file. Scripting has a number of advantages and should be standard practice when doing statstics for reasons of transparency (you can see what you have done), repeatability (tomorrow you will get the same result as today) and transferability (a colleague can easily check what you have done and redo your analysis). Even for relatively simple tasks, script files are useful for building up a calculation step-by-step, making sure that each part works before adding on to it. We recommend you making a habit typing all commands in a script editor before sending it the console, otherwise important parts of your analysis may get lost because you did not store them.</p>
 <p>Rstudio has an advanced script editor that recognizes <code>R</code> syntax by giving different colors to different <code>R</code> commands and by automatic completion of parentheses. You can also use Windows Notepad or Wordpad but you <strong>should not</strong> use MS Word.</p>
 <p>Most programs for working with models or analyzing data follow a simple pattern of program parts:</p>
@@ -493,8 +503,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>change your working directory to wherever the file(s) are located using the <code>setwd</code> (<strong>set</strong> <strong>w</strong>orking <strong>d</strong>irectory) function, e.g.&nbsp;<code>setwd("c:/temp")</code> or through clicking on ‘Session’ and ‘set working directory’. Changing your working directory is more efficient in the long run, if you save all the script and data files for a particular project in the same directory and switch to that directory when you start work.</p></li>
 </ul>
 </section>
-<section id="typical-workflow-in-r-an-example-using-linear-regression" class="level1">
-<h1>Typical workflow in <code>R</code>: an example using linear regression</h1>
+<section id="typical-workflow-in-r-an-example-using-linear-regression" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Typical workflow in <code>R</code>: an example using linear regression</h1>
 <p>To get a feel for a typical workflow in R we’ll fit a straight-line model (linear regression) to data.</p>
 <p>Start a blank <code>R</code> script (File -&gt; New File -&gt; R script) and save it on a convenient location.</p>
 <p>Below are some data on the maximum growth rate <span class="math inline">\(r_{max}\)</span> of laboratory populations of the green alga <em>Chlorella vulgaris</em> as a function of light intensity (<span class="math inline">\(\mu\)</span>E per m<span class="math inline">\(^2\)</span> per second). These experiments were run during the system-design phase of the study reported by Fussman et al.&nbsp;(2000).</p>
@@ -608,111 +618,97 @@ F-statistic: 9.951 on 1 and 9 DF,  p-value: 0.01165</code></pre>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>rmax<span class="ot">=</span>X[,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Think of these as shorthand for “<code>Light</code> = everything in column 1 of <code>X</code>”, and “<code>rmax</code> = everything in column 2 of <code>X</code>” (we’ll learn about working with data matrices later). From there on out it’s the same as before, with some additions that set the axis labels and add a title.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-27_c79eef52c11cbd3b413880de9fd011ea">
-
-<div class="exercisebox">
-<p>Make a copy of <code>Intro2.R</code> under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately. You should end up with a graph that resembles Figure 3.</p>
-<em>Hint:</em> when you switch from light intensity to log light intensity, the range on your <span class="math inline">\(x\)</span> axis will change and you will have to change the <span class="math inline">\(x\)</span> position at which you plot the growth rate equation.
+<div id="Exercise-10.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.1</strong></summary><div>Make a copy of <code>Intro2.R</code> under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately. You should end up with a graph that resembles Figure 3.<p></p>
+<p><em>Hint:</em> when you switch from light intensity to log light intensity, the range on your <span class="math inline">\(x\)</span> axis will change and you will have to change the <span class="math inline">\(x\)</span> position at which you plot the growth rate equation.</p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-28_ae3d2753662537d05e80f7e4046e7c1a">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-27_6aaa50f20626cc1ebabff034ddc424b0">
 
 </div>
-<div class="cell" data-fig="true" data-hash="no_solution_cache/html/unnamed-chunk-29_caa6bae3fad46ff37edb564f3363f515">
+<div class="cell" data-fig="true" data-hash="no_solution_cache/html/unnamed-chunk-28_98cf24e7f9e6257a04082db37bf6dd2c">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="no_solution_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="432"></p>
+<p><img src="no_solution_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="432"></p>
 <p></p><figcaption class="figure-caption">Graphical summary of regression analysis, using log of light intensity (and annotating the plot)</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-30_9bfed34dd7e235877d212e6599aff21c">
-
-<div class="exercisebox">
-Run <code>Intro2.R</code>, then enter the command <code>plot(fit)</code> in the console and follow the directions in the console. Figure out what just happened.
+<div id="Exercise-10.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.2</strong></summary><div>Run <code>Intro2.R</code>, then enter the command <code>plot(fit)</code> in the console and follow the directions in the console. Figure out what just happened.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-31_662dc506af7b0190ad00023007088ab8">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-29_c5af26162a85055b4215812025c7ff86">
 
 </div>
 <p>R produced a series of diagnostic plots exploring whether or not the fitted linear model is a suitable fit to the data. In each of the plots, the 3 most extreme points (the most likely candidates for “outliers”) have been identified according to their sequence in the data set.</p>
 <p>The axes in plots are scaled automatically, but the outcome is not always ideal (e.g.&nbsp;if you want several graphs with exactly the same axis limits). You can use the <code>xlim</code> and <code>ylim</code> arguments in <code>plot</code> to control the limits: <code>plot(x,y,xlim=c(x1,x2), [other stuff])</code></p>
 <p>will draw the graph with the <span class="math inline">\(x\)</span>-axis running from <code>x1</code> to <code>x2</code>, and using <code>ylim=c(y1,y2)</code> within the <code>plot</code> command will do the same for the <span class="math inline">\(y\)</span>-axis.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-32_f647ab87d26d22402d09917c32c7ed12">
-
-<div class="exercisebox">
-Create a plot of growth rate versus light intensity with the <span class="math inline">\(x\)</span>-axis running from 0 to 120 and the <span class="math inline">\(y\)</span>-axis running from 1 to 4.
+<div id="Exercise-10.3" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.3</strong></summary><div>Create a plot of growth rate versus light intensity with the <span class="math inline">\(x\)</span>-axis running from 0 to 120 and the <span class="math inline">\(y\)</span>-axis running from 1 to 4.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-33_fe206beb9503b935cae66454992f02c8">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-30_2c65c60ff3106f3fe539500bd9995816">
 
 </div>
 <p>You can place several graphs within a single figure by using the <code>par</code> function (short for “parameter”) to adjust the layout of the plot. For example, the command</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-34_2ef95e6013198c6241bb1dd0bc2cc113">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-31_d28394653bab7c198b76aa327c6ae7f9">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>divides the plotting area into 2 rows and 3 columns. As <code>R</code> draws a series of graphs, it places them along the top row from left to right, then along the next row, and so on. <code>mfcol=c(2,3)</code> has the same effect except that <code>R</code> draws successive graphs down the first column, then down the second column, and so on.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-35_96d74014be4a9beffa3ec3ca0b45d17d">
-
-<div class="exercisebox">
-Modify the script as follows. Use <code>mfcol=c(2,1)</code> to create graphs of growth rate as a function of <code>Light</code>, and of <code>log(growth rate)</code> as a function of <code>log(Light)</code> in the same figure. Do the same again, using <code>mfcol=c(1,2)</code>.
+<div id="Exercise-10.4" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.4</strong></summary><div>Modify the script as follows. Use <code>mfcol=c(2,1)</code> to create graphs of growth rate as a function of <code>Light</code>, and of <code>log(growth rate)</code> as a function of <code>log(Light)</code> in the same figure. Do the same again, using <code>mfcol=c(1,2)</code>.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-36_52db592575be1cc4ce40e4a836829e6e">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-32_6ca80797c5bcb47873b7edeec24eaec6">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-37_1888e62634c0ac82d35f90674f29cd90">
-
-<div class="exercisebox">
-Use <code>?par</code> to read about other plot control parameters that you use <code>par</code> to set (you should definitely skim — this is one of the longest help files in the whole R system!). Then draw a <span class="math inline">\(2 \times 2\)</span> set of plots, each showing the line <span class="math inline">\(y=5x+3\)</span> with <span class="math inline">\(x\)</span> running from 3 to 8, but with 4 different line styles and 4 different line colors.
+<div id="Exercise-10.5" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.5</strong></summary><div>Use <code>?par</code> to read about other plot control parameters that you use <code>par</code> to set (you should definitely skim — this is one of the longest help files in the whole R system!). Then draw a <span class="math inline">\(2 \times 2\)</span> set of plots, each showing the line <span class="math inline">\(y=5x+3\)</span> with <span class="math inline">\(x\)</span> running from 3 to 8, but with 4 different line styles and 4 different line colors.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-38_712d3f95a6c38031c9c5c8c2bac55b93">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-33_707a3319d0265cf0257d85d6ff7f6bc7">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-39_e19f9f33fb909865892a25ce8bf5b38e">
-
-<div class="exercisebox">
-Modify one of your scripts so that at the very end it saves the plot to disk. In Windows you can do this with specific functions like <code>jpeg</code> or <code>png</code>. Use <code>?jpeg</code> or <code>?png</code> to read about these functions. Note that the argument <code>filename</code> can include the path to a folder; for example, in Windows you can use <code>filename="c:/temp/Intro2Figure".</code>
+<div id="Exercise-10.6" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.6</strong></summary><div>Modify one of your scripts so that at the very end it saves the plot to disk. In Windows you can do this with specific functions like <code>jpeg</code> or <code>png</code>. Use <code>?jpeg</code> or <code>?png</code> to read about these functions. Note that the argument <code>filename</code> can include the path to a folder; for example, in Windows you can use <code>filename="c:/temp/Intro2Figure".</code><p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-40_f52dd20790abfbeaee1ae811cf2a31fe">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-34_2b303ca2897faf47a098b8e653b33703">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-41_37048df8610e3fe416796dc82a0a6e06">
-
-<div class="exercisebox">
-Use google to see how to: - rotate the y-axis labels - change the background of the plot to grey
+<div id="Exercise-10.7" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 10.7</strong></summary><div>Use google to see how to: - rotate the y-axis labels - change the background of the plot to grey<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-42_c498041433dbbaad2fe2abad9b0b580d">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-35_f5cfad521ad404c0f091e792177424b8">
 
 </div>
 </section>
-<section id="data-types" class="level1">
-<h1>Data types</h1>
+<section id="data-types" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Data types</h1>
 <p><code>R</code> distinguishes a number of data types including vectors, matrices, data frames and lists that each have special properties and which are used for calculations and data storage.</p>
-<section id="vectors" class="level2">
-<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
+<section id="vectors" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="vectors"><span class="header-section-number">11.1</span> Vectors</h2>
 <p>An important class of data types are vectors and matrices (1- and 2-dimensional rectangular arrays of numbers). Operations with vectors and matrices may seem a bit abstract now, but we need them to do useful things later. The only properties of vectors are their type (or <em>class</em>) and length, although they can also have an associated list of names.</p>
 <p>We’ve already seen two ways to create vectors in <code>R</code>:</p>
 <ol type="1">
 <li>A command in the console window or a script file listing the values, such as</li>
 </ol>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-43_67a9078a09c9da9f6c547cf77b890b17">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-36_3f0912c71275c6411b3cf3917d064bc8">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Using <code>read.table</code>:</li>
 </ol>
-<p>::: {.cell hash=‘no_solution_cache/html/unnamed-chunk-44_b7eed5b62759ecad5b6a2b5e3f5e2a4f’}</p>
+<p>::: {.cell hash=‘no_solution_cache/html/unnamed-chunk-37_fb8b8260320972ba333ee9d8ac5cc80a’}</p>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"c:/temp/initialdata.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>:::</p>
 <p>(assuming of course that the file exists in the right place).</p>
 <p>You can then use a vector in calculations as if it were a number (more or less)</p>
-<p>::: {.cell hash=‘no_solution_cache/html/unnamed-chunk-45_7788e078c9525fe0fc341a357c17ef6e’}</p>
+<p>::: {.cell hash=‘no_solution_cache/html/unnamed-chunk-38_487b006dddc72d6278502ffc37122145’}</p>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>finalsize<span class="ot">=</span>initialsize<span class="sc">+</span><span class="dv">1</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>finalsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>::: {.cell-output .cell-output-stdout} <code>[1]  2  4  6  8 10 12</code> :::</p>
@@ -720,47 +716,45 @@ Use google to see how to: - rotate the y-axis labels - change the background of 
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>newsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>::: {.cell-output .cell-output-stdout} <code>[1] 1.000000 1.732051 2.236068 2.645751 3.000000 3.316625</code> ::: :::</p>
 <p>Notice that <code>R</code> applied each operation to every element in the vector. Similarly, commands like <code>initialsize-5, 2*initialsize, initialsize/10</code> apply subtraction, multiplication, and division to each element of the vector. The same is true for</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-46_35289f54bfeae1105ce6a9334795ac21">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-39_a860fcb4e499aa4e201d0457842b1e87">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]   1   9  25  49  81 121</code></pre>
 </div>
 </div>
 <p>In <code>R</code> the default is to apply functions and operations to vectors in an <em>element by element</em> (or “vectorized”) manner. This is an extremely useful propery in <code>R</code>.</p>
-<section id="functions-for-creating-vectors" class="level3">
-<h3 class="anchored" data-anchor-id="functions-for-creating-vectors">Functions for creating vectors</h3>
+<section id="functions-for-creating-vectors" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="functions-for-creating-vectors"><span class="header-section-number">11.1.1</span> Functions for creating vectors</h3>
 <p>You can use the <code>seq</code> function to create a set of regularly spaced values. <code>seq</code>’s syntax is <code>x=seq(from,to,by)</code> or <code>x=seq(from,to)</code> or <code>x=seq(from,to,length.out)</code>. The first form generates a vector starting with <code>from</code> with the last entry not extending further than than <code>to</code> in steps of <code>by</code>. In the second form the value of <code>by</code> is assumed to be 1 or -1, depending on whether <code>from</code> or <code>to</code> is larger. The third form creates a vector with the desired endpoints and length. The syntax <code>from:to</code> is a shortcut for <code>seq(from,to)</code>:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-47_77e2c6acbd159cebee697ee8e0f14612">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-40_ed00696ae7d7a037d7f715e09bf230a7">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5 6 7 8</code></pre>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-48_a6a4ebb8f19e9054a458dbf9d17b1ef8">
-
-<div class="exercisebox">
-Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to create a vector going from 1 to 5 in increments of 0.2.
+<div id="Exercise-11.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.1</strong></summary><div>Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to create a vector going from 1 to 5 in increments of 0.2.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-49_55227356678bee2675b9e565127677c8">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-41_c0f89caa36d4063d9052b368c6546283">
 
 </div>
 <p>You can use <code>rep</code> to create a constant vector such as <code>(1 1 1 1)</code>; the basic syntax is <code>rep(values,lengths)</code>. For example,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-50_3df7d1e2d5f9075ca1754d295473437a">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-42_5d38526b2ebb789e44fbeeb120595ef4">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 3 3 3 3</code></pre>
 </div>
 </div>
 <p>creates a vector in which the value 3 is repeated 5 times. <code>rep</code> will repeat a whole vector multiple times</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-51_b0c045d781ba6a0cb5217145d0e3e515">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-43_08dd87500a45aa0f93dc99fd875d2ebc">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 1 2 3 1 2 3</code></pre>
 </div>
 </div>
 <p>or will repeat each of the elements in a vector a given number of times:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-52_7fe599583b2b5553f2e7874b00eaed90">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-44_e8b7cfc18043040bb04e91d086cfa588">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="at">each=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 1 2 2 2 3 3 3</code></pre>
@@ -775,16 +769,16 @@ Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to crea
 </div>
 <p>The value 3 was repeated 2 times, followed by the value 4 repeated 5 times. <code>rep</code> can be a little bit mind-blowing as you get started, but it will turn out to be useful.</p>
 <p>Table 3 lists some of the main functions for creating and working with vectors.</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-53_dd923e50b5b019a5444987787e7d566a">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-45_9d526c5d4c50853b42f19f7ca1a99bbb">
 <div class="cell-output-display">
 
 </div>
 </div>
 </section>
-<section id="vector-indexing" class="level3">
-<h3 class="anchored" data-anchor-id="vector-indexing">Vector indexing</h3>
+<section id="vector-indexing" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="vector-indexing"><span class="header-section-number">11.1.2</span> Vector indexing</h3>
 <p>You will often want to extract a specific entry or other part of a vector. This procedure is called <em>vector indexing</em>, and uses square brackets (<code>[]</code>):</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-54_8fca868ec648a66c5db13b50ebff5c77">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-46_95455c7dd35433ca30231673573f6859">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>z<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -792,7 +786,7 @@ Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to crea
 </div>
 </div>
 <p><code>z[3]</code> extracts the third item, or <em>element</em>, in the vector <code>z</code>. You can also access a block of elements using the functions for vector construction, e.g.</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-55_74ee3132580915a6d18ff1565306bfed">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-47_aa541388927395270ad7db5ce55e8793">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 5 7 9</code></pre>
@@ -801,52 +795,46 @@ Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to crea
 <p>extracts the second through fifth elements.</p>
 <p>What happens if you enter <code>v=z[seq(1,5,2)]</code> ? Try it and see, and make sure you understand what happened.</p>
 <p>You can extracted irregularly spaced elements of a vector. For example</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-56_19edfc5c279aec512645ce3074236547">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-48_a605f07cf18ee530e79f140fbca840a5">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3 9</code></pre>
 </div>
 </div>
 <p>You can also use indexing to <strong>set specific values within a vector</strong>. For example,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-57_39c99116708ec7421aa6bccb6498fd4b">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-49_d859f6da32c19f992680e6004a772bb8">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>changes the value of the first entry in <code>z</code> while leaving all the rest alone, and</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-58_9eea72a3322a89b1c4150d09b5dc0f1b">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-50_37f5f9201085ca137e93afa1a92248b1">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">44</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>changes the first, third, and fifth values (note that we had to use <code>c</code> to create the vector — can you interpret the error message you get if you try <code>z[1,3,5]</code> ?)</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-59_c559f6d123959b251398a4e2e9b30bad">
-
-<div class="exercisebox">
-Write a <em>one-line</em> command to extract a vector consisting of the second, first, and third elements of <code>z</code> <em>in that order</em>.
+<div id="Exercise-11.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.2</strong></summary><div>Write a <em>one-line</em> command to extract a vector consisting of the second, first, and third elements of <code>z</code> <em>in that order</em>.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-60_f7b1d8967575f1228c49ff5240ff0a10">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-51_07cb8e23ccf6d2c1b635b85e02b5838c">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-61_5044d1a8d56222b9d07f7f0c49f4aab7">
-
-<div class="exercisebox">
-Write a script file that computes values of <span class="math inline">\(y=\frac{(x-1)}{(x+1)}\)</span> for <span class="math inline">\(x=1,2,\cdots,10\)</span>, and plots <span class="math inline">\(y\)</span> versus <span class="math inline">\(x\)</span> with the points plotted and connected by a line <em>hint:</em> in <code>?plot</code>, search for <code>type</code>).
+<div id="Exercise-11.3" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.3</strong></summary><div>Write a script file that computes values of <span class="math inline">\(y=\frac{(x-1)}{(x+1)}\)</span> for <span class="math inline">\(x=1,2,\cdots,10\)</span>, and plots <span class="math inline">\(y\)</span> versus <span class="math inline">\(x\)</span> with the points plotted and connected by a line <em>hint:</em> in <code>?plot</code>, search for <code>type</code>).<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-62_d63cd0fb9f6739d5f7d56522540723b0">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-52_6b97d514cd1462b407fbdcaedb9a8e06">
 
 </div>
 <p>The sum of the geometric series <span class="math inline">\(1 + r + r^2 + r^3 + ... + r^n\)</span> approaches the limit <span class="math inline">\(1/(1-r)\)</span> for <span class="math inline">\(r &lt; 1\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-63_a2ca9a321d998966ac03b62b5e3c4721">
-
-<div class="exercisebox">
-<p>Set the values <span class="math inline">\(r=0.5\)</span> and <span class="math inline">\(n=10\)</span>, and then write a <em>one-line</em> command that creates the vector <span class="math inline">\(G = (r^0,r^1,r^2,...,r^n)\)</span>. Compare the sum (using <code>sum</code>) of this vector to the limiting value <span class="math inline">\(1/(1-r)\)</span>.</p>
-Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that comparing very similar numeric values can be tricky: rounding can happen, and some numbers cannot be represented exactly in binary (computer) notation. By default <code>R</code> displays 7~significant digits (<code>options("digits")</code>).
+<div id="Exercise-11.4" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.4</strong></summary><div>Set the values <span class="math inline">\(r=0.5\)</span> and <span class="math inline">\(n=10\)</span>, and then write a <em>one-line</em> command that creates the vector <span class="math inline">\(G = (r^0,r^1,r^2,...,r^n)\)</span>. Compare the sum (using <code>sum</code>) of this vector to the limiting value <span class="math inline">\(1/(1-r)\)</span>.<p></p>
+<p>Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that comparing very similar numeric values can be tricky: rounding can happen, and some numbers cannot be represented exactly in binary (computer) notation. By default <code>R</code> displays 7~significant digits (<code>options("digits")</code>).</p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-64_f8a1db0657a1b9043bc7596a4de3a636">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-53_eb9af64a7e681b7dd96cc7039fc036cb">
 
 </div>
 <p>For example:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-65_c5a4fa2b6f6a4afd44c04914fdba9686">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-54_8357a05c03c444401988abdf7079f49e">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">1.999999</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -868,10 +856,10 @@ Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that compar
 </div>
 <p>All the digits are still there, in the second case, but they are not shown. Also note that <code>x-2</code> is not exactly <span class="math inline">\(-1 \times 10^{-13}\)</span>; this is unavoidable.)</p>
 </section>
-<section id="logical-operators" class="level3">
-<h3 class="anchored" data-anchor-id="logical-operators">Logical operators</h3>
+<section id="logical-operators" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">11.1.3</span> Logical operators</h3>
 <p>Logical operators return a value of <code>TRUE</code> or <code>FALSE</code>. For example, try:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-66_0009dde973df81efea5e8049b96e547d">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-55_7cb7442507cab83afdaebddbac79b03e">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">1</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="dv">3</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span>a<span class="sc">&lt;</span>b</span>
@@ -886,24 +874,22 @@ Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that compar
 </div>
 </div>
 <p>The parentheses around (<code>a&gt;b</code>) are optional but make the code easier to read. One special case where you <em>do</em> need parentheses (or spaces) is when you make comparisons with negative values; <code>a&lt;-1</code> will surprise you by setting <code>a=1</code>, because <code>&lt;-</code> (representing a left-pointing arrow) is equivalent to <code>=</code> in <code>R</code>. Use <code>a&lt; -1</code>, or more safely <code>a&lt;(-1)</code>, to make this comparison.</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-67_f5c2a016ea52b028358fa1f108ccbf00">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-56_9d6052184f01249ec3a2fdae5ee5d624">
 <div class="cell-output-display">
 
 </div>
 </div>
 <p>When we compare two vectors or matrices of the same size, or compare a number with a vector or matrix, comparisons are done element-by-element. For example,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-68_0f3212eaa93db7d741972092977b01db">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-57_ea17a37e10f4a58d781741f4f2451141">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>(x<span class="sc">&lt;=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So if <code>x</code> and <code>y</code> are vectors, then <code>(x==y)</code> will return a vector of values giving the element-by-element comparisons. If you want to know whether <code>x</code> and <code>y</code> are identical vectors, use <code>identical(x,y)</code> which returns a single value: <code>TRUE</code> if each entry in <code>x</code> equals the corresponding entry in <code>y</code>, otherwise <code>FALSE</code>. You can use <code>?Logical</code> to read more about logical operators. Note the difference between = and ==</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-69_ba0bcb50caed18cfface024d119f1f3e">
-
-<div class="exercisebox">
-Can you figure out what happened in the following cautionary tale below?
+<div id="Exercise-11.5" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.5</strong></summary><div>Can you figure out what happened in the following cautionary tale below?<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-70_21cd18d25aa10ab17063d0b91c779fde">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-58_3e42e5403f4bd3541ffa4fa12bef8ed8">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -916,7 +902,7 @@ Can you figure out what happened in the following cautionary tale below?
 <pre><code>[1] TRUE TRUE TRUE</code></pre>
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-71_a54e0421b5a68268e36a2db35daa74d7">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-59_6938f3254d91eeb6b0a20b37a0efc137">
 
 </div>
 <p>Exclamation points <code>!</code> are used in <code>R</code> to mean “not”; <code>!=</code> (not <code>==</code>) means “not equal to”.</p>
@@ -927,7 +913,7 @@ Can you figure out what happened in the following cautionary tale below?
 <li><code>|</code>, <code>||</code>: OR</li>
 </ul>
 <p>OR is <em>non-exclusive</em>, meaning that <code>x|y</code> is true if either <code>x</code> or <code>y</code> <em>or both</em> are true (a ham-and-cheese sandwich would satisfy the condition “ham OR cheese”). For example, try</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-72_e979fa4c9ed4eef1951febb392d0ed3c">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-60_d9093a5ab0436cab5c64718a03f07991">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">5</span>)</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>(a<span class="sc">&lt;</span>b)<span class="sc">&amp;</span> (a<span class="sc">&gt;</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -942,7 +928,7 @@ Can you figure out what happened in the following cautionary tale below?
 <p>and make sure you understand what happened. If it’s confusing, try breaking up the expression and looking at the results of <code>a&lt;b</code> and <code>a&gt;3</code> separately first. The two forms of AND and OR differ in how they handle vectors. The shorter one does element-by-element comparisons; the longer one only looks at the first element in each vector.</p>
 <p>We can also use <em>logical</em> vectors (lists of <code>TRUE</code> and <code>FALSE</code> values) to pick elements out of vectors. This is important, e.g., for subsetting data (getting rid of those pesky outliers!)</p>
 <p>As a simple example, we might want to focus on just the low-light values of <span class="math inline">\(r_{max}\)</span> in the <em>Chlorella</em> example:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-73_f8e8b25ad6408b32388ee9278c4271f5">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-61_ee3de8721759a3ea3f13e04882004465">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>Light<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>rmax<span class="ot">=</span>X[,<span class="dv">2</span>]</span>
@@ -959,19 +945,17 @@ Can you figure out what happened in the following cautionary tale below?
 </div>
 <p>What is really happening here (think about it for a minute) is that <code>Light&lt;50</code> generates a logical vector the same length as <code>Light</code> (<code>TRUE TRUE TRUE ...</code>) which is then used to select the appropriate values.</p>
 <p>If you want the positions at which <code>Light</code> is lower than 50, you could say <code>(1:length(Light))[Light&lt;50]</code>, but you can also use a built-in function: <code>which(Light&lt;50)</code>. If you wanted the position at which the maximum value of <code>Light</code> occurs, you could say <code>which(Light==max(Light))</code>. (This normally results in a vector of length 1; when could it give a longer vector?) There is even a built-in command for this specific function, <code>which.max</code> (although <code>which.max</code> always returns just the <em>first</em> position at which the maximum occurs).</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-74_a8af8c4c60e8e08fd5ca51346106f411">
-
-<div class="exercisebox">
-<p>What would happen if instead of setting <code>lowLight</code> you replaced <code>Light</code> by saying <code>Light=Light[Light&lt;50]</code>, and then <code>rmax=rmax[Light&lt;50]</code>?</p>
+<div id="Exercise-11.6" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.6</strong></summary><div>What would happen if instead of setting <code>lowLight</code> you replaced <code>Light</code> by saying <code>Light=Light[Light&lt;50]</code>, and then <code>rmax=rmax[Light&lt;50]</code>?<p></p>
 <p>Why would that be wrong?</p>
-Try it with some temporary variables — set <code>Light2=Light</code> and <code>rmax2=rmax</code> and then play with <code>Light2</code> and <code>rmax2</code> so you dont mess up your working variables — and work out what happened …
+<p>Try it with some temporary variables — set <code>Light2=Light</code> and <code>rmax2=rmax</code> and then play with <code>Light2</code> and <code>rmax2</code> so you dont mess up your working variables — and work out what happened …</p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-75_9cd81bfbc7ac9243c03c888dbd6183bd">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-62_d6890a035ac8363cd8212212ecf6d577">
 
 </div>
 <p>We can also combine logical operators (making sure to use the element-by-element <code>&amp;</code> and <code>|</code> versions of AND and OR):</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-76_48bd81c3b091a6b6da6359c248a1fc9d">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-63_fb42d3ac049ebc5f723347f1a3ba9654">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>Light[Light<span class="sc">&lt;</span><span class="dv">50</span> <span class="sc">&amp;</span> rmax <span class="sc">&lt;=</span> <span class="fl">2.0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 20 20 20 24</code></pre>
@@ -981,26 +965,22 @@ Try it with some temporary variables — set <code>Light2=Light</code> and <code
 <pre><code>[1] 1.73 1.65 1.89 1.36</code></pre>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-77_d1db1fa391895387fb64637c1554e501">
-
-<div class="exercisebox">
-<code>runif(n)</code> is a function (more on it soon) that generates a vector of <code>n</code> random, uniformly distributed numbers between 0 and 1. Create a vector of 20 numbers, then select the subset of those numbers that is less than the mean. (If you want your answers to match mine exactly, use <code>set.seed(273)</code> to set the random-number generator to a particular starting point before you use <code>runif</code>. [273 is an arbitrary number I chose].)
+<div id="Exercise-11.7" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.7</strong></summary><div><code>runif(n)</code> is a function (more on it soon) that generates a vector of <code>n</code> random, uniformly distributed numbers between 0 and 1. Create a vector of 20 numbers, then select the subset of those numbers that is less than the mean. (If you want your answers to match mine exactly, use <code>set.seed(273)</code> to set the random-number generator to a particular starting point before you use <code>runif</code>. [273 is an arbitrary number I chose].)<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-78_70f07f9f74bc1fdce6f784f82fa9db2e">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-64_deb9e35552f08040102e4886f14dd62f">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-79_b30cee3e54d7bf1fc8394875f770b553">
-
-<div class="exercisebox">
-Find the <em>positions</em> of the elements that are less than the mean of the vector you just created (e.g.&nbsp;if your vector were <code>(0.1 0.9. 0.7 0.3)</code> the answer would be <code>(1 4)</code>).
+<div id="Exercise-11.8" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.8</strong></summary><div>Find the <em>positions</em> of the elements that are less than the mean of the vector you just created (e.g.&nbsp;if your vector were <code>(0.1 0.9. 0.7 0.3)</code> the answer would be <code>(1 4)</code>).<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-80_4f07f6a9b9b00e2ae5c2dd4744f47428">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-65_219f4bd2e800c4975f532e21d755e101">
 
 </div>
 <p>As I mentioned in passing above, vectors can have names associated with their elements: if they do, you can also extract elements by name (use <code>names</code> to find out the names).</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-81_a317c1357dd510f85b95d83001f54de8">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-66_bac668dbb25ff902de5b2a2f59119558">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="at">first=</span><span class="dv">7</span>,<span class="at">second=</span><span class="dv">5</span>,<span class="at">third=</span><span class="dv">2</span>)</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1018,23 +998,21 @@ Find the <em>positions</em> of the elements that are less than the mean of the v
 </div>
 </div>
 <p>Finally, it is sometimes handy to be able to drop a particular set of elements, rather than taking a particular set: you can do this with negative indices. For example, <code>x[-1]</code> extracts all but the first element of a vector.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-82_facbd73f094ae5a329795ab362816f1d">
-
-<div class="exercisebox">
-Specify two ways to take only the elements in the odd positions (first, third, …) of a vector of arbitrary length.
+<div id="Exercise-11.9" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.9</strong></summary><div>Specify two ways to take only the elements in the odd positions (first, third, …) of a vector of arbitrary length.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-83_b420843bba332f87a9d8e9f77e17ea1c">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-67_7528798eddbb2f4ba04b695011f4362a">
 
 </div>
 </section>
 </section>
-<section id="matrices" class="level2">
-<h2 class="anchored" data-anchor-id="matrices">Matrices</h2>
-<section id="creating-matrices" class="level3">
-<h3 class="anchored" data-anchor-id="creating-matrices">Creating matrices</h3>
+<section id="matrices" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="matrices"><span class="header-section-number">11.2</span> Matrices</h2>
+<section id="creating-matrices" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="creating-matrices"><span class="header-section-number">11.2.1</span> Creating matrices</h3>
 <p>A matrix is a two-dimensional array, and has the same kind of variables in every column. You can create matrices of numbers by creating a vector of the matrix entries, and then reshaping them to the desired number of rows and columns using the function <code>matrix</code>. For example</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-84_33ee40dd8c6ea2e9a5060cc18137d1b6">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-68_17081fe8c1dd0807afffc5951fc81608">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">X=</span><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="at">nrow=</span><span class="dv">2</span>,<span class="at">ncol=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
@@ -1043,8 +1021,8 @@ Specify two ways to take only the elements in the odd positions (first, third, �
 </div>
 </div>
 <p>takes the values 1 to 6 and reshapes them into a 2 by 3 matrix.</p>
-<p>By default <code>R</code> loads the values into the matrix <em>column-wise</em> (this is probably counter-intuitive since we’re used to reading tables row-wise). Use the optional parameter <code>byrow</code> to change this behavior. For example :</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-85_8d2462598b83bc3d6345faf31e4bc6b1">
+<p>By default <code>R</code> loads the values into the matrix <em>column-wise</em> (this is probably counter-intuitive since we’re used to reading tables row-wise). Use the optional parameter <code>byrow</code> to change this behavior. For example:</p>
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-69_69df223d1d843ae56342142e68e7595f">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">A=</span><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">3</span>,<span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
@@ -1054,20 +1032,18 @@ Specify two ways to take only the elements in the odd positions (first, third, �
 </div>
 </div>
 <p><code>R</code> will re-cycle through entries in the data vector, if necessary to fill a matrix of the specified size. So for example</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-86_d38e00a79de14d7c242f0a149cc3dff6">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-70_ad276247c61b98ccb80c340d369711a5">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span>,<span class="at">nrow=</span><span class="dv">10</span>,<span class="at">ncol=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>creates a <span class="math inline">\(10 \times 10\)</span> matrix of ones.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-87_ca824ccff7a288cb30120e27e2d6a5eb">
-
-<div class="exercisebox">
-Use a command of the form <code>X=matrix(v,nrow=2,ncol=4)</code> where <code>v</code> is a data vector, to create the following matrix <code>X</code>:
+<div id="Exercise-11.10" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.10</strong></summary><div>Use a command of the form <code>X=matrix(v,nrow=2,ncol=4)</code> where <code>v</code> is a data vector, to create the following matrix <code>X</code>:<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-88_ad85dba8c666095809d0b5286ea7b475">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-71_b130d5f9db3da673ccfb16486c41a693">
 
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-89_cc4ea7e74bad56701b6a40261e886b55">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-72_adc1bc4df4f90194e39a69a11ae40061">
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4]
 [1,]    1    1    1    1
@@ -1076,30 +1052,28 @@ Use a command of the form <code>X=matrix(v,nrow=2,ncol=4)</code> where <code>v</
 </div>
 <p>If you can, try to use <code>R</code> commands to construct the vector rather than typing out all of the individual values.</p>
 <p><code>R</code> will also collapse a matrix to behave like a vector whenever it makes sense: for example <code>sum(X)</code> above is 12.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-90_8a47541fcc446a6a58f6899c90d5f786">
-
-<div class="exercisebox">
-Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian (normally distributed) numbers with a specified mean and standard deviation instead) and <code>matrix</code> to create a <span class="math inline">\(5 \times 7\)</span> matrix of Gaussian random numbers with mean 1 and standard deviation 2. (Use <code>set.seed(273)</code> again for consistency.)
+<div id="Exercise-11.11" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.11</strong></summary><div>Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian (normally distributed) numbers with a specified mean and standard deviation instead) and <code>matrix</code> to create a <span class="math inline">\(5 \times 7\)</span> matrix of Gaussian random numbers with mean 1 and standard deviation 2. (Use <code>set.seed(273)</code> again for consistency.)<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-91_d1095cff07beeb9f6d78bf97d3126e65">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-73_8ee447a2458a49990e9ddb5bb64206ce">
 
 </div>
 <p>Another useful function for creating matrices is <code>diag</code>. <code>diag(v,n)</code> creates an <span class="math inline">\(n \times n\)</span> matrix with data vector <span class="math inline">\(v\)</span> on its diagonal. So for example <code>diag(1,5)</code> creates the <span class="math inline">\(5 \times 5\)</span> <em>identity matrix</em>, which has 1’s on the diagonal and 0 everywhere else. Try <code>diag(1:5,5)</code> and <code>diag(1:2,5)</code>; why does the latter produce a warning?</p>
 <p>Finally, you can use the <code>data.entry</code> function. This function can only edit existing matrices, but for example</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-92_35f96b9392232cc0389bb760bd99e622">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-74_459ad775c28d9702c894b5f3b777a66c">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">4</span>)</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.entry</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>will create <code>A</code> as a <span class="math inline">\(3 \times 4\)</span> matrix, and then call up a spreadsheet-like interface in which you can change the values to whatever you need.</p>
-<div class="cell" data-result="asis" data-hash="no_solution_cache/html/unnamed-chunk-93_708bf8d4bd902aca8100a6084ea6f44b">
+<div class="cell" data-result="asis" data-hash="no_solution_cache/html/unnamed-chunk-75_16808e69aaec5b30800cd6759f246a51">
 <div class="cell-output-display">
 
 </div>
 </div>
 </section>
-<section id="cbind-and-rbind" class="level3">
-<h3 class="anchored" data-anchor-id="cbind-and-rbind"><code>cbind</code> and <code>rbind</code></h3>
+<section id="cbind-and-rbind" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="cbind-and-rbind"><span class="header-section-number">11.2.2</span> <code>cbind</code> and <code>rbind</code></h3>
 <p>If their sizes match, you can combine vectors to form matrices, and stick matrices together with vectors or other matrices. <code>cbind</code> (“column bind”) and <code>rbind</code> (“row bind”) are the functions to use.</p>
 <p><code>cbind</code> binds together columns of two objects. One thing it can do is put vectors together to form a matrix:</p>
 <div class="cell" data-hash="no_solution_cache/html/chunk_101_c51dea298db92105507f03c5c26c4c40">
@@ -1112,7 +1086,7 @@ Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian
 </div>
 </div>
 <p><code>R</code> interprets vectors as row or column vectors according to what you’re doing with them. Here it treats them as column vectors so that columns exist to be bound together. On the other hand,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-94_0091f60eb9857dca2708849943717a31">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-76_b7a9695f78fa372ecfbbe5c54a70ba35">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">D=</span><span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
@@ -1121,20 +1095,18 @@ Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian
 </div>
 </div>
 <p>treats them as rows. Now we have two matrices that can be combined.</p>
-<div class="cell" type="exercisebox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-95_be4545f4218d3a593f542f63760460cb">
-
-<div class="exercisebox">
-Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <code>cbind(C,D)</code> doesn’t. Why not?
+<div id="Exercise-11.12" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 1. 11.12</strong></summary><div>Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <code>cbind(C,D)</code> doesn’t. Why not?<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{1}" data-hash="no_solution_cache/html/unnamed-chunk-96_95807708276727d676c8552dca5a6526">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-77_6f0cb108a0df637d7e9ed46d32435c31">
 
 </div>
 </section>
-<section id="matrix-indexing" class="level3">
-<h3 class="anchored" data-anchor-id="matrix-indexing">Matrix indexing</h3>
+<section id="matrix-indexing" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="matrix-indexing"><span class="header-section-number">11.2.3</span> Matrix indexing</h3>
 <p>Matrix indexing is like vector indexing except that you have to specify both the row and column, or range of rows and columns. For example <code>z=A[2,3]</code> sets <code>z</code> equal to 6, which is the (2nd row, 3rd column) entry of the matrix <strong>A</strong> that you recently created, and</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-97_c14e4875d235892ab97cdd6159e21bdf">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-78_eb646504cdfc5678f939577fa6e0cd0f">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 6</code></pre>
@@ -1147,7 +1119,7 @@ Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <c
 </div>
 </div>
 <p>There is an easy shortcut to extract entire rows or columns: leave out the limits, leaving a blank before or after the comma.</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-98_4af68ba1e9b6325eff80bd392c1aafe8">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-79_0809bd5aec41ec9ed62c52e230d6fcaf">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">first.row=</span>A[<span class="dv">1</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3</code></pre>
@@ -1159,21 +1131,21 @@ Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <c
 </div>
 <p>(What does <code>A[,]</code> do?)</p>
 <p>As with vectors, indexing also works in reverse for assigning values to matrix entries. For example,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-99_19017d9b2da0de9b4aaf44ea321ba979">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-80_f96e191ab2d25c511c6962de7412f488">
 <div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
 </div>
 </div>
 <p>You can do the same with blocks, rows, or columns, for example</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-100_667ede53b61efe369af802e21442e405">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-81_234a040b388fcf718d99351f91953393">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 4 5</code></pre>
 </div>
 </div>
 <p>If you use <code>which</code> on a matrix, <code>R</code> will normally treat the matrix as a vector — so for example <code>which(A==8)</code> will give the answer 6 (figure out why). However, <code>which</code> does have an option that will treat its argument as a matrix:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-101_3d45630e0fb35d38f25700731985c32d">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-82_e20be7a03e6d1d49add1c661767d92f2">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(A<span class="sc">==</span><span class="dv">8</span>,<span class="at">arr.ind=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     row col
@@ -1182,22 +1154,22 @@ Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <c
 </div>
 </section>
 </section>
-<section id="lists" class="level2">
-<h2 class="anchored" data-anchor-id="lists">Lists</h2>
+<section id="lists" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">11.3</span> Lists</h2>
 <p>While vectors and matrices may seem familiar, lists are probably new to you. Vectors and matrices have to contain elements that are all the same type: lists in <code>R</code> can contain anything — vectors, matrices, other lists … Indexing lists is a little different too: use double square brackets <code>[[ ]]</code> (rather than single square brackets as for a vector) to extract an element of a list by number or name, or <code>$</code> to extract an element by name (only). Given a list like this:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-102_478adad7796729c41729d9b57888a4ab">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-83_296eb49cb48e84c7998ff6313ee4cb4b">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> <span class="fu">list</span>(<span class="at">A=</span>x,<span class="at">B=</span>y,<span class="at">C=</span><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then <code>L$A</code>, <code>L[["A"]]</code>, and <code>L[[1]]</code> will all grab the first element of the list.</p>
 <p>You won’t use lists too much at the beginning, but many of <code>R</code>’s own results are structured in the form of lists.</p>
 </section>
-<section id="data-frames" class="level2">
-<h2 class="anchored" data-anchor-id="data-frames">Data frames</h2>
+<section id="data-frames" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">11.4</span> Data frames</h2>
 <p>Data frames are the solution to the problem that most data sets have several different kinds of variables observed for each sample (e.g.&nbsp;categorical site location and continuous rainfall), but matrices can only contain a single type of data. Data frames are a hybrid of lists and vectors; internally, they are a list of vectors that may be of different types but must all be the same length, but you can do most of the same things with them (e.g., extracting a subset of rows) that you can do with matrices. You can index them either the way you would index a list, using <code>[[ ]]</code> or <code>$</code> — where each variable is a different item in the list — or the way you would index a matrix. Use <code>as.matrix</code> if you have a data frame (where all variables are the same type) that you really want to be a matrix, e.g.&nbsp;if you need to transpose it (use <code>as.data.frame</code> to go the other way).</p>
 </section>
 </section>
-<section id="references-acknowlegdments" class="level1">
-<h1>References &amp; Acknowlegdments</h1>
+<section id="references-acknowlegdments" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> References &amp; Acknowlegdments</h1>
 <p>These notes are based in part on course materials by former TAs Colleen Webb, Jonathan Rowell and Daniel Fink at Cornell, Professors Lou Gross (University of Tennessee) and Paul Fackler (NC State University), and on the book <em>Getting Started with Matlab</em> by Rudra Pratap (Oxford University Press). They also draw on the documentation supplied with <code>R</code>. They parallel, but go into more depth than, the chapter supplement for the book <em>Ecological Models and Data in <code>R</code></em>.</p>
 <p>You can find many other similar introductions scattered around the web, or in the “contributed documentation” section on the <code>R</code> web site (http://cran.r-project.org/other-docs.html). This particular version is limited (it has similar coverage to Sections 1 and 2 of the <em>Introduction to <code>R</code></em> that comes with <code>R</code>) and targets biologists who are neither programmers nor statisticians.</p>
 <p>Fussmann, G., S. P. Ellner, K. W. Shertzer and J. N. G. Hairston. 2000. Crossing the Hopf bifurcation in a live predator-prey system. Science <strong>290</strong>:1358-1360.</p>

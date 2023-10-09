@@ -239,19 +239,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning goals</a></li>
-  <li><a href="#choosing-probability-distributions" id="toc-choosing-probability-distributions" class="nav-link" data-scroll-target="#choosing-probability-distributions">Choosing probability distributions</a></li>
-  <li><a href="#random-distributions-in-r" id="toc-random-distributions-in-r" class="nav-link" data-scroll-target="#random-distributions-in-r">Random distributions in <code>R</code></a></li>
-  <li><a href="#averaging-distributions" id="toc-averaging-distributions" class="nav-link" data-scroll-target="#averaging-distributions">Averaging distributions</a>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
+  <li><a href="#choosing-probability-distributions" id="toc-choosing-probability-distributions" class="nav-link" data-scroll-target="#choosing-probability-distributions"><span class="toc-section-number">2</span>  Choosing probability distributions</a></li>
+  <li><a href="#random-distributions-in-r" id="toc-random-distributions-in-r" class="nav-link" data-scroll-target="#random-distributions-in-r"><span class="toc-section-number">3</span>  Random distributions in <code>R</code></a></li>
+  <li><a href="#averaging-distributions" id="toc-averaging-distributions" class="nav-link" data-scroll-target="#averaging-distributions"><span class="toc-section-number">4</span>  Averaging distributions</a>
   <ul class="collapse">
-  <li><a href="#jensens-inequality" id="toc-jensens-inequality" class="nav-link" data-scroll-target="#jensens-inequality">Jensen’s inequality</a></li>
+  <li><a href="#jensens-inequality" id="toc-jensens-inequality" class="nav-link" data-scroll-target="#jensens-inequality"><span class="toc-section-number">4.1</span>  Jensen’s inequality</a></li>
   </ul></li>
-  <li><a href="#the-method-of-moments-reparameterizing-distributions" id="toc-the-method-of-moments-reparameterizing-distributions" class="nav-link" data-scroll-target="#the-method-of-moments-reparameterizing-distributions">The method of moments: reparameterizing distributions</a></li>
-  <li><a href="#creating-new-distributions" id="toc-creating-new-distributions" class="nav-link" data-scroll-target="#creating-new-distributions">Creating new distributions</a>
+  <li><a href="#the-method-of-moments-reparameterizing-distributions" id="toc-the-method-of-moments-reparameterizing-distributions" class="nav-link" data-scroll-target="#the-method-of-moments-reparameterizing-distributions"><span class="toc-section-number">5</span>  The method of moments: reparameterizing distributions</a></li>
+  <li><a href="#creating-new-distributions" id="toc-creating-new-distributions" class="nav-link" data-scroll-target="#creating-new-distributions"><span class="toc-section-number">6</span>  Creating new distributions</a>
   <ul class="collapse">
-  <li><a href="#zero-inflated-distributions" id="toc-zero-inflated-distributions" class="nav-link" data-scroll-target="#zero-inflated-distributions">Zero-inflated distributions</a></li>
+  <li><a href="#zero-inflated-distributions" id="toc-zero-inflated-distributions" class="nav-link" data-scroll-target="#zero-inflated-distributions"><span class="toc-section-number">6.1</span>  Zero-inflated distributions</a></li>
   </ul></li>
-  <li><a href="#compounding-distributions" id="toc-compounding-distributions" class="nav-link" data-scroll-target="#compounding-distributions">Compounding distributions</a></li>
+  <li><a href="#compounding-distributions" id="toc-compounding-distributions" class="nav-link" data-scroll-target="#compounding-distributions"><span class="toc-section-number">7</span>  Compounding distributions</a></li>
   </ul>
 </nav>
     </div>
@@ -290,12 +290,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-hash="no_solution_cache/html/setup_2841869a8bb070838bee038facf57af0">
 
 </div>
-<section id="learning-goals" class="level1">
-<h1>Learning goals</h1>
+<section id="learning-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>This lab has two goals. First, helps you practicing with probability distributions on different types of data (section 2). Second, to make you familiar with the technicalities of stochastic distributions in <code>R</code>. In particular, how to generate values from probability distributions and how to make your own probability distribution (section 3-7). Under time constraints, make sure that you make at least the exercises in section 2, 3 and 4.</p>
 </section>
-<section id="choosing-probability-distributions" class="level1">
-<h1>Choosing probability distributions</h1>
+<section id="choosing-probability-distributions" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Choosing probability distributions</h1>
 <p>In this exercise we revisit exercise 2.1 of lab 3. In that exercise we had six different datasets each describing a biological phenomenon. The first step to model your data is to choose a deterministic function that describes the mean effect of the predictor variable (x) on the response variable (y). The second step involves the choice of the stochastic distribution which describes how the data varies around the mean.</p>
 <div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="no_solution_cache/html/unnamed-chunk-1_91cf55c8c94d2978e45dd9427b2a3ac4">
 
@@ -307,8 +307,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </section>
-<section id="random-distributions-in-r" class="level1">
-<h1>Random distributions in <code>R</code></h1>
+<section id="random-distributions-in-r" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Random distributions in <code>R</code></h1>
 <p><code>R</code> knows about lots of probability distributions. For each, it can generate random numbers drawn from the distribution (“random numbers”); compute the cumulative distribution function and the probability distribution function; and compute the quantile function, which gives the <span class="math inline">\(x\)</span> value such that <span class="math inline">\(\int_0^x P(x) \, dx\)</span> (area under the curve from 0 to <span class="math inline">\(x\)</span>) is a specified value, such as 0.95 (think about “tail areas” from standard statistics).</p>
 <p>Let’s take the binomial distribution (yet again) as an example.</p>
 <ul>
@@ -437,8 +437,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Doing the equivalent plot for continuous distributions is actually somewhat easier, since you don’t have to deal with the complications of a discrete distribution: just use <code>hist(...,prob=TRUE)</code> to show the sampled distribution (possibly with <code>ylim</code> adjusted for the maximum of the theoretical density distribution) and <code>ddist(x,[parameters])</code> to add the theoretical curve (e.g.: <code>curve(dgamma(x,shape=2,scale=1),add=TRUE)</code>).</p>
 </section>
-<section id="averaging-distributions" class="level1">
-<h1>Averaging distributions</h1>
+<section id="averaging-distributions" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Averaging distributions</h1>
 <p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form:</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-20_106f3f33547c24c9c5fe5b183dffdd54">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -498,8 +498,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>will recover our original data (although not in the original order) by repeating each element of <code>vals</code> the correct number of times.</p>
-<section id="jensens-inequality" class="level2">
-<h2 class="anchored" data-anchor-id="jensens-inequality">Jensen’s inequality</h2>
+<section id="jensens-inequality" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="jensens-inequality"><span class="header-section-number">4.1</span> Jensen’s inequality</h2>
 <p>Jensen’s inequality states the following: Suppose you have a number of values, <span class="math inline">\(x\)</span>, with a mean <span class="math inline">\(\bar{x}\)</span>, and a non-linear function <span class="math inline">\(f(x)\)</span>. Then the mean of <span class="math inline">\(f(x)\)</span> is not equal to <span class="math inline">\(f(\bar{x})\)</span>.</p>
 <p>Jensen’s inequality can be important in a number of cases. The first one is mentioned in Ch. 4 (page 104) how variability can change the mean behaviour of a system (damselfish). Another example where Jensen’s inequality kicks in is when transforming your data. Data-transformations are commonly applied to get normally distributed errors.</p>
 <p>In statistical models, you often estimate the mean effect of a given treatment.</p>
@@ -516,8 +516,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This exercise shows that it is usually a good idea to leave variables untransformed when estimating the properties from this data.</p>
 </section>
 </section>
-<section id="the-method-of-moments-reparameterizing-distributions" class="level1">
-<h1>The method of moments: reparameterizing distributions</h1>
+<section id="the-method-of-moments-reparameterizing-distributions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The method of moments: reparameterizing distributions</h1>
 <p>In the chapter, I showed how to use the <em>method of moments</em> to estimate the parameters of a distribution by setting the sample mean and variance (<span class="math inline">\(\bar x\)</span>, <span class="math inline">\(s^2\)</span>) equal to the theoretical mean and variance of a distribution and solving for the parameters. For the negative binomial, in particular, I found <span class="math inline">\(\mu=\bar x\)</span> and <span class="math inline">\(k=(\bar x)/(s^2/\bar x -1)\)</span>.</p>
 <p>You can also define your own functions that use your own parameterizations: call them <code>my_function</code> rather than just replacing the standard <code>R</code> functions (which will lead to insanity in the long run).</p>
 <p>For example, defining</p>
@@ -577,10 +577,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </section>
-<section id="creating-new-distributions" class="level1">
-<h1>Creating new distributions</h1>
-<section id="zero-inflated-distributions" class="level2">
-<h2 class="anchored" data-anchor-id="zero-inflated-distributions">Zero-inflated distributions</h2>
+<section id="creating-new-distributions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Creating new distributions</h1>
+<section id="zero-inflated-distributions" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="zero-inflated-distributions"><span class="header-section-number">6.1</span> Zero-inflated distributions</h2>
 <p>The general formula for the probability distribution of a zero-inflated distribution, with an underlying distribution <span class="math inline">\(P(x)\)</span> and a zero-inflation probability of <span class="math inline">\(p_z\)</span>, is: <span class="math display">\[\begin{eqnarray*}
 \mbox{Prob}(0) &amp; = &amp; p_z + (1-p_z) P(0) \\
 \mbox{Prob}(x&gt;0) &amp; = &amp; (1-p_z) P(x)
@@ -614,8 +614,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="compounding-distributions" class="level1">
-<h1>Compounding distributions</h1>
+<section id="compounding-distributions" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
 <p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-38_f1b504145b924658b17899519846cc21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

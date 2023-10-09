@@ -239,10 +239,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning goals</a></li>
-  <li><a href="#fitting-models-containing-categorical-predictors" id="toc-fitting-models-containing-categorical-predictors" class="nav-link" data-scroll-target="#fitting-models-containing-categorical-predictors">Fitting models containing categorical predictors</a></li>
-  <li><a href="#fitting-models-with-the-heterogenous-variance" id="toc-fitting-models-with-the-heterogenous-variance" class="nav-link" data-scroll-target="#fitting-models-with-the-heterogenous-variance">Fitting models with the heterogenous variance</a></li>
-  <li><a href="#fitting-models-to-nested-data." id="toc-fitting-models-to-nested-data." class="nav-link" data-scroll-target="#fitting-models-to-nested-data.">Fitting models to nested data.</a></li>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">0.1</span>  Learning goals</a></li>
+  <li><a href="#fitting-models-containing-categorical-predictors" id="toc-fitting-models-containing-categorical-predictors" class="nav-link" data-scroll-target="#fitting-models-containing-categorical-predictors"><span class="toc-section-number">1</span>  Fitting models containing categorical predictors</a></li>
+  <li><a href="#fitting-models-with-the-heterogenous-variance" id="toc-fitting-models-with-the-heterogenous-variance" class="nav-link" data-scroll-target="#fitting-models-with-the-heterogenous-variance"><span class="toc-section-number">2</span>  Fitting models with the heterogenous variance</a></li>
+  <li><a href="#fitting-models-to-nested-data." id="toc-fitting-models-to-nested-data." class="nav-link" data-scroll-target="#fitting-models-to-nested-data."><span class="toc-section-number">3</span>  Fitting models to nested data.</a></li>
   </ul>
 </nav>
     </div>
@@ -278,19 +278,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning goals</h2>
+<section id="learning-goals" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">0.1</span> Learning goals</h2>
 <p>You will learn how to:</p>
 <ol type="1">
 <li><p>Estimate the parameters of a model with the variance varying as a function of a covariate (<code>gls</code>)</p></li>
 <li><p>Apply mixed effect models to data with nested structures</p></li>
 </ol>
 </section>
-<section id="fitting-models-containing-categorical-predictors" class="level1">
-<h1>Fitting models containing categorical predictors</h1>
+<section id="fitting-models-containing-categorical-predictors" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Fitting models containing categorical predictors</h1>
 </section>
-<section id="fitting-models-with-the-heterogenous-variance" class="level1">
-<h1>Fitting models with the heterogenous variance</h1>
+<section id="fitting-models-with-the-heterogenous-variance" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Fitting models with the heterogenous variance</h1>
 <p>It is common to observe that the variance of your data is not constant along your predictor <span class="math inline">\(x\)</span>. In case of the Poisson distribution, the relationship between the mean and the variance is fixed through <span class="math inline">\(\lambda\)</span>. For other probability distributions with <span class="math inline">\(\geq2\)</span> parameters the variance can be modelled (somewhat) independent of the mean. A classic example is the normal distribution with <span class="math inline">\(mu\)</span> equal to the mean of the distribution and <span class="math inline">\(\sigma\)</span> to the square root of the variance. Traditionally, when the variance increases with <span class="math inline">\(x\)</span> log transformations are applied. However, the variance can also be modelled explicitly. The purpose of this exercise is to give you insight how this can done (by showing a simple but wrong approach), followed by the correct, but canned approach <code>gls</code> in <code>R</code>.</p>
 <p>To illustrate the principle, we generate data from scratch first with constant variance: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-1_6093f61f1e20eb58cf8ce6b3a866d8b3’}</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">100</span>,<span class="at">length.out =</span> <span class="dv">100</span>)</span>
@@ -355,8 +355,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The variance estimates are biased because they are estimated with <em>maximum likelihood</em> and not <em>restricted maximum likelihood</em> (<code>method=REML</code> is the default in <code>gls</code>). With restricted maximumlikelihood you account for the fact that you need estimate the mean from the data. Since the esimated mean will be slightly different than the true mean, the estimated variance is also slightly different from the true variance (i.e.&nbsp;<span class="math inline">\(\sigma^2=\sum_{i=1}^{N}(y_i-\mu)^2\)</span>). Thus the mean itself is an estimate from the data (i.e.&nbsp;<span class="math inline">\(\bar{y}\)</span>) and not the population parameter itself (i.e.&nbsp;<span class="math inline">\(\mu\)</span>). Thus you should fit models with <code>REML</code> when applying AIC. Which model fits the data better?</li>
 </ol>
 </section>
-<section id="fitting-models-to-nested-data." class="level1">
-<h1>Fitting models to nested data.</h1>
+<section id="fitting-models-to-nested-data." class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Fitting models to nested data.</h1>
 <p>An important assumption of the models we have discussed so far (linear models, generalized linear models and generalized least squares models) is that the observations are independent of each other. This assumptions is often violated in ecological data. The solution for the lack of independence is to model the data with so called <code>mixed effect models</code>. Mixed effect models contain a fixed part and a random part (see Zuur for more information). To understand how mixed effect models work, we will generate data ourselves and backfit the coefficients with a mixed effect model:</p>
 <p><span class="math display">\[Y_{i,j} = \alpha+\beta x + b_{i}+\epsilon_{j}\]</span> with <span class="math inline">\(b_{i} \sim N(0,\sigma_{site})\)</span></p>
 <p>with <span class="math inline">\(\epsilon_{j} \sim N(0,\sigma_{res})\)</span></p>

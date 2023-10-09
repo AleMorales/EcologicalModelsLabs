@@ -239,14 +239,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning goals</a></li>
-  <li><a href="#getting-familiar-with-a-bestiary-of-functions" id="toc-getting-familiar-with-a-bestiary-of-functions" class="nav-link" data-scroll-target="#getting-familiar-with-a-bestiary-of-functions">Getting familiar with a bestiary of functions</a></li>
-  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops">For loops</a></li>
-  <li><a href="#missing-values-na" id="toc-missing-values-na" class="nav-link" data-scroll-target="#missing-values-na">Missing values (NA)</a></li>
-  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function">Making a function</a></li>
-  <li><a href="#numerical-explorations-plotting-curves" id="toc-numerical-explorations-plotting-curves" class="nav-link" data-scroll-target="#numerical-explorations-plotting-curves">Numerical explorations: plotting curves</a></li>
-  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions">A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
-  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r">Evaluating derivatives in <code>R</code></a></li>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
+  <li><a href="#getting-familiar-with-a-bestiary-of-functions" id="toc-getting-familiar-with-a-bestiary-of-functions" class="nav-link" data-scroll-target="#getting-familiar-with-a-bestiary-of-functions"><span class="toc-section-number">2</span>  Getting familiar with a bestiary of functions</a></li>
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">3</span>  For loops</a></li>
+  <li><a href="#missing-values-na" id="toc-missing-values-na" class="nav-link" data-scroll-target="#missing-values-na"><span class="toc-section-number">4</span>  Missing values (NA)</a></li>
+  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function"><span class="toc-section-number">5</span>  Making a function</a></li>
+  <li><a href="#numerical-explorations-plotting-curves" id="toc-numerical-explorations-plotting-curves" class="nav-link" data-scroll-target="#numerical-explorations-plotting-curves"><span class="toc-section-number">6</span>  Numerical explorations: plotting curves</a></li>
+  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions"><span class="toc-section-number">7</span>  A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
+  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r"><span class="toc-section-number">8</span>  Evaluating derivatives in <code>R</code></a></li>
   </ul>
 </nav>
     </div>
@@ -282,12 +282,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="learning-goals" class="level1">
-<h1>Learning goals</h1>
+<section id="learning-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>In this lab you will learn to analyse mathematical functions. This is an important step in ecological modelling. Next, we proceed with analysing and programming these functions in <code>R</code>. To do so, you will need more advanced programming skills such as for-loops, if-else statements and functions.</p>
 </section>
-<section id="getting-familiar-with-a-bestiary-of-functions" class="level1">
-<h1>Getting familiar with a bestiary of functions</h1>
+<section id="getting-familiar-with-a-bestiary-of-functions" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Getting familiar with a bestiary of functions</h1>
 <p>The models that we will be fitting to data are composed of a deterministic component and a stochastic component. The deterministic component describes the expected pattern in absence of any randomness. You are not restricted to linear functions (as in linear regression) but you can choose among different functions.</p>
 <p>Remember that functions can be purely phenomological or mechanistic (see p.21 of Bolker). Bolker mentions the following non-linear functions in his chapter about a bestiary of functions: Hyperbolic, Michaelis-Menten (=Monod or Holling type II), Holling type III, Holling type IV, negative exponential, monomolecular (=limited exponential growth), Ricker, logistic, power law, von Bertalanffy, Sheppard, Hassell, non-rectangular hyperbola.</p>
 <div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-1_e081948bacf5b15ef561c49bad872226">
@@ -352,8 +352,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="for-loops" class="level1">
-<h1>For loops</h1>
+<section id="for-loops" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> For loops</h1>
 <p>When programming your data analysis, you often need to iterate over multiple elements of a collection. These elements could be rows of a <code>data.frame</code>, datasets inside a <code>list</code>, numbers inside a vector, etc. The iteration usually means that you apply the same code over each element of the collection and you don’t want to “copy-paste” the code for each element. Iterating over a collection is called a “for loop” in programming. A for loop consists of three components:</p>
 <ol type="1">
 <li><p>A collection over which you want to iterate.</p></li>
@@ -403,8 +403,8 @@ print(log(i))</code></pre>
 </div>
 </div>
 </section>
-<section id="missing-values-na" class="level1">
-<h1>Missing values (NA)</h1>
+<section id="missing-values-na" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Missing values (NA)</h1>
 <p>Missing values in data collection and analysis deserve special attention. You can get missing values during you data collection for various reasons, e.g.&nbsp;you missed the opportunity to take a measurement, you lose one of the replicates due to contamination, you wrote down a wrong value, or you even lost some of your data.</p>
 <p>The most important thing you need to understand, is that in almost all cases of a missing value, you should <strong>not represent a missing value with a zero (0)</strong>. This will throw your analysis out of balance and give erroneous results. A common way of representing missing data when you are performing data input, would be with a character like an asterisk (*) or a hyphen (-).</p>
 <p>Many of the functions that read data in <code>R</code> have an argument that allows you to select how you have represented a missing-value in your data. As an example the function <strong>read.csv</strong> (which reads a comma-delimited data file) would be used like this to read from a file named “your-data-file”:</p>
@@ -476,8 +476,8 @@ Given some data created from the following code <code>c(25,1,10,89, NA, NA)</cod
 </div>
 </div>
 </section>
-<section id="making-a-function" class="level1">
-<h1>Making a function</h1>
+<section id="making-a-function" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Making a function</h1>
 <p>When you want to repeat a calculation for different data, it is best to code your calculations inside a function. <code>R</code> consists of many built-in functions, but sometimes you need to do a calculation that is not available in <code>R</code>. A function is defined by 4 elements</p>
 <ol type="1">
 <li><p>The name of the function. For example, in <code>R</code> there is a function that calculates the arithmetic mean of a vector of data and its name is <code>mean</code>. You should make sure that the name of your function does not coincide with existing functions, that it is not too long and that it conveys its meaning. You can check if a function already exist in the base or any of the packages you loaded through <code>?nameoffunction</code>.</p></li>
@@ -554,8 +554,8 @@ Make you own function for the sem and use your own home-made function of the sta
 </div>
 <p>As you see you can call functions inside functions. It is recommended to divide the work you want to do into little functions that each carry out a specific task, and then combine those functions into a larger function that combines these tasks. This facilitates error checking.</p>
 </section>
-<section id="numerical-explorations-plotting-curves" class="level1">
-<h1>Numerical explorations: plotting curves</h1>
+<section id="numerical-explorations-plotting-curves" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Numerical explorations: plotting curves</h1>
 <p>Here are the <code>R</code> commands used to generate Figure 3.2 in the book (p 74). They just use <code>curve()</code>, with <code>add=FALSE</code> (the default, which draws a new plot) and <code>add=TRUE</code> (adds the curve to an existing plot), particular values of <code>from</code> and <code>to</code>, and various graphical parameters (<code>ylim</code>, <code>ylab</code>, <code>lty</code>).</p>
 <div class="cell" data-hash="solution_cache/html/unnamed-chunk-26_4022ff2d8b64668eb0e365ba939b9fc0">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">7</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
@@ -603,8 +603,8 @@ Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span
 </div>
 </div>
 </section>
-<section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1">
-<h1>A quick digression: <code>ifelse()</code> for piecewise functions</h1>
+<section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> A quick digression: <code>ifelse()</code> for piecewise functions</h1>
 <p>The <code>ifelse()</code> command in <code>R</code> is useful for constructing piecewise functions. Its basic syntax is <code>ifelse(condition,value_if_true,value_if_false)</code>, where <code>condition</code> is a logical vector (e.g.&nbsp;<code>x&gt;0</code>), <code>value_if_true</code> is a vector of alternatives to use if <code>condition</code> is <code>TRUE</code>, and <code>value_if_false</code> is a vector of alternatives to use if <code>condition</code> is <code>FALSE</code>. If you specify just one value, it will be expanded (<em>recycled</em> in <code>R</code> jargon) to be the right length. A simple example:</p>
 <div class="cell" data-hash="solution_cache/html/unnamed-chunk-32_621651d600ee557870d1bb9a3809418a">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
@@ -627,8 +627,8 @@ Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span
 </div>
 <p>The double-threshold example (nested <code>ifelse()</code> commands) probably needs more explanation. In words, this command would go “if <span class="math inline">\(x\)</span> is less than 2, set <span class="math inline">\(y\)</span> to 1; otherwise (<span class="math inline">\(x \ge 2\)</span>), if <span class="math inline">\(x\)</span> is less than 4 (i.e.&nbsp;<span class="math inline">\(2 \le x&lt;4\)</span>), set <span class="math inline">\(y\)</span> to 3; otherwise (<span class="math inline">\(x \ge 4\)</span>), set <span class="math inline">\(y\)</span> to 5”.</p>
 </section>
-<section id="evaluating-derivatives-in-r" class="level1">
-<h1>Evaluating derivatives in <code>R</code></h1>
+<section id="evaluating-derivatives-in-r" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Evaluating derivatives in <code>R</code></h1>
 <p><code>R</code> can evaluate derivatives, but it is not very good at simplifying them. In order for <code>R</code> to know that you really mean (e.g) <code>x^2</code> to be a mathematical expression and not a calculation for <code>R</code> to try to do (and either fill in the current value of <code>x</code> or give an error that <code>x</code> is undefined), you have to specify it as <code>expression(x^2)</code>; you also have to tell <code>R</code> (in quotation marks) what variable you want to differentiate with respect to:</p>
 <div class="cell" data-hash="solution_cache/html/unnamed-chunk-34_50c98a89f719e697ad1d2dfb40c56bd9">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">2</span>),<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
