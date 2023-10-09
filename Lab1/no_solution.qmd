@@ -8,31 +8,29 @@ cache: true
 visual: false
 params:
   solution: false
-# output:
-#   bookdown::pdf_book:
-#     includes:
-#       in_header: preamble1.tex
-#   word_document: default
-#   pdf_document: default
-#   html_document:
-#     fig_caption: yes
-#     fig_height: 4.5
-#     fig_width: 5
-#     number_sections: yes
-# geometry: margin=3cm
-# fontsize: 11pt
+filters:
+  - custom-numbered-blocks
+custom-numbered-blocks:
+  groups:
+    question:
+      collapse: false
+      colors: [00ff00, d9d9d9]
+      label: "Exercise 1."
+      boxstyle: foldbox.simple
+    answer:
+      collapse: false
+      colors: [80bfff, d9d9d9]
+      label: "Solution"
+      boxstyle: foldbox.simple
+  classes:
+    Exercise: 
+      group: question
+    Solution:
+      group: answer
 ---
 
-
-```{r setup, include=FALSE}
-#knitr:yuh5:opts_chunk$set(echo = TRUE)
-#knitr::opts_chunk$set(error = TRUE)
-options(tinytex.verbose = TRUE)
-if(!requireNamespace("kableExtra")) install.packages("kableExtra")
-library(kableExtra)
-```
-
 # Learning outcomes
+
 The aim of this tutorial is to learn the basics of `R`. After completing the tutorial you will be able to:
 
 1. Install `R` and associated packages and Rstudio
@@ -100,9 +98,9 @@ Rstudio usually displays four panels. The default setting is a script editor at 
 The standard distributions of `R` include several *packages*, user-contributed suites of add-on functions. This lab uses some packages that are not part of the standard distribution. In general, you can install additional packages 
 from within `R` using the `Packages` menu, or the `install.packages` command.
 
-You may be able to install new packages from a menu within `R`. Type and it will installe the package `ggplot2` that you will use in the next tutorial.
+You may be able to install new packages from a menu within `R`. Type and it will install the package `ggplot2` that you will use in the next tutorial.
 
-```{r,eval=FALSE,df-drop-2, class.source='bad-code'}
+```{r,eval=FALSE}
 install.packages("ggplot2")
 ```
 
@@ -138,11 +136,13 @@ kable(data, caption = "A few of the functions and packages in `R` for statistica
 
 
 # Interactive calculations in the console
+
 The console is where you enter commands for `R` to execute *interactively*, meaning that the command is executed and the result is displayed as soon as you hit the `Enter` key (bottom-left panel in Rstudio). For example, at the command prompt `>`, type in `2+2` and hit `Enter`; you will see 
 
 ```{r, echo =FALSE}
 2+2
 ```
+
 To do anything complicated, you have to store the results from calculations by *assigning* them to variables, using `=` or `<-`. For example:
 
 ```{r}
@@ -150,6 +150,7 @@ a=2+2
 ```
 
 `R` automatically creates the variable `a` and stores the result (4) in it, but it doesn't print anything. This may seem strange, but you'll often be creating and manipulating huge sets of data that would fill many screens, so the default is to skip printing the results. To ask `R` to print the value, just type the variable name by itself at the command prompt:
+
 ```{r}
 a
 ```
@@ -157,6 +158,7 @@ a
 (the `[1]` at the beginning of the line is just `R` printing an index of element numbers; if you print a result that displays on multiple lines, `R` will put an index at the beginning of each line. `print(a)` also works to print the value of a variable.) By default, a variable created this way is a *vector*,  and it is *numeric* because we gave `R` a number rather than some other type of data (e.g. a character string like `"pxqr"`). In this case `a` is a numeric vector of length 1, which acts just like a number. 
 
 You could also type `a=2+2; a`, using a semicolon to put two or more commands on a single line. Conversely, you can break lines *anywhere that `R` can tell you haven't finished your command* and `R` will give you a "continuation" prompt (`+`) to let you know that it doesn't think you're finished yet: try typing 
+
 ```{r,eval=FALSE}
 a=3*(4+ [Enter]
 5)
@@ -187,11 +189,13 @@ z3
 Even though `R` did not display the values of `x` and `y`, it "remembers" that it assigned values to them. Type `x; y` to display the values. 
 
 You can retrieve and edit previous commands. The up-arrow ($\uparrow$) in the console recalls previous commands to the prompt. They also can be found in the top-right tab `History`. For example, you can bring back the second-to-last command and edit it into 
+
 ```{r}
 z3=2*x^y
 ```
 
 You can combine several operations in one calculation:
+
 ```{r}
 A=3
 C=(A+2*sqrt(A))/(A+5*sqrt(A))
@@ -200,9 +204,11 @@ C
 
 Parentheses specify the order of operations. 
 The command
+
 ```{r}
 C=A+2*sqrt(A)/A+5*sqrt(A)
 ```
+
 is not the same as the one above; rather, it is equivalent to `C=A + 2*(sqrt(A)/A) + 5*sqrt(A)`.
 
 The default order of operations is: (1) parentheses; (2) exponentiation, or powers, (3) multiplication and division, (4) addition and subtraction. 
@@ -231,7 +237,8 @@ data = rbind(c("\\texttt{abs}", "absolute value"),
 kable(data, caption = "Some of the built-in mathematical functions in R. You can get a more complete list from the Help system: \\texttt{?Arithmetic} for simple, \\texttt{?log} for logarithmic, \\texttt{?sin} for trigonometric, and \\texttt{?Special} for special functions.", col.names = c("Function","Definition"), format="latex", booktabs=TRUE, escape = F)
 ```
 
-```{block2, type = "exercisebox",latex.options="{1}"}
+::: Exercise
+
 Using editing shortcuts wherever you can, have `R` compute the values of:
   
 
@@ -244,35 +251,26 @@ Using editing shortcuts wherever you can, have `R` compute the values of:
   * $\exp(0.2)$ 
 3. The standard normal probability density, $\frac{1}{\sqrt(2\pi)}\exp(-x^2/2)$, for values of $x=1$ and $x=2$ (`R` knows $\pi$ as `pi`). You can check your answers against the built-in function for the normal distribution; `dnorm(1)`  and `dnorm(2)` should give you the values for the standard normal for $x=1$ and $x=2$.
 
-```
+:::
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
+```{block2, echo = params$solution}
+::: Solution
 
 
-1
-`(2^7)/(2^7-1)`
+1 `(2^7)/(2^7-1)` 
+#versus 
+`(1-2^7)^(-1)` 
 
-#versus
-
-`(1-2^7)^(-1)`
-
-2
-
-`1+0.2`
-
-`1+0.2+0.2^2/2+cos(2.3)`
+2 `1+0.2` 
+`1+0.2+0.2^2/2+cos(2.3)` 
 
 3
-
-`x <- 1`
-
-`1/sqrt(2*pi)*exp(-x^2/2)`
-
-`x <- 2`
-
-`1/sqrt(2*pi)*exp(-x^2/2)`
-
-``` 
+`x <- 1` 
+`1/sqrt(2*pi)*exp(-x^2/2)` 
+`x <- 2` 
+`1/sqrt(2*pi)*exp(-x^2/2)` 
+:::
+```
 
 # The help system
 R has a help system, although it is generally better for providing detail or reminding you how to do things than for basic ``how do I ...?'' questions.
@@ -346,6 +344,7 @@ and see the error message you get: in order to create a vector of specified numb
 To see a histogram of the growth rates enter `hist(rmax)`, which opens a graphics window and displays the histogram. There are *many* other built-in statistics functions: for example `mean(rmax)` computes you the mean, and `sd(rmax)` and `var(rmax)` compute the standard deviation and variance, respectively. Play around with these functions, and any others you can think of.
 
 To see how light intensity affects algal rate of increase, type
+
 ```{r, eval=FALSE, echo=TRUE}
 plot(rmax ~ Light)
 ```
@@ -398,9 +397,11 @@ par(op)
 `R`'s default plotting character is an open circle. Open symbols are generally better than closed symbols for plotting because it is easier to see where they overlap, but you could include `pch=16` in the `plot` command if you wanted closed circles instead. Figure 1 shows several more ways to adjust the appearance of lines and points in `R`.
 
 To perform linear regression we create a linear model using the `lm` (**l**inear **m**odel) function:
+
 ```{r}
 fit = lm(rmax~Light)
 ```
+
 (Note that linear model is read as "model $r_{max}$ as a function of light".)
 
 The `lm` command produces no output at all, but it creates `fit` as an **object**, i.e. a data structure consisting of multiple parts, holding the results of a regression analysis with `rmax` being modeled as a
@@ -416,9 +417,11 @@ summary(fit)
 line as $r_{max} = 1.581 + 0.014 \times Light$, and associated with each coefficient is the standard error of the estimate, the $t$-statistic value for testing whether the coefficient is nonzero, and the $p$-value corresponding to the $t$-statistic. Below the table, the adjusted R-squared gives the estimated fraction of the variance explained by the regression line, and the $p$-value in the last line is an overall test for significance of the model against the null hypothesis that the response variable is independent of the predictors.]
 
 You can add the regression line to the plot of the data with a function taking `fit` as its input (if you closed the plot of the data, you will need to create it again in order to add the regression line):
+
 ```{r, eval = FALSE, echo = TRUE}
 abline(fit)
 ```
+
 (`abline`, pronounced "a b line", is a general-purpose function for adding lines to a plot: you can specify horizontal or vertical lines, a slope and an intercept, or a regression model: `?abline`).
 
 ```{r,echo=FALSE,fig=TRUE, fig.cap = "Graphical summary of regression analysis", fig.width=4,fig.height=3}
@@ -428,6 +431,7 @@ abline(fit)
 ```
 
 You can get the coefficients by using the `coef` function:
+
 ```{r}
 coef(fit)
 ```
@@ -463,43 +467,38 @@ rmax=X[,2]
 
 Think of these as shorthand for "`Light` = everything in column 1 of `X`", and "`rmax` = everything in column 2 of `X`" (we'll learn about working with data matrices later). From there on out it's the same as before, with some additions that set the axis labels and add a title.
 
-```{block2, type = "exercisebox",latex.options="{1}"}
+::: Exercise
+
 Make a copy of `Intro2.R` under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, `LogLight=log(Light)`, and plots the data appropriately. You should end up with  a graph that resembles Figure 3.
 
 
 *Hint:* when you switch from light intensity to log light intensity, the range on your $x$ axis will change and you will have to change the $x$ position at which you plot the growth rate equation.
-```
+
+:::
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
+```{block2, echo = params$solution}
 
-`X=read.table("ChlorellaGrowth.txt",header=TRUE)`
-
-`Light=X[,1]`
-
-`rmax=X[,2]` 
-
-`logLight=log(Light)` # natural logarithm!
-
-`op <- par(cex=1,cex.main=0.9, mar = c(4,4,4,0.5), las = 1)`
-
-`plot(logLight,rmax,
-   xlab=expression(Log~light~intensity~(mu*E/m^2/s)), 
-   ylab="Maximum growth rate rmax (1/d)",pch=16)
-title(main="Data from Fussmann et al. (2000)")`
-
-`fit=lm(rmax~logLight)`
-
-`summary(fit)`
-
-`abline(fit)` 
-
-`rcoef=round(coef(fit),digits=3)`
-
-`text(3.7,3.5,paste("rmax=",rcoef[1],"+",rcoef[2],"log(Light)"))`
-
-`par(op)`
-
+::: Solution
+        
+        X=read.table("ChlorellaGrowth.txt",header=TRUE) 
+        Light=X[,1] 
+        rmax=X[,2] 
+        logLight=log(Light) # natural logarithm \n
+        op <- par(cex=1,cex.main=0.9, mar = c(4,4,4,0.5), las = 1) 
+        plot(logLight,rmax, 
+           xlab=expression(Log~light~intensity~(mu*E/m^2/s)),  
+           ylab="Maximum growth rate rmax (1/d)",pch=16) 
+        title(main="Data from Fussmann et al. (2000)") 
+        fit=lm(rmax~logLight) 
+        summary(fit) 
+        abline(fit) 
+        rcoef=round(coef(fit),digits=3) 
+        text(3.7,3.5,paste("rmax=",rcoef[1],"+",rcoef[2],"log(Light)")) 
+        par(op)
+    
+:::
+  
 ```
 
 
@@ -521,15 +520,21 @@ text(3.7,3.5,paste("rmax=",rcoef[1],"+",rcoef[2],"log(Light)"))
 par(op)
 ```
 
-```{block2, type = "exercisebox",latex.options="{1}"}
+::: Exercise
+
 Run `Intro2.R`, then enter the command `plot(fit)` in the console and follow the directions in the console. Figure out what just happened.
+
+:::
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+By entering `?plot.lm` R brings up the Help page for the function `plot.lm` that carries out a `plot` command for an object produced by `lm`. This is one example of how R uses the fact that statistical analyses are stored as model objects. `fit` "knows" what kind of object it is (in this case an object of type `lm`, and so `plot(fit)` invokes a function that produces plots suitable  for an `lm` object. 
+
+:::
+
 ```
-
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-By entering `?plot.lm` R brings up the Help page for the function `plot.lm` that carries out a `plot` command for an object produced by `lm`. This is one example of how R uses the fact that statistical analyses are stored as model objects. `fit` "knows" what kind of object it is (in this case an object of type `lm`, and so `plot(fit)` invokes a function that produces plots suitable  for an `lm` object.
-```
-
-
 
 R produced a series of diagnostic plots exploring whether or not the fitted linear model is a suitable fit to the data. In each of the plots, the 3 most extreme points (the most likely candidates for "outliers") have been identified according to their sequence in the data set. 
 
@@ -539,13 +544,19 @@ The axes in plots are scaled automatically,  but the outcome is not always ideal
 
 will draw the graph with the $x$-axis running from `x1` to `x2`, and using `ylim=c(y1,y2)` within the `plot` command will do the same for the $y$-axis.
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Create a plot of growth rate versus light intensity with the $x$-axis running from 0 to 120 and the $y$-axis running from 1 to 4.
-```
 
+:::
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`plot(Light,rmax,xlim=c(0,120),ylim=c(1,4))`
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        plot(Light,rmax,xlim=c(0,120),ylim=c(1,4))` 
+
+:::
 
 ``` 
 
@@ -558,62 +569,85 @@ par(mfrow=c(2,3))
 
 divides the plotting area into 2 rows and 3 columns. As  `R` draws a series of graphs, it places them along the top row from left to right, then along the next row, and so on. `mfcol=c(2,3)` has the same effect except that `R` draws successive graphs down the first column, then down the second column, and so on.
 
-```{block2, type="exercisebox",latex.options="{1}",echo=T}
+::: Exercise
+
 Modify the script as follows. Use `mfcol=c(2,1)` to create graphs of growth rate as a  function of `Light`, and of `log(growth rate)` as a function of `log(Light)` in the same figure. Do the same again, using `mfcol=c(1,2)`.
+
+:::
+
+```{block2, echo = params$solution}
+
+::: Solution
+
+        mfcol=c(2,1)
+        plot(rmax ~ Light)
+        plot(rmax ~ logLight)
+
+::: 
+  
 ```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`mfcol=c(2,1)`
-`plot(rmax ~ Light)`
-`plot(rmax ~ logLight)`
-
-```
-
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
 Use `?par` to read about other plot control parameters that you use `par` to set (you should definitely skim --- this is one of the longest help files in the whole R system!).  Then draw a $2 \times 2$ set of plots, each showing the line $y=5x+3$ with $x$ running from 3 to 8, but with 4 different line styles and 4 different line colors.
+:::
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        par(mfrow=c(2,2))
+        x = c(3:8)
+        y = 5*x+3
+        plot(y~x,type="l")
+        plot(y~x,type="l",lty=1,col="red")
+        plot(y~x,type="l",lty=2,col="blue")
+        plot(y~x,type="l",lty=4,col="orange") 
+
+::: 
+  
 ```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`par(mfrow=c(2,2))`
-`x = c(3:8)`
-`y = 5*x+3`
-`plot(y~x,type="l")`
-`plot(y~x,type="l",lty=1,col="red")`
-`plot(y~x,type="l",lty=2,col="blue")`
-`plot(y~x,type="l",lty=4,col="orange")`
-
-```
-
-```{block2,type= "exercisebox",latex.options="{1}"}
+::: Exercise
 Modify one of your scripts so that at the very end it saves the plot to disk. In Windows you can do this with specific functions like `jpeg` or `png`.  Use `?jpeg` or `?png` to read about these functions.  Note that the argument `filename` can include the path to a folder; for example, in Windows you can use `filename="c:/temp/Intro2Figure".` 
-```
+:::
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`png("test.png")`
-`par(mfrow=c(2,2))`
-`x = c(3:8)`
-`y = 5*x+3`
-`plot(y~x,type="l")`
-`plot(y~x,type="l",lty=1,col="red")`
-`plot(y~x,type="l",lty=2,col="blue")`
-`plot(y~x,type="l",lty=4,col="orange")`
-`dev.off()`
+```{block2, echo = params$solution}
 
+::: Solution 
 
+        png("test.png")
+        par(mfrow=c(2,2))
+        x = c(3:8)
+        y = 5*x+3
+        plot(y~x,type="l")
+        plot(y~x,type="l",lty=1,col="red")
+        plot(y~x,type="l",lty=2,col="blue")
+        plot(y~x,type="l",lty=4,col="orange")
+        dev.off()
+
+::: 
+  
 ``` 
 
 
-```{block2,type= "exercisebox",latex.options="{1}"}
+::: Exercise
+
 Use google to see how to:
   - rotate the y-axis labels
   - change the background of the plot to grey
-```
+  
+:::
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
+```{block2, echo = params$solution}
+
+::: Solution 
+
 Google "rotate axis label plot r" and you will get a hit that shows you how to do it: i.e. set las=2
-You can change the background color by setting par(bg="grey")
+You can change the background color by setting par(bg="grey") 
 
+::: 
+  
 ```
 
 
@@ -662,37 +696,52 @@ whether `from` or `to` is larger. The third form creates a vector with the desir
 1:8
 ```
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Use `seq` to create the vector `v=(1 5 9 13)`, and to create a vector going from 1 to 5 in increments of 0.2.
-```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`seq(1,13,4)`
-`seq(1,5,0.2)`
+:::
 
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        seq(1,13,4)
+        seq(1,5,0.2)
+
+::: 
+  
 ```
 
 You can use `rep` to create a constant vector such as `(1 1 1 1)`; the basic syntax is `rep(values,lengths)`. For example,
+
 ```{r}
 rep(3,5)
 ```
+
 creates a vector in which the value 3 is repeated 5 times. `rep` will repeat a whole vector multiple times
+
 ```{r}
 rep(1:3,3)
 ```
+
 or will repeat each of the elements in a vector a given number of times:
+
 ```{r}
 rep(1:3,each=3)
 ```
 
 Even more flexibly, you can repeat each element in the vector a different number of times:
+
 ```{r, chunk_50}
 rep( c(3,4),c(2,5) )
 ```
+
 The value 3 was repeated 2 times, followed by the value 4 repeated 5 times.
 `rep` can be a little bit mind-blowing as you get started, but it will turn out to be useful.
 
 Table 3 lists some of the main functions for creating and working with vectors.
+
 ```{r, echo = FALSE, results = 'asis'}
 data = rbind(c("\\texttt{seq(from,to,by=1)}" , " Vector of evenly spaced values, default increment = 1"),
        c("\\texttt{seq(from, to, length.out)}" , " Vector of evenly spaced values, specified length"),
@@ -710,6 +759,7 @@ kable(data, caption = "Some important `R` functions for creating and working wit
 ### Vector indexing
 
 You will often want to extract a specific entry or other part of a vector. This procedure is called *vector indexing*, and uses square brackets (`[]`):
+
 ```{r}
 z=c(1,3,5,7,9,11)
 z[3]
@@ -718,75 +768,104 @@ z[3]
 `z[3]` extracts the third item, or *element*, in the vector `z`.
 You can also access a block of elements using the functions for
 vector construction, e.g.
+
 ```{r}
 z[2:5]
 ```
+
 extracts the second through fifth elements.
 
 What happens if you enter `v=z[seq(1,5,2)]` ? Try it and see, and make sure you understand what happened.
 
 You can extracted irregularly spaced elements of a vector. For example
+
 ```{r}
 z[c(1,2,5)]
 ```
 
 You can also use indexing to **set specific values within a vector**. For
 example,
+
 ```{r}
 z[1]=12
 ```
+
 changes the value of the first entry in `z` while leaving all the rest alone, and
+
 ```{r}
 z[c(1,3,5)]=c(22,33,44)
 ```
+
 changes the first, third, and fifth values (note that we had to use `c` to create the vector --- can you interpret the error message you get if you
 try `z[1,3,5]` ?)
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Write a *one-line* command to extract a vector consisting of the second, first, and third elements of `z` *in that order*.
+
+:::
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        z=c(1,3,5,7,9,11)
+        z[c(2,1,3)]
+
+::: 
+  
 ```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`z=c(1,3,5,7,9,11)`
-`z[c(2,1,3)]`
 
-```
+::: Exercise
 
-
-```{block2, type="exercisebox",latex.options="{1}"}
 Write a script file that computes values of
 $y=\frac{(x-1)}{(x+1)}$ for $x=1,2,\cdots,10$, and plots $y$ versus $x$
 with the points plotted and connected by a line 
 *hint:* in `?plot`, search for `type`).
+
+:::
+
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        x = c(1:10)
+        y = (x-1)/(x+1)
+        plot(y~x,type="b")
+
+::: 
 ```
 
-
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`x = c(1:10)`
-`y = (x-1)/(x+1)`
-`plot(y~x,type="b")`
-
-```
 
 The sum of the geometric series $1 + r + r^2 + r^3 + ... + r^n$ approaches the limit $1/(1-r)$ for $r < 1$ as $n \rightarrow \infty$.
 
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Set the values $r=0.5$ and $n=10$, and then write a *one-line* command that creates the vector $G = (r^0,r^1,r^2,...,r^n)$. Compare the sum (using `sum`) of this vector to the limiting value $1/(1-r)$. 
 
 Repeat for  $n=50$. (*Note* that comparing very similar numeric values can be tricky: rounding can happen, and some numbers cannot be represented exactly in binary (computer) notation. By default `R` displays 7~significant digits (`options("digits")`).
+
+:::
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        r = 0.5
+        n =10
+        sum(r^c(1:n))
+        n =50
+        sum(r^c(1:n))
+
+::: 
+  
 ```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`r = 0.5`
-`n =10`
-`sum(r^c(1:n))`
-
-`n =50`
-`sum(r^c(1:n))`
-
-```
 For example:
+
 ```{r}
 x = 1.999999
 x
@@ -795,12 +874,14 @@ x=1.9999999999999
 x
 x-2
 ```
+
 All the digits are still there, in the second case, but they are not shown.
 Also note that `x-2` is not exactly $-1 \times 10^{-13}$; this is unavoidable.)
 
 ### Logical operators
-Logical operators return a value of `TRUE` or `FALSE`. For example,
-try:
+
+Logical operators return a value of `TRUE` or `FALSE`. For example, try:
+
 ```{r}
 a=1
 b=3
@@ -813,6 +894,7 @@ e
 The parentheses around (`a>b`) are optional but make the code easier to read.
 One special case where you *do* need parentheses (or spaces) is when you make comparisons with negative values; `a<-1` will surprise you by setting `a=1`,
 because `<-` (representing a left-pointing arrow) is equivalent to `=` in `R`. Use `a< -1`, or more safely `a<(-1)`, to make this comparison.
+
 ```{r, echo = FALSE, results = 'asis'}
 data = rbind(c("\\texttt{x<y}","less than"),
        c("\\texttt{x>y}","greater than"),
@@ -834,9 +916,11 @@ b=(x<=3)
 
 So if `x` and `y` are vectors, then `(x==y)` will return a vector of values giving the element-by-element comparisons. If you want to know whether `x` and `y` are identical vectors, use `identical(x,y)` which returns a single value: `TRUE` if each entry in `x` equals the corresponding entry in `y`, otherwise `FALSE`. You can use `?Logical` to read more about logical operators. Note the difference between = and == 
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Can you figure out what happened in the following cautionary tale below?
-```
+
+:::
 
 
 ```{r}
@@ -848,9 +932,14 @@ a==b
 ```
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-You overwrote a by b in the command `a=b` and so the last statement confirms that they are identical
+```{block2, echo = params$solution}
 
+::: Solution 
+
+You overwrote a by b in the command `a=b` and so the last statement confirms that they are identical 
+
+::: 
+  
 ```
 
 
@@ -864,12 +953,14 @@ Exclamation points `!` are used in `R` to mean "not"; `!=` (not `==`) means "not
 * `|`, `||`: OR
 
 OR is *non-exclusive*, meaning that `x|y` is true  if either `x` or `y` *or both* are true (a ham-and-cheese sandwich would satisfy the condition "ham OR cheese"). For example, try
+
 ```{r}
 a=c(1,2,3,4)
 b=c(1,1,5,5)
 (a<b)& (a>3)
 (a<b) | (a>3)
 ```
+
 and make sure you understand what happened. If it's confusing, try breaking up the expression
 and looking at the results of `a<b` and `a>3` separately first. The two forms of AND and OR differ in how they handle vectors. The shorter one does element-by-element comparisons; the longer one only looks at the
 first element in each vector.
@@ -878,6 +969,7 @@ We can also use *logical* vectors (lists of `TRUE` and `FALSE` values) to pick e
 This is important, e.g., for subsetting data (getting rid of those pesky outliers!)
 
 As a simple example, we might want to focus on just the low-light values of $r_{max}$ in the *Chlorella* example:
+
 ```{r}
 X=read.table("ChlorellaGrowth.txt",header=TRUE)
 Light=X[,1]
@@ -895,48 +987,70 @@ If you want the positions at which `Light` is lower than 50, you could say
 `(1:length(Light))[Light<50]`, but you can also use a built-in function: `which(Light<50)`. If you wanted the position at which the maximum value
 of `Light` occurs, you could say `which(Light==max(Light))`. (This normally results in a vector of length 1; when could it give a longer vector?) There is even a built-in command for this specific function, `which.max` (although `which.max` always returns just the *first* position at which the maximum occurs).
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 What would happen if instead of setting `lowLight` you replaced `Light` by saying `Light=Light[Light<50]`, and then `rmax=rmax[Light<50]`? 
 
 Why would that be wrong? 
 
 Try it with some temporary variables --- set `Light2=Light` and `rmax2=rmax` and then play with `Light2` and `rmax2` so you dont mess up your working variables --- and work out what happened ...
-```
+
+:::
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`Light[Light<50 & rmax <= 2.0]`
-`rmax[Light<50 & rmax <= 2.0]`
+```{block2, echo = params$solution}
 
+::: Solution 
+
+        Light[Light<50 & rmax <= 2.0]
+        rmax[Light<50 & rmax <= 2.0]
+
+::: 
+  
 ```
 
 We can also combine logical operators (making sure to use the element-by-element `&` and `|` versions of AND and OR):
+
 ```{r}
 Light[Light<50 & rmax <= 2.0]
 rmax[Light<50 & rmax <= 2.0]
 ```
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 `runif(n)` is a function (more on it soon) that generates a vector of `n` random, uniformly distributed
 numbers between 0 and 1. Create a vector of 20 numbers, then select the subset of those numbers that
 is less than the mean. (If you want your answers to match mine exactly, use `set.seed(273)` to set the random-number generator to a particular starting point before you use `runif`. [273 is an arbitrary number I chose].)
+
+:::
+
+
+```{block2, echo = params$solution}
+
+::: Solution 
+
+        a = runif(20)
+        a[a < mean(a)]
+
+::: 
+
 ```
 
+::: Exercise
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`a = runif(20)`
-`a[a < mean(a)]`
-
-```
-
-```{block2, type="exercisebox",latex.options="{1}"}
 Find the *positions*  of the elements that are less than the mean of the vector you just created (e.g. if your vector were `(0.1 0.9. 0.7 0.3)` the answer would be `(1 4)`).
-```
+
+:::
 
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`which(a < mean(a))`
+```{block2, echo = params$solution}
+
+::: Solution
+
+        which(a < mean(a))
+
+::: 
 
 ```
 
@@ -952,17 +1066,24 @@ x[c("third","first")]
 Finally, it is sometimes handy to be able to drop a particular set of elements, rather than taking a particular set: you can do this with negative indices. For example, `x[-1]` extracts all but the first
 element of a vector.
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Specify two ways to take only the elements in the odd positions (first, third, ...) of a vector of arbitrary length.
-```
+
+:::
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`n = 20`
-`a = c(1:n)`
-`a1 = a[seq(1,n,2)]`
-`a2 = a[-seq(2,n,2)]`
+```{block2, echo = params$solution}
 
+::: Solution 
+
+        n = 20
+        a = c(1:n)
+        a1 = a[seq(1,n,2)]
+        a2 = a[-seq(2,n,2)]
+
+::: 
+  
 ```
 
 ## Matrices
@@ -970,60 +1091,81 @@ Specify two ways to take only the elements in the odd positions (first, third, .
 ### Creating matrices
 
 A matrix is a two-dimensional array, and has the same kind of variables in every column. You can  create matrices of numbers by creating a vector of the matrix entries, and then reshaping them to the desired number of rows and columns using the function `matrix`. For example
+
 ```{r}
 (X=matrix(1:6,nrow=2,ncol=3))
 ```
+
 takes the values 1 to 6 and reshapes them into a 2 by 3 matrix.
 
 By default `R` loads the values into the matrix *column-wise* (this is probably counter-intuitive since we're used to reading tables row-wise). Use the optional parameter `byrow` to change this behavior.
-For example :
+For example:
+
 ```{r}
 (A=matrix(1:9,nrow=3,ncol=3,byrow=TRUE))
 ```
 
 `R` will re-cycle through entries in the data vector, if necessary to fill a matrix of the specified size. So for example
+
 ```{r,eval=FALSE}
 matrix(1,nrow=10,ncol=10)
 ```
+
 creates a $10 \times 10$ matrix of ones.
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Use a command of the form `X=matrix(v,nrow=2,ncol=4)` where `v` is a data vector, to create the following matrix `X`:
-```
+
+:::
 
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`matrix(rep(1:2,4),nrow=2)`
+```{block2, echo = params$solution}
 
+::: Solution 
+
+        matrix(rep(1:2,4),nrow=2) 
+        
+::: 
+          
 ```
 
 ```{r, echo = FALSE}
 matrix(rep(1:2,4),nrow=2)
 ```
+
 If you can, try to use `R` commands to construct the vector rather than typing out all of the individual values.
 
 `R` will also collapse a matrix to behave like a vector whenever it makes sense: for example `sum(X)` above is 12.
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Use `rnorm` (which is like `runif`, but generates Gaussian (normally distributed) numbers with a specified mean and standard deviation instead) and `matrix` to create a $5 \times 7$ matrix of Gaussian random numbers with mean 1 and standard deviation 2. (Use `set.seed(273)` again for consistency.)
-```
+
+:::
 
 
+```{block2, echo = params$solution}
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`set.seed(273)`
-`matrix(rnorm(35,0,2),5,7)`
+::: Solution 
 
+        set.seed(273)
+        matrix(rnorm(35,0,2),5,7)
+
+::: 
+  
 ```
 
 Another useful function for creating matrices is `diag`. `diag(v,n)` creates an $n \times n$ matrix with data
 vector $v$ on its diagonal. So for example `diag(1,5)` creates the $5 \times 5$ *identity matrix*, which has 1's on the diagonal and 0 everywhere else. Try `diag(1:5,5)` and `diag(1:2,5)`; why does the latter produce a warning?
 
 Finally, you can use the `data.entry` function. This function can only edit existing matrices, but for example 
+
 ```{r,eval=FALSE}
 A=matrix(0,nrow=3,ncol=4)
 data.entry(A)
 ```
+
 will create `A` as a $3 \times 4$ matrix, and then call up a spreadsheet-like interface in which you can change the values to whatever you need.
 
 ```{r, echo = FALSE,result='asis'}
@@ -1045,40 +1187,53 @@ kable(data, caption = "Some important functions for creating and working with ma
 ```
 
 ### `cbind` and `rbind`
+
 If their sizes match, you can combine vectors to form matrices, and stick matrices together with vectors or other matrices. `cbind` ("column bind") and `rbind` ("row bind") are the functions to use.
 
 `cbind` binds together columns of two objects. One thing it can do is put vectors together to form a matrix:
+
 ```{r, chunk_101}
 (C=cbind(1:3,4:6,5:7))
 ```
+
 `R` interprets vectors as row or column vectors according to what you're doing with them. Here it treats them as column vectors so that columns exist to be bound together. On the other hand,
+
 ```{r}
 (D=rbind(1:3,4:6))
 ```
+
 treats them as rows. Now we have two matrices that can be combined.
 
-```{block2, type="exercisebox",latex.options="{1}"}
+::: Exercise
+
 Verify that `rbind(C,D)` works, `cbind(C,C)` works, but `cbind(C,D)` doesn't. Why not?
-```
 
-```{block2, type= "solutionbox", latex.options="{1}", echo = params$solution}
-`C=cbind(1:3,4:6,5:7)`
-`D=rbind(1:3,4:6)`
+:::
 
-`rbind(C,D)`
-`cbind(C,D)`
+```{block2, echo = params$solution}
 
+::: Solution 
+
+        C=cbind(1:3,4:6,5:7)
+        D=rbind(1:3,4:6)
+        rbind(C,D)
+        cbind(C,D) 
+
+::: 
+  
 ```
 
 ### Matrix indexing
 
 Matrix indexing is like vector indexing except that you have to specify both the row and column, or range of rows and columns. For example `z=A[2,3]` sets `z` equal to 6, which is the (2nd row, 3rd column) entry of the matrix **A** that you recently created, and
+
 ```{r}
 A[2,2:3]
 (B=A[2:3,1:2])
 ```
 
 There is an easy shortcut to extract entire rows or columns: leave out the limits, leaving a blank before or after the comma.
+
 ```{r}
 (first.row=A[1,])
 (second.column=A[,2])
@@ -1087,17 +1242,20 @@ There is an easy shortcut to extract entire rows or columns: leave out the limit
 (What does `A[,]` do?)
 
 As with vectors, indexing also works in reverse for assigning values to matrix entries. For example,
+
 ```{r}
 (A[1,1]=12)
 ```
 
 You can do the same with blocks, rows, or columns, for example
+
 ```{r}
 (A[1,]=c(2,4,5))
 ```
 
 If you use `which` on a matrix, `R` will normally treat the matrix as a vector --- so for example `which(A==8)` will give the answer 6 (figure out why). However, `which` does have an option that will treat its argument
 as a matrix:
+
 ```{r}
 which(A==8,arr.ind=TRUE)
 ```
