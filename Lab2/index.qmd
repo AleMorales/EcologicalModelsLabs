@@ -39,7 +39,15 @@ library(emdbook)
 
 This lab will teach you how 1) to read in data and reshape it so it matches your needs, and 2) to make different types of graphs that you need for data exploration and presentation purposes. It does so by reproducing the figures shown in Chapter 2 and more. The exercises, which will be more difficult than those in Lab 1, will typically involve variations on the figures shown in the text. You will work through reading in the different data sets and constructing the figures shown, or variants of them. It would be even better to work through reading in and making exploratory plots of your own data.
 
-# Read in and reshape data
+# Clear workspace and read in and reshape data
+
+First I'm going to clear the workspace with `rm(list=ls())`. `ls()` lists all the objects in the workspace with `ls()` and then uses `rm()` to remove them. It is recommend to have this code at the top of every script, so every time you start working on the script you are sure the memory is cleared. You can also clear workspace from the menu in Rstudio (the little brush in the topright panel) and read in the measles data, which are space separated and have a header:
+
+```{r}
+rm(list = ls())
+```
+
+
 
 ## Reading data
 
@@ -540,31 +548,30 @@ for (i in 1:8){
 }
 ```
 
-I'm going to clear the workspace with `rm(list=ls())`. `ls()` lists all the objects in the workspace with `ls()` and then uses `rm()` to remove them. It is recommend to have this code at the top of every script, so every time you start working on the script you are sure the memory is cleared. You can also clear workspace from the menu in Rstudio (the little brush in the topright panel) and read in the measles data, which are space separated and have a header:
+## Multi-line plots
+
+To illustrate how to make a multiline plot, we will read a different dataset
 
 ```{r}
-rm(list = ls())
-data = read.table("ewcitmeas.dat", header = TRUE, na.strings = "*")
+data.meas = read.table("ewcitmeas.dat", header = TRUE, na.strings = "*")
 
 ```
 
 `year`, `mon`, and `day` were read in as integers: I'll create a date variable as described above. For convenience, I'm also defining a variable with the city names.
 
 ```{r}
-date = as.Date(paste(data$year + 1900, data$mon, data$day, sep = "/"))
-city_names = colnames(data)[4:10]
+date = as.Date(paste(data.meas$year + 1900, data.meas$mon, data.meas$day, sep = "/"))
+city_names = colnames(data.meas)[4:10]
 ```
 
 Later on it will be useful to have the data in long format. It's easiest to do use `melt` for this purpose. Note that only need to select the appropriate columns to melt (i.e. 4-11).
 
 ```{r}
 library(reshape2)
-data= cbind(data,date)
-data_long = melt(data[,4:11],id.vars=8,variable.name = "city",
+data.meas= cbind(data.meas,date)
+data_long = melt(data.meas[,4:11],id.vars=8,variable.name = "city",
                  value.name="incidence")
 ```
-
-## Multiple-line plots
 
 We can make a plot with multiple lines as follows. We first setup the plotting region using `plot` followed by the function `lines` to add lines to the existing plot. Note that in the plotting command `type="l"` is used to specify that lines are drawn instead of point (`type="p"`, the default). A legend can be added by adding the function `legend`
 
@@ -586,7 +593,7 @@ legend("topright",legend=unique.city,col=1:8,lty=1)
 I'll start by just collapsing all the incidence data into a single, logged, non-NA vector (in this case I have to use `c(as.matrix(x))` to collapse the data and remove all of the data frame information):
 
 ```{r}
-allvals = na.omit(c(as.matrix(data[, 4:10])))
+allvals = na.omit(c(as.matrix(data.meas[, 4:10])))
 logvals = log10(1 + allvals)
 ```
 
@@ -620,7 +627,7 @@ Figure out how to use apply() and scale() to scale all columns so they have a mi
 
 This solution can be made more elegant once we have learned to program our own functions
 
-`incidence = data[,4:10]`
+`incidence = data.meas[,4:10]`
 
 `incidence.min= apply(incidence,2,min,na.rm=T)`
 
