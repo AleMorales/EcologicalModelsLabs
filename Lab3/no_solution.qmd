@@ -27,26 +27,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this lab you will learn to analyse mathematical functions. This is an important step in ecological modelling. Next, we proceed with analysing and programming these functions in `R`. To do so, you will need more advanced programming skills such as for-loops, if-else statements and functions.
 
-# Getting familiar with a bestiary of functions
+# Essential analytical skills 
 
 The models that we will be fitting to data are composed of a deterministic component and a stochastic component. The deterministic component describes the expected pattern in absence of any randomness. You are not restricted to linear functions (as in linear regression) but you can choose among different functions.
 
-Remember that functions can be purely phenomological or mechanistic (see p.21 of Bolker). Bolker mentions the following non-linear functions in his chapter about a bestiary of functions: Hyperbolic, Michaelis-Menten (=Monod or Holling type II), Holling type III, Holling type IV, negative exponential, monomolecular (=limited exponential growth), Ricker, logistic, power law, von Bertalanffy, Sheppard, Hassell, non-rectangular hyperbola.
+Remember that functions can be purely phenomological or mechanistic (see p.21 of Bolker). Bolker mentions the following non-linear functions in his chapter about a bestiary of functions: Hyperbolic, Michaelis-Menten (=Monod or Holling type II), Holling type III, Holling type IV, negative exponential, monomolecular (=limited exponential growth), Ricker, logistic, power law, von Bertalanffy, Sheppard, Hassell, non-rectangular hyperbola. 
 
-```{block2, type = "exercisebox",latex.options="{3}"}
-This exercise is the first in a series of connected and sequential exercises. The dataset 'shapes.xlsx' contains six different datasets, of which only the first two wil be used in this exercise, but if you want to practice more, you can do the exercise below for the remaining four as well.
+To choose a function one needs to be able to analyse its behaviour, in particular what happens to function values close to zero and when x goes to infinity.  
+
+A series of connected and sequential exercises will be given. These exercises are based on the dataset 'shapes.xlsx' and contains six different datasets, of which only the first two will be used in this exercise, but if you want to practice more, you can do the exercise below for the remaining four as well.
 
 To make yourself familiar with a number of deterministic functions, you are asked to take a number of steps: read in a dataset into `R`, make plots of the first two datasets and choose at least two appropriate functions for each dataset. Next, you will explore the properties of the selected functions after which you will choose appropriate parameter values through eyeballing so you get a reasonable fit between the data and the choosen function.
-
-
-
-A pseudocode that implements this idea:
-
-1. Read the first two datasets that are in `shapes.xlsx`. Save each sheet as `.csv` file and read it in.
-
-2. Plot the datasets in different graphs in a panel plot (_hint_: `par(mfrow=c(..,..)`, and `plot`))
-
-3. Choose (at least) two appropriate functions based on the type of data or the shape of the data.
 
     + _hint 1_: dataset 1 describes a light response curve of ten individual plants
     + _hint 2_: dataset 2 describes the intake rate of a predator as a function of prey density
@@ -55,7 +46,15 @@ A pseudocode that implements this idea:
     + _hint 5_: This dataset you need to figure out for yourselves.
     + _hint 6_: **optional** dataset 6 a species response curve (presence/absence). Fit a model that models the               probability of presence (use google to find a good one).
 
-4. Explore the properties of the selected functions in the following steps:
+
+
+The following exercise is a must; each written exam contains a question that is like it.
+
+```{block2, type = "exercisebox",latex.options="{3}"}
+
+1. Choose (at least) two appropriate functions based on the type of data or the shape of the data.
+
+2. Explore the properties of the selected functions in the following steps:
 
     a. What is the value of $f(0)$ and $f'(0)$?
 
@@ -64,12 +63,148 @@ A pseudocode that implements this idea:
     c. What are the limits for $x\to-\infty$ for $f(x)$ and $f'(x)$
 
     d. If $f(x)$ saturates at, say the value $a$, for $x\to\infty$ then determine the $x$-value $x_1$ at which $f(x_1)=\frac{a}{2}$. If $f(x)$ obtains a maximum value, find the $x$ and $y$ coordinate of the maximum.
+```
 
-5. Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values.
 
-6. Time permitting repeat subquestions 3-5 for the other three datasets.
+```{block2, type= "solutionbox", latex.options="{block-green}{3}", echo = params$solution}
+
+
+Choosing appropriate deterministic functions
+
+      **dataset 1**
+      light response curve. There are a number of options of functions to choose from, depending on the level of sophistication:
+      $\frac{ax}{(b+x)}$, $a(1-e^{(-bx)})$, $\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})$ see page 98 of Bolker.
+
+      **dataset 2**
+      The dataset describes a functional response. Bolker mentions four of those $min(ax,s)$ $\frac{ax}{(b+x)}$, $\frac{ax^2}{(b^2+x^2)}$,$\frac{ax^2}{(b+cx+x^2)}$
+
+      **dataset 3**
+      Allometric relationships have the form $ax^b$
+
+      **dataset 4**
+      This could be logistic growth $n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}$ or the gompertz function $f(x)=e^{-ae^{-bx}}$
+
+      **dataset 5**
+      What about a negative exponential? $ae^{-bx}$ or a power function $ax^b$
+
+      **dataset 6**
+      Species reponse curves are curves that describe the probability of presence as a function of an environmental variable. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g.
+      $a e^{\frac{-(x-\mu)^2}{2\sigma^2}}$
+
+2. See the word file on Brightspace "Bestiary of functions.docx"
 
 ```
+
+
+# Eyeballing 
+
+After you have chosen an analytical function, and you have done the necessary math, you are able to eyeball (make an educated guess) of the parameter values of the function so it reasonably fit the data. This step is necessary for two reasons: 1) if you have fitted the function to the data through formal procedures (minimizing sum of squares, or by maximization of the likelihood, Ch. 6) you can easily check whether the resulting parameter values make sense. 2) optimizers (algorithms that seek to find the best fitting curve through changes parameter values in a clever way) will be better able to find the best set of parameters if you give them a reasonable starting values
+
+## Plotting curves 
+
+Here are the `R` commands used to generate Figure 3.2 in the book (p 74). They just use `curve()`, with `add=FALSE` (the default, which draws a new plot) and `add=TRUE` (adds the curve to an existing plot), particular values of `from` and `to`, and various graphical parameters (`ylim`, `ylab`, `lty`).
+
+```{r, eval=FALSE}
+curve(2*exp(-x/2),from=0,to=7,ylim=c(0,2),ylab="")
+curve(2*exp(-x),add=TRUE,lty=4)
+curve(x*exp(-x/2),add=TRUE,lty=2)
+curve(2*x*exp(-x/2),add=TRUE,lty=3)
+text(0.4,1.9,expression(paste("exponential: ",2*e^(-x/2))),adj=0)
+text(4,.5,expression(paste("Ricker: ",x*e^(-x/2))))
+text(4,1,expression(paste("Ricker: ",2*x*e^(-x/2))),adj=0)
+text(2.8,0,expression(paste("exponential: ",2*e^(-x))))
+```
+
+The only new thing in this figure is the use of `expression()` to add a mathematical formula to an `R` graphic. `text(x,y,"x^2")` puts `x^2` on the graph at position $(x,y)$; `text(x,y,expression(x^2))` (no quotation marks) puts $x^2$ on the graph. See `?plotmath` or `?demo(plotmath)` for (much) more information.
+
+An alternate way of plotting the exponential parts of this curve:
+
+```{r}
+xvec = seq(0,7,length=100)
+exp1_vec = 2*exp(-xvec/2)
+exp2_vec = 2*exp(-xvec)
+```
+
+```{r, eval = FALSE}
+plot(xvec,exp1_vec,type="l",ylim=c(0,2),ylab="")
+lines(xvec,exp2_vec,lty=4)
+```
+
+Finally, if you have a more complicated function you could use `sapply()` to call this function along with appropriate parameter values. you could say:
+
+```{r}
+expfun = function(x,a=1,b=1) {
+   a*exp(-b*x)
+ }
+exp1_vec = sapply(xvec,expfun,a=2,b=1/2)
+exp2_vec = sapply(xvec,expfun,a=2,b=1)
+```
+
+The advantage of `curve()` is that you don't have to define any vectors: the advantage of doing things the other way arises when you want to keep the vectors around to do other calculations with them.
+
+```{block2, type = "exercisebox",latex.options="{3}"}
+Construct a curve that has a maximum at ($x=5$, $y=1$).  Write the equation, draw the curve in `R`, and explain how you got there.
+```
+
+```{block2, type= "solutionbox", latex.options="{block-green}{3}", echo = params$solution}
+
+For example: $-(x-5)^2+1$
+
+`curve(-(x-5)^2+1,from=-10,to=10)`
+
+`abline(v=5)`
+
+`abline(h=1)`
+
+```
+
+```{block2, type = "exercisebox",latex.options="{3}"}
+Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values. Plot the curves on top of the data using `curve`.
+```
+
+
+```{block2, type = "exercisebox",latex.options="{3}"}
+Time permitting repeat subquestions 3-5 for the other three datasets.
+```
+
+
+```{block2, type= "solutionbox", latex.options="{block-green}{3}", echo = params$solution}
+
+1. The first step is to read in the data. The data is stored in different sheet of the file `shapes.xlsx`. Select a sheet, go to `file` and 'save as' and save the sheet as a comma-separated-file (.csv). Check if the file was saved correctly: Open the file in notepad, and check if the columns are separated by a comma and the decimal point is a '.'. Beware that if you are using a computer with dutch settings, you may run into problems for two reasons: First, the decimal character is a comma `,` in Dutch. Second the default list separator is a semicolon `;` in Dutch instead of a `,`. If this is not correct; go to control panel; to region and language settings; to advanced settings and change the decimal character into a `.`  and the list separator (lijstschijdingsteken) in to a `,`.
+
+`setwd("D://...//...//...)`
+`shapes1 = read.csv(shapes1.csv)`
+
+
+2. After you have read in the data, you can make a plot, e.g. through `plot(shapes1$y~ shapes1$x)` or `plot(y~x,data=shapes1)` for dataset 1. Multiple plots can be made through specifying `par(mfrow=c(3,2))`. This will setup the grid, after using `plot` six times, the grid will be filled with plots. Note that all the datasets are different in their specification of the header (names). You can take account of the header name through `header=TRUE` inside the `read.csv` function. Check the datafiles to make sure whether or not there are column headings.
+
+
+Curves can be added to the plots through `curve`: e.g. `curve(2x+2x,from=0,to=20)`
+
+      **dataset 1**
+      Reasonable values for the first dataset assuming a michaelis menten relationship are a=25 and b=60. For the            non-rectangular parabola one could choose values of theta = 0.7; a = 0.25; pmax = 25.
+
+
+      **dataset 2**
+      `curve(ifelse(x>27,18,(2/3)*x),add=T)`
+
+      `curve(20*x/(10+x),add=T)`
+
+      **dataset 3**
+      `curve(0.6*x^2,add=T)`
+
+      **dataset 4**
+        `K = 200; r = 0.2; N0=2; curve(K/(1+(K/N0)*exp(-r*x)),add=T)`
+
+      **dataset 5**
+      `curve(8*(exp(-0.75*x)),add=T)  `
+
+      **dataset 6**
+      `mu = 5; b = 2; curve(exp(-(mu-x)^2/b)  ,add=T)`
+
+
+```
+
 
 ```{r, eval=F, echo=F}
 set.seed(101)
@@ -136,66 +271,9 @@ all = rbind(photo,predprey,allometric,population,countprocess,speciesoccurence)
 write.csv(all,"shapes.csv",row.names=F)
 ```
 
-```{block2, type= "solutionbox", latex.options="{block-green}{3}", echo = params$solution}
-1. The first step is to read in the data. The data is stored in different sheet of the file `shapes.xlsx`. Select a sheet, go to `file` and 'save as' and save the sheet as a comma-separated-file (.csv). Check if the file was saved correctly: Open the file in notepad, and check if the columns are separated by a comma and the decimal point is a '.'. Beware that if you are using a computer with dutch settings, you may run into problems for two reasons: First, the decimal character is a comma `,` in Dutch. Second the default list separator is a semicolon `;` in Dutch instead of a `,`. If this is not correct; go to control panel; to region and language settings; to advanced settings and change the decimal character into a `.`  and the list separator (lijstschijdingsteken) in to a `,`.
+# Modelling functions and calculating outcomes
 
-`setwd("D://...//...//...)`
-`shapes1 = read.csv(shapes1.csv)`
-
-
-2. After you have read in the data, you can make a plot, e.g. through `plot(shapes1$y~ shapes1$x)` or `plot(y~x,data=shapes1)` for dataset 1. Multiple plots can be made through specifying `par(mfrow=c(3,2))`. This will setup the grid, after using `plot` six times, the grid will be filled with plots. Note that all the datasets are different in their specification of the header (names). You can take account of the header name through `header=TRUE` inside the `read.csv` function. Check the datafiles to make sure whether or not there are column headings.
-
-3. Choosing appropriate deterministic functions
-
-      **dataset 1**
-      light response curve. There are a number of options of functions to choose from, depending on the level of sophistication:
-      $\frac{ax}{(b+x)}$, $a(1-e^{(-bx)})$, $\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})$ see page 98 of Bolker.
-
-      **dataset 2**
-      The dataset describes a functional response. Bolker mentions four of those $min(ax,s)$ $\frac{ax}{(b+x)}$, $\frac{ax^2}{(b^2+x^2)}$,$\frac{ax^2}{(b+cx+x^2)}$
-
-      **dataset 3**
-      Allometric relationships have the form $ax^b$
-
-      **dataset 4**
-      This could be logistic growth $n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}$ or the gompertz function $f(x)=e^{-ae^{-bx}}$
-
-      **dataset 5**
-      What about a negative exponential? $ae^{-bx}$ or a power function $ax^b$
-
-      **dataset 6**
-      Species reponse curves are curves that describe the probability of presence as a function of an environmental variable. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g.
-      $a e^{\frac{-(x-\mu)^2}{2\sigma^2}}$
-
-4. See the word file on Brightspace "Bestiary of functions.docx"
-
-5. Curves can be added to the plots through `curve`: e.g. `curve(2x+2x,from=0,to=20)`
-
-      **dataset 1**
-      Reasonable values for the first dataset assuming a michaelis menten relationship are a=25 and b=60. For the            non-rectangular parabola one could choose values of theta = 0.7; a = 0.25; pmax = 25.
-
-
-      **dataset 2**
-      `curve(ifelse(x>27,18,(2/3)*x),add=T)`
-
-      `curve(20*x/(10+x),add=T)`
-
-      **dataset 3**
-      `curve(0.6*x^2,add=T)`
-
-      **dataset 4**
-        `K = 200; r = 0.2; N0=2; curve(K/(1+(K/N0)*exp(-r*x)),add=T)`
-
-      **dataset 5**
-      `curve(8*(exp(-0.75*x)),add=T)  `
-
-      **dataset 6**
-      `mu = 5; b = 2; curve(exp(-(mu-x)^2/b)  ,add=T)`
-
-
-```
-
-# For loops
+## For loops
 
 When programming your data analysis, you often need to iterate over multiple elements of a collection. These elements could be rows of a `data.frame`, datasets inside a `list`, numbers inside a vector, etc. The iteration usually means that you apply the same code over each element of the collection and you don't want to "copy-paste" the code for each element. Iterating over a collection is called a "for loop" in programming. A for loop consists of three components:
 
@@ -259,7 +337,7 @@ Note that the print statement was added to print to screen
 
 ```
 
-# Missing values (NA)
+## Handling missing values (NA)
 
 Missing values in data collection and analysis deserve special attention. You can get missing values during you data collection for various reasons, e.g. you missed the opportunity to take a measurement, you lose one of the replicates due to contamination, you wrote down a wrong value, or you even lost some of your data.
 
@@ -329,7 +407,7 @@ calculate the mean value and the standard error of this mean ($s.e.m. = \sigma/\
 
 ```
 
-# Making a function
+## Making a function
 
 When you want to repeat a calculation for different data, it is best to code your calculations inside a function. `R` consists of many built-in functions, but sometimes you need to do a calculation that is not available in `R`. A function is defined by 4 elements
 
@@ -412,66 +490,6 @@ Make you own function for the sem and use your own home-made function of the sta
 
 As you see you can call functions inside functions. It is recommended to divide the work you want to do into little functions that each carry out a specific task, and then combine those functions into a larger function that combines these tasks. This facilitates error checking.
 
-# Numerical explorations: plotting curves
-
-Here are the `R` commands used to generate Figure 3.2 in the book (p 74). They just use `curve()`, with `add=FALSE` (the default, which draws a new plot) and `add=TRUE` (adds the curve to an existing plot), particular values of `from` and `to`, and various graphical parameters (`ylim`, `ylab`, `lty`).
-
-```{r, eval=FALSE}
-curve(2*exp(-x/2),from=0,to=7,ylim=c(0,2),ylab="")
-curve(2*exp(-x),add=TRUE,lty=4)
-curve(x*exp(-x/2),add=TRUE,lty=2)
-curve(2*x*exp(-x/2),add=TRUE,lty=3)
-text(0.4,1.9,expression(paste("exponential: ",2*e^(-x/2))),adj=0)
-text(4,.5,expression(paste("Ricker: ",x*e^(-x/2))))
-text(4,1,expression(paste("Ricker: ",2*x*e^(-x/2))),adj=0)
-text(2.8,0,expression(paste("exponential: ",2*e^(-x))))
-```
-
-The only new thing in this figure is the use of `expression()` to add a mathematical formula to an `R` graphic. `text(x,y,"x^2")` puts `x^2` on the graph at position $(x,y)$; `text(x,y,expression(x^2))` (no quotation marks) puts $x^2$ on the graph. See `?plotmath` or `?demo(plotmath)` for (much) more information.
-
-An alternate way of plotting the exponential parts of this curve:
-
-```{r}
-xvec = seq(0,7,length=100)
-exp1_vec = 2*exp(-xvec/2)
-exp2_vec = 2*exp(-xvec)
-```
-
-```{r, eval = FALSE}
-plot(xvec,exp1_vec,type="l",ylim=c(0,2),ylab="")
-lines(xvec,exp2_vec,lty=4)
-```
-
-Finally, if you have a more complicated function you could use `sapply()` to call this function along with appropriate parameter values. you could say:
-
-```{r}
-expfun = function(x,a=1,b=1) {
-   a*exp(-b*x)
- }
-exp1_vec = sapply(xvec,expfun,a=2,b=1/2)
-exp2_vec = sapply(xvec,expfun,a=2,b=1)
-```
-
-The advantage of `curve()` is that you don't have to define any vectors: the advantage of doing things the other way arises when you want to keep the vectors around to do other calculations with them.
-
-```{block2, type = "exercisebox",latex.options="{3}"}
-Construct a curve
-that has a maximum at ($x=5$, $y=1$).  Write the
-equation, draw the curve in `R`, and explain
-how you got there.
-```
-
-```{block2, type= "solutionbox", latex.options="{block-green}{3}", echo = params$solution}
-
-For example: $-(x-5)^2+1$
-
-`curve(-(x-5)^2+1,from=-10,to=10)`
-
-`abline(v=5)`
-
-`abline(h=1)`
-
-```
 
 # A quick digression: `ifelse()` for piecewise functions
 

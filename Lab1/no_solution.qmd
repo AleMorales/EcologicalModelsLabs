@@ -50,13 +50,14 @@ setwd("C:/Users/douma002/OneDrive - WageningenUR/Education/CSA-34306 Ecological 
 ```
 
 
-# How to use this tutorial
+# R for beginners
+## How to use this tutorial
 
 * This tutorial contains many sample calculations. It is important to do these yourself---**type them in at your keyboard and see what happens on your screen**---to get the feel of working in `R`. 
 
 * **Exercises** in the middle of a section should be done immediately, and make sure you have them rightly solved before moving on. Some other, more challenging, exercises appear at the end of some sections, and these can be left until later.  
 
-# What is `R`?
+## What is `R`?
 
 `R` is an object-oriented scripting language that  
 
@@ -70,7 +71,7 @@ setwd("C:/Users/douma002/OneDrive - WageningenUR/Education/CSA-34306 Ecological 
 
 `R` is an open source project, available for free download via the Web. Originally a research project in statistical computing it is now managed by a development team that includes a number of well-regarded statisticians. It is widely used by statistical researchers and a growing number of theoretical ecologists and ecological modelers as a platform for making new methods available to users. 
 
-# Installing `R` on your computer: basics
+## Installing `R` on your computer: basics
 
 If `R` is already installed on your computer, you can skip this section.
 
@@ -87,14 +88,14 @@ download section, go to `base` rather than `contrib`. Download the binary file (
 * Read and follow the instructions (which are pretty much "click on the icon").
 
 
-# Installing and using Rstudio  
+## Installing and using Rstudio  
 Nowadays programs are available that integrate `R` in a sophisticated way by combining a console, a *syntax highlighting* editor (giving colors to `R` commands and allowing you to identify missing parentheses, quotation marks etc.), tools for plotting, debugging, workspace management and connections to versioning systems into one program. Rstudio is currently the most advanced wrapper around R and is highly recommended if `R` is the core of your work. Rstudio can be found and downloaded at https://www.rstudio.com. 
 
 If a new `R` version is launched after you installed Rstudio, you can change the `R` version that is used in Rstudio by clicking on `Tools` and `Global Options`, choose `R general` and select the location of the most recent `R` version.
 
 Rstudio usually displays four panels. The default setting is a script editor at the top-left of the screen, the console at the bottom-left, the global environment (which shows what is stored in the memory) at the top-right, and a plotting region at bottom-right. As you see some panel have multiple tabs that include other useful features such as the help (bottom-right), the (available and loaded) packages (bottom-right) etc.
 
-# The `R` package system
+## The `R` package system
 The standard distributions of `R` include several *packages*, user-contributed suites of add-on functions. This lab uses some packages that are not part of the standard distribution. In general, you can install additional packages 
 from within `R` using the `Packages` menu, or the `install.packages` command.
 
@@ -135,7 +136,7 @@ kable(data, caption = "A few of the functions and packages in `R` for statistica
 ```
 
 
-# Interactive calculations in the console
+## Interactive calculations in the console
 
 The console is where you enter commands for `R` to execute *interactively*, meaning that the command is executed and the result is displayed as soon as you hit the `Enter` key (bottom-left panel in Rstudio). For example, at the command prompt `>`, type in `2+2` and hit `Enter`; you will see 
 
@@ -272,7 +273,7 @@ Using editing shortcuts wherever you can, have `R` compute the values of:
 :::
 ```
 
-# The help system
+## The help system
 R has a help system, although it is generally better for providing detail or reminding you how to do things than for basic ``how do I ...?'' questions.
 
 * You can get help on any R function by entering
@@ -293,8 +294,9 @@ In our experience, the help provided by `R` requires some experience in the `R` 
 
 
 
+# Scripts and Reading Data
 
-# Using scripts and data files
+## Using scripts and data files
 Modeling and complicated data analysis are often much easier if you use *scripts*, which are a series of commands stored in a text file. Scripting has a number of advantages and should be standard practice when doing statstics for reasons of transparency (you can see what you have done), repeatability (tomorrow you will get the same result as today) and transferability (a colleague can easily check what you have done and redo your analysis). Even for relatively simple tasks, script files are useful for building up a calculation step-by-step, making sure that each part works before adding on to it. We recommend you making a habit typing all commands in a script editor before sending it the console, otherwise important parts of your analysis may get lost because you did not store them.
 
 Rstudio has an advanced script editor that recognizes `R` syntax by giving different colors to different `R` commands and by automatic completion of parentheses. You can also use Windows Notepad or Wordpad but you **should not** use MS Word.
@@ -317,7 +319,7 @@ a single forward slash to separate folders (e.g. `"c:/My Documents/R/script.R"`)
 
 * change your working directory to wherever the file(s) are located using the `setwd` (**set** **w**orking **d**irectory) function, e.g. `setwd("c:/temp")` or through clicking on 'Session' and 'set working directory'. Changing your working directory is more efficient in the long run, if you save all the script and data files for a particular project in the same directory and switch to that directory when you start work.
 
-# Typical workflow in `R`: an example using linear regression
+## Typical workflow in `R`: an example using linear regression
 To get a feel for a typical workflow in R we'll fit a straight-line model (linear regression) to data.
 
 Start a blank `R` script (File -> New File -> R script) and save it on a convenient location.
@@ -1279,7 +1281,7 @@ You won't use lists too much at the beginning, but many of `R`'s own results are
 Data frames are the solution to the problem that most data sets have several different kinds of variables observed for each sample (e.g. categorical site location and continuous rainfall), but matrices can only contain a single type of data. Data frames are a hybrid of lists and vectors; internally, they are a list of vectors that may be of different types but must all be the same length, but you can do most of the same things with them (e.g., extracting a subset of rows) that you can do with matrices. You can index them either the way you would index a list, using `[[ ]]` or `$` --- where each variable is a different item in the list --- or the way you would index a matrix. Use `as.matrix` if you have a data frame (where all variables are the same type) that you really want to be a matrix, e.g. if you need to transpose it (use `as.data.frame` to go the other way).
 
 
-# References & Acknowlegdments
+# References & Acknowlegdements
 
 These notes are based in part on course materials by former TAs Colleen Webb, Jonathan Rowell and Daniel Fink at Cornell, Professors Lou Gross (University of Tennessee) and Paul Fackler (NC State University), and on the book *Getting Started with Matlab* by Rudra Pratap (Oxford University Press). They also draw on the documentation supplied with `R`. They parallel, but go into more depth than, the chapter supplement for the book *Ecological Models and Data in `R`*.
 
