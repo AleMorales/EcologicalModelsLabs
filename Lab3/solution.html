@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.242">
+<meta name="generator" content="quarto-1.2.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -104,6 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -123,6 +124,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+.Exercise {
+  --color1: #00ff00;
+  --color2: #d9d9d9;
+}
+.Solution {
+  --color1: #80bfff;
+  --color2: #d9d9d9;
+}
+</style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -240,13 +251,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
-  <li><a href="#getting-familiar-with-a-bestiary-of-functions" id="toc-getting-familiar-with-a-bestiary-of-functions" class="nav-link" data-scroll-target="#getting-familiar-with-a-bestiary-of-functions"><span class="toc-section-number">2</span>  Getting familiar with a bestiary of functions</a></li>
-  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">3</span>  For loops</a></li>
-  <li><a href="#missing-values-na" id="toc-missing-values-na" class="nav-link" data-scroll-target="#missing-values-na"><span class="toc-section-number">4</span>  Missing values (NA)</a></li>
-  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function"><span class="toc-section-number">5</span>  Making a function</a></li>
-  <li><a href="#numerical-explorations-plotting-curves" id="toc-numerical-explorations-plotting-curves" class="nav-link" data-scroll-target="#numerical-explorations-plotting-curves"><span class="toc-section-number">6</span>  Numerical explorations: plotting curves</a></li>
-  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions"><span class="toc-section-number">7</span>  A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
-  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r"><span class="toc-section-number">8</span>  Evaluating derivatives in <code>R</code></a></li>
+  <li><a href="#essential-analytical-skills" id="toc-essential-analytical-skills" class="nav-link" data-scroll-target="#essential-analytical-skills"><span class="toc-section-number">2</span>  Essential analytical skills</a></li>
+  <li><a href="#eyeballing" id="toc-eyeballing" class="nav-link" data-scroll-target="#eyeballing"><span class="toc-section-number">3</span>  Eyeballing</a>
+  <ul class="collapse">
+  <li><a href="#plotting-curves" id="toc-plotting-curves" class="nav-link" data-scroll-target="#plotting-curves"><span class="toc-section-number">3.1</span>  Plotting curves</a></li>
+  </ul></li>
+  <li><a href="#modelling-functions-and-calculating-outcomes" id="toc-modelling-functions-and-calculating-outcomes" class="nav-link" data-scroll-target="#modelling-functions-and-calculating-outcomes"><span class="toc-section-number">4</span>  Modelling functions and calculating outcomes</a>
+  <ul class="collapse">
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">4.1</span>  For loops</a></li>
+  <li><a href="#handling-missing-values-na" id="toc-handling-missing-values-na" class="nav-link" data-scroll-target="#handling-missing-values-na"><span class="toc-section-number">4.2</span>  Handling missing values (NA)</a></li>
+  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function"><span class="toc-section-number">4.3</span>  Making a function</a></li>
+  </ul></li>
+  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions"><span class="toc-section-number">5</span>  A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
+  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r"><span class="toc-section-number">6</span>  Evaluating derivatives in <code>R</code></a></li>
   </ul>
 </nav>
     </div>
@@ -286,28 +303,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>In this lab you will learn to analyse mathematical functions. This is an important step in ecological modelling. Next, we proceed with analysing and programming these functions in <code>R</code>. To do so, you will need more advanced programming skills such as for-loops, if-else statements and functions.</p>
 </section>
-<section id="getting-familiar-with-a-bestiary-of-functions" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Getting familiar with a bestiary of functions</h1>
+<section id="essential-analytical-skills" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Essential analytical skills</h1>
 <p>The models that we will be fitting to data are composed of a deterministic component and a stochastic component. The deterministic component describes the expected pattern in absence of any randomness. You are not restricted to linear functions (as in linear regression) but you can choose among different functions.</p>
 <p>Remember that functions can be purely phenomological or mechanistic (see p.21 of Bolker). Bolker mentions the following non-linear functions in his chapter about a bestiary of functions: Hyperbolic, Michaelis-Menten (=Monod or Holling type II), Holling type III, Holling type IV, negative exponential, monomolecular (=limited exponential growth), Ricker, logistic, power law, von Bertalanffy, Sheppard, Hassell, non-rectangular hyperbola.</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-1_e081948bacf5b15ef561c49bad872226">
-
-<div class="exercisebox">
-<p>This exercise is the first in a series of connected and sequential exercises. The dataset ‘shapes.xlsx’ contains six different datasets, of which only the first two wil be used in this exercise, but if you want to practice more, you can do the exercise below for the remaining four as well.</p>
+<p>To choose a function one needs to be able to analyse its behaviour, in particular what happens to function values close to zero and when x goes to infinity.</p>
+<p>A series of connected and sequential exercises will be given. These exercises are based on the dataset ‘shapes.xlsx’ and contains six different datasets, of which only the first two will be used in this exercise, but if you want to practice more, you can do the exercise below for the remaining four as well.</p>
 <p>To make yourself familiar with a number of deterministic functions, you are asked to take a number of steps: read in a dataset into <code>R</code>, make plots of the first two datasets and choose at least two appropriate functions for each dataset. Next, you will explore the properties of the selected functions after which you will choose appropriate parameter values through eyeballing so you get a reasonable fit between the data and the choosen function.</p>
-<p>A pseudocode that implements this idea:</p>
+<pre><code>+ _hint 1_: dataset 1 describes a light response curve of ten individual plants
++ _hint 2_: dataset 2 describes the intake rate of a predator as a function of prey density
++ _hint 3_: dataset 3 the data describe an allometric relationship
++ _hint 4_: dataset 4 contains measurements of population size over time
++ _hint 5_: This dataset you need to figure out for yourselves.
++ _hint 6_: **optional** dataset 6 a species response curve (presence/absence). Fit a model that models the               probability of presence (use google to find a good one).</code></pre>
+<p>The following exercise is a must; each written exam contains a question that is like it.</p>
+<div id="Exercise-2.1" class="Exercise">
+<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 2.1</strong></summary><div>
 <ol type="1">
-<li><p>Read the first two datasets that are in <code>shapes.xlsx</code>. Save each sheet as <code>.csv</code> file and read it in.</p></li>
-<li><p>Plot the datasets in different graphs in a panel plot (<em>hint</em>: <code>par(mfrow=c(..,..)</code>, and <code>plot</code>))</p></li>
-<li><p>Choose (at least) two appropriate functions based on the type of data or the shape of the data.</p>
-<ul>
-<li><em>hint 1</em>: dataset 1 describes a light response curve of ten individual plants</li>
-<li><em>hint 2</em>: dataset 2 describes the intake rate of a predator as a function of prey density</li>
-<li><em>hint 3</em>: dataset 3 the data describe an allometric relationship</li>
-<li><em>hint 4</em>: dataset 4 contains measurements of population size over time</li>
-<li><em>hint 5</em>: This dataset you need to figure out for yourselves.</li>
-<li><em>hint 6</em>: <strong>optional</strong> dataset 6 a species response curve (presence/absence). Fit a model that models the probability of presence (use google to find a good one).</li>
-</ul></li>
+<li><p>Choose (at least) two appropriate functions based on the type of data or the shape of the data.</p></li>
 <li><p>Explore the properties of the selected functions in the following steps:</p>
 <ol type="a">
 <li><p>What is the value of <span class="math inline">\(f(0)\)</span> and <span class="math inline">\(f'(0)\)</span>?</p></li>
@@ -315,45 +328,139 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>What are the limits for <span class="math inline">\(x\to-\infty\)</span> for <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(f'(x)\)</span></p></li>
 <li><p>If <span class="math inline">\(f(x)\)</span> saturates at, say the value <span class="math inline">\(a\)</span>, for <span class="math inline">\(x\to\infty\)</span> then determine the <span class="math inline">\(x\)</span>-value <span class="math inline">\(x_1\)</span> at which <span class="math inline">\(f(x_1)=\frac{a}{2}\)</span>. If <span class="math inline">\(f(x)\)</span> obtains a maximum value, find the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinate of the maximum.</p></li>
 </ol></li>
-<li><p>Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values.</p></li>
-<li><p>Time permitting repeat subquestions 3-5 for the other three datasets.</p></li>
 </ol>
+</div></details>
 </div>
-</div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-2_881ffe0f8e6c418101483276b06127e7">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-1_4aeef64385df0531744fcc56b6a1227b">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<p>Choosing appropriate deterministic functions</p>
+<pre><code>  **dataset 1**
+  light response curve. There are a number of options of functions to choose from, depending on the level of sophistication:
+  $\frac{ax}{(b+x)}$, $a(1-e^{(-bx)})$, $\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})$ see page 98 of Bolker.
 
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-3_66a37929e64f0a1f2f5dab3cd1227fdc">
+  **dataset 2**
+  The dataset describes a functional response. Bolker mentions four of those $min(ax,s)$ $\frac{ax}{(b+x)}$, $\frac{ax^2}{(b^2+x^2)}$,$\frac{ax^2}{(b+cx+x^2)}$
 
-<div class="solutionbox">
+  **dataset 3**
+  Allometric relationships have the form $ax^b$
+
+  **dataset 4**
+  This could be logistic growth $n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}$ or the gompertz function $f(x)=e^{-ae^{-bx}}$
+
+  **dataset 5**
+  What about a negative exponential? $ae^{-bx}$ or a power function $ax^b$
+
+  **dataset 6**
+  Species reponse curves are curves that describe the probability of presence as a function of an environmental variable. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g.
+  $a e^{\frac{-(x-\mu)^2}{2\sigma^2}}$</code></pre>
+<ol start="2" type="1">
+<li>See the word file on Brightspace “Bestiary of functions.docx”</li>
+</ol>
+</div></details>
+</div>
+</div>
+</section>
+<section id="eyeballing" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Eyeballing</h1>
+<p>After you have chosen an analytical function, and you have done the necessary math, you are able to eyeball (make an educated guess) of the parameter values of the function so it reasonably fit the data. This step is necessary for two reasons: 1) if you have fitted the function to the data through formal procedures (minimizing sum of squares, or by maximization of the likelihood, Ch. 6) you can easily check whether the resulting parameter values make sense. 2) optimizers (algorithms that seek to find the best fitting curve through changes parameter values in a clever way) will be better able to find the best set of parameters if you give them a reasonable starting values</p>
+<section id="plotting-curves" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="plotting-curves"><span class="header-section-number">3.1</span> Plotting curves</h2>
+<p>Here are the <code>R</code> commands used to generate Figure 3.2 in the book (p 74). They just use <code>curve()</code>, with <code>add=FALSE</code> (the default, which draws a new plot) and <code>add=TRUE</code> (adds the curve to an existing plot), particular values of <code>from</code> and <code>to</code>, and various graphical parameters (<code>ylim</code>, <code>ylab</code>, <code>lty</code>).</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-2_bcdacdd8c7fc614023495437cc428e02">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">7</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">4</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(x<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.4</span>,<span class="fl">1.9</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"exponential: "</span>,<span class="dv">2</span><span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))),<span class="at">adj=</span><span class="dv">0</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,.<span class="dv">5</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Ricker: "</span>,x<span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Ricker: "</span>,<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))),<span class="at">adj=</span><span class="dv">0</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.8</span>,<span class="dv">0</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"exponential: "</span>,<span class="dv">2</span><span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The only new thing in this figure is the use of <code>expression()</code> to add a mathematical formula to an <code>R</code> graphic. <code>text(x,y,"x^2")</code> puts <code>x^2</code> on the graph at position <span class="math inline">\((x,y)\)</span>; <code>text(x,y,expression(x^2))</code> (no quotation marks) puts <span class="math inline">\(x^2\)</span> on the graph. See <code>?plotmath</code> or <code>?demo(plotmath)</code> for (much) more information.</p>
+<p>An alternate way of plotting the exponential parts of this curve:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-3_d9c1c0600a66a43f5a3c309cbeabf2e1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xvec <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>exp1_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-4_0bbc437789777face87f4bd59286db2a">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xvec,exp1_vec,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xvec,exp2_vec,<span class="at">lty=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, if you have a more complicated function you could use <code>sapply()</code> to call this function along with appropriate parameter values. you could say:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-5_b2a6b8f75696d8dd4272e12ce499f46e">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>expfun <span class="ot">=</span> <span class="cf">function</span>(x,<span class="at">a=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">1</span>) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   a<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>x)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>exp1_vec <span class="ot">=</span> <span class="fu">sapply</span>(xvec,expfun,<span class="at">a=</span><span class="dv">2</span>,<span class="at">b=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="fu">sapply</span>(xvec,expfun,<span class="at">a=</span><span class="dv">2</span>,<span class="at">b=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The advantage of <code>curve()</code> is that you don’t have to define any vectors: the advantage of doing things the other way arises when you want to keep the vectors around to do other calculations with them.</p>
+<div id="Exercise-3.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 3.1</strong></summary><div>Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span>, <span class="math inline">\(y=1\)</span>). Write the equation, draw the curve in <code>R</code>, and explain how you got there.<p></p>
+</div></details>
+</div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-6_ab44ee450bdfeac758ea9171a743fcae">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<p>For example: <span class="math inline">\(-(x-5)^2+1\)</span></p>
+<pre><code>    curve(-(x-5)^2+1,from=-10,to=10)
+    abline(v=5)
+    abline(h=1)</code></pre>
+</div></details>
+</div>
+</div>
+<div id="Exercise-3.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 3.2</strong></summary><div>Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values. Plot the curves on top of the data using <code>curve</code>.<p></p>
+</div></details>
+</div>
+<div id="Exercise-3.3" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 3.3</strong></summary><div>Time permitting repeat subquestions 3-5 for the other three datasets.<p></p>
+</div></details>
+</div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-7_cb704f4526463e2be7a5c2583ec0ee02">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
 <li>The first step is to read in the data. The data is stored in different sheet of the file <code>shapes.xlsx</code>. Select a sheet, go to <code>file</code> and ‘save as’ and save the sheet as a comma-separated-file (.csv). Check if the file was saved correctly: Open the file in notepad, and check if the columns are separated by a comma and the decimal point is a ‘.’. Beware that if you are using a computer with dutch settings, you may run into problems for two reasons: First, the decimal character is a comma <code>,</code> in Dutch. Second the default list separator is a semicolon <code>;</code> in Dutch instead of a <code>,</code>. If this is not correct; go to control panel; to region and language settings; to advanced settings and change the decimal character into a <code>.</code> and the list separator (lijstschijdingsteken) in to a <code>,</code>.</li>
 </ol>
 <p><code>setwd("D://...//...//...)</code> <code>shapes1 = read.csv(shapes1.csv)</code></p>
 <ol start="2" type="1">
-<li><p>After you have read in the data, you can make a plot, e.g.&nbsp;through <code>plot(shapes1$y~ shapes1$x)</code> or <code>plot(y~x,data=shapes1)</code> for dataset 1. Multiple plots can be made through specifying <code>par(mfrow=c(3,2))</code>. This will setup the grid, after using <code>plot</code> six times, the grid will be filled with plots. Note that all the datasets are different in their specification of the header (names). You can take account of the header name through <code>header=TRUE</code> inside the <code>read.csv</code> function. Check the datafiles to make sure whether or not there are column headings.</p></li>
-<li><p>Choosing appropriate deterministic functions</p>
-<p><strong>dataset 1</strong> light response curve. There are a number of options of functions to choose from, depending on the level of sophistication: <span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(a(1-e^{(-bx)})\)</span>, <span class="math inline">\(\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})\)</span> see page 98 of Bolker.</p>
-<p><strong>dataset 2</strong> The dataset describes a functional response. Bolker mentions four of those <span class="math inline">\(min(ax,s)\)</span> <span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(\frac{ax^2}{(b^2+x^2)}\)</span>,<span class="math inline">\(\frac{ax^2}{(b+cx+x^2)}\)</span></p>
-<p><strong>dataset 3</strong> Allometric relationships have the form <span class="math inline">\(ax^b\)</span></p>
-<p><strong>dataset 4</strong> This could be logistic growth <span class="math inline">\(n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}\)</span> or the gompertz function <span class="math inline">\(f(x)=e^{-ae^{-bx}}\)</span></p>
-<p><strong>dataset 5</strong> What about a negative exponential? <span class="math inline">\(ae^{-bx}\)</span> or a power function <span class="math inline">\(ax^b\)</span></p>
-<p><strong>dataset 6</strong> Species reponse curves are curves that describe the probability of presence as a function of an environmental variable. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g. <span class="math inline">\(a e^{\frac{-(x-\mu)^2}{2\sigma^2}}\)</span></p></li>
-<li><p>See the word file on Brightspace “Bestiary of functions.docx”</p></li>
-<li><p>Curves can be added to the plots through <code>curve</code>: e.g.&nbsp;<code>curve(2x+2x,from=0,to=20)</code></p>
-<p><strong>dataset 1</strong> Reasonable values for the first dataset assuming a michaelis menten relationship are a=25 and b=60. For the non-rectangular parabola one could choose values of theta = 0.7; a = 0.25; pmax = 25.</p>
-<p><strong>dataset 2</strong> <code>curve(ifelse(x&gt;27,18,(2/3)*x),add=T)</code></p>
-<p><code>curve(20*x/(10+x),add=T)</code></p>
-<p><strong>dataset 3</strong> <code>curve(0.6*x^2,add=T)</code></p>
-<p><strong>dataset 4</strong> <code>K = 200; r = 0.2; N0=2; curve(K/(1+(K/N0)*exp(-r*x)),add=T)</code></p>
-<p><strong>dataset 5</strong> <code>curve(8*(exp(-0.75*x)),add=T)</code></p>
-<p><strong>dataset 6</strong> <code>mu = 5; b = 2; curve(exp(-(mu-x)^2/b)  ,add=T)</code></p></li>
+<li>After you have read in the data, you can make a plot, e.g.&nbsp;through <code>plot(shapes1$y~ shapes1$x)</code> or <code>plot(y~x,data=shapes1)</code> for dataset 1. Multiple plots can be made through specifying <code>par(mfrow=c(3,2))</code>. This will setup the grid, after using <code>plot</code> six times, the grid will be filled with plots. Note that all the datasets are different in their specification of the header (names). You can take account of the header name through <code>header=TRUE</code> inside the <code>read.csv</code> function. Check the datafiles to make sure whether or not there are column headings.</li>
 </ol>
+<p>Curves can be added to the plots through <code>curve</code>: e.g.&nbsp;<code>curve(2x+2x,from=0,to=20)</code></p>
+<pre><code>  **dataset 1**
+  Reasonable values for the first dataset assuming a michaelis menten relationship are a=25 and b=60. For the            non-rectangular parabola one could choose values of theta = 0.7; a = 0.25; pmax = 25.
+
+  **dataset 2**
+  `curve(ifelse(x&gt;27,18,(2/3)*x),add=T)`
+
+  `curve(20*x/(10+x),add=T)`
+
+  **dataset 3**
+  `curve(0.6*x^2,add=T)`
+
+  **dataset 4**
+    `K = 200; r = 0.2; N0=2; curve(K/(1+(K/N0)*exp(-r*x)),add=T)`
+
+  **dataset 5**
+  `curve(8*(exp(-0.75*x)),add=T)  `
+
+  **dataset 6**
+  `mu = 5; b = 2; curve(exp(-(mu-x)^2/b)  ,add=T)`</code></pre>
+</div></details>
 </div>
+</div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-8_98abb47fd0280a5ab74244b61f34785a">
+
 </div>
 </section>
-<section id="for-loops" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> For loops</h1>
+</section>
+<section id="modelling-functions-and-calculating-outcomes" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Modelling functions and calculating outcomes</h1>
+<section id="for-loops" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="for-loops"><span class="header-section-number">4.1</span> For loops</h2>
 <p>When programming your data analysis, you often need to iterate over multiple elements of a collection. These elements could be rows of a <code>data.frame</code>, datasets inside a <code>list</code>, numbers inside a vector, etc. The iteration usually means that you apply the same code over each element of the collection and you don’t want to “copy-paste” the code for each element. Iterating over a collection is called a “for loop” in programming. A for loop consists of three components:</p>
 <ol type="1">
 <li><p>A collection over which you want to iterate.</p></li>
@@ -361,123 +468,121 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The body of the loop where you apply some code.</p></li>
 </ol>
 <p>Imagine that you want to calculate the factorial of 10. The factorial of a number is simply the product of all positive numbers smaller or equal than the number you specify (and it is denote with a “!” after the number). For example, the factorial of 3 is <span class="math inline">\(3! = 3 \times 2 \times 1\)</span>. A simple way of calculating the factorial of 10 by using a for loop is:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-4_918d76b18ba949624cbe46ad4973ce8f">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> result<span class="sc">*</span>i</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-9_0986b4a43c9138f5760672b41d68f640">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> result<span class="sc">*</span>i</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this for loop, the collection is <code>1:10</code>, the variable to keep track of the number is <code>i</code> and the body of the loop is <code>result = result*i</code>. This for loop shows a very typical pattern: we want to summarise some collection of numbers into a single number, in this case, <code>result</code>.</p>
 <p>Another typical pattern is when we want to calculate the elements of a collection. In this case, it is a good practice to “pre-allocate” your output collection before looping, so <code>R</code> knows how much memory to allocate for this vector. For example,</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-5_97cf962a8d76f90ee4d1e4f547deff7c">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">=</span> <span class="fu">exp</span>(x[i])</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-10_6df822d5d8e742d7cf06df195e6352ea">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">=</span> <span class="fu">exp</span>(x[i])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case, the result of the for loop (<code>y</code>) is a collection of 10 elements where each element is the exponential transformation of the element in x with the same position. Note that we specify before the loop that <code>y</code> will have 10 elements. Although this is not strictly required in this case, it is a good practice both to avoid errors and to make your code run faster.</p>
 <p>For loops are not that common in <code>R</code> as in other languages The reason is that many mathematical and statistical functions are already, implicitly, looping over your collections. For examples, when you take the exponential (<code>exp()</code>) of a collection of numbers, it will produce a new collection which is the result of looping over the original collection. That is:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-6_49e51f6402ca4e411446ca75ffbd6c7d">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">exp</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-11_6ccd3ed93dc986ec0479ab790c5b47c7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">exp</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>is equivalent to the previous loop described before. As you can see, this second option requires less code and it is easier to read, which is one of the reasons why <code>R</code> is such a greate language for working with data. In addition, if you rely on this implicit looping your code will run much faster.</p>
 <p>However, there may be situations where you really cannot avoid a for loop. For example, if you have collected multiple datasets and need to perform the same analysis on each dataset, you could store your datasets in a list and use a for loop to iterate over the different datasets.</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-7_65efcceee3cd60056bd3ea0b5c35bfce">
-
-<div class="exercisebox">
-Calculate the logarithm of the sequence 1:10, using first a for loop and then without a for loop.
+<div id="Exercise-4.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.1</strong></summary><div>Calculate the logarithm of the sequence 1:10, using first a for loop and then without a for loop.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-8_df041dd3816882473ed50a6b53f4e593">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-12_e4c69bd05d2e303c7818650e9f2006d9">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    for (i in 1:10){
 
-<div class="solutionbox">
-<p><code>for (i in 1:10){</code></p>
-<pre><code>log(i)
+        log(i)
+        print(log(i))
 
-print(log(i))</code></pre>
-<p><code>}</code></p>
-<p>Note that the print statement was added to print to screen</p>
-<p><code>log(c(1:10))</code></p>
+    }</code></pre>
+<p>Note that the print statement was added to print to screen <code>log(c(1:10))</code></p>
+</div></details>
 </div>
 </div>
 </section>
-<section id="missing-values-na" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Missing values (NA)</h1>
+<section id="handling-missing-values-na" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="handling-missing-values-na"><span class="header-section-number">4.2</span> Handling missing values (NA)</h2>
 <p>Missing values in data collection and analysis deserve special attention. You can get missing values during you data collection for various reasons, e.g.&nbsp;you missed the opportunity to take a measurement, you lose one of the replicates due to contamination, you wrote down a wrong value, or you even lost some of your data.</p>
 <p>The most important thing you need to understand, is that in almost all cases of a missing value, you should <strong>not represent a missing value with a zero (0)</strong>. This will throw your analysis out of balance and give erroneous results. A common way of representing missing data when you are performing data input, would be with a character like an asterisk (*) or a hyphen (-).</p>
 <p>Many of the functions that read data in <code>R</code> have an argument that allows you to select how you have represented a missing-value in your data. As an example the function <strong>read.csv</strong> (which reads a comma-delimited data file) would be used like this to read from a file named “your-data-file”:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-9_23a85bdceed72e9495bdfc6ae5aa43b1">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"you-data-file"</span>, <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"-"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-13_66d670ff1db7f189783ede8746656c09">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"you-data-file"</span>, <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"-"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case we instructed <code>R</code>, with the argument <strong><code>na.strings=c("*","_")</code></strong> to read our file, and substitute any occurence of an asterisk (*) or a hyphen(-) with an <code>NA</code> symbol.</p>
 <p>The <code>R</code> languages has a special way of representing missing values in a dataset. A missing value is denoted with the symbol <code>NA</code> which stands for “<strong>N</strong>ot <strong>A</strong>vailable”. By default, missing values will “propagate” throughout the calculations. For example, given two vectors of data:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-10_1f077ca2af956e5f8d8002d621f5b8ff">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-14_0541bead1a101920a61c42372526fa64">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When you combine these vectors (e.g.&nbsp;add them or multiply them) you will see that the third component is always <code>NA</code></p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-11_e63dcea28038b0a0af9afac10f5f9c1b">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-15_aac8882ef56f5af3b81e1d48b3d1687a">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  3  6 NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  2  8 NA</code></pre>
 </div>
 </div>
 <p>When you calculate some statistical property of your data (e.g.&nbsp;mean, standard deviation) it will, by default, report <code>NA</code> if there is at least one missing value in your data</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-12_9f153c03734a05a83dfdb220f96d2fba">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-16_292bac103fc07f59a628a1960e814d2d">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
 </div>
 <p>Most statistical functions in <code>R</code> allow you to specify how to deal with missing values. Most often, you are given the option to ignore any missing values from the data when calculating an statistical property through an argument often called <code>na.rm</code>. For example, in order to get the mean of the non-missing values of <code>y</code> we need:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-13_35e95a99faf253be20212e8030264b8c">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-17_fa5f8338c12b7f924fab6f3f05f73b40">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
 <p>which, of course, is the mean of 2 and 4. However, other functions not have an option to handle <code>NA</code> even though you still need to make a decision on how to deal with them. For example, when you calculate the length of a dataset (<code>length()</code>) do you want to consider the whole data or only the non-missing values? This is not a trivial question and the answer on the context where you will use the result. In any case, if you want to remove the <code>NA</code> when calculating the length you need to be more creative. Fortunately, <code>R</code> offers the function <code>is.na</code> which returns a vector of TRUE or FALSE values corresponding to the index of mssing or non-missing data values in the vector <code>y</code>:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-14_3ffb99ebce213b06c2015d36779646b1">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-18_5a94c4cf2a45ea67ffd2afe4fcc630f2">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE FALSE  TRUE</code></pre>
 </div>
 </div>
 <p>Next a vector without NA can be obtained through:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-15_e3e19c96f2f79f46e09e966f6cf741ea">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(y[<span class="sc">!</span><span class="fu">is.na</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-19_b40f0b9ba16b983783224b60da9099f7">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(y[<span class="sc">!</span><span class="fu">is.na</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
 <p>Which only gives 2 as the third element is missing. Remember that <code>!</code> is a negation operator, so <code>!is.na</code> actually means “is not NA”.</p>
 <p>By the way, you should not confuse <code>NA</code> with <code>NaN</code> which stands for “<strong>N</strong>ot <strong>a</strong> <strong>N</strong>umber”. An <code>NaN</code> is the result of either an expression with indeterminate form (e.g.&nbsp;<code>0/0</code> or <code>Inf/Inf</code>) or when a function is evaluated outside of its valid domain (e.g.&nbsp;<code>sqrt(-1)</code> or <code>log(-1)</code>).</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-16_1f8acb938cb69c2684adab06f7f5b79b">
-
-<div class="exercisebox">
-Given some data created from the following code <code>c(25,1,10,89, NA, NA)</code>, calculate the mean value and the standard error of this mean (<span class="math inline">\(s.e.m. = \sigma/\sqrt{n}\)</span>, where <span class="math inline">\(\sigma\)</span> is the standard deviation and <span class="math inline">\(n\)</span> is the number of items) by ignoring missing values.
+<div id="Exercise-4.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.2</strong></summary><div>Given some data created from the following code <code>c(25,1,10,89, NA, NA)</code>, calculate the mean value and the standard error of this mean (<span class="math inline">\(s.e.m. = \sigma/\sqrt{n}\)</span>, where <span class="math inline">\(\sigma\)</span> is the standard deviation and <span class="math inline">\(n\)</span> is the number of items) by ignoring missing values.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-17_1a5cc085462349a61b87f88cdeffd956">
-
-<div class="solutionbox">
-<p><code>data &lt;- c(25,1,10,89, NA, NA)</code></p>
-<p><code>sd(data,na.rm=T)/sqrt(length(na.omit(data)))</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-20_4a7ff26a00ee69bb14ff41d2d06960b6">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    data &lt;- c(25,1,10,89, NA, NA)
+    sd(data,na.rm=T)/sqrt(length(na.omit(data)))</code></pre>
+</div></details>
 </div>
 </div>
 </section>
-<section id="making-a-function" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Making a function</h1>
+<section id="making-a-function" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="making-a-function"><span class="header-section-number">4.3</span> Making a function</h2>
 <p>When you want to repeat a calculation for different data, it is best to code your calculations inside a function. <code>R</code> consists of many built-in functions, but sometimes you need to do a calculation that is not available in <code>R</code>. A function is defined by 4 elements</p>
 <ol type="1">
 <li><p>The name of the function. For example, in <code>R</code> there is a function that calculates the arithmetic mean of a vector of data and its name is <code>mean</code>. You should make sure that the name of your function does not coincide with existing functions, that it is not too long and that it conveys its meaning. You can check if a function already exist in the base or any of the packages you loaded through <code>?nameoffunction</code>.</p></li>
@@ -486,166 +591,115 @@ Given some data created from the following code <code>c(25,1,10,89, NA, NA)</cod
 <li><p>The return value of the function. This is the result of applying the function on the arguments. By default, the result of the last line code in the body of the function is the return value of the function. You can also return from any point in the body with the function <code>return()</code> with the variable you want to return inside.</p></li>
 </ol>
 <p>The <code>R</code> language specifies a particular syntax on how to build a function. For example, a <code>naive_mean</code> could be defined as:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-18_a2a3a1983e92d8c3355cf7f7162b4f8b">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>naive_mean <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.remove =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">=</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> na.remove)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x)])</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> total<span class="sc">/</span>n</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-21_a242d8c6e9a8f19d4ab4a12942c90173">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>naive_mean <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.remove =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">=</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> na.remove)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x)])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> total<span class="sc">/</span>n</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case, the function <code>naive_mean</code> has two arguments (<code>x</code> and <code>na.remove</code>) where the second argument has a default value of FALSE and the body consists of several lines of code. These are respectively the sum of the elements of <code>x</code> with the <code>na.rm</code> depending on whether you specified TRUE or FALSE in the <code>na.remove</code> argument; <code>n</code> that calculates the length of the vector x without NAs, and the calculation of the mean. The last statement returns the result. Notice that arguments are separated by commas and the body of the function is enclosed in curly braces <code>{}</code>. The name of the function is simply the name of the variable to which you assigned the function (i.e., <code>naive_mean</code>). You can see below that you can use this function in a similar manner to the built-in <code>mean</code></p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-19_644aa71c330b7522e81113fd6eb2b157">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-22_1bc4a1c03189a31dd28b5cbced5e2669">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.5</code></pre>
 </div>
 </div>
 <p>Notice that we did not specify the value of <code>na.remove</code> as the default is ok in this case. However, if we had missing values, the NA would propagate to the output:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-20_9f0e0fc0436929399a4243b92a378252">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-23_ad0a693fb8c2afcb4d032bd9917d3ae7">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
 </div>
 <p>Specifying <code>na.remove=FALSE</code> can be used as a double check that there are no NAs in your vector. If they are present it forces us to make a decision about what to do with the NAs. Let’s say that, for the moment, we want to just remove the values that are NA from the calculation. In this case, we just change the value of the default parameter.</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-21_163dc002b8a8fedcb10137e81067052f">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x, <span class="at">na.remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-24_4bd2c115aaa93be2479b8cede1611d37">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x, <span class="at">na.remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.333333</code></pre>
 </div>
 </div>
 <p>For convenience, default parameters are specified by name rather than position. However we could have also said <code>naive_mean(x,TRUE)</code> or even <code>naive_mean(x = x, na.remove = TRUE)</code>. All these forms of calling functions are OK, whether you choose one style or another is a matter of taste.</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-22_7f306e643337914eed3e12aeb7c5582f">
-
-<div class="exercisebox">
-Build a function to calculate the standard deviation (<span class="math inline">\(\sigma = \sqrt{\frac{\sum_{i = 1}^n\left(x_i - \bar x\right)^2}{n - 1}}\)</span>). Test your function with some data that includes missing values, and compare to the built in function for the standard deviation <code>sd</code>.
+<div id="Exercise-4.3" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.3</strong></summary><div>Build a function to calculate the standard deviation (<span class="math inline">\(\sigma = \sqrt{\frac{\sum_{i = 1}^n\left(x_i - \bar x\right)^2}{n - 1}}\)</span>). Test your function with some data that includes missing values, and compare to the built in function for the standard deviation <code>sd</code>.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-23_92bac8e6e13bf1e64548e7f71f533521">
-
-<div class="solutionbox">
-<p><code>sigma.self = function(x,na.rm=F){</code></p>
-<pre><code>mean.x = mean(x,na.rm=na.rm)
-
-n = length(na.omit(x))
-
-sd = sqrt(sum((x-mean.x)^2,na.rm=na.rm)/(n-1))
-
-return(sd)</code></pre>
-<p><code>}</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-25_3c995ac161b8d27fc475447d7f5cdc7d">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    sigma.self = function(x,na.rm=F) {
+         mean.x = mean(x,na.rm=na.rm)
+         n = length(na.omit(x))
+         sd = sqrt(sum((x-mean.x)^2,na.rm=na.rm)/(n-1))
+         return(sd)
+    }</code></pre>
+</div></details>
 </div>
 </div>
 <p>Suprisingly the base <code>R</code> does not have a built in function for the standard error of the mean (s.e.m.). The sem is defined as <span class="math inline">\(\frac{\sigma}{\sqrt(n)}\)</span>.</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-24_8edf6475cd72bc875d2358d74f484485">
-
-<div class="exercisebox">
-Make you own function for the sem and use your own home-made function of the standard deviation for that.
+<div id="Exercise-4.4" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.4</strong></summary><div>Make you own function for the sem and use your own home-made function of the standard deviation for that.<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-25_eee33f436e2f43336c309e17822f82ab">
-
-<div class="solutionbox">
-<p><code>sem.self &lt;- function(x,na.rm=F){</code></p>
-<p><code>length.x &lt;- length(na.omit(x))</code> <code>sigma.self(x,na.rm=na.rm)/sqrt(length(x))</code> <code>}</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-26_5d280cb791f813eef17c5db0586a8cc3">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    sem.self &lt;- function(x,na.rm=F) {
+           length.x &lt;- length(na.omit(x))
+           sigma.self(x,na.rm=na.rm)/sqrt(length(x))
+    }</code></pre>
+</div></details>
 </div>
 </div>
 <p>As you see you can call functions inside functions. It is recommended to divide the work you want to do into little functions that each carry out a specific task, and then combine those functions into a larger function that combines these tasks. This facilitates error checking.</p>
 </section>
-<section id="numerical-explorations-plotting-curves" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Numerical explorations: plotting curves</h1>
-<p>Here are the <code>R</code> commands used to generate Figure 3.2 in the book (p 74). They just use <code>curve()</code>, with <code>add=FALSE</code> (the default, which draws a new plot) and <code>add=TRUE</code> (adds the curve to an existing plot), particular values of <code>from</code> and <code>to</code>, and various graphical parameters (<code>ylim</code>, <code>ylab</code>, <code>lty</code>).</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-26_4022ff2d8b64668eb0e365ba939b9fc0">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">7</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">4</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(x<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">3</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.4</span>,<span class="fl">1.9</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"exponential: "</span>,<span class="dv">2</span><span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))),<span class="at">adj=</span><span class="dv">0</span>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,.<span class="dv">5</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Ricker: "</span>,x<span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))))</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">4</span>,<span class="dv">1</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Ricker: "</span>,<span class="dv">2</span><span class="sc">*</span>x<span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>))),<span class="at">adj=</span><span class="dv">0</span>)</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">2.8</span>,<span class="dv">0</span>,<span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"exponential: "</span>,<span class="dv">2</span><span class="sc">*</span>e<span class="sc">^</span>(<span class="sc">-</span>x))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The only new thing in this figure is the use of <code>expression()</code> to add a mathematical formula to an <code>R</code> graphic. <code>text(x,y,"x^2")</code> puts <code>x^2</code> on the graph at position <span class="math inline">\((x,y)\)</span>; <code>text(x,y,expression(x^2))</code> (no quotation marks) puts <span class="math inline">\(x^2\)</span> on the graph. See <code>?plotmath</code> or <code>?demo(plotmath)</code> for (much) more information.</p>
-<p>An alternate way of plotting the exponential parts of this curve:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-27_d927745f3900ca9e172a90affe7ef810">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>xvec <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="at">length=</span><span class="dv">100</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>exp1_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-28_e87b84fbb48da11f744c57340b66b707">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xvec,exp1_vec,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xvec,exp2_vec,<span class="at">lty=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Finally, if you have a more complicated function you could use <code>sapply()</code> to call this function along with appropriate parameter values. you could say:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-29_35e652daca0700f5e26cac0efc52ffd6">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>expfun <span class="ot">=</span> <span class="cf">function</span>(x,<span class="at">a=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">1</span>) {</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>   a<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>x)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a> }</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>exp1_vec <span class="ot">=</span> <span class="fu">sapply</span>(xvec,expfun,<span class="at">a=</span><span class="dv">2</span>,<span class="at">b=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="fu">sapply</span>(xvec,expfun,<span class="at">a=</span><span class="dv">2</span>,<span class="at">b=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The advantage of <code>curve()</code> is that you don’t have to define any vectors: the advantage of doing things the other way arises when you want to keep the vectors around to do other calculations with them.</p>
-<div class="cell" type="exercisebox" data-latex.options="{3}" data-hash="solution_cache/html/unnamed-chunk-30_a7b09699589b292ff3fc03db7262b549">
-
-<div class="exercisebox">
-Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span>, <span class="math inline">\(y=1\)</span>). Write the equation, draw the curve in <code>R</code>, and explain how you got there.
-</div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{3}" data-hash="solution_cache/html/unnamed-chunk-31_9a09ed60d0243de93d4bbfbd73e5609d">
-
-<div class="solutionbox">
-<p>For example: <span class="math inline">\(-(x-5)^2+1\)</span></p>
-<p><code>curve(-(x-5)^2+1,from=-10,to=10)</code></p>
-<p><code>abline(v=5)</code></p>
-<p><code>abline(h=1)</code></p>
-</div>
-</div>
 </section>
-<section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> A quick digression: <code>ifelse()</code> for piecewise functions</h1>
+<section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> A quick digression: <code>ifelse()</code> for piecewise functions</h1>
 <p>The <code>ifelse()</code> command in <code>R</code> is useful for constructing piecewise functions. Its basic syntax is <code>ifelse(condition,value_if_true,value_if_false)</code>, where <code>condition</code> is a logical vector (e.g.&nbsp;<code>x&gt;0</code>), <code>value_if_true</code> is a vector of alternatives to use if <code>condition</code> is <code>TRUE</code>, and <code>value_if_false</code> is a vector of alternatives to use if <code>condition</code> is <code>FALSE</code>. If you specify just one value, it will be expanded (<em>recycled</em> in <code>R</code> jargon) to be the right length. A simple example:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-32_621651d600ee557870d1bb9a3809418a">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-27_297ea4172410a64d6154cc4fca880131">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0 0 0 0 0 0 1 2 3 4 5</code></pre>
 </div>
 </div>
 <p>if you said <code>ifelse(x&lt;0,0,sqrt(x)))</code> you would get a warning: why)</p>
 <p>Here are some examples of using <code>ifelse()</code> to generate (1) a simple threshold; (2) a Holling type I or “hockey stick”; (3) a more complicated piecewise model that grows exponentially and then decreases linearly; (4) a double-threshold model. When plotting functions with abrubt changes with the function <code>curve</code>, beware that curve draws a line by evaluating a functions at several locations along the specified interval (<code>from</code>, <code>to</code>). You can increase these number of points by specifying <code>n</code>. The default value for <code>n</code> is 101.</p>
-<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-33_8fb660a604d122aba4bf62caaaf11c94">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>op<span class="ot">=</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">*</span>x,<span class="dv">4</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="fu">exp</span>(x),<span class="fu">exp</span>(<span class="dv">2</span>)<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>(x<span class="dv">-2</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-28_78699eeda7426ff414dfd05109f2c876">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>op<span class="ot">=</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">*</span>x,<span class="dv">4</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="fu">exp</span>(x),<span class="fu">exp</span>(<span class="dv">2</span>)<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>(x<span class="dv">-2</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="solution_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The double-threshold example (nested <code>ifelse()</code> commands) probably needs more explanation. In words, this command would go “if <span class="math inline">\(x\)</span> is less than 2, set <span class="math inline">\(y\)</span> to 1; otherwise (<span class="math inline">\(x \ge 2\)</span>), if <span class="math inline">\(x\)</span> is less than 4 (i.e.&nbsp;<span class="math inline">\(2 \le x&lt;4\)</span>), set <span class="math inline">\(y\)</span> to 3; otherwise (<span class="math inline">\(x \ge 4\)</span>), set <span class="math inline">\(y\)</span> to 5”.</p>
 </section>
-<section id="evaluating-derivatives-in-r" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Evaluating derivatives in <code>R</code></h1>
+<section id="evaluating-derivatives-in-r" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Evaluating derivatives in <code>R</code></h1>
 <p><code>R</code> can evaluate derivatives, but it is not very good at simplifying them. In order for <code>R</code> to know that you really mean (e.g) <code>x^2</code> to be a mathematical expression and not a calculation for <code>R</code> to try to do (and either fill in the current value of <code>x</code> or give an error that <code>x</code> is undefined), you have to specify it as <code>expression(x^2)</code>; you also have to tell <code>R</code> (in quotation marks) what variable you want to differentiate with respect to:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-34_50c98a89f719e697ad1d2dfb40c56bd9">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">2</span>),<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-29_9d7ac13a23c8cfb6a14b1cfd767f7a2c">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">2</span>),<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2 * x</code></pre>
 </div>
 </div>
 <p>Use <code>eval()</code> to fill in a list of particular values for which you want a numeric answer:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-35_ac4868a67490570112f8964ba6229d06">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eval</span>(d1,<span class="fu">list</span>(<span class="at">x=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-30_30582bb8901c2158e602cb98056175ad">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eval</span>(d1,<span class="fu">list</span>(<span class="at">x=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
 <p>Taking the second derivative:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-36_4db043edf72673b21eab14c6f70a2042">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(d1,<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-31_9c55c1d0128be058dcd1565f05af1f32">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(d1,<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>

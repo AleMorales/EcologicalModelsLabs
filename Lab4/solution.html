@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.242">
+<meta name="generator" content="quarto-1.2.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -104,6 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -123,6 +124,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+.Exercise {
+  --color1: #00ff00;
+  --color2: #d9d9d9;
+}
+.Solution {
+  --color1: #80bfff;
+  --color2: #d9d9d9;
+}
+</style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -297,15 +308,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="choosing-probability-distributions" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Choosing probability distributions</h1>
 <p>In this exercise we revisit exercise 2.1 of lab 3. In that exercise we had six different datasets each describing a biological phenomenon. The first step to model your data is to choose a deterministic function that describes the mean effect of the predictor variable (x) on the response variable (y). The second step involves the choice of the stochastic distribution which describes how the data varies around the mean.</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-1_631e52b3aaeb24febb91dbf9fa95c3c8">
-
-<div class="exercisebox">
-<p>Reload the six datasets and choose for each dataset one or two candidate probability distributions. <em>hint</em>: ask yourself a number of questions: Do I have counts (integer) or continuous (real) values? Do I have positive values only or also negative values?</p>
+<div id="Exercise-2.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 2.1</strong></summary><div>Reload the six datasets and choose for each dataset one or two candidate probability distributions. <em>hint</em>: ask yourself a number of questions: Do I have counts (integer) or continuous (real) values? Do I have positive values only or also negative values?<p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-2_399e37375bf0f4a28915f9505abe1c4f">
-
-<div class="solutionbox">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-1_345782672d07b270832c19c2cb529dba">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
 <li><p>Dataset 1 y represents real numbers and both positive and negative numbers occur. This implies that we should choose a continuous probability distribution. In addition, the numbers seems unbound. Within the family of continuous probability distributions, the normal seems a good candidate distribution because this one runs from -<span class="math inline">\(\inf\)</span> to +<span class="math inline">\(\inf\)</span>. In contrast the Gamma and the Lognormal only can take positive numbers, so these distributions cannot handle the negative numbers. In addition, the beta distribution is not a good candidate because it runs from 0-1.</p></li>
 <li><p>dataset 2 y represents real numbers and only positive numbers occur. The data represents a functional response (intake rate of the predator), and it is likely that you can only measure positive numbers (number of prey items per unit of time). This implies that we should choose a continuous probability distribution. Within the family of continuous probability distributions, the Gamma and the Lognormal could be taken as candidate distributions because they can only take positive numbers (beware that the Gamma cannot take 0). However, you could try to use a normal as well.</p></li>
@@ -314,6 +323,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Dataset 5 No information is given on y. The data clearly seems to represent counts. Thus the same reasoning applies here as to the two previous datasets.</p></li>
 <li><p>Dataset 6 The data (y) represents species occurences (presence/absence). The binomial model would be a good model to predict the probability of presence.</p></li>
 </ol>
+</div></details>
 </div>
 </div>
 </section>
@@ -322,233 +332,254 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>R</code> knows about lots of probability distributions. For each, it can generate random numbers drawn from the distribution (“random numbers”); compute the cumulative distribution function and the probability distribution function; and compute the quantile function, which gives the <span class="math inline">\(x\)</span> value such that <span class="math inline">\(\int_0^x P(x) \, dx\)</span> (area under the curve from 0 to <span class="math inline">\(x\)</span>) is a specified value, such as 0.95 (think about “tail areas” from standard statistics).</p>
 <p>Let’s take the binomial distribution (yet again) as an example.</p>
 <ul>
-<li><p><code>rbinom(n,size,prob)</code> gives <code>n</code> random draws from the binomial distribution with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw). You can give different parameters for each draw. For example: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-3_9023f2b6419a663b8ab8583e40f8b42c’}</p>
+<li><code>rbinom(n,size,prob)</code> gives <code>n</code> random draws from the binomial distribution with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw).</li>
+</ul>
+<p>You can give different parameters for each draw. For example:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-2_c6731f6d42db693e7aae0b8f6bce087b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>,<span class="at">size=</span><span class="dv">8</span>,<span class="at">prob=</span><span class="fl">0.5</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">3</span>,<span class="at">size=</span><span class="dv">8</span>,<span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: Figure 1 shows the result of drawing 200 values from a binomial distribution with <span class="math inline">\(N=12\)</span> and <span class="math inline">\(p=0.5\)</span> and plotting the results as a <code>factor</code> (with 5000 draws we don’t have to worry about any of the 13 possible outcomes getting missed and excluded from the plot): ::: {.cell hash=‘solution_cache/html/unnamed-chunk-4_43935767825b67877fafc7beff0eb6f3’}</p>
+</div>
+<p>Figure 1 shows the result of drawing 200 values from a binomial distribution with <span class="math inline">\(N=12\)</span> and <span class="math inline">\(p=0.5\)</span> and plotting the results as a <code>factor</code> (with 5000 draws we don’t have to worry about any of the 13 possible outcomes getting missed and excluded from the plot):</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-3_14f4fe59f50552eb54c8de839364551e">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">factor</span>(<span class="fu">rbinom</span>(<span class="dv">5000</span>,<span class="at">size=</span><span class="dv">12</span>,<span class="at">prob=</span><span class="fl">0.5</span>)), <span class="at">xlab=</span><span class="st">"# of successes"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"# of trials out of 200"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p></li>
+</div>
+<ul>
 <li><p><code>dbinom(x,size,prob)</code> gives the value of the probability of getting excactly <span class="math inline">\(x\)</span> successes based on the probability distribution. For a continous distribution, the analogous function would compute the probability density function (pdf). Since the binomial is discrete, <code>x</code> has to be an integer, and the pdf is just the probability of getting that many successes; if you try <code>dbinom</code> with a non-integer <code>x</code>, you’ll get zero and a warning.</p></li>
 <li><p><code>pbinom(q,size,prob)</code> gives the value of the cumulative distribution function (cdf) at <code>q</code> (e.g.&nbsp;<code>pbinom(7,size=10,prob=0.4)</code>);</p></li>
 <li><p><code>qbinom(p,size,prob)</code> gives the quantile function <span class="math inline">\(x=q(p)\)</span>, where <code>p</code> is a number between 0 and 1 (an area under the pdf, or value of the cdf) and <span class="math inline">\(x\)</span> is the value such that <span class="math inline">\(P(X \le x)=p\)</span>. The <em>quantile function</em> <span class="math inline">\(Q\)</span> is the inverse of the cumulative distribution function <span class="math inline">\(C\)</span>: if <span class="math inline">\(Q(p)=q\)</span> then <span class="math inline">\(C(q)=p\)</span>. Example: <code>qbinom(0.95,size=10,prob=0.4)</code>.</p></li>
 </ul>
 <p>These four functions exist for each of the distributions <code>R</code> has built in: e.g.&nbsp;for the normal distribution they’re <code>rnorm()</code>, <code>pnorm()</code>, <code>dnorm()</code>, <code>qnorm()</code>. Each distribution has its own set of parameters (so e.g.&nbsp;<code>pnorm()</code> is <code>pnorm(x,mean=0,sd=1)</code>). See Figure 2 for a graphical illustration of the four functions.To see which distributions are available in the <code>base</code> package; check <code>?distributions</code>.</p>
-<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-5_6dece3cbd1b9d0f23900cb85680399e8">
+<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-4_bc46d99347a4df53d837b6e83296e0b8">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Results of <code>rbinom</code></figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-6_8426cfa4f9d3fd8f06703ced783909f3">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-5_b0dc0246e92c3c1b87224dbfce669b4a">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption"><code>R</code> functions for the Normal distribution, showing probability density function (<code>dnorm</code>), and cumulative distribution function (<code>pnorm</code>). Random samples are drawn proportionally to the probability density function with <code>rnorm</code> and quantiles are calculated with by inverting the cumulative distribution function with <code>qnorm</code>.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-7_df6fca38801b8e6df25a411ccdfcc616">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-6_0a292edf01ea594a28c7c2550cc48627">
 
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-8_e7287b6977a5e83341d78cc49bd5e358">
-
-<div class="exercisebox">
+<div id="Exercise-3.1" class="Exercise">
+<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 3.1</strong></summary><div>
 <p>For the binomial distribution with 10 trials and a success probability of 0.2:</p>
 <ol type="1">
 <li><p>Pick 8 random values and sort them into increasing order (if you <code>set.seed(1001)</code> beforehand, you should get <span class="math inline">\(X=0\)</span> (twice), <span class="math inline">\(X=2\)</span> (4 times), and <span class="math inline">\(X=4\)</span> and <span class="math inline">\(X=5\)</span> (once each)).</p></li>
 <li><p>Calculate the probabilities of getting 3, 4, or 5 successes first by hand (See Ch.4) and check it with the computer. Answer:</p></li>
 <li><p>Calculate the probability of getting 5 or more successes.</p></li>
 </ol>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-9_c9ca9ae86b2ac154efb4292b17724e72">
-
-<div class="solutionbox">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-7_6e973d3cef05de8a9f3421186cd49c95">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
-<li></li>
+<li><pre><code>  set.seed(1001)
+  rbinom(8,prob=0.2,size=10)</code></pre></li>
+<li><pre><code>  dbinom(3:5,size=10,prob=0.2)</code></pre></li>
+<li><pre><code>  pbinom(4,size=10,prob=0.2,lower.tail=FALSE)</code></pre></li>
 </ol>
-<p><code>set.seed(1001)</code> <code>rbinom(8,prob=0.2,size=10)</code></p>
-<ol start="2" type="1">
-<li></li>
-</ol>
-<p><code>dbinom(3:5,size=10,prob=0.2)</code></p>
-<ol start="3" type="1">
-<li></li>
-</ol>
-<p><code>pbinom(4,size=10,prob=0.2,lower.tail=FALSE)</code></p>
+</div></details>
 </div>
 </div>
 <p>You can use the <code>R</code> functions to test your understanding of a distribution and make sure that random draws match up with the theoretical distributions as they should. This procedure is particularly valuable when you’re developing new probability distributions by combining simpler ones, e.g.&nbsp;by zero-inflating or compounding distributions.</p>
-<p>The results of a large number of random draws should have the correct moments (mean and variance), and a histogram of those random draws (with <code>freq=FALSE</code> or <code>prob=TRUE</code>) should match up with the theoretical distribution. For example, draws from a binomial distribution with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=20\)</span> should have a mean of approximately <span class="math inline">\(Np=4\)</span> and a variance of <span class="math inline">\(Np(1-p)=3.2\)</span>: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-10_57f1c802cacf79df1f484f68d52ddf01’}</p>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">20</span>; p<span class="ot">=</span><span class="fl">0.2</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">var</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The results of a large number of random draws should have the correct moments (mean and variance), and a histogram of those random draws (with <code>freq=FALSE</code> or <code>prob=TRUE</code>) should match up with the theoretical distribution. For example, draws from a binomial distribution with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=20\)</span> should have a mean of approximately <span class="math inline">\(Np=4\)</span> and a variance of <span class="math inline">\(Np(1-p)=3.2\)</span>:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-8_b2eec870001b50ec8d59b6e1f29d0357">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">20</span>; p<span class="ot">=</span><span class="fl">0.2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">var</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4.001200 3.144913</code></pre>
 </div>
-<p>:::</p>
-<p>The mean is very close, the variance is a little bit farther off. Just for the heck of it, we can use the <code>replicate()</code> function to re-do this command many times and see how close we get: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-11_8ad043c0d6de09ccc8167029dc5a8da9’}</p>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>var_dist <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">var</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: (this may take a little while; if it takes too long, lower the number of replicates to 100).</p>
-<p>Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the distribution of variances: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-12_c00d98dfda0546a3ba8742464ddb924c’}</p>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The mean is very close, the variance is a little bit farther off. Just for the heck of it, we can use the <code>replicate()</code> function to re-do this command many times and see how close we get:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-9_33890fe63a2f544fe938193a60a9861c">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>var_dist <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">var</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(this may take a little while; if it takes too long, lower the number of replicates to 100).</p>
+<p>Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the distribution of variances:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-10_7291156c1fa876c93fdf1db4b45230da">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   3.052   3.169   3.199   3.199   3.229   3.340 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(var_dist,<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(var_dist,<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5%    97.5% 
 3.114357 3.285333 </code></pre>
 </div>
-<p>::: (Try a histogram too.) Even though there’s some variation (of the variance) around the theoretical value, we seem to be doing the right thing since the 95% confidence limits include the theoretical value. (Lab 5 will go into more detail on running simulations to check the expected variation of different measurement as a function of parameters and sample size.)</p>
-<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-13_7d27a5502c42442ddbf777f4a7cd8189">
+</div>
+<p>(Try a histogram too.) Even though there’s some variation (of the variance) around the theoretical value, we seem to be doing the right thing since the 95% confidence limits include the theoretical value. (Lab 5 will go into more detail on running simulations to check the expected variation of different measurement as a function of parameters and sample size.)</p>
+<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-11_29d6fe33a033a87a69c8414638289f48">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Checking random draws from a binomial distribution against theoretical values.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Finally, Figure 3 shows the entire simulated frequency distribution along with the theoretical values. The steps in <code>R</code> are:</p>
-<p><strong>1.</strong> pick 10,000 random deviates: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-14_18d41d305d71ac94ec68db7bb0a27fd5’}</p>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p><strong>2.</strong> Tabulate the values, and divide by the number of samples to get a probability distribution: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-15_4d686be27283fbbbe72c109aa3694c1a’}</p>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: (The <code>levels</code> command is necessary in this case because the probability of <span class="math inline">\(x=12\)</span> with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=12\)</span> is actually so low (<span class="math inline">\(\approx 4\times 10^{-9}\)</span>) that it’s very unlikely that a sample of 10,000 won’t include any samples with 12 successes.)</p>
+<p><strong>1.</strong> pick 10,000 random deviates:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-12_040c7b918e8f0a60eefc0d625405edd9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>2.</strong> Tabulate the values, and divide by the number of samples to get a probability distribution:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-13_38e370c10f00180888214dc018b4c76e">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(The <code>levels</code> command is necessary in this case because the probability of <span class="math inline">\(x=12\)</span> with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=12\)</span> is actually so low (<span class="math inline">\(\approx 4\times 10^{-9}\)</span>) that it’s very unlikely that a sample of 10,000 won’t include any samples with 12 successes.)</p>
 <p><strong>3.</strong> Draw a barplot of the values, extending the <span class="math inline">\(y\)</span>-limits a bit to make room for the theoretical values and saving the <span class="math inline">\(x\)</span> locations at which the bars are drawn:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-16_bdedc9a55b10eae176aab65f5445134e">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.23</span>),<span class="at">ylab=</span><span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-14_4e8fd4df346fe72c48c159d2c84fec69">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.23</span>),<span class="at">ylab=</span><span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>4.</strong> Add the theoretical values, plotting them at the same <span class="math inline">\(x\)</span>-locations as the centers of the bars: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-17_bee8f7e7d1a62df75c14686ccb911802’}</p>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N),<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: (<code>barplot()</code> doesn’t put the bars at <span class="math inline">\(x\)</span> locations corresponding to their numerical values, so you have to save those values as <code>b1</code> and re-use them to make sure the theoretical values end up in the right place.)</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-18_cc80e742577f212666ec41de1d978ff6">
-
-<div class="exercisebox">
-<p>Pick 10,000 negative binomial deviates with <span class="math inline">\(\mu=2\)</span>, <span class="math inline">\(k=0.5\)</span> (using <code>rnbinom()</code>). In <code>rbnbinom()</code> <span class="math inline">\(\mu\)</span> = <code>mu</code> and <span class="math inline">\(k\)</span> = <code>size</code>. Pick one of the ways above to draw the distribution. Check that the mean and variance agree reasonably well with the theoretical values. Add points representing the theoretical distribution to the plot.</p>
+<p><strong>4.</strong> Add the theoretical values, plotting them at the same <span class="math inline">\(x\)</span>-locations as the centers of the bars:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-15_0c43286acb5e53baae74d50f13b818bb">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N),<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>(<code>barplot()</code> doesn’t put the bars at <span class="math inline">\(x\)</span> locations corresponding to their numerical values, so you have to save those values as <code>b1</code> and re-use them to make sure the theoretical values end up in the right place.)</p>
+<div id="Exercise-3.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 3.2</strong></summary><div>Pick 10,000 negative binomial deviates with <span class="math inline">\(\mu=2\)</span>, <span class="math inline">\(k=0.5\)</span> (using <code>rnbinom()</code>). In <code>rbnbinom()</code> <span class="math inline">\(\mu\)</span> = <code>mu</code> and <span class="math inline">\(k\)</span> = <code>size</code>. Pick one of the ways above to draw the distribution. Check that the mean and variance agree reasonably well with the theoretical values. Add points representing the theoretical distribution to the plot.<p></p>
+</div></details>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-19_6930be820eb093045fb03b84a55ef4a7">
-
-<div class="solutionbox">
-<p><code>mu = 2</code></p>
-<p><code>k = 0.5</code></p>
-<p><code>x = rnbinom(10000, mu = mu, size = k)</code></p>
-<p><code>tx = table(factor(x, levels = 0:max(x)))/10000</code></p>
-<p><code>b1 = barplot(tx, ylab = "Probability")</code></p>
-<p><code>points(b1, dnbinom(0:max(x), mu = mu, size = k), pch = 1)</code></p>
-<p><code>mean(x)</code></p>
-<p><code>var(x)</code></p>
-<p><code>mu</code></p>
-<p><code>mu * (1 + mu/k)</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-16_b5d9f8e695404c156058a90d52a56635">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    mu = 2
+    k = 0.5
+    x = rnbinom(10000, mu = mu, size = k)
+    tx = table(factor(x, levels = 0:max(x)))/10000
+    b1 = barplot(tx, ylab = "Probability")
+    points(b1, dnbinom(0:max(x), mu = mu, size = k), pch = 1)
+    mean(x)
+    var(x)
+    mu
+    mu * (1 + mu/k)</code></pre>
 <p>The alternative parameterisation:</p>
-<p><code>p = 1/(1 + mu/k)</code></p>
-<p><code>n = k</code></p>
-<p><code>b1 = barplot(tx, ylab = "Probability")</code></p>
-<p><code>points(b1, dnbinom(0:max(x), mu = mu, size = k), pch = 1)</code></p>
-<p><code>points(b1, dnbinom(0:max(x), prob = p, size = k), pch = 2)</code></p>
+<pre><code>    p = 1/(1 + mu/k)
+    n = k
+    b1 = barplot(tx, ylab = "Probability")
+    points(b1, dnbinom(0:max(x), mu = mu, size = k), pch = 1)
+    points(b1, dnbinom(0:max(x), prob = p, size = k), pch = 2)</code></pre>
+</div></details>
 </div>
 </div>
 <p>Doing the equivalent plot for continuous distributions is actually somewhat easier, since you don’t have to deal with the complications of a discrete distribution: just use <code>hist(...,prob=TRUE)</code> to show the sampled distribution (possibly with <code>ylim</code> adjusted for the maximum of the theoretical density distribution) and <code>ddist(x,[parameters])</code> to add the theoretical curve (e.g.: <code>curve(dgamma(x,shape=2,scale=1),add=TRUE)</code>).</p>
 </section>
 <section id="averaging-distributions" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Averaging distributions</h1>
-<p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-20_c62189943e3fcb2f948cf1b19073b39d’}</p>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-17_f552e4e42c9003935c4471a7f8e21ef7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 6 5 7 5 8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tabdat<span class="ot">=</span><span class="fu">table</span>(dat); tabdat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tabdat<span class="ot">=</span><span class="fu">table</span>(dat); tabdat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dat
 5 6 7 8 
 3 1 1 1 </code></pre>
 </div>
-<p>::: To get the (sample) probability distribution of the data, just scale by the total sample size: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-21_70287341e6b8c7372c7c561043e3a4b6’}</p>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>prob<span class="ot">=</span>tabdat<span class="sc">/</span><span class="fu">length</span>(dat); prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To get the (sample) probability distribution of the data, just scale by the total sample size:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-18_47b60a0eed6acbe50b4af4c9413dcc04">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>prob<span class="ot">=</span>tabdat<span class="sc">/</span><span class="fu">length</span>(dat); prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dat
         5         6         7         8 
 0.5000000 0.1666667 0.1666667 0.1666667 </code></pre>
 </div>
-<p>::: (dividing by <code>sum(tabdat)</code> would be equivalent).</p>
+</div>
+<p>(dividing by <code>sum(tabdat)</code> would be equivalent).</p>
 <p>In the long format, we can take the mean with <code>mean(dat)</code> or, replicating the formula <span class="math inline">\(\sum x_i/N\)</span> exactly, <code>sum(dat)/length(dat)</code>.</p>
-<p>In the tabular format, we can calculate the mean with the formula <span class="math inline">\(\sum P(x) x\)</span>, which in <code>R</code> would be <code>sum(prob*5:8)</code> or more generally ::: {.cell hash=‘solution_cache/html/unnamed-chunk-22_89a8cac836242de73c08ec25a68eddce’}</p>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(prob))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prob<span class="sc">*</span>vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the tabular format, we can calculate the mean with the formula <span class="math inline">\(\sum P(x) x\)</span>, which in <code>R</code> would be <code>sum(prob*5:8)</code> or more generally</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-19_46dd2a379cd17efbc7abf74fad2a8cc1">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(prob))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prob<span class="sc">*</span>vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
-<p>:::</p>
+</div>
 <p><code>names</code> extracts the names of the vector and <code>as.numeric</code> transform characters to numbers. You could also get the values by <code>as.numeric(levels(prob))</code>, or by <code>sort(unique(dat))</code>.</p>
 <p>However, <code>mean(prob)</code> or <code>mean(tabdat)</code> is just plain wrong (at least, I can’t think of a situation where you would want to calculate this value).</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-23_79cda76053b2af355a5b79bdcb6715d6">
-
-<div class="exercisebox">
-<p>Figure out what you do if you calculate <code>mean(tabdat)</code></p>
+<div id="Exercise-4.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 4.1</strong></summary><div>Figure out what you do if you calculate <code>mean(tabdat)</code><p></p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-24_8ea78eba396348ae35a0d6dd926dde00">
-
-<div class="solutionbox">
-<p><code>dat = c(5,6,5,7,5,8)</code>;</p>
-<p><code>dat</code></p>
-<p><code>tabdat=table(dat)</code></p>
-<p><code>tabdat</code></p>
-<p><code>mean(tabdat)</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-20_575abde876e91bc6126210704ff3eb58">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    dat = c(5,6,5,7,5,8);
+    dat
+    tabdat=table(dat)
+    tabdat
+    mean(tabdat)</code></pre>
 <p>It is the mean of the frequencies, and so this is not what you want to know.</p>
+</div></details>
 </div>
 </div>
-<p>Going back the other way, from a table to raw values, we can use the <code>rep()</code> function to repeat values an appropriate number of times. In its simplest form, <code>rep(x,n)</code> just creates a vector repeats <code>x</code> (which may be either a single value or a vector) <code>n</code> times, but <strong>if n is a vector as well</strong> then each element of <code>x</code> is repeated the corresponding number of times: for example, ::: {.cell hash=‘solution_cache/html/unnamed-chunk-25_a448b5eb4575a70183a033671268769f’}</p>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Going back the other way, from a table to raw values, we can use the <code>rep()</code> function to repeat values an appropriate number of times. In its simplest form, <code>rep(x,n)</code> just creates a vector repeats <code>x</code> (which may be either a single value or a vector) <code>n</code> times, but <strong>if n is a vector as well</strong> then each element of <code>x</code> is repeated the corresponding number of times: for example,</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-21_9b30c3488ce5e88525a32c74e9e150d8">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 2 3 3 3 3 3</code></pre>
 </div>
-<p>::: gives two copies of 1, one copy of 2, and five copies of 3.</p>
-<p>Therefore, ::: {.cell hash=‘solution_cache/html/unnamed-chunk-26_9334abc86d2cb39f51ccd6b3599b4530’}</p>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(vals,tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>gives two copies of 1, one copy of 2, and five copies of 3.</p>
+<p>Therefore,</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-22_0c294aebb72c6f674fc01cd0bb26bba8">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(vals,tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 5 5 6 7 8</code></pre>
 </div>
-<p>::: will recover our original data (although not in the original order) by repeating each element of <code>vals</code> the correct number of times.</p>
+</div>
+<p>will recover our original data (although not in the original order) by repeating each element of <code>vals</code> the correct number of times.</p>
 <section id="jensens-inequality" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="jensens-inequality"><span class="header-section-number">4.1</span> Jensen’s inequality</h2>
 <p>Jensen’s inequality states the following: Suppose you have a number of values, <span class="math inline">\(x\)</span>, with a mean <span class="math inline">\(\bar{x}\)</span>, and a non-linear function <span class="math inline">\(f(x)\)</span>. Then the mean of <span class="math inline">\(f(x)\)</span> is not equal to <span class="math inline">\(f(\bar{x})\)</span>.</p>
 <p>Jensen’s inequality can be important in a number of cases. The first one is mentioned in Ch. 4 (page 104) how variability can change the mean behaviour of a system (damselfish). Another example where Jensen’s inequality kicks in is when transforming your data. Data-transformations are commonly applied to get normally distributed errors.</p>
 <p>In statistical models, you often estimate the mean effect of a given treatment.</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-27_3ae979417cc2df357d1e2b751abc1c73">
-
-<div class="exercisebox">
-<p>Find out what the effect of Jensen’s inequality is on a series of log-tranformed datapoints with respect to the estimated mean.</p>
-<p>Use the following pseudo-code: 1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10). 2. Calculate the mean of those 10 deviates. 3. Plot the function <span class="math inline">\(\log(x)\)</span> with curve on the range from 0-10, and plot your numbers onto it 4. Calculate the mean of the log-transformed values and transform this mean back the normal scale, and compare to the mean calculated at 1. 5. Plot the means with <code>abline(h=...)</code> if you want to draw a horizontal line or <code>abline(v=...)</code> to draw a vertical line. 6.Explain differences between the two means.</p>
+<div id="Exercise-4.2" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 4.2</strong></summary><div>Find out what the effect of Jensen’s inequality is on a series of log-tranformed datapoints with respect to the estimated mean.<p></p>
+<p>Use the following pseudo-code: 1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10). 2. Calculate the mean of those 10 deviates. 3. Plot the function <span class="math inline">\(\log(x)\)</span> with curve on the range from 0-10, and plot your numbers onto it 4. Calculate the mean of the log-transformed values and transform this mean back the normal scale, and compare to the mean calculated at 1. 5. Plot the means with <code>abline(h=...)</code> if you want to draw a horizontal line or <code>abline(v=...)</code> to draw a vertical line. 6. Explain differences between the two means.</p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-28_1e96f6d3432a67d0a148d796f274bdbd">
-
-<div class="solutionbox">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-23_7737f7cd10d82ecd9bdbe010ca328372">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
-<li><p><code>rf = runif(10,min=0,max=10)</code></p></li>
-<li><p><code>mean(rf)</code></p></li>
-<li><p><code>plot(log(rf)~ rf)</code> <code>curve(log(x),add=T)</code></p></li>
-<li><p><code>exp(mean(log(rf)))</code> versus <code>mean(rf)</code></p></li>
-<li><p><code>segments(x0=0,y0=log(mean(rf)),x1=mean(rf),              y1=log(mean(rf)),lty=1)</code> <code>segments(x0=mean(rf),y0=0,x1=mean(rf),             y1=log(mean(rf)),lty=1)</code> <code>segments(x0=0,y0=mean(log(rf)),x1=exp(mean(log(rf))),           y1=mean(log(rf)),lty=2)</code></p></li>
+<li><pre><code>  rf = runif(10,min=0,max=10)</code></pre></li>
+<li><pre><code>  mean(rf)</code></pre></li>
+<li><pre><code>  plot(log(rf)~ rf)
+  curve(log(x),add=T)</code></pre></li>
+<li><pre><code>  exp(mean(log(rf)))` versus `mean(rf)</code></pre></li>
+<li><pre><code>  segments(x0=0,y0=log(mean(rf)),x1=mean(rf), y1=log(mean(rf)),lty=1)
+  segments(x0=mean(rf),y0=0,x1=mean(rf), y1=log(mean(rf)),lty=1)
+  segments(x0=0,y0=mean(log(rf)),x1=exp(mean(log(rf))), y1=mean(log(rf)),lty=2)</code></pre></li>
 </ol>
 <p>A dotted line for the mean of the log transformed values</p>
-<p><code>segments(x0=exp(mean(log(rf))),y0=mean(log(rf)),           x1=exp(mean(log(rf))),           y1=min(log(rf)),lty=2)</code></p>
+<pre><code>    segments(x0=exp(mean(log(rf))),y0=mean(log(rf)),
+             x1=exp(mean(log(rf))),
+             y1=min(log(rf)),lty=2)</code></pre>
 <p>By doing a log transformation first, the higher values are “compressed” and weigh less into the mean.</p>
+</div></details>
 </div>
 </div>
 <p>This exercise shows that it is usually a good idea to leave variables untransformed when estimating the properties from this data.</p>
@@ -558,47 +589,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 data-number="5"><span class="header-section-number">5</span> The method of moments: reparameterizing distributions</h1>
 <p>In the chapter, I showed how to use the <em>method of moments</em> to estimate the parameters of a distribution by setting the sample mean and variance (<span class="math inline">\(\bar x\)</span>, <span class="math inline">\(s^2\)</span>) equal to the theoretical mean and variance of a distribution and solving for the parameters. For the negative binomial, in particular, I found <span class="math inline">\(\mu=\bar x\)</span> and <span class="math inline">\(k=(\bar x)/(s^2/\bar x -1)\)</span>.</p>
 <p>You can also define your own functions that use your own parameterizations: call them <code>my_function</code> rather than just replacing the standard <code>R</code> functions (which will lead to insanity in the long run).</p>
-<p>For example, defining ::: {.cell hash=‘solution_cache/html/unnamed-chunk-29_a1f201e70f7910213d67d783be5f26bc’}</p>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_dnbinom <span class="ot">=</span> <span class="cf">function</span>(x,mean,var,...) {</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>my_rnbinom <span class="ot">=</span> <span class="cf">function</span>(n,mean,var,...) {</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: (the <code>...</code> in the function takes any other arguments you give to <code>my_dnbinom</code> and just passes them through, unchanged, to <code>dnbinom</code>).</p>
+<p>For example, defining</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-24_a8f122047e910e0d90264c114f6dddc8">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>my_dnbinom <span class="ot">=</span> <span class="cf">function</span>(x,mean,var,...) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>my_rnbinom <span class="ot">=</span> <span class="cf">function</span>(n,mean,var,...) {</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(the <code>...</code> in the function takes any other arguments you give to <code>my_dnbinom</code> and just passes them through, unchanged, to <code>dnbinom</code>).</p>
 <p>Defining your own functions can be handy if you need to work on a regular basis with a distribution that uses a different parameterization than the one built into the standard <code>R</code> function.</p>
 <p>You can use the kinds of histograms shown above to test your results (remembering that the method of moments estimates may be slightly biased especially for small samples — but they shouldn’t cause errors as large as those caused by typical algebra mistakes).</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-30_ad8dddb2c69315b64b94ffe81078af10">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rnbinom</span>(<span class="dv">100000</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-25_b6f8457a697f5c6718267a54f7f99f78">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rnbinom</span>(<span class="dv">100000</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.99864</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.996378</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-31_4719b877d69af1b4f1ab9c44f3886b7a">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">100000</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylab=</span><span class="st">"Probability"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">my_dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x),<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-26_1d58620171e97ac5a4fbe541562376e6">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">100000</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylab=</span><span class="st">"Probability"</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">my_dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x),<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="solution_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-32_95ce9d9c23ded30b610b1e59172fb91a">
-
-<div class="exercisebox">
-<p>Morris (1997) gives a definition of the beta function that is different from the standard statistical parameterization. The standard parameterization is <span class="math display">\[
+<div id="Exercise-5.1" class="Exercise">
+<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 5.1</strong></summary><div>
+<p>Morris (1997) gives a definition of the beta function that is different from the standard statistical parameterization. The standard parameterization is</p>
+<p><span class="math display">\[
 \mbox{Beta}(x|a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} x^{a-1}(1-x)^{b-1}
-\]</span> whereas Morris uses <span class="math display">\[
+\]</span></p>
+<p>whereas Morris uses</p>
+<p><span class="math display">\[
 \mbox{Beta}(x|P,\theta) = \frac{\Gamma(\theta)}{\Gamma(\theta P)\Gamma(\theta (1-P))} x^{\theta P-1} (1-x)^{\theta(1-P)-1}.
 \]</span></p>
 <ol type="1">
@@ -607,28 +642,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Define a new set of functions that generate random numbers from the beta distribution (<code>my_rbeta</code>) and calculate the density function (<code>my_dbeta</code>) in terms of <span class="math inline">\(P\)</span> and <span class="math inline">\(\theta\)</span>.</li>
 <li>Generate a histogram from this distribution and draw a vertical line showing the mean of the distribution. Vertical lines can be drawn by using <code>abline(v=...)</code></li>
 </ol>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-33_e856eabb634db8cc4b4e027940158cc4">
-
-<div class="solutionbox">
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-27_83f3cf67e4b3f8eafb80e58aa7021852">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
 <li><p>Based just on the expressions in the normalization constant <span class="math inline">\(\Gamma(a+b)/(\Gamma(a)\Gamma(b))\)</span> for the standard parameterization, <span class="math inline">\(\Gamma(\theta)/(\Gamma(\theta P)\Gamma(\theta(1-P))))\)</span> gives <span class="math inline">\(\theta=a+b\)</span>, <span class="math inline">\(P=a/(a+b)\)</span> or conversely <span class="math inline">\(a = \theta P\)</span>, <span class="math inline">\(b=\theta(1-P)\)</span>.</p></li>
 <li><p>In this parameterization, P is the mean proportion/ number of successes/etc. and <span class="math inline">\(\theta\)</span> governs the width of the distribution</p></li>
-<li><p><code>my_rbeta = function(n, theta, P) {</code></p>
-<p><code>rbeta(n, shape1 = theta * P, shape2 = theta * (1 - P))</code></p></li>
+<li><pre><code>  my_rbeta = function(n, theta, P) {
+    rbeta(n, shape1 = theta * P, shape2 = theta * (1 - P))
+  }
+
+  my_dbeta = function(x, theta, P) {
+   dbeta(x, shape1 = theta * P, shape2 = theta * (1 - P))
+  }</code></pre></li>
+<li><pre><code>  x = my_rbeta(1000, theta = 10, P = 0.2)
+  hist(x, breaks = 50, prob = TRUE, col = "gray")
+  curve(my_dbeta(x, theta = 10, P = 0.2), add = TRUE, lwd = 2)
+  abline(v = 0.2, lwd = 2, lty = 3)
+  abline(v = mean(x), lty = 2)</code></pre></li>
 </ol>
-<p><code>}</code></p>
-<p><code>my_dbeta = function(x, theta, P) {</code></p>
-<p><code>dbeta(x, shape1 = theta * P, shape2 = theta * (1 - P))</code></p>
-<p><code>}</code></p>
-<ol start="4" type="1">
-<li><code>x = my_rbeta(1000, theta = 10, P = 0.2)</code></li>
-</ol>
-<p><code>hist(x, breaks = 50, prob = TRUE, col = "gray")</code></p>
-<p><code>curve(my_dbeta(x, theta = 10, P = 0.2), add = TRUE, lwd = 2)</code></p>
-<p><code>abline(v = 0.2, lwd = 2, lty = 3)</code></p>
-<p><code>abline(v = mean(x), lty = 2)</code></p>
+</div></details>
 </div>
 </div>
 </section>
@@ -639,108 +674,118 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The general formula for the probability distribution of a zero-inflated distribution, with an underlying distribution <span class="math inline">\(P(x)\)</span> and a zero-inflation probability of <span class="math inline">\(p_z\)</span>, is: <span class="math display">\[\begin{eqnarray*}
 \mbox{Prob}(0) &amp; = &amp; p_z + (1-p_z) P(0) \\
 \mbox{Prob}(x&gt;0) &amp; = &amp; (1-p_z) P(x)
-\end{eqnarray*}\]</span> So, for example, we could define a probability distribution for a zero-inflated negative binomial as follows: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-34_b38068316938fabe66249775204df679’}</p>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dzinbinom <span class="ot">=</span> <span class="cf">function</span>(x,mu,size,zprob) {</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">0</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         zprob<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(<span class="dv">0</span>,<span class="at">mu=</span>mu,<span class="at">size=</span>size),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>         (<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: (the name, <code>dzinbinom</code>, follows the <code>R</code> convention for a probability distribution function: a <code>d</code> followed by the abbreviated name of the distribution, in this case <code>zinbinom</code> for “<strong>z</strong>ero-<strong>i</strong>nflated <strong>n</strong>egative <strong>binom</strong>ial”).</p>
+\end{eqnarray*}\]</span> So, for example, we could define a probability distribution for a zero-inflated negative binomial as follows:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-28_5a32fd80fa264abdde45ffc1a76ec32a">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dzinbinom <span class="ot">=</span> <span class="cf">function</span>(x,mu,size,zprob) {</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">0</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>         zprob<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(<span class="dv">0</span>,<span class="at">mu=</span>mu,<span class="at">size=</span>size),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>         (<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(the name, <code>dzinbinom</code>, follows the <code>R</code> convention for a probability distribution function: a <code>d</code> followed by the abbreviated name of the distribution, in this case <code>zinbinom</code> for “<strong>z</strong>ero-<strong>i</strong>nflated <strong>n</strong>egative <strong>binom</strong>ial”).</p>
 <p>The <code>ifelse()</code> command checks every element of <code>x</code> to see whether it is zero or not and fills in the appropriate value depending on the answer.</p>
-<p>A random deviate generator would look like this: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-35_bb81d5e1361896d936e0d8b25021a780’}</p>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: The command <code>runif(n)</code> picks <code>n</code> random values between 0 and 1; the <code>ifelse</code> command compares them with the value of <code>zprob</code>. If an individual value is less than <code>zprob</code> (which happens with probability <code>zprob</code>=<span class="math inline">\(p_z\)</span>), then the corresponding random number is zero; otherwise it is a value picked out of the appropriate negative binomial distribution.</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-36_dd3a49da9dd3da059c9d32d9681d06f7">
-
-<div class="exercisebox">
-<p>Check graphically that these functions actually work. For instance, you could compare the results with a negative binomial function with the same mean and variance as the data.</p>
+<p>A random deviate generator would look like this:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-29_d9103552485a1a462f45a6e4e473fac4">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The command <code>runif(n)</code> picks <code>n</code> random values between 0 and 1; the <code>ifelse</code> command compares them with the value of <code>zprob</code>. If an individual value is less than <code>zprob</code> (which happens with probability <code>zprob</code>=<span class="math inline">\(p_z\)</span>), then the corresponding random number is zero; otherwise it is a value picked out of the appropriate negative binomial distribution.</p>
+<div id="Exercise-6.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 6.1</strong></summary><div>Check graphically that these functions actually work. For instance, you could compare the results with a negative binomial function with the same mean and variance as the data.<p></p>
+</div></details>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-37_89c212b1e1196e1a7e91ac3f3fa993e7">
-
-<div class="solutionbox">
-<p><code>rzinbinom = function(n,mu,size,zprob) {</code></p>
-<p><code>ifelse(runif(n)&lt;zprob,</code></p>
-<pre><code>     `0,rnbinom(n,mu=mu,size=size))`</code></pre>
-<p><code>}</code></p>
-<p><code>a = rzinbinom(1000,mu=4,size=1,zprob=0.2)</code></p>
-<p><code>mean.a = mean(a)</code></p>
-<p><code>var.a = var(a)</code></p>
-<p><code>size = 1/(((var.a - mean.a))/mean.a^2)</code></p>
-<p><code>a1 = rnbinom(1000,mu=mean.a,size=size)</code></p>
-<p><code>x = as.numeric(names(table(a)))</code></p>
-<p><code>plot(as.numeric(table(a))~ x,type="h")</code></p>
-<p><code>x = as.numeric(names(table(a1)))</code></p>
-<p><code>points(as.numeric(table(a1))~ x,type="p")</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-30_7c37fb9b32f9a9c7eb4935df50b8c5f6">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    rzinbinom = function(n,mu,size,zprob) {
+      ifelse(runif(n)&lt;zprob, 0,rnbinom(n,mu=mu,size=size))
+    }
+    a = rzinbinom(1000,mu=4,size=1,zprob=0.2)
+    mean.a = mean(a)
+    var.a = var(a)
+    size = 1/(((var.a - mean.a))/mean.a^2)
+    a1 = rnbinom(1000,mu=mean.a,size=size)
+    x = as.numeric(names(table(a)))
+    plot(as.numeric(table(a))~ x,type="h")
+    x = as.numeric(names(table(a1)))
+    points(as.numeric(table(a1))~ x,type="p")</code></pre>
+</div></details>
 </div>
 </div>
 </section>
 </section>
 <section id="compounding-distributions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
-<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say ::: {.cell hash=‘solution_cache/html/unnamed-chunk-38_b9d51a7492f66d51b1c03c2774e69e91’}</p>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-31_55c9e86d44336b97a3ed8a6ba7c31c2c">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  7  8 10  7  5  9  8  9</code></pre>
 </div>
-<p>::: but if you had a series of clutches of different sizes, you could still pick all the random values at the same time: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-39_031962c51943804ee8f0a088af8c1c1d’}</p>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>but if you had a series of clutches of different sizes, you could still pick all the random values at the same time:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-32_1c81ac77714042d5a94df791bbb81568">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9 6 9 8 7 7 5 9</code></pre>
 </div>
-<p>:::</p>
-<p>Taking this a step farther, the clutch size itself could be a random variable: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-40_e98ed5df7b2340690919e3f23a2f96b9’}</p>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">8</span>,<span class="at">lambda=</span><span class="dv">10</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Taking this a step farther, the clutch size itself could be a random variable:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-33_d4fab9ca27e615aa5f593d8add7600ad">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">8</span>,<span class="at">lambda=</span><span class="dv">10</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  6  9  7  7  6  5 11  8</code></pre>
 </div>
-<p>::: We’ve just generated a Poisson-binomial random deviate …</p>
+</div>
+<p>We’ve just generated a Poisson-binomial random deviate…</p>
 <p>As a second example, I’ll follow Clark <em>et al.</em> in constructing a distribution that is a compounding of normal distributions, with 1/variance of each sample drawn from a gamma distribution.</p>
-<p>First pick the variances as the reciprocals of 10,000 values from a gamma distribution with shape 5 (setting the scale equal to 1/5 so the mean will be 1): ::: {.cell hash=‘solution_cache/html/unnamed-chunk-41_6cd8f9d8676bda1493cf164106228b6d’}</p>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>var_vals<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">rgamma</span>(<span class="dv">10000</span>,<span class="at">shape=</span><span class="dv">5</span>,<span class="at">scale=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>Take the square root, since <code>dnorm</code> uses the standard deviation and not the variance as a parameter: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-42_a58ad985b7e8db25b627d90b733140d8’}</p>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>sd_vals <span class="ot">=</span> <span class="fu">sqrt</span>(var_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>Generate 10,000 normal deviates using this range of standard deviations: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-43_034be382f3f9df60ab8dfc30bdd4b1e2’}</p>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span>sd_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>Figure 4 shows a histogram of the following commands: ::: {.cell hash=‘solution_cache/html/unnamed-chunk-44_61edcf1cbd17afa94c1c0daebd116afd’}</p>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x,<span class="at">prob=</span><span class="cn">TRUE</span>,<span class="at">breaks=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">"gray"</span>)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="at">df=</span><span class="dv">11</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-45_c21ac2d87c39cfbbec9645eb0523cd4c">
+<p>First pick the variances as the reciprocals of 10,000 values from a gamma distribution with shape 5 (setting the scale equal to 1/5 so the mean will be 1):</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-34_f553906866051ff8f2d0a3606f2d8f6f">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>var_vals<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">rgamma</span>(<span class="dv">10000</span>,<span class="at">shape=</span><span class="dv">5</span>,<span class="at">scale=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Take the square root, since <code>dnorm</code> uses the standard deviation and not the variance as a parameter:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-35_7f703644b4d93edbf1ae9f6716dc0e4c">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>sd_vals <span class="ot">=</span> <span class="fu">sqrt</span>(var_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Generate 10,000 normal deviates using this range of standard deviations:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-36_2f623abbba90a2285c4a89061bf9c53a">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span>sd_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Figure 4 shows a histogram of the following commands:</p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-37_98ea0b8ffdcc6deb08f69c57cc80e284">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x,<span class="at">prob=</span><span class="cn">TRUE</span>,<span class="at">breaks=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">"gray"</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="at">df=</span><span class="dv">11</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-38_7a652d05435f7efc90d16d87a43874fa">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="solution_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
 <p></p><figcaption class="figure-caption">Clark model: inverse gamma compounded with normal, equivalent to the Student <span class="math inline">\(t\)</span> distribution</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 <p>The superimposed curve is a <span class="math inline">\(t\)</span> distribution with 11 degrees of freedom; it turns out that if the underlying gamma distribution has shape parameter <span class="math inline">\(p\)</span>, the resulting <span class="math inline">\(t\)</span> distribution has <span class="math inline">\(df=2p+1\)</span>. (Figuring out the analytical form of the compounded probability distribution or density function, or its equivalence to some existing distribution, is the hard part; for the most part, though, you can find these answers in the ecological and statistical literature if you search hard enough.</p>
-<div class="cell" type="exercisebox" data-latex.options="{4}" data-hash="solution_cache/html/unnamed-chunk-46_6704fc3b023180e0b7cc29300c0562cb">
-
-<div class="exercisebox">
-<p>generate 10,000 values from a gamma-Poisson compounded distribution with parameters shape=<span class="math inline">\(k=0.5\)</span>, scale=<span class="math inline">\(\mu/k=4/0.5=8\)</span> and demonstrate that it’s equivalent to a negative binomial with the appropriate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> parameters.</p>
+<div id="Exercise-7.1" class="Exercise">
+<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 7.1</strong></summary><div>generate 10,000 values from a gamma-Poisson compounded distribution with parameters shape=<span class="math inline">\(k=0.5\)</span>, scale=<span class="math inline">\(\mu/k=4/0.5=8\)</span> and demonstrate that it’s equivalent to a negative binomial with the appropriate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> parameters.<p></p>
 <p><em>Extra credit</em>: generate 10,000 values from a lognormal-Poisson distribution with the same expected mean and variance (the variance of the lognormal should equal the variance of the gamma distribution you used as a compounding distribution; you will have to do some algebra to figure out the values of <code>meanlog</code> and <code>sdlog</code> needed to produce a lognormal with a specified mean and variance. Plot the distribution and superimpose the theoretical distribution of the negative binomial with the same mean and variance to see how different the shapes of the distributions are.</p>
+</div></details>
 </div>
-</div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{4}" data-hash="solution_cache/html/unnamed-chunk-47_447885a0ce8fe793b9f77c0f5d11394d">
-
-<div class="solutionbox">
-<p><code>mu = 4</code></p>
-<p><code>k = 0.5</code></p>
-<p><code>x = rpois(10000, rgamma(10000, shape = k, scale = mu/k))</code></p>
-<p><code>plot(table(x)/10000)</code></p>
-<p><code>points(0:max(x), dnbinom(0:max(x), mu = mu, size = k), cex = 0.75)</code></p>
+<div class="cell" data-hash="solution_cache/html/unnamed-chunk-39_05ff2c5e1818f73595a010be4c317b7e">
+<div class="Solution">
+<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<pre><code>    mu = 4
+    k = 0.5
+    x = rpois(10000, rgamma(10000, shape = k, scale = mu/k))
+    plot(table(x)/10000)
+    points(0:max(x), dnbinom(0:max(x), mu = mu, size = k), cex = 0.75)</code></pre>
+</div></details>
 </div>
 </div>
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.242">
+<meta name="generator" content="quarto-1.2.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -104,6 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -123,6 +124,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>
+.Solution {
+  --color1: #80bfff;
+  --color2: #d9d9d9;
+}
+.Exercise {
+  --color1: #00ff00;
+  --color2: #d9d9d9;
+}
+</style>
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -239,10 +250,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">0.1</span>  Learning goals</a></li>
-  <li><a href="#fitting-models-containing-categorical-predictors" id="toc-fitting-models-containing-categorical-predictors" class="nav-link" data-scroll-target="#fitting-models-containing-categorical-predictors"><span class="toc-section-number">1</span>  Fitting models containing categorical predictors</a></li>
-  <li><a href="#fitting-models-with-the-heterogenous-variance" id="toc-fitting-models-with-the-heterogenous-variance" class="nav-link" data-scroll-target="#fitting-models-with-the-heterogenous-variance"><span class="toc-section-number">2</span>  Fitting models with the heterogenous variance</a></li>
-  <li><a href="#fitting-models-to-nested-data." id="toc-fitting-models-to-nested-data." class="nav-link" data-scroll-target="#fitting-models-to-nested-data."><span class="toc-section-number">3</span>  Fitting models to nested data.</a></li>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
+  <li><a href="#fitting-models-containing-categorical-predictors" id="toc-fitting-models-containing-categorical-predictors" class="nav-link" data-scroll-target="#fitting-models-containing-categorical-predictors"><span class="toc-section-number">2</span>  Fitting models containing categorical predictors</a></li>
+  <li><a href="#fitting-models-with-the-heterogenous-variance" id="toc-fitting-models-with-the-heterogenous-variance" class="nav-link" data-scroll-target="#fitting-models-with-the-heterogenous-variance"><span class="toc-section-number">3</span>  Fitting models with the heterogenous variance</a></li>
+  <li><a href="#fitting-models-to-nested-data." id="toc-fitting-models-to-nested-data." class="nav-link" data-scroll-target="#fitting-models-to-nested-data."><span class="toc-section-number">4</span>  Fitting models to nested data.</a></li>
   </ul>
 </nav>
     </div>
@@ -278,19 +289,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="learning-goals" class="level2" data-number="0.1">
-<h2 data-number="0.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">0.1</span> Learning goals</h2>
+<section id="learning-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>You will learn how to:</p>
 <ol type="1">
 <li><p>Estimate the parameters of a model with the variance varying as a function of a covariate (<code>gls</code>)</p></li>
 <li><p>Apply mixed effect models to data with nested structures</p></li>
 </ol>
 </section>
-<section id="fitting-models-containing-categorical-predictors" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Fitting models containing categorical predictors</h1>
+<section id="fitting-models-containing-categorical-predictors" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Fitting models containing categorical predictors</h1>
 </section>
-<section id="fitting-models-with-the-heterogenous-variance" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Fitting models with the heterogenous variance</h1>
+<section id="fitting-models-with-the-heterogenous-variance" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Fitting models with the heterogenous variance</h1>
 <p>It is common to observe that the variance of your data is not constant along your predictor <span class="math inline">\(x\)</span>. In case of the Poisson distribution, the relationship between the mean and the variance is fixed through <span class="math inline">\(\lambda\)</span>. For other probability distributions with <span class="math inline">\(\geq2\)</span> parameters the variance can be modelled (somewhat) independent of the mean. A classic example is the normal distribution with <span class="math inline">\(mu\)</span> equal to the mean of the distribution and <span class="math inline">\(\sigma\)</span> to the square root of the variance. Traditionally, when the variance increases with <span class="math inline">\(x\)</span> log transformations are applied. However, the variance can also be modelled explicitly. The purpose of this exercise is to give you insight how this can done (by showing a simple but wrong approach), followed by the correct, but canned approach <code>gls</code> in <code>R</code>.</p>
 <p>To illustrate the principle, we generate data from scratch first with constant variance:</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-1_f74ec431f02dc088f3aea683eedffda4">
@@ -314,81 +325,78 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol type="1">
 <li>Estimate the paramaters of the model through applying the Bolker approach. Make two models, one with constant variance and another one with the variance as a function of <span class="math inline">\(x\)</span>.</li>
 </ol>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-3_142b5f8ca2c5f53434226c5086fe48bc">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-3_07111f87c1f3fc648005a4c10fbc18c3">
 
 </div>
 <ol start="2" type="1">
 <li>Compare the AIC of both models. Which model is preferred?</li>
 </ol>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-4_8a46756a47a85905bfc780580a43e437">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-4_931c75e45775773795889177ac5052ca">
 
 </div>
 <ol start="3" type="1">
 <li>Now we will apply the function <code>gls</code> (from the package <code>nlme</code>), see below the R-script. Do the values of the <code>gls.2</code> correspond to the values that were obtained through the Bolker approach? To understand the differences, look careful at 1) the residual standard error of the gls (how does this compare to the variance?), 2) the equation of <code>varPower</code> (see Zuur), 3) and how the data was generated. To fit the models you can type:</li>
 </ol>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-5_d69f3b16efb90440fb579faee9905228">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'nlme' was built under R version 4.3.1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to specify the variance as a function of x we can use different functions</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (see chapter 4 of Zuur for details) or see ?varClasses</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">weights=</span><span class="fu">varPower</span>(<span class="at">form=</span><span class="sc">~</span>x), <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.2</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(gls<span class="fl">.1</span>,gls<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># to specify the variance as a function of x we can use different functions</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (see chapter 4 of Zuur for details) or see ?varClasses</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">weights=</span><span class="fu">varPower</span>(<span class="at">form=</span><span class="sc">~</span>x), <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.2</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(gls<span class="fl">.1</span>,gls<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
 <li>The variance estimates are biased because they are estimated with <em>maximum likelihood</em> and not <em>restricted maximum likelihood</em> (<code>method=REML</code> is the default in <code>gls</code>). With restricted maximumlikelihood you account for the fact that you need estimate the mean from the data. Since the esimated mean will be slightly different than the true mean, the estimated variance is also slightly different from the true variance (i.e.&nbsp;<span class="math inline">\(\sigma^2=\sum_{i=1}^{N}(y_i-\mu)^2\)</span>). Thus the mean itself is an estimate from the data (i.e.&nbsp;<span class="math inline">\(\bar{y}\)</span>) and not the population parameter itself (i.e.&nbsp;<span class="math inline">\(\mu\)</span>). Thus you should fit models with <code>REML</code> when applying AIC. Which model fits the data better?</li>
 </ol>
 </section>
-<section id="fitting-models-to-nested-data." class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Fitting models to nested data.</h1>
+<section id="fitting-models-to-nested-data." class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Fitting models to nested data.</h1>
 <p>An important assumption of the models we have discussed so far (linear models, generalized linear models and generalized least squares models) is that the observations are independent of each other. This assumptions is often violated in ecological data. The solution for the lack of independence is to model the data with so called <code>mixed effect models</code>. Mixed effect models contain a fixed part and a random part (see Zuur for more information). To understand how mixed effect models work, we will generate data ourselves and backfit the coefficients with a mixed effect model:</p>
 <p><span class="math display">\[Y_{i,j} = \alpha+\beta x + b_{i}+\epsilon_{j}\]</span> with <span class="math inline">\(b_{i} \sim N(0,\sigma_{site})\)</span></p>
 <p>with <span class="math inline">\(\epsilon_{j} \sim N(0,\sigma_{res})\)</span></p>
 <p>We can simulate data as follows:</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-6_87c868504ca3fbe1f65426799e3dc78d">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">200</span>,<span class="dv">0</span>,<span class="dv">10</span>) <span class="co"># this is the covariate</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sigma_site <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">0</span>,sigma_site) <span class="co"># we construct 10 different sites</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),<span class="dv">20</span>)) <span class="co"># site id</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sigma_res <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span><span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x <span class="sc">+</span> site[id] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>,<span class="dv">0</span>,sigma_res)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">=</span> <span class="fu">data.frame</span>(x,y,id)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># let's make a plot</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span>x,<span class="at">col=</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">200</span>,<span class="dv">0</span>,<span class="dv">10</span>) <span class="co"># this is the covariate</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sigma_site <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">0</span>,sigma_site) <span class="co"># we construct 10 different sites</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),<span class="dv">20</span>)) <span class="co"># site id</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sigma_res <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span><span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x <span class="sc">+</span> site[id] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>,<span class="dv">0</span>,sigma_res)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">=</span> <span class="fu">data.frame</span>(x,y,id)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># let's make a plot</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span>x,<span class="at">col=</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="no_solution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Now let’s fit a mixed effect model with a random intercept across sites:</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-7_041ec6c937d8554400da92e70ce1e1d1">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lme<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>id,<span class="at">data=</span>dat)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lme<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lme<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>id,<span class="at">data=</span>dat)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lme<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
 <li>Check the coefficients of the mixed effect model object <code>lme.1</code>. Do the values of the random effects make sense? And do the values of the fixed part make sense?</li>
 </ol>
 <p>Let’s plot the fitted lines for each site:</p>
 <div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-8_c8f6d665e2e0a489d211f646a77c2f59">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.site <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">1</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.main <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">0</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y,<span class="at">colour=</span>id))<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.site,<span class="at">colour=</span>id))<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.main),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.site <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.main <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y,<span class="at">colour=</span>id))<span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.site,<span class="at">colour=</span>id))<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.main),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="6" type="1">
 <li>Simulate data when allowing for random slopes across sites. Choose a <span class="math inline">\(\sigma\)</span> for the slopes of 1. Fit a mixed effects model with simulated data now allowing for random variation across slopes. Check the book of Zuur for the syntax. If you get convergence problems, run <code>ctrl &lt;- lmeControl(opt='optim')</code>, and add <code>control=ctrl</code> to the lme function, i.e.&nbsp;<code>lme(y~x..,control=ctrl)</code>.</li>
 </ol>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-9_848bd438d665c63bd83115cb89e39811">
+<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-9_6af3febbcd4f34f66f55a3b13acd7a8a">
 
 </div>
 
