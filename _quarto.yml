@@ -1,7 +1,5 @@
 project:
   type: website
-execute:
-  freeze: auto # Avoid running computations as part of Github actions
 website:
   reader-mode: true
   title: "Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R"

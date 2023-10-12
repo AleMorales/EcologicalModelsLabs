@@ -3,8 +3,28 @@ title: "Lab 4: Probability distributions (solutions)"
 author: \copyright 2005 Ben Bolker, modified at some places by Alejandro Morales & Bob Douma 2019
 date: "October 11, 2019"
 cache: true
+visual: false
 params:
   solution: true
+filters:
+  - custom-numbered-blocks
+custom-numbered-blocks:
+  groups:
+    question:
+      collapse: false
+      colors: [00ff00, d9d9d9]
+      label: "Exercise 4."
+      boxstyle: foldbox.simple
+    answer:
+      collapse: false
+      colors: [80bfff, d9d9d9]
+      label: "Solution"
+      boxstyle: foldbox.simple
+  classes:
+    Exercise:
+      group: question
+    Solution:
+      group: answer
 ---
 
 {{< include no_solution.qmd >}}
