@@ -407,13 +407,8 @@ One striking feature is that the distributions are not symmetric, they have a lo
 map = exp(mapfit$par)
 meanp = colMeans(bay2sample)
 medianp = c(median(bay2sample[,1]), median(bay2sample[,2]))
-cbind(map, meanp, medianp,
-      mom = c(mu.mom, k.mom),
-      mle = opt1$par,
-      true = c(mu.true, k.true))
+c(map, meanp, medianp)
 ```
-
-For this model, data and priors, all estimates are quite similar to each other across different methods of estimation. The reason is because there is sufficient data (50 points for 2 parameters is quite some data...) such that the priors have a negligible effect.
 
 The 95% credible intervals (analogous to 95% confidence intervals) can be calculated with the `quantile` function applied directly to the sample from the posterior:
 

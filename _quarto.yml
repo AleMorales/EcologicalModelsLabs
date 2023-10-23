@@ -16,8 +16,12 @@ website:
         text: "Lab 3"
       - href: Lab4/no_solution.qmd
         text: "Lab 4"
+      - href: Lab5/no_solution.qmd
+        text: "Lab 5"
       - href: Lab6/no_solution.qmd
-        text: "Lab 6 & 7"
+        text: "Lab 6"
+      - href: Lab7/no_solution.qmd
+        text: "Lab 7"
       - href: Lab9/no_solution.qmd
         text: "Lab 9"
       - section: "Solutions"
@@ -28,8 +32,12 @@ website:
             text: "Lab 3 (solutions)"
           - href: Lab4/solution.qmd
             text: "Lab 4 (solutions)"
+          - href: Lab5/solution.qmd
+            text: "Lab 5 (solutions)"
           - href: Lab6/solution.qmd
-            text: "Lab 6 & 7 (solutions)"
+            text: "Lab 6 (solutions)"
+          - href: Lab7/solution.qmd
+            text: "Lab 7 (solutions)"
           - href: Lab9/solution.qmd
             text: "Lab 9 (solutions)"
 format:
