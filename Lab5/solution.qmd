@@ -1,7 +1,7 @@
 ---
-title: "Lab 6 Fitting models to data"
-author: "Ben Bolker, modified at several places by Bob Douma and Alejandro Morales"
-date: "16 November 2022"
+title: "Lab 5: Stochastic simulation"
+author: Alejandro Morales & Bob Douma 2023
+date: "October 23, 2023"
 cache: true
 visual: false
 params:
@@ -13,7 +13,7 @@ custom-numbered-blocks:
     question:
       collapse: false
       colors: [00ff00, d9d9d9]
-      label: "Exercise 6."
+      label: "Exercise 4."
       boxstyle: foldbox.simple
     answer:
       collapse: false
