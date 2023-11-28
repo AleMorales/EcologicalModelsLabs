@@ -303,7 +303,7 @@ Now make another function with another deterministic model
         logLik(mle2.2)
         AIC(mle2.1,mle2.2)
 
-The first model fits better according to AIC. The difference is about 18 points on the log Likelihood scale. So that implies that the second model makes the data exp(18) $\approx$ 66,000,000 times more likely!
+The first model fits better according to AIC. The difference is about 9 points on the log Likelihood scale. So that implies that the first model makes the data exp(9) $\approx$ 8,000 times more likely!
 
 :::
 ```
