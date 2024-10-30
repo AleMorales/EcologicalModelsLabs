@@ -581,7 +581,9 @@ Modify the script as follows. Use `mfcol=c(2,1)` to create graphs of growth rate
 ```
 
 ::: Exercise
-Use `?par` to read about other plot control parameters that you use `par` to set (you should definitely skim --- this is one of the longest help files in the whole R system!).  Then draw a $2 \times 2$ set of plots, each showing the line $y=5x+3$ with $x$ running from 3 to 8, but with 4 different line styles and 4 different line colors.
+Use `?plot` and `?par` to read about other plot control parameters. The function `plot` takes a number of arguments such as `type` that allows you to draw a line through a series of points instead of plotting separate points. With `par` you can change anything you want to change. For example, you can choose the coloor of the points, or the shape of the points. You should definitely skim read this help as this is one of the longest help files in the whole R system!).  
+
+Then draw a $2 \times 2$ set of plots, each showing the line $y=5x+3$ with $x$ running from 3 to 8, but with 4 different line styles and 4 different line colors.
 :::
 
 ```{block2, echo = params$solution}
