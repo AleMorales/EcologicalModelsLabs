@@ -1140,13 +1140,13 @@ Use `rnorm` (which is like `runif`, but generates Gaussian (normally distributed
 ::: Solution
 
         set.seed(273)
-        matrix(rnorm(35,0,2),5,7)
+        matrix(rnorm(35,mean=1,sd=2),nrow=5,ncol=7)
 
 :::
 ```
 
 Another useful function for creating matrices is `diag`. `diag(v,n)` creates an $n \times n$ matrix with data
-vector $v$ on its diagonal. So for example `diag(1,5)` creates the $5 \times 5$ *identity matrix*, which has 1's on the diagonal and 0 everywhere else. Try `diag(1:5,5)` and `diag(1:2,5)`; why does the latter produce a warning?
+vector $v$ on its diagonal. So for example `diag(1,5)` creates the $5 \times 5$ *identity matrix*, which has 1's on the diagonal and 0 everywhere else. Try `diag(1:5,5)` and `diag(1:2,5)`; Observe what is happening. Is this desired behaviour?
 
 Finally, you can use the `data.entry` function. This function can only edit existing matrices, but for example
 
