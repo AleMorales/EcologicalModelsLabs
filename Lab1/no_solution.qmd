@@ -856,9 +856,9 @@ Repeat for  $n=50$. (*Note* that comparing very similar numeric values can be tr
 
         r = 0.5
         n =10
-        sum(r^c(1:n))
+        sum(r^c(0:n))
         n =50
-        sum(r^c(1:n))
+        sum(r^c(0:n))
 
 :::
 
