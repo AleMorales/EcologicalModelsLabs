@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,11 +19,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -48,43 +49,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -111,7 +82,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -120,22 +97,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <style>
-.Solution {
-  --color1: #80bfff;
-  --color2: #d9d9d9;
-}
 .Exercise {
   --color1: #00ff00;
   --color2: #d9d9d9;
 }
+.Solution {
+  --color1: #80bfff;
+  --color2: #d9d9d9;
+}
 </style>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -144,11 +151,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Lab 4: Probability distributions</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab4/no_solution.html">Lab 4</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -156,12 +168,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
         <div class="sidebar-tools-main">
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -169,94 +181,110 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">Lab 1</a>
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">Lab 2</a>
+  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">Lab 3</a>
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link active">Lab 4</a>
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">Lab 5</a>
+  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">Lab 6</a>
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">Lab 7</a>
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">Lab 9</a>
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Solutions</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">Lab 1 (solutions)</a>
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">Lab 3 (solutions)</a>
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">Lab 4 (solutions)</a>
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">Lab 5 (solutions)</a>
+  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">Lab 6 (solutions)</a>
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">Lab 7 (solutions)</a>
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">Lab 9 (solutions)</a>
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9 (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -264,25 +292,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
-  <li><a href="#choosing-probability-distributions" id="toc-choosing-probability-distributions" class="nav-link" data-scroll-target="#choosing-probability-distributions"><span class="toc-section-number">2</span>  Choosing probability distributions</a></li>
-  <li><a href="#random-distributions-in-r" id="toc-random-distributions-in-r" class="nav-link" data-scroll-target="#random-distributions-in-r"><span class="toc-section-number">3</span>  Random distributions in <code>R</code></a></li>
-  <li><a href="#averaging-distributions" id="toc-averaging-distributions" class="nav-link" data-scroll-target="#averaging-distributions"><span class="toc-section-number">4</span>  Averaging distributions</a>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
+  <li><a href="#choosing-probability-distributions" id="toc-choosing-probability-distributions" class="nav-link" data-scroll-target="#choosing-probability-distributions"><span class="header-section-number">2</span> Choosing probability distributions</a></li>
+  <li><a href="#random-distributions-in-r" id="toc-random-distributions-in-r" class="nav-link" data-scroll-target="#random-distributions-in-r"><span class="header-section-number">3</span> Random distributions in <code>R</code></a></li>
+  <li><a href="#averaging-distributions" id="toc-averaging-distributions" class="nav-link" data-scroll-target="#averaging-distributions"><span class="header-section-number">4</span> Averaging distributions</a>
   <ul class="collapse">
-  <li><a href="#jensens-inequality" id="toc-jensens-inequality" class="nav-link" data-scroll-target="#jensens-inequality"><span class="toc-section-number">4.1</span>  Jensen’s inequality</a></li>
+  <li><a href="#jensens-inequality" id="toc-jensens-inequality" class="nav-link" data-scroll-target="#jensens-inequality"><span class="header-section-number">4.1</span> Jensen’s inequality</a></li>
   </ul></li>
-  <li><a href="#the-method-of-moments-reparameterizing-distributions" id="toc-the-method-of-moments-reparameterizing-distributions" class="nav-link" data-scroll-target="#the-method-of-moments-reparameterizing-distributions"><span class="toc-section-number">5</span>  The method of moments: reparameterizing distributions</a></li>
-  <li><a href="#creating-new-distributions" id="toc-creating-new-distributions" class="nav-link" data-scroll-target="#creating-new-distributions"><span class="toc-section-number">6</span>  Creating new distributions</a>
+  <li><a href="#the-method-of-moments-reparameterizing-distributions" id="toc-the-method-of-moments-reparameterizing-distributions" class="nav-link" data-scroll-target="#the-method-of-moments-reparameterizing-distributions"><span class="header-section-number">5</span> The method of moments: reparameterizing distributions</a></li>
+  <li><a href="#creating-new-distributions" id="toc-creating-new-distributions" class="nav-link" data-scroll-target="#creating-new-distributions"><span class="header-section-number">6</span> Creating new distributions</a>
   <ul class="collapse">
-  <li><a href="#zero-inflated-distributions" id="toc-zero-inflated-distributions" class="nav-link" data-scroll-target="#zero-inflated-distributions"><span class="toc-section-number">6.1</span>  Zero-inflated distributions</a></li>
+  <li><a href="#zero-inflated-distributions" id="toc-zero-inflated-distributions" class="nav-link" data-scroll-target="#zero-inflated-distributions"><span class="header-section-number">6.1</span> Zero-inflated distributions</a></li>
   </ul></li>
-  <li><a href="#compounding-distributions" id="toc-compounding-distributions" class="nav-link" data-scroll-target="#compounding-distributions"><span class="toc-section-number">7</span>  Compounding distributions</a></li>
+  <li><a href="#compounding-distributions" id="toc-compounding-distributions" class="nav-link" data-scroll-target="#compounding-distributions"><span class="header-section-number">7</span> Compounding distributions</a></li>
   </ul>
 </nav>
     </div>
@@ -291,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Lab 4: Probability distributions</h1>
+<h1 class="title">Lab 4: Probability distributions</h1>
 </div>
 
 
@@ -316,11 +345,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
 
-<div class="cell" data-hash="no_solution_cache/html/setup_2841869a8bb070838bee038facf57af0">
 
-</div>
 <section id="learning-goals" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>This lab has two goals. First, helps you practicing with probability distributions on different types of data (section 2). Second, to make you familiar with the technicalities of stochastic distributions in <code>R</code>. In particular, how to generate values from probability distributions and how to make your own probability distribution (section 3-7). Under time constraints, make sure that you make at least the exercises in section 2, 3 and 4.</p>
@@ -332,9 +360,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 2.1</strong></summary><div>Reload the six datasets and choose for each dataset one or two candidate probability distributions. <em>hint</em>: ask yourself a number of questions: Do I have counts (integer) or continuous (real) values? Do I have positive values only or also negative values?<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-1_d4f580580720cf36a2f77fff85611e28">
-
-</div>
 </section>
 <section id="random-distributions-in-r" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Random distributions in <code>R</code></h1>
@@ -344,12 +369,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>rbinom(n,size,prob)</code> gives <code>n</code> random draws from the binomial distribution with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw).</li>
 </ul>
 <p>You can give different parameters for each draw. For example:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-2_af8524dff962a09a510df7e9123d3a98">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>,<span class="at">size=</span><span class="dv">8</span>,<span class="at">prob=</span><span class="fl">0.5</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">3</span>,<span class="at">size=</span><span class="dv">8</span>,<span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.4</span>,<span class="fl">0.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Figure 1 shows the result of drawing 200 values from a binomial distribution with <span class="math inline">\(N=12\)</span> and <span class="math inline">\(p=0.5\)</span> and plotting the results as a <code>factor</code> (with 5000 draws we don’t have to worry about any of the 13 possible outcomes getting missed and excluded from the plot):</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-3_90a53c76220665e2ce43e8577b4e94c0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">factor</span>(<span class="fu">rbinom</span>(<span class="dv">5000</span>,<span class="at">size=</span><span class="dv">12</span>,<span class="at">prob=</span><span class="fl">0.5</span>)), <span class="at">xlab=</span><span class="st">"# of successes"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"# of trials out of 200"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -360,28 +385,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><code>qbinom(p,size,prob)</code> gives the quantile function <span class="math inline">\(x=q(p)\)</span>, where <code>p</code> is a number between 0 and 1 (an area under the pdf, or value of the cdf) and <span class="math inline">\(x\)</span> is the value such that <span class="math inline">\(P(X \le x)=p\)</span>. The <em>quantile function</em> <span class="math inline">\(Q\)</span> is the inverse of the cumulative distribution function <span class="math inline">\(C\)</span>: if <span class="math inline">\(Q(p)=q\)</span> then <span class="math inline">\(C(q)=p\)</span>. Example: <code>qbinom(0.95,size=10,prob=0.4)</code>.</p></li>
 </ul>
 <p>These four functions exist for each of the distributions <code>R</code> has built in: e.g.&nbsp;for the normal distribution they’re <code>rnorm()</code>, <code>pnorm()</code>, <code>dnorm()</code>, <code>qnorm()</code>. Each distribution has its own set of parameters (so e.g.&nbsp;<code>pnorm()</code> is <code>pnorm(x,mean=0,sd=1)</code>). See Figure 2 for a graphical illustration of the four functions.To see which distributions are available in the <code>base</code> package; check <code>?distributions</code>.</p>
-<div class="cell" data-fig="true" data-hash="no_solution_cache/html/unnamed-chunk-4_0e5a59eaafe6799d421626112f2319cf">
+<div class="cell" data-fig="true">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="no_solution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Results of <code>rbinom</code></figcaption><p></p>
+<figcaption>Results of <code>rbinom</code></figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-5_a6c1b228bb19b761947358bdbdd4c470">
+<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="no_solution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption"><code>R</code> functions for the Normal distribution, showing probability density function (<code>dnorm</code>), and cumulative distribution function (<code>pnorm</code>). Random samples are drawn proportionally to the probability density function with <code>rnorm</code> and quantiles are calculated with by inverting the cumulative distribution function with <code>qnorm</code>.</figcaption><p></p>
+<figcaption><code>R</code> functions for the Normal distribution, showing probability density function (<code>dnorm</code>), and cumulative distribution function (<code>pnorm</code>). Random samples are drawn proportionally to the probability density function with <code>rnorm</code> and quantiles are calculated with by inverting the cumulative distribution function with <code>qnorm</code>.</figcaption>
 </figure>
 </div>
 </div>
-</div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-6_69366cf97fcb04663d623438508fc025">
-
 </div>
 <div id="Exercise-3.1" class="Exercise">
 <details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 3.1</strong></summary><div>
@@ -393,12 +415,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-7_15e0ecb3694d894509fe4aea91b36ad7">
-
-</div>
 <p>You can use the <code>R</code> functions to test your understanding of a distribution and make sure that random draws match up with the theoretical distributions as they should. This procedure is particularly valuable when you’re developing new probability distributions by combining simpler ones, e.g.&nbsp;by zero-inflating or compounding distributions.</p>
 <p>The results of a large number of random draws should have the correct moments (mean and variance), and a histogram of those random draws (with <code>freq=FALSE</code> or <code>prob=TRUE</code>) should match up with the theoretical distribution. For example, draws from a binomial distribution with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=20\)</span> should have a mean of approximately <span class="math inline">\(Np=4\)</span> and a variance of <span class="math inline">\(Np(1-p)=3.2\)</span>:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-8_51489de7827aa3daa5f0b8b386a5b8f3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">20</span>; p<span class="ot">=</span><span class="fl">0.2</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span>
@@ -408,12 +427,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>The mean is very close, the variance is a little bit farther off. Just for the heck of it, we can use the <code>replicate()</code> function to re-do this command many times and see how close we get:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-9_793f35258598d2530a06c4c9434659e7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>var_dist <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">var</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(this may take a little while; if it takes too long, lower the number of replicates to 100).</p>
 <p>Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the distribution of variances:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-10_d6d0293553c1d09e2ef0b551603c207b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -426,32 +445,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>(Try a histogram too.) Even though there’s some variation (of the variance) around the theoretical value, we seem to be doing the right thing since the 95% confidence limits include the theoretical value. (Lab 5 will go into more detail on running simulations to check the expected variation of different measurement as a function of parameters and sample size.)</p>
-<div class="cell" data-fig="true" data-hash="no_solution_cache/html/unnamed-chunk-11_a991a7673aea1abf03857abe3d4b1642">
+<div class="cell" data-fig="true">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="no_solution_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Checking random draws from a binomial distribution against theoretical values.</figcaption><p></p>
+<figcaption>Checking random draws from a binomial distribution against theoretical values.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Finally, Figure 3 shows the entire simulated frequency distribution along with the theoretical values. The steps in <code>R</code> are:</p>
 <p><strong>1.</strong> pick 10,000 random deviates:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-12_5999f075c54eb95b563c7ceecf1bed83">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>2.</strong> Tabulate the values, and divide by the number of samples to get a probability distribution:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-13_ae861f66b21d4be47cf225d86eae0377">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(The <code>levels</code> command is necessary in this case because the probability of <span class="math inline">\(x=12\)</span> with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=12\)</span> is actually so low (<span class="math inline">\(\approx 4\times 10^{-9}\)</span>) that it’s very unlikely that a sample of 10,000 won’t include any samples with 12 successes.)</p>
 <p><strong>3.</strong> Draw a barplot of the values, extending the <span class="math inline">\(y\)</span>-limits a bit to make room for the theoretical values and saving the <span class="math inline">\(x\)</span> locations at which the bars are drawn:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-14_fcbceab7cb418888198eda5f53c45201">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.23</span>),<span class="at">ylab=</span><span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>4.</strong> Add the theoretical values, plotting them at the same <span class="math inline">\(x\)</span>-locations as the centers of the bars:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-15_ff077953d4d1f78cd0f66d4a5dd3a38e">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N),<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(<code>barplot()</code> doesn’t put the bars at <span class="math inline">\(x\)</span> locations corresponding to their numerical values, so you have to save those values as <code>b1</code> and re-use them to make sure the theoretical values end up in the right place.)</p>
@@ -459,15 +478,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 3.2</strong></summary><div>Pick 10,000 negative binomial deviates with <span class="math inline">\(\mu=2\)</span>, <span class="math inline">\(k=0.5\)</span> (using <code>rnbinom()</code>). In <code>rbnbinom()</code> <span class="math inline">\(\mu\)</span> = <code>mu</code> and <span class="math inline">\(k\)</span> = <code>size</code>. Pick one of the ways above to draw the distribution. Check that the mean and variance agree reasonably well with the theoretical values. Add points representing the theoretical distribution to the plot.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-16_3047dce40099cb6c664e3ed2b6d07dd5">
-
-</div>
 <p>Doing the equivalent plot for continuous distributions is actually somewhat easier, since you don’t have to deal with the complications of a discrete distribution: just use <code>hist(...,prob=TRUE)</code> to show the sampled distribution (possibly with <code>ylim</code> adjusted for the maximum of the theoretical density distribution) and <code>ddist(x,[parameters])</code> to add the theoretical curve (e.g.: <code>curve(dgamma(x,shape=2,scale=1),add=TRUE)</code>).</p>
 </section>
 <section id="averaging-distributions" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Averaging distributions</h1>
 <p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-17_5ed6e91b7d3a5c6b59738cb453bf5e62">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 6 5 7 5 8</code></pre>
@@ -480,7 +496,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>To get the (sample) probability distribution of the data, just scale by the total sample size:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-18_1a3e1a09457f661d14b9c533a1412099">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>prob<span class="ot">=</span>tabdat<span class="sc">/</span><span class="fu">length</span>(dat); prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dat
@@ -491,7 +507,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>(dividing by <code>sum(tabdat)</code> would be equivalent).</p>
 <p>In the long format, we can take the mean with <code>mean(dat)</code> or, replicating the formula <span class="math inline">\(\sum x_i/N\)</span> exactly, <code>sum(dat)/length(dat)</code>.</p>
 <p>In the tabular format, we can calculate the mean with the formula <span class="math inline">\(\sum P(x) x\)</span>, which in <code>R</code> would be <code>sum(prob*5:8)</code> or more generally</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-19_0086cd317db669e9ef7c406dad2aa888">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(prob))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prob<span class="sc">*</span>vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -504,11 +520,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 4.1</strong></summary><div>Figure out what you do if you calculate <code>mean(tabdat)</code><p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-20_0b909e578826ef33bd36d58fcc2cfa5e">
-
-</div>
 <p>Going back the other way, from a table to raw values, we can use the <code>rep()</code> function to repeat values an appropriate number of times. In its simplest form, <code>rep(x,n)</code> just creates a vector repeats <code>x</code> (which may be either a single value or a vector) <code>n</code> times, but <strong>if n is a vector as well</strong> then each element of <code>x</code> is repeated the corresponding number of times: for example,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-21_09036ca9e750cf75b9a729bc3a499f16">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 1 2 3 3 3 3 3</code></pre>
@@ -516,7 +529,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>gives two copies of 1, one copy of 2, and five copies of 3.</p>
 <p>Therefore,</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-22_75713413a4de0047d6c1a6e8780a1e18">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(vals,tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 5 5 6 7 8</code></pre>
@@ -533,9 +546,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Use the following pseudo-code: 1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10). 2. Calculate the mean of those 10 deviates. 3. Plot the function <span class="math inline">\(\log(x)\)</span> with curve on the range from 0-10, and plot your numbers onto it 4. Calculate the mean of the log-transformed values and transform this mean back the normal scale, and compare to the mean calculated at 1. 5. Plot the means with <code>abline(h=...)</code> if you want to draw a horizontal line or <code>abline(v=...)</code> to draw a vertical line. 6. Explain differences between the two means.</p>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-23_47d25550986d4c9f14e67a956b45ba1a">
-
-</div>
 <p>This exercise shows that it is usually a good idea to leave variables untransformed when estimating the properties from this data.</p>
 </section>
 </section>
@@ -544,7 +554,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In the chapter, I showed how to use the <em>method of moments</em> to estimate the parameters of a distribution by setting the sample mean and variance (<span class="math inline">\(\bar x\)</span>, <span class="math inline">\(s^2\)</span>) equal to the theoretical mean and variance of a distribution and solving for the parameters. For the negative binomial, in particular, I found <span class="math inline">\(\mu=\bar x\)</span> and <span class="math inline">\(k=(\bar x)/(s^2/\bar x -1)\)</span>.</p>
 <p>You can also define your own functions that use your own parameterizations: call them <code>my_function</code> rather than just replacing the standard <code>R</code> functions (which will lead to insanity in the long run).</p>
 <p>For example, defining</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-24_43ba150d15363ad8424a6881b6ff2a46">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_dnbinom <span class="ot">=</span> <span class="cf">function</span>(x,mean,var,...) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
@@ -560,7 +570,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>(the <code>...</code> in the function takes any other arguments you give to <code>my_dnbinom</code> and just passes them through, unchanged, to <code>dnbinom</code>).</p>
 <p>Defining your own functions can be handy if you need to work on a regular basis with a distribution that uses a different parameterization than the one built into the standard <code>R</code> function.</p>
 <p>You can use the kinds of histograms shown above to test your results (remembering that the method of moments estimates may be slightly biased especially for small samples — but they shouldn’t cause errors as large as those caused by typical algebra mistakes).</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-25_d8e400fac6e0f37028ace9d326064531">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rnbinom</span>(<span class="dv">100000</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -571,13 +581,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 3.996378</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-26_0d2df3bec3de416fa9baa1f3891db4f3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">100000</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylab=</span><span class="st">"Probability"</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">my_dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x),<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="no_solution_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="no_solution_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div id="Exercise-5.1" class="Exercise">
@@ -598,9 +612,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-27_b33b637d1b6dd96e30d371c0a55327ba">
-
-</div>
 </section>
 <section id="creating-new-distributions" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Creating new distributions</h1>
@@ -610,7 +621,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \mbox{Prob}(0) &amp; = &amp; p_z + (1-p_z) P(0) \\
 \mbox{Prob}(x&gt;0) &amp; = &amp; (1-p_z) P(x)
 \end{eqnarray*}\]</span> So, for example, we could define a probability distribution for a zero-inflated negative binomial as follows:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-28_47e841bcc4531b7098f777cdf7cbe178">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dzinbinom <span class="ot">=</span> <span class="cf">function</span>(x,mu,size,zprob) {</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">0</span>,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         zprob<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(<span class="dv">0</span>,<span class="at">mu=</span>mu,<span class="at">size=</span>size),</span>
@@ -620,7 +631,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>(the name, <code>dzinbinom</code>, follows the <code>R</code> convention for a probability distribution function: a <code>d</code> followed by the abbreviated name of the distribution, in this case <code>zinbinom</code> for “<strong>z</strong>ero-<strong>i</strong>nflated <strong>n</strong>egative <strong>binom</strong>ial”).</p>
 <p>The <code>ifelse()</code> command checks every element of <code>x</code> to see whether it is zero or not and fills in the appropriate value depending on the answer.</p>
 <p>A random deviate generator would look like this:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-29_36165481622399e099ba842ad97a6085">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>,</span>
@@ -632,22 +643,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 6.1</strong></summary><div>Check graphically that these functions actually work. For instance, you could compare the results with a negative binomial function with the same mean and variance as the data.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-30_9d617175577925fafc025fb5bee99d34">
-
-</div>
 </section>
 </section>
 <section id="compounding-distributions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
 <p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-31_3e5d13478b0086e690e3522ae43f3bfa">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  7  8 10  7  5  9  8  9</code></pre>
 </div>
 </div>
 <p>but if you had a series of clutches of different sizes, you could still pick all the random values at the same time:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-32_87169a5d3e5085f6f80348d34af63c74">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -655,7 +663,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Taking this a step farther, the clutch size itself could be a random variable:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-33_ee3e7e3a71faad8c27f3f154254b774d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">8</span>,<span class="at">lambda=</span><span class="dv">10</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -665,28 +673,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ve just generated a Poisson-binomial random deviate…</p>
 <p>As a second example, I’ll follow Clark <em>et al.</em> in constructing a distribution that is a compounding of normal distributions, with 1/variance of each sample drawn from a gamma distribution.</p>
 <p>First pick the variances as the reciprocals of 10,000 values from a gamma distribution with shape 5 (setting the scale equal to 1/5 so the mean will be 1):</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-34_1de79b534e307262c0848c32edd6715c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>var_vals<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">rgamma</span>(<span class="dv">10000</span>,<span class="at">shape=</span><span class="dv">5</span>,<span class="at">scale=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Take the square root, since <code>dnorm</code> uses the standard deviation and not the variance as a parameter:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-35_578aeeb017d506b899154b120277e892">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sd_vals <span class="ot">=</span> <span class="fu">sqrt</span>(var_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Generate 10,000 normal deviates using this range of standard deviations:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-36_71b215f539b2b39e41f50da4fca30ddd">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span>sd_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Figure 4 shows a histogram of the following commands:</p>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-37_b028f735c0426bcfba56b053a796a462">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x,<span class="at">prob=</span><span class="cn">TRUE</span>,<span class="at">breaks=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">"gray"</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="at">df=</span><span class="dv">11</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-fig="true" data-hash="no_solution_cache/html/unnamed-chunk-38_710e233b5abfbf20f7f4d895eb23bdf3">
+<div class="cell" data-fig="true">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="no_solution_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Clark model: inverse gamma compounded with normal, equivalent to the Student <span class="math inline">\(t\)</span> distribution</figcaption><p></p>
+<figcaption>Clark model: inverse gamma compounded with normal, equivalent to the Student <span class="math inline">\(t\)</span> distribution</figcaption>
 </figure>
 </div>
 </div>
@@ -696,9 +704,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 4. 7.1</strong></summary><div>generate 10,000 values from a gamma-Poisson compounded distribution with parameters shape=<span class="math inline">\(k=0.5\)</span>, scale=<span class="math inline">\(\mu/k=4/0.5=8\)</span> and demonstrate that it’s equivalent to a negative binomial with the appropriate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> parameters.<p></p>
 <p><em>Extra credit</em>: generate 10,000 values from a lognormal-Poisson distribution with the same expected mean and variance (the variance of the lognormal should equal the variance of the gamma distribution you used as a compounding distribution; you will have to do some algebra to figure out the values of <code>meanlog</code> and <code>sdlog</code> needed to produce a lognormal with a specified mean and variance. Plot the distribution and superimpose the theoretical distribution of the negative binomial with the same mean and variance to see how different the shapes of the distributions are.</p>
 </div></details>
-</div>
-<div class="cell" data-hash="no_solution_cache/html/unnamed-chunk-39_0fcff5beed5e588d9fb259fb581eb96b">
-
 </div>
 
 
@@ -732,9 +737,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -770,10 +789,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -783,8 +819,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -796,9 +841,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -839,6 +1120,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

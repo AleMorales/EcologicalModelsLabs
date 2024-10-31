@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,11 +19,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -48,43 +49,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -110,7 +81,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -119,12 +96,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -133,11 +140,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Exploratory data analysis and graphics (lab 2)</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab2/index.html">Lab 2</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -145,12 +157,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
         <div class="sidebar-tools-main">
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -158,94 +170,110 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">Lab 1</a>
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link active">Lab 2</a>
+  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">Lab 3</a>
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">Lab 4</a>
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">Lab 5</a>
+  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">Lab 6</a>
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">Lab 7</a>
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">Lab 9</a>
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Solutions</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">Lab 1 (solutions)</a>
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">Lab 3 (solutions)</a>
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">Lab 4 (solutions)</a>
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">Lab 5 (solutions)</a>
+  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">Lab 6 (solutions)</a>
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">Lab 7 (solutions)</a>
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">Lab 9 (solutions)</a>
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9 (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -253,41 +281,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes"><span class="toc-section-number">1</span>  Learning outcomes</a></li>
-  <li><a href="#clear-workspace-and-read-in-and-reshape-data" id="toc-clear-workspace-and-read-in-and-reshape-data" class="nav-link" data-scroll-target="#clear-workspace-and-read-in-and-reshape-data"><span class="toc-section-number">2</span>  Clear workspace and read in and reshape data</a>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes"><span class="header-section-number">1</span> Learning outcomes</a></li>
+  <li><a href="#clear-workspace-and-read-in-and-reshape-data" id="toc-clear-workspace-and-read-in-and-reshape-data" class="nav-link" data-scroll-target="#clear-workspace-and-read-in-and-reshape-data"><span class="header-section-number">2</span> Clear workspace and read in and reshape data</a>
   <ul class="collapse">
-  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="toc-section-number">2.1</span>  Reading data</a></li>
-  <li><a href="#checking-data" id="toc-checking-data" class="nav-link" data-scroll-target="#checking-data"><span class="toc-section-number">2.2</span>  Checking data</a></li>
-  <li><a href="#reshaping-data" id="toc-reshaping-data" class="nav-link" data-scroll-target="#reshaping-data"><span class="toc-section-number">2.3</span>  Reshaping data</a></li>
-  <li><a href="#advanced-data-types-time-permitting" id="toc-advanced-data-types-time-permitting" class="nav-link" data-scroll-target="#advanced-data-types-time-permitting"><span class="toc-section-number">2.4</span>  Advanced data types (Time permitting)</a></li>
-  <li><a href="#accessing-data" id="toc-accessing-data" class="nav-link" data-scroll-target="#accessing-data"><span class="toc-section-number">2.5</span>  Accessing data</a></li>
+  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="header-section-number">2.1</span> Reading data</a></li>
+  <li><a href="#checking-data" id="toc-checking-data" class="nav-link" data-scroll-target="#checking-data"><span class="header-section-number">2.2</span> Checking data</a></li>
+  <li><a href="#reshaping-data" id="toc-reshaping-data" class="nav-link" data-scroll-target="#reshaping-data"><span class="header-section-number">2.3</span> Reshaping data</a></li>
+  <li><a href="#advanced-data-types-time-permitting" id="toc-advanced-data-types-time-permitting" class="nav-link" data-scroll-target="#advanced-data-types-time-permitting"><span class="header-section-number">2.4</span> Advanced data types (Time permitting)</a></li>
+  <li><a href="#accessing-data" id="toc-accessing-data" class="nav-link" data-scroll-target="#accessing-data"><span class="header-section-number">2.5</span> Accessing data</a></li>
   </ul></li>
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="toc-section-number">3</span>  Plotting</a>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">3</span> Plotting</a>
   <ul class="collapse">
-  <li><a href="#scatter-plot" id="toc-scatter-plot" class="nav-link" data-scroll-target="#scatter-plot"><span class="toc-section-number">3.1</span>  Scatter plot</a></li>
-  <li><a href="#bubble-plot" id="toc-bubble-plot" class="nav-link" data-scroll-target="#bubble-plot"><span class="toc-section-number">3.2</span>  Bubble plot</a></li>
-  <li><a href="#bar-plot-with-error-bars" id="toc-bar-plot-with-error-bars" class="nav-link" data-scroll-target="#bar-plot-with-error-bars"><span class="toc-section-number">3.3</span>  Bar plot (with error bars)</a></li>
-  <li><a href="#histogram-by-species" id="toc-histogram-by-species" class="nav-link" data-scroll-target="#histogram-by-species"><span class="toc-section-number">3.4</span>  Histogram by species</a></li>
-  <li><a href="#multi-line-plots" id="toc-multi-line-plots" class="nav-link" data-scroll-target="#multi-line-plots"><span class="toc-section-number">3.5</span>  Multi-line plots</a></li>
-  <li><a href="#histogram-and-density-plots" id="toc-histogram-and-density-plots" class="nav-link" data-scroll-target="#histogram-and-density-plots"><span class="toc-section-number">3.6</span>  Histogram and density plots</a></li>
-  <li><a href="#scaling-data" id="toc-scaling-data" class="nav-link" data-scroll-target="#scaling-data"><span class="toc-section-number">3.7</span>  Scaling data</a></li>
-  <li><a href="#box-and-whisker-and-violin-plots" id="toc-box-and-whisker-and-violin-plots" class="nav-link" data-scroll-target="#box-and-whisker-and-violin-plots"><span class="toc-section-number">3.8</span>  Box-and-whisker and violin plots</a></li>
-  <li><a href="#pair-plot" id="toc-pair-plot" class="nav-link" data-scroll-target="#pair-plot"><span class="toc-section-number">3.9</span>  Pair plot</a></li>
+  <li><a href="#scatter-plot" id="toc-scatter-plot" class="nav-link" data-scroll-target="#scatter-plot"><span class="header-section-number">3.1</span> Scatter plot</a></li>
+  <li><a href="#bubble-plot" id="toc-bubble-plot" class="nav-link" data-scroll-target="#bubble-plot"><span class="header-section-number">3.2</span> Bubble plot</a></li>
+  <li><a href="#bar-plot-with-error-bars" id="toc-bar-plot-with-error-bars" class="nav-link" data-scroll-target="#bar-plot-with-error-bars"><span class="header-section-number">3.3</span> Bar plot (with error bars)</a></li>
+  <li><a href="#histogram-by-species" id="toc-histogram-by-species" class="nav-link" data-scroll-target="#histogram-by-species"><span class="header-section-number">3.4</span> Histogram by species</a></li>
+  <li><a href="#multi-line-plots" id="toc-multi-line-plots" class="nav-link" data-scroll-target="#multi-line-plots"><span class="header-section-number">3.5</span> Multi-line plots</a></li>
+  <li><a href="#histogram-and-density-plots" id="toc-histogram-and-density-plots" class="nav-link" data-scroll-target="#histogram-and-density-plots"><span class="header-section-number">3.6</span> Histogram and density plots</a></li>
+  <li><a href="#scaling-data" id="toc-scaling-data" class="nav-link" data-scroll-target="#scaling-data"><span class="header-section-number">3.7</span> Scaling data</a></li>
+  <li><a href="#box-and-whisker-and-violin-plots" id="toc-box-and-whisker-and-violin-plots" class="nav-link" data-scroll-target="#box-and-whisker-and-violin-plots"><span class="header-section-number">3.8</span> Box-and-whisker and violin plots</a></li>
+  <li><a href="#pair-plot" id="toc-pair-plot" class="nav-link" data-scroll-target="#pair-plot"><span class="header-section-number">3.9</span> Pair plot</a></li>
   </ul></li>
-  <li><a href="#plotting-with-ggplot2" id="toc-plotting-with-ggplot2" class="nav-link" data-scroll-target="#plotting-with-ggplot2"><span class="toc-section-number">4</span>  Plotting with <code>ggplot2</code></a>
+  <li><a href="#plotting-with-ggplot2" id="toc-plotting-with-ggplot2" class="nav-link" data-scroll-target="#plotting-with-ggplot2"><span class="header-section-number">4</span> Plotting with <code>ggplot2</code></a>
   <ul class="collapse">
-  <li><a href="#scatter-plot-1" id="toc-scatter-plot-1" class="nav-link" data-scroll-target="#scatter-plot-1"><span class="toc-section-number">4.1</span>  Scatter plot</a></li>
-  <li><a href="#bar-plot-with-error-bars-1" id="toc-bar-plot-with-error-bars-1" class="nav-link" data-scroll-target="#bar-plot-with-error-bars-1"><span class="toc-section-number">4.2</span>  Bar plot (with error bars)</a></li>
-  <li><a href="#histogram-by-species-1" id="toc-histogram-by-species-1" class="nav-link" data-scroll-target="#histogram-by-species-1"><span class="toc-section-number">4.3</span>  Histogram by species</a></li>
-  <li><a href="#multiple-line-plots" id="toc-multiple-line-plots" class="nav-link" data-scroll-target="#multiple-line-plots"><span class="toc-section-number">4.4</span>  Multiple-line plots</a></li>
-  <li><a href="#histogram-and-density-plots-1" id="toc-histogram-and-density-plots-1" class="nav-link" data-scroll-target="#histogram-and-density-plots-1"><span class="toc-section-number">4.5</span>  Histogram and density plots</a></li>
-  <li><a href="#box-and-whisker-and-violin-plots-1" id="toc-box-and-whisker-and-violin-plots-1" class="nav-link" data-scroll-target="#box-and-whisker-and-violin-plots-1"><span class="toc-section-number">4.6</span>  Box-and-whisker and violin plots</a></li>
+  <li><a href="#scatter-plot-1" id="toc-scatter-plot-1" class="nav-link" data-scroll-target="#scatter-plot-1"><span class="header-section-number">4.1</span> Scatter plot</a></li>
+  <li><a href="#bar-plot-with-error-bars-1" id="toc-bar-plot-with-error-bars-1" class="nav-link" data-scroll-target="#bar-plot-with-error-bars-1"><span class="header-section-number">4.2</span> Bar plot (with error bars)</a></li>
+  <li><a href="#histogram-by-species-1" id="toc-histogram-by-species-1" class="nav-link" data-scroll-target="#histogram-by-species-1"><span class="header-section-number">4.3</span> Histogram by species</a></li>
+  <li><a href="#multiple-line-plots" id="toc-multiple-line-plots" class="nav-link" data-scroll-target="#multiple-line-plots"><span class="header-section-number">4.4</span> Multiple-line plots</a></li>
+  <li><a href="#histogram-and-density-plots-1" id="toc-histogram-and-density-plots-1" class="nav-link" data-scroll-target="#histogram-and-density-plots-1"><span class="header-section-number">4.5</span> Histogram and density plots</a></li>
+  <li><a href="#box-and-whisker-and-violin-plots-1" id="toc-box-and-whisker-and-violin-plots-1" class="nav-link" data-scroll-target="#box-and-whisker-and-violin-plots-1"><span class="header-section-number">4.6</span> Box-and-whisker and violin plots</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -297,7 +326,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Exploratory data analysis and graphics (lab 2)</h1>
+<h1 class="title">Exploratory data analysis and graphics (lab 2)</h1>
 </div>
 
 
@@ -322,12 +351,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
 
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_cc8e93cb50c71ca0f21fc3f66c4bad38">
 
-</div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_aa214e92ec9864e0c9cd1cc1793b156c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="learning-outcomes" class="level1" data-number="1">
@@ -337,24 +365,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="clear-workspace-and-read-in-and-reshape-data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Clear workspace and read in and reshape data</h1>
 <p>First I’m going to clear the workspace with <code>rm(list=ls())</code>. <code>ls()</code> lists all the objects in the workspace with <code>ls()</code> and then uses <code>rm()</code> to remove them. It is recommend to have this code at the top of every script, so every time you start working on the script you are sure the memory is cleared. You can also clear workspace from the menu in Rstudio (the little brush in the topright panel) and read in the measles data, which are space separated and have a header:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_794c8289b3bc372e40779bc3f48fa3c5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="reading-data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="reading-data"><span class="header-section-number">2.1</span> Reading data</h2>
 <p>Find the file called <code>seedpred.dat</code>. It is in the right format (plain text, long format), so you can just read it in with</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_1ae9118c744eb64451b2c3f7334ffe3f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"seedpred.dat"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Add the variable <code>available</code> to the data frame by combining taken and remaining (using the $ symbol):</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_b068ec1010637b1f677527934521eebe">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>available <span class="ot">=</span> data<span class="sc">$</span>taken <span class="sc">+</span> data<span class="sc">$</span>remaining</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>Pitfall #1: finding your file</em> If <code>R</code> responds to your <code>read.table()</code> or <code>read.csv()</code> command with an error like</p>
 <p><code>Error in file(file, "r") : unable to open connection In addition: Warning message: cannot open file 'myfile.csv'</code></p>
 <p>it means it can’t find your file, probably because it isn’t looking in the right place. By default, R’s working directory is the directory in which the R program starts up, which is by default something like <code>C:/Program Files/R/rw2010/bin.</code> (<code>R</code> uses / as the [operating-system-independent] separator between directories in a file path.) If you are using Rstudio, go to ‘Session’ and click ‘Set working directory’. You can also use the <code>setwd()</code> command to set the working directory. <code>getwd()</code> tells you what the current working directory is. While you could just throw everything on your desktop, it’s good to get in the habit of setting up a separate working directory for different projects, so that your data files, metadata files, <code>R</code> script files, and so forth, are all in the same place. Depending on how you have gotten your data files onto your system (e.g.&nbsp;by downloading them from the web), Windows will sometimes hide or otherwise screw up the extension of your file (e.g.&nbsp;adding .txt to a file called <code>mydata.dat</code>). <code>R</code> needs to know the full name of the file, including the extension.</p>
 <p>For example to set a working directory:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_01a1d7cf41f89832f06eda31be74ba03">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:/Bolker/labs/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><em>Pitfall #2: checking number of fields</em> In some cases the number of fields is not the same for every line in your data file. In that case you may get an error like:</p>
@@ -362,16 +390,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>or</p>
 <p><code>Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 5 elements</code></p>
 <p>If you need to check on the number of fields that R thinks you have on each line, use</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_a358de5a0675f909db4cd59a1f794a85">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count.fields</span>(<span class="st">"myfile.dat"</span>,<span class="at">sep=</span><span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(you can omit the <code>sep=","</code> argument if you have whitespace- rather than comma delimited data). If you are checking a long data file you can try</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_0a89213fca42257649f82dda60c0401d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">=</span> <span class="fu">count.fields</span>(<span class="st">"myfile.dat"</span>,<span class="at">sep=</span><span class="st">","</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(cf<span class="sc">!=</span>cf[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to get the line numbers with numbers of fields different from the first line. By default <code>R</code> will try to fill in what it sees as missing fields with <code>NA</code> (“not available”) values; this can be useful but can also hide errors. You can try</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_1e3981c5352a818854c2af80edf3c7be">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"myfile.dat"</span>, <span class="at">fill =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to turn off this behavior; if you don’t have any missing fields at the end of lines in your data this should work.</p>
@@ -381,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="checking-data" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="checking-data"><span class="header-section-number">2.2</span> Checking data</h2>
 <p>R will automatically recognize the type of data of the columns that are read in, but sometimes it goes wrong. To check that all your variables have been classified correctly:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_a26b18cf2b2a174959e261ea75f7c3b5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(data, class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species        tcum        tint   remaining       taken   available 
@@ -389,22 +417,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>This applies the <code>class()</code> command, which identifies the type of a variable, to each column in your data. Alternatively,</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_dbe7157532378fb15d16ef71b30119f3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>can be very helplful to get a glance of the characteristics of the data.</p>
 <p>Non-numeric missing-variable strings (such as a star, *) will also make <code>R</code> misclassify. Use <code>na.strings</code> in your <code>read.table()</code> command:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_a9b27c6d5c42904d11c9175bc3183e3f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"mydata.dat"</span>, <span class="at">na.strings =</span> <span class="st">"*"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can specify more than one value with (e.g.) na.strings=c(“<em>”,”</em>**”,“bad”,“-9999”).</p>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-13_41e838e4b4a0a4fa391d442862892214">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Try out <code>head()</code>, <code>summary()</code> and <code>str()</code> on data; make sure you understand the results.
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-14_e431747e28786922c54b1c4048df636d">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p><code>head()</code> gives the first five rows of your data and are used to inspect whether the read-in procedure went ok. For example, you can see whether the header is really a header or whether is was read-in as the first data row.</p>
@@ -417,14 +445,14 @@ Try out <code>head()</code>, <code>summary()</code> and <code>str()</code> on da
 <h2 data-number="2.3" class="anchored" data-anchor-id="reshaping-data"><span class="header-section-number">2.3</span> Reshaping data</h2>
 <p>Reshaping a dataframe is an important part of data exploration. For example, for making field recordings it is convenient to have the measurements of different plots or transects in different columns on your sheet. This is called a wide format. However, for data analysis in R (and other statistical programs) you need to have all measurements in one column, with an additional column indicating which plot a measurement belongs to (so called long format).</p>
 <p>Below we create a dataframe in long format and reshape it. Here are the commands to generate the data frame I used as an example in the text (I use <code>LETTERS</code>, a built-in vector of the capitalized letters of the alphabet, and <code>runif()</code>, which picks a specified number of random numbers from a uniform distribution between 0 and 1. The command <code>round(x,3)</code> rounds <code>x</code> to 3 digits after the decimal place.):</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-15_1ddd3d58ca3c6cf237d77f050648ba2f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>loc <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],<span class="dv">2</span>))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>day <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="at">each=</span><span class="dv">3</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>val <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">runif</span>(<span class="dv">6</span>),<span class="dv">3</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">=</span> <span class="fu">data.frame</span>(loc,day,val)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This data set is stored in long format. To go to wide format, we first need to (install and) load the library <code>reshape2</code>. In Lab 1 you learned how to install packages. You can load a package by <code>library()</code> or <code>require()</code>. Thus to use an additional package it must be (i) installed on your machine (with <code>install.packages())</code> or through the menu system and (ii) loaded in your current <code>R</code> session (with <code>library()</code>):</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-16_3b2bdf368c426d75ccb99c31c6efe3de">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)  </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">=</span> <span class="fu">dcast</span>(d,loc<span class="sc">~</span>day )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -433,39 +461,39 @@ Try out <code>head()</code>, <code>summary()</code> and <code>str()</code> on da
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  loc     1     2
-1   A 0.696 0.224
-2   B 0.602 0.015
-3   C 0.670 0.298</code></pre>
+1   A 0.563 0.862
+2   B 0.427 0.826
+3   C 0.040 0.509</code></pre>
 </div>
 </div>
 <p>loc~day specifies that <code>loc</code> will be used as rows and <code>day</code> will be put into columns.</p>
 <p>To go back to long format, we simply write:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-17_1e6f96def2bcb241406fed47f5edaa95">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">melt</span>(d2, <span class="at">variable.name=</span><span class="st">"day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>By specifying the <code>variable.name</code> to <code>day</code>, we put the columns (<code>1</code> and <code>2</code>) into a new column called <code>day</code>. The column in which the values are stored can be set by using the argument <code>value.name</code></p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-18_29d37491e27423b04d899272a3a31d59">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">melt</span>(d2, <span class="at">variable.name=</span><span class="st">"day"</span>,<span class="at">value.name=</span><span class="st">"val"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Using loc as id variables</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  loc day   val
-1   A   1 0.696
-2   B   1 0.602
-3   C   1 0.670
-4   A   2 0.224
-5   B   2 0.015
-6   C   2 0.298</code></pre>
+1   A   1 0.563
+2   B   1 0.427
+3   C   1 0.040
+4   A   2 0.862
+5   B   2 0.826
+6   C   2 0.509</code></pre>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-19_2f59f13496dea926fb9f5d3e35afe96e">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Make a new data.frame similar to the previous data.frame <code>d</code>, but with an extra column <code>month</code> consisting of two levels. The value of month should be 1 for the first records and 2 for the second. Next, reshape to wide format and back to long format. The long format is what we commonly use in statistics.
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-20_cce29c4c31a06e4d7730c3c78a9789ab">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p><code>loc = factor(rep(LETTERS[1:3],4))</code></p>
@@ -485,14 +513,14 @@ Make a new data.frame similar to the previous data.frame <code>d</code>, but wit
 <p>Sometimes <code>R</code>’s default of assigning characters is not what you want: if your strings are unique identifiers and you want to make it a factor, the default <code>read.table</code> will convert this into characters. If all of your non-numeric variables should be treated as factor strings rather than characters, you can just specify <code>as.is=FALSE</code>.</p>
 <p><strong>Factors instead of numeric values</strong></p>
 <p>Sometimes you have numeric labels for data that are really categorical values - for example if your sites or species have integer codes (often data sets will have redundant information in them, e.g.&nbsp;both a species name and a species code number). It’s best to specify appropriate data types, so use colClasses to force R to treat the data as a factor. For example, if we wanted to make tcum a factor instead of a numeric variable:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-21_6fd0e3117c6793a3d9ac3c81aa870216">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"seedpred.dat"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"factor"</span>,</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">"numeric"</span>, <span class="dv">3</span>)))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(data2, class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>n.b.</strong>: by default, <code>R</code> sets the order of the factor levels alphabetically. You can find out the levels and their order in a factor <code>f</code> with <code>levels(f)</code>. If you want your levels ordered in some other way (e.g.&nbsp;site names in order along some transect), you need to specify this explicitly. Most confusingly, <code>R</code> will sort strings in alphabetic order too, even if they represent numbers.</p>
 <p>This is OK:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-22_e21a0fc081e03719a91cd48977fd00c7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -500,7 +528,7 @@ Make a new data.frame similar to the previous data.frame <code>d</code>, but wit
 </div>
 </div>
 <p>However, if we create a factor f through:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-23_cab80bab16af9fbadf4009b93d00f7f6">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -508,12 +536,12 @@ Make a new data.frame similar to the previous data.frame <code>d</code>, but wit
 </div>
 </div>
 <p>it will put the <code>10-th</code> level as second. You can fix the levels by using the levels argument in <code>factor()</code> to tell <code>R</code> explicitly what you want it to do, e.g.:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-24_28bf1ff4e8c8a8223f44454aaf3293f1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So the <code>levels=1:10</code> argument explicitly states that there are ten levels and that the order of these levels is 1,2,3,4,5,6,7,8,9,10. The levels argument needs a vector of unique numeric values or character strings (<code>c(1:10)</code>).</p>
 <p>Additionally, if you create a factor with levels ‘north’, ‘middle’ and ‘south’ they will be sorted by alphabet</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-25_987eae430620776580f998d43f5c031b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"north"</span>, <span class="st">"middle"</span>, <span class="st">"south"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -522,15 +550,15 @@ Levels: middle north south</code></pre>
 </div>
 </div>
 <p>If you want to sort them geographically instead of alphabetically you again can use the levels argument. Additionally, you can add levels that were not included in the vector itself:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-26_9782cdee3f096a2aa3e1ed93767e4e13">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"far_north"</span>, <span class="st">"north"</span>, <span class="st">"middle"</span>, <span class="st">"south"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Likewise, if your data contain a subset of integer values in a range, but you want to make sure the levels of the factor you construct include all of the values in the range, not just the ones in your data. Use levels again:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-27_cb5025ccfc4b820b7ee3ecbdbf5b2a68">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>), <span class="at">levels =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, you may want to get rid of levels that were included in a previous factor but are no longer relevant:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-28_88191384093abd3b18cb7bfb2ede700a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>))</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">=</span> f[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -539,20 +567,20 @@ Levels: middle north south</code></pre>
 </div>
 </div>
 <p>Note that a character vector is returned displaying the different levels in the factor <code>f</code>.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-29_2aa681577252b87f41a024b5b19a0636">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.character</span>(f2))</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "a" "b"</code></pre>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-30_4f85ef38c217ca910523ebbf7f62e29d">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Illustrate the effects of the levels command by plotting the <code>factor f=factor(c(3,3,5,6,7,8,10))</code> as created with and without intermediate levels, i.e.&nbsp;with and without levels c(1:10). For an extra challenge, draw them as two side-by-side subplots. (Use <code>par(mfrow=c(1,1))</code> to restore a full plot window.)
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-31_5947eebf2045c6da92705fad7c677104">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p><code>f=factor(c(3,3,5,6,7,8,10))</code></p>
@@ -566,14 +594,14 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 <p>You can use <code>colClasses="Date"</code> within <code>read.table()</code> to read in dates directly from a file, but only if your dates are in four-digit-year/month/day (e.g.&nbsp;2005/08/16 or 2005-08-16) format; otherwise <code>R</code> will either butcher your dates or complain</p>
 <p><code>Error in fromchar(x) : character string is not in a standard unambiguous format</code></p>
 <p>If your dates are in another format in a single column, read them in as character strings (<code>colClasses="character"</code> or using <code>as.is</code>) and then use <code>as.Date()</code>, which uses a very flexible format argument to convert character formats to dates:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-32_59c17aa78e51997d7a870c34872a0723">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"1jan1960"</span>, <span class="st">"2jan1960"</span>, <span class="st">"31mar1960"</span>, <span class="st">"30jul1960"</span>),</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">"%d%b%Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1960-01-01" "1960-01-02" "1960-03-31" "1960-07-30"</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-33_3d31b29270705c48c1acb5e55b783db3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"02/27/92"</span>, <span class="st">"02/27/92"</span>, <span class="st">"01/14/92"</span>, <span class="st">"02/28/92"</span>, <span class="st">"02/01/92"</span>), </span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">format =</span> <span class="st">"%m/%d/%y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -581,7 +609,7 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 </div>
 </div>
 <p>The most useful format codes are <code>%m</code> for month number, <code>%d</code> for day of month, <code>%j%</code> for Julian date (day of year), <code>%y%</code> for two-digit year (dangerous for dates before 1970!) and <code>%Y%</code> for four-digit year; see <code>?strftime</code> for many more details. If you have your dates as separate (<code>numeric</code>) day, month, and year columns, you actually have to squash them together into a character format. This can be done with <code>paste()</code>, using <code>sep="/"</code> to specify that the values should be separated by a slash and then convert them to dates:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-34_a295de00fb68f5c95bbc550f022254f5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>year <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2004</span>,<span class="dv">2004</span>,<span class="dv">2004</span>,<span class="dv">2005</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>month <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">1</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>day <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">18</span>,<span class="dv">28</span>,<span class="dv">17</span>)</span>
@@ -593,18 +621,18 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 </div>
 </div>
 <p>When you want to split a date to month, year and day, you can use ‘strsplit’:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-35_89670ff666dcc0f5e43ddaa344628bf3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>date.c <span class="ot">=</span> <span class="fu">as.character</span>(date)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>date.char <span class="ot">=</span> <span class="fu">strsplit</span>(date.c, <span class="st">"-"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which you subsequently can turn in to multiple colums through <code>matrix</code>:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-36_2eff8187323e76f94ba0b9ac3a58e146">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dat.mat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">unlist</span>(date.char), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Although <code>R</code> prints the dates in <code>date</code> out so they look like a vector of character strings, they are really dates: <code>class(date)</code> will give you the answer <code>"Date"</code>. Note that when using the dat.mat these are characters.</p>
 <p><em>Pitfall #4 quotation marks in character variables</em> If you have character strings in your data set with apostrophes or quotation marks embedded in them, you have to get <code>R</code> to ignore them. I used a data set recently that contained lines like this: <code>Western Canyon|valley|Santa Cruz|313120N|1103145WO'Donnell Canyon</code></p>
 <p>I used</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-37_fd4616ac826117d3f6c31ad9471677f5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"datafile"</span>, <span class="at">sep =</span> <span class="st">"|"</span>, <span class="at">quote =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to tell <code>R</code> that | was the separator between fields and that it should ignore all apostrophes/single quotations/double quotations in the data set and just read them as part of a string.</p>
@@ -613,13 +641,13 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 <h2 data-number="2.5" class="anchored" data-anchor-id="accessing-data"><span class="header-section-number">2.5</span> Accessing data</h2>
 <p>To access individual variables within your data set use <code>mydata$varname</code> or <code>mydata[,n]</code> or <code>mydata[,"varname"]</code> where <code>n</code> is the column number and <code>varname</code> is the variable name you want. You can also use <code>attach(mydata)</code> to set things up so that you can refer to the variable names alone (e.g.&nbsp;varname rather than mydata$varname). However, <strong>beware</strong>: if you then modify a variable, you can end up with two copies of it: one (modified) is a local variable called <code>varname</code>, the other (original) is a column in the data frame called <code>varname</code>: <strong>it’s probably better not to attach a data set, or only until after you’ve finished cleaning and modifying it</strong>. Furthermore, if you have already created a variable called varname, <code>R</code> will find it before it finds the version of <code>varname</code> that is part of your data set. Attaching multiple copies of a data set is a good way to get confused: try to remember to <code>detach(mydata)</code> when you’re done.</p>
 <p>Here some examples to get the column with name ‘species’</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-38_db55c67d3963b29dc760a253c52cef34">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data[,<span class="st">"species"</span>]</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>data[,<span class="dv">1</span>]</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>species <span class="co"># recommended! You explictly define the dataframe and name of the column </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To access data that are built in to R or included in an R package (which you probably won’t need to do often), say</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-39_a6dc296572248c9ddf52969a7ec20bca">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(<code>data()</code> by itself will list all available data sets.)</p>
@@ -631,18 +659,26 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 <section id="scatter-plot" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="scatter-plot"><span class="header-section-number">3.1</span> Scatter plot</h2>
 <p>From the previous lab you may remember that the base plot function in R is <code>plot</code>. The function <code>plot</code> takes a number of arguments but at least you need to specify the <code>x</code> and the <code>y</code>. If you refer to <code>x</code> and <code>y</code> by the column name of a <code>data.frame</code> you need to specify the name of the data.frame as well through <code>data</code>.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-40_412fc18e725459a3fa19d5759335e25a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(taken <span class="sc">~</span> available,<span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The graph above may not be very useful as it does not show how many datapoints are underlying every combination of <code>seeds taken</code> and <code>seeds available</code>. The function <code>jitter</code> adds small noise to a numeric vector which makes that observations that have the same combination of seeds available and taken are plotted at a slightly different location.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-41_9e29967e54f71a52bc3eee66c64514bb">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">jitter</span>(taken)<span class="sc">~</span><span class="fu">jitter</span>(available),<span class="at">xlab=</span><span class="st">"Seeds available"</span>,</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"Seeds taken"</span>,<span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -650,45 +686,57 @@ Illustrate the effects of the levels command by plotting the <code>factor f=fact
 <h2 data-number="3.2" class="anchored" data-anchor-id="bubble-plot"><span class="header-section-number">3.2</span> Bubble plot</h2>
 <p>Sometimes you have multiple variables in the dataset that you want to explore simultaneously. For example, you want to superimpose information on how often certain combinations of the number seeds available versus the number of seeds taken occur. For this a bubble or jitter plot may be useful. The bubble plot is a normal plot with the size of the points representing the number of observations for a given combination of seeds available and seeds taken.</p>
 <p>To get this information we first need to make a summary table which we can get through:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-42_9a1f91280edda5f595f6cfbb04d12049">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">=</span> <span class="fu">table</span>(data<span class="sc">$</span>available, data<span class="sc">$</span>taken)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This table needs to changed to a long format in order to be useful for the plotting command. Change the table to a long format with seeds available and seeds taken as columns. Note that we are melting a 2-d array (see ?melt.array)</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-43_0aec45ab1d149d739a7644cd8ab0e67e">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">=</span> <span class="fu">melt</span>(t1,<span class="at">varnames=</span><span class="fu">c</span>(<span class="st">"Seeds available"</span>,<span class="st">"Seeds taken"</span>),</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">value.name=</span><span class="st">"val"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can make a plot with the size of the bubbles proportional for the number of observations. Since the columnnames have a space in the string we should use the quotes.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-44_5b9b926e6848ed30531393ae8d80e3d0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="st">`</span><span class="at">Seeds taken</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Seeds available</span><span class="st">`</span>,<span class="at">data=</span>t2,<span class="at">cex=</span>val)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The argument <code>cex</code> controls the size of the points. As you see the size of the bubbles are bit too large, so we need to adjust it. In addition, we need to adjust the scaling of the axis.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-45_c40e99ba6b900ad6fa488b588e3713f2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="st">`</span><span class="at">Seeds taken</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Seeds available</span><span class="st">`</span>,<span class="at">data=</span>t2,<span class="at">cex=</span><span class="fu">log</span>(val)<span class="sc">*</span><span class="dv">2</span>,</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">5.8</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We could add the number of observations to the plot (<code>plot</code>) using the command <code>text</code>. The function <code>text</code> needs at least three arguments, the x position and the y position of the text and the text to be printed at this position. <code>text</code> allows vectors for each of those arguments. Therefore we can write:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-46_59f6eb8c9f4e307895a73b7318104e4d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="st">`</span><span class="at">Seeds taken</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">Seeds available</span><span class="st">`</span>,<span class="at">data=</span>t2,<span class="at">cex=</span><span class="fu">log</span>(val)<span class="sc">*</span><span class="dv">2</span>,</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">5.8</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">5.5</span>))</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(t2[,<span class="dv">1</span>],t2[,<span class="dv">2</span>],t2[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-47_80483e5bcaf5bbddc32ea92ed67c7948">
+</div>
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Change the size of the printed numbers and remove the zeros from the graph.
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-48_b440d6095e622b848bf1fbb059e58862">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p>this removes zeroes and puts it in a new dataframe:</p>
@@ -699,13 +747,13 @@ Change the size of the printed numbers and remove the zeros from the graph.
 <p><code>text(t3[,1],t3[,2],t3[,3],cex=0.8)</code></p>
 </div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-49_2802d391434b9dd6ec256651e068439a">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Change the color of the points and the symbols. Consult Lab 1 how to do this
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-50_0a84ffca22ec8e1f5d87049898599701">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p><code>plot(</code>Seeds taken<code>~</code>Seeds available<code>,data=t2,cex=log(val)*2,         xlim = c(0.3,5.8),ylim=c(-0.5,5.5),col="blue",pch=2)</code></p>
@@ -715,23 +763,27 @@ Change the color of the points and the symbols. Consult Lab 1 how to do this
 <section id="bar-plot-with-error-bars" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="bar-plot-with-error-bars"><span class="header-section-number">3.3</span> Bar plot (with error bars)</h2>
 <p>The command to produce the barplot (Figure 3) was:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-51_184b4eb1b9bfb5073c5b2149c93a2602">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">t</span>(<span class="fu">log10</span>(t1 <span class="sc">+</span> <span class="dv">1</span>)), <span class="at">beside =</span> <span class="cn">TRUE</span>, <span class="at">legend =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="st">"Available"</span>,</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a> <span class="at">ylab =</span> <span class="st">"log10(1+# observations)"</span>)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>op <span class="ot">=</span> <span class="fu">par</span>(<span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">34.5</span>, <span class="fl">3.05</span>, <span class="st">"Number taken"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-52_56f51f3b2f1c75664192017da550ee2d">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Restricting your analysis to only the observations with 5 seeds available, create a barplot showing the distribution of number of seeds taken broken down by species. Choose whether you do this with <code>ggplot2</code> or through the base <code>plot</code> function.
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-53_dc55ad478c0e35d062ad59f07b6fc725">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p><code>t1.species = table(data$available,data$remaining,data$species)</code></p>
@@ -741,45 +793,53 @@ Restricting your analysis to only the observations with 5 seeds available, creat
 </div>
 <p>To add error bars to the barplot, one need to calculate the standard error of the means. We want to plot the standard error on top of the fraction seeds taken</p>
 <p>First, compute the fraction taken:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-54_7c89cdfaab23e8239ddfdd40fd41d88c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>frac_taken <span class="ot">=</span> data<span class="sc">$</span>taken<span class="sc">/</span>data<span class="sc">$</span>available</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Computing the mean fraction taken for each number of seeds available, using the <code>tapply()</code> function: <code>tapply()</code> (“table apply”, pronounced “t apply”), is an extension of the <code>table()</code> function; it splits a specified vector into groups according to the factors provided, then applies a function (e.g.&nbsp;<code>mean()</code> or <code>sd()</code>) to each group. This idea of applying a function to a set of objects is a very general, very powerful idea in data manipulation with <code>R</code>; in due course we’ll learn about <code>apply()</code> (apply a function to rows and columns of matrices), <code>lapply()</code> (apply a function to lists), <code>sapply()</code> (apply a function to lists and simplify), and <code>mapply()</code> (apply a function to multiple lists). For the present, though,</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-55_f9faef1ea25229c18cfa0b9a8942f4e3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>mean_frac_by_avail <span class="ot">=</span> <span class="fu">tapply</span>(data<span class="sc">$</span>frac_taken, data<span class="sc">$</span>available, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>computes the mean of <code>frac_taken</code> for each group defined by a different value of available. <code>R</code> automatically converts available into a factor temporarily for this purpose. If you want to compute the mean by group for more than one variable in a data set, use <code>aggregate()</code>. We can also calculate the standard errors, <span class="math inline">\(\frac{\sigma}{\sqrt(n)}\)</span>:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-56_851f042bfbc91e6ef13e1aaa8f47979a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>n_by_avail <span class="ot">=</span> <span class="fu">table</span>(data<span class="sc">$</span>available)</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>se_by_avail <span class="ot">=</span> <span class="fu">tapply</span>(data<span class="sc">$</span>frac_taken, data<span class="sc">$</span>available, sd)<span class="sc">/</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sqrt</span>(n_by_avail)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First we plot a barplot after which we add the error bars. The error bars can be drawn by using the function <code>arrows</code> that have an angle between the shaft of the angle and the edge of 90 degrees. To position the error bars at the middle of the bars we need to retrieve those positions from the barplot command. This can be done through assigning a name, e.g.&nbsp;<code>bara</code> to the barplot object and using those positions as x coordinates.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-57_4bb5becd34b53d4e33bb50db39768cf3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>bara <span class="ot">=</span> <span class="fu">barplot</span>(mean_frac_by_avail,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.09</span>))</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># hack: we draw arrows but with very special "arrowheads"</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(bara[,<span class="dv">1</span>],mean_frac_by_avail<span class="sc">-</span>se_by_avail,bara[,<span class="dv">1</span>], </span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>       mean_frac_by_avail<span class="sc">+</span>se_by_avail, <span class="at">length=</span><span class="fl">0.05</span>, <span class="at">angle=</span><span class="dv">90</span>, <span class="at">code=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-57-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="histogram-by-species" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="histogram-by-species"><span class="header-section-number">3.4</span> Histogram by species</h2>
 <p>To make a histogram we can use the function <code>hist</code>:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-58_0daeca17b3b5f58e72a6a2698422ef3d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data<span class="sc">$</span>frac_taken)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-58-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>To draw a histogram per species, we need to split the data into a list with each element representing a species.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-59_5c1f2e44f24923312607b2b2fdab2804">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data.s <span class="ot">=</span> <span class="fu">split</span>(data<span class="sc">$</span>frac_taken,<span class="fu">list</span>(data<span class="sc">$</span>species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we use <code>sapply</code> to plot the histograms.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-60_861bf979e54c5ec618e39671b4d07d0c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">2</span>),<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>))</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(data.s,hist,<span class="at">main=</span><span class="st">""</span>)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or equivalently</span></span>
@@ -791,23 +851,23 @@ Restricting your analysis to only the observations with 5 seeds available, creat
 <section id="multi-line-plots" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="multi-line-plots"><span class="header-section-number">3.5</span> Multi-line plots</h2>
 <p>To illustrate how to make a multiline plot, we will read a different dataset</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-61_f7cf05c3e44df6c0f37c9483934880d3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data.meas <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"ewcitmeas.dat"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">na.strings =</span> <span class="st">"*"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>year</code>, <code>mon</code>, and <code>day</code> were read in as integers: I’ll create a date variable as described above. For convenience, I’m also defining a variable with the city names.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-62_b6f63bf350f479c085e071580312d641">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>date <span class="ot">=</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(data.meas<span class="sc">$</span>year <span class="sc">+</span> <span class="dv">1900</span>, data.meas<span class="sc">$</span>mon, data.meas<span class="sc">$</span>day, <span class="at">sep =</span> <span class="st">"/"</span>))</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>city_names <span class="ot">=</span> <span class="fu">colnames</span>(data.meas)[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Later on it will be useful to have the data in long format. It’s easiest to do use <code>melt</code> for this purpose. Note that only need to select the appropriate columns to melt (i.e.&nbsp;4-11).</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-63_490bbecde48b8e176f126cbe23989f56">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>data.meas<span class="ot">=</span> <span class="fu">cbind</span>(data.meas,date)</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">=</span> <span class="fu">melt</span>(data.meas[,<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>],<span class="at">id.vars=</span><span class="dv">8</span>,<span class="at">variable.name =</span> <span class="st">"city"</span>,</span>
 <span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name=</span><span class="st">"incidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can make a plot with multiple lines as follows. We first setup the plotting region using <code>plot</code> followed by the function <code>lines</code> to add lines to the existing plot. Note that in the plotting command <code>type="l"</code> is used to specify that lines are drawn instead of point (<code>type="p"</code>, the default). A legend can be added by adding the function <code>legend</code></p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-64_29ac09c1c325013136a4b6942e8b9ab5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>data_long.s <span class="ot">=</span> <span class="fu">split</span>(data_long,data_long<span class="sc">$</span>city)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(incidence <span class="sc">~</span> date,<span class="at">col=</span><span class="dv">1</span>,<span class="at">type=</span><span class="st">"l"</span>,</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data=</span>data_long[data_long<span class="sc">$</span>city <span class="sc">==</span> <span class="st">"London"</span>,])</span>
@@ -823,20 +883,24 @@ Restricting your analysis to only the observations with 5 seeds available, creat
 <section id="histogram-and-density-plots" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="histogram-and-density-plots"><span class="header-section-number">3.6</span> Histogram and density plots</h2>
 <p>I’ll start by just collapsing all the incidence data into a single, logged, non-NA vector (in this case I have to use <code>c(as.matrix(x))</code> to collapse the data and remove all of the data frame information):</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-65_544ff9997dee0db86d6077ff58c21b1f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>allvals <span class="ot">=</span> <span class="fu">na.omit</span>(<span class="fu">c</span>(<span class="fu">as.matrix</span>(data.meas[, <span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>])))</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>logvals <span class="ot">=</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> allvals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The histogram (<code>hist()</code> command is fairly easy: the only tricks are to leave room for the other lines that will go on the plot by setting the y limits with ylim, and to specify that we want the data plotted as relative frequencies, not numbers of counts (<code>freq=FALSE</code> or <code>prob=TRUE</code>). This option tells <code>R</code> to divide by total number of counts and then by the bin width, so that the area covered by all the bars adds up to 1. This scaling makes the vertical scale of the histogram compatible with a density plot, or among different histograms with different number of counts or bin widths.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-66_733450149c64c28f1a30da016d6f316c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(logvals, <span class="at">col =</span> <span class="st">"gray"</span>, <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"Log weekly incidence"</span>,</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a> <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-66-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Adding lines for the density is straightforward, since R knows what to do with a density object - in general, the lines command just adds lines to a plot.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-67_abbade5a81f21ed2f777b224fb96604e">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(logvals), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(logvals, <span class="at">adjust =</span> <span class="fl">0.5</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -848,13 +912,13 @@ Restricting your analysis to only the observations with 5 seeds available, creat
 <li><p><code>apply()</code> is the more general command for running some command on each of a set of rows or columns. When you look at the help for apply() you’ll see an argument called MARGIN, which specifies whether you want to operate on rows (1) or columns (2). For example, <code>apply(data[,4:10],1,mean)</code> is the equivalent of <code>rowMeans(data[,4:10])</code>, but we can also easily say (e.g.) <code>apply(data[,4:10],1,max)</code> to get the maxima instead. Later, when you’ve gotten practice defining your own functions, you can apply any function - not just R’s built-in functions.</p></li>
 <li><p><code>scale()</code> is a function for subtracting and dividing specified amounts out of the columns of a matrix. It is fairly flexible: <code>scale(x,center=TRUE,scale=TRUE)</code> will center by subtracting the means and then scale by dividing by the standard errors of the columns. Fairly obviously, setting either to FALSE will turn off that part of the operation. You can also specify a vector for either center or scale, in which case scale() will subtract or divide the columns by those vectors instead.</p></li>
 </ul>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-68_a64bdef56faabcce8f36081d289c721b">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Figure out how to use apply() and scale() to scale all columns so they have a minimum of 0 and a maximum of 1 (hint: subtract the minimum and divide by (max-min)).
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-69_e12bc37e069ef8af51de90a2553af1e9">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p>This solution can be made more elegant once we have learned to program our own functions</p>
@@ -870,11 +934,11 @@ Figure out how to use apply() and scale() to scale all columns so they have a mi
 <section id="box-and-whisker-and-violin-plots" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="box-and-whisker-and-violin-plots"><span class="header-section-number">3.8</span> Box-and-whisker and violin plots</h2>
 <p>By this time, box-and-whisker and violin plots will (I hope) seem easy. Since the labels get a little crowded (<code>R</code> is not really sophisticated about dealing with axis labels-crowded labels), I’ll use the <code>substr()</code> (substring) command to abbreviate each city’s name to its first three letters.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-70_0de39907e9f80a4d6f476ea1f0434bf3">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>city_abbr <span class="ot">=</span> <span class="fu">substr</span>(city_names, <span class="dv">1</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>boxplot()</code> command uses a formula - the variable before the ~ is the data and the variable after it is the factor to use to split the data up.</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-71_6ca19acbd2632d81efe9cf2e8c247b6f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> incidence) <span class="sc">~</span> city, <span class="at">data =</span> data_long, <span class="at">ylab =</span> <span class="st">"Log(incidence+1)"</span>,</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a> <span class="at">names =</span> city_abbr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -882,24 +946,28 @@ Figure out how to use apply() and scale() to scale all columns so they have a mi
 <section id="pair-plot" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="pair-plot"><span class="header-section-number">3.9</span> Pair plot</h2>
 <p>First let’s make sure the earthquake data are accessible:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-72_54ed41bbd04872af2888a772161f5fe5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(quakes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Luckily, most of the plots I drew in this section are fairly automatic. To draw a scatterplot matrix, just use <code>pairs()</code> (base):</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-73_3ce2c4a036f5f52062436730a3031453">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(quakes, <span class="at">pch =</span> <span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-73-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>(<code>pch="."</code> marks the data with a single-pixel point, which is handy if you are fortunate enough to have a really big data set).</p>
-<div class="cell" type="exercisebox" data-latex.options="{2}" data-hash="index_cache/html/unnamed-chunk-74_5be9ab303314be566f4430e36ac85475">
+<div class="cell" type="exercisebox" data-latex.options="{2}">
 
 <div class="exercisebox">
 Generate three new plots based on one of the data sets in this lab, or on your own data.
 </div>
 </div>
-<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}" data-hash="index_cache/html/unnamed-chunk-75_cb517d146f68be787564f89fea63218d">
+<div class="cell" type="solutionbox" data-latex.options="{block-green}{2}">
 
 <div class="solutionbox">
 <p>This is up to your creativity</p>
@@ -913,7 +981,7 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <section id="scatter-plot-1" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="scatter-plot-1"><span class="header-section-number">4.1</span> Scatter plot</h2>
 <p>In ggplot a scatterplot can be made as follows</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-76_e7f0a6de25e4e29b0ff445e3209ab067">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data=</span>t2)<span class="sc">+</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Seeds available</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Seeds taken</span><span class="st">`</span>, </span>
@@ -924,10 +992,15 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <pre><code>Warning in sqrt(x): NaNs produced</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 10 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 10 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-76-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># or alternatively labs(x="Seeds taken",y="Seeds available")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -937,18 +1010,22 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <section id="bar-plot-with-error-bars-1" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="bar-plot-with-error-bars-1"><span class="header-section-number">4.2</span> Bar plot (with error bars)</h2>
 <p>A barplot can be created with <code>ggplot2</code> as follows:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-77_00bd71b370c176c1a5c2da23ce4da354">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>t2)<span class="sc">+</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Seeds available</span><span class="st">`</span>,<span class="at">y=</span><span class="fu">log10</span>(val<span class="sc">+</span><span class="dv">1</span>),</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill=</span><span class="fu">as.factor</span>(<span class="st">`</span><span class="at">Seeds taken</span><span class="st">`</span>)),</span>
 <span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat=</span><span class="st">"identity"</span>,<span class="at">position=</span><span class="fu">position_dodge</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-77-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-77-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Again through <code>aes</code> we specify what is on the <code>x</code> and <code>y</code>. Through <code>fill</code> we subdivide the bars by the values in <code>taken</code>. <code>stat=identity</code> expresses that the values assigned to <code>y</code> will be used (compare <code>stat="count"</code>). Through specifying <code>position_dodge()</code> bars are printed side by side instead of stacked bars (<code>position_fill()</code>).</p>
 <p>More impressively, the ggplot package can automatically plot a barplot of a three-way cross-tabulation (one barplot per species): try</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-78_f643e08d392b924085dcc0a8cd79db0f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>t1.species <span class="ot">=</span> <span class="fu">table</span>(data<span class="sc">$</span>available,data<span class="sc">$</span>remaining,data<span class="sc">$</span>species)</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>t1.species <span class="ot">=</span> <span class="fu">melt</span>(t1.species,<span class="at">varnames=</span><span class="fu">c</span>(<span class="st">"Seeds available"</span>,<span class="st">"Seeds taken"</span>,</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"species"</span>),<span class="at">value.name=</span><span class="st">"val"</span>)</span>
@@ -959,7 +1036,11 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species)<span class="sc">+</span></span>
 <span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-78-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-78-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>with <code>facet_wrap</code> a sequence of panels is made a specified by the variable behind the <code>~</code>. The <code>coord_flip</code> rotates the plot.</p>
@@ -967,15 +1048,19 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <section id="histogram-by-species-1" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="histogram-by-species-1"><span class="header-section-number">4.3</span> Histogram by species</h2>
 <p>To make a histogram with <code>ggplot2</code> you can get the frequencies less easily, so will be plot the counts</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-79_6205d4cdc88eae3f2f38c46f008c74ef">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data)<span class="sc">+</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x=</span>frac_taken),<span class="at">stat=</span><span class="st">"count"</span>)<span class="sc">+</span></span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-80_fcf818b3c6ae256ec505cd8cb97407c2">
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data,<span class="fu">aes</span>(<span class="at">x=</span>frac_taken))<span class="sc">+</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..))<span class="sc">+</span></span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -987,14 +1072,18 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-80-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="multiple-line-plots" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="multiple-line-plots"><span class="header-section-number">4.4</span> Multiple-line plots</h2>
 <p>With ggplot2 we specify</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-81_400c22395e5d1910ab7d4c3c752dfba7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>date,<span class="at">y=</span>incidence, <span class="at">colour=</span>city),<span class="at">data=</span>data_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1002,7 +1091,7 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <section id="histogram-and-density-plots-1" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="histogram-and-density-plots-1"><span class="header-section-number">4.5</span> Histogram and density plots</h2>
 <p>With ggplot2 we specify:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-82_4bdeeae778a9ef4a93608e8274144c45">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x=</span>logvals,<span class="at">y=</span>..density..))<span class="sc">+</span></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x=</span>logvals,<span class="at">y=</span>..density..))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1010,19 +1099,23 @@ Generate three new plots based on one of the data sets in this lab, or on your o
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-82-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="box-and-whisker-and-violin-plots-1" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="box-and-whisker-and-violin-plots-1"><span class="header-section-number">4.6</span> Box-and-whisker and violin plots</h2>
 <p>By ggplot</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-83_3572c58797e384b0fbd89f2cca806c8b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data_long)<span class="sc">+</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>((<span class="fu">aes</span>(<span class="at">x=</span>city,<span class="at">y=</span><span class="fu">log10</span>(incidence<span class="sc">+</span><span class="dv">1</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If I want to make a violin plot, you can specify:</p>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-84_204058b0670775ca21a8b026ff061cc8">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>data_long)<span class="sc">+</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>((<span class="fu">aes</span>(<span class="at">x=</span>city,<span class="at">y=</span><span class="fu">log10</span>(incidence<span class="sc">+</span><span class="dv">1</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1059,9 +1152,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1097,10 +1204,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1110,8 +1234,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1123,9 +1256,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1166,6 +1535,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

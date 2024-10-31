@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,11 +19,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -48,43 +49,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -111,7 +82,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -120,8 +97,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <style>
@@ -135,7 +114,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }
 </style>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -144,11 +151,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Lab 3: Analyzing functions</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab3/solution.html">Lab 3 (solutions)</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -156,12 +168,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
         <div class="sidebar-tools-main">
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
@@ -169,94 +181,110 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">Lab 1</a>
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">Lab 2</a>
+  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">Lab 3</a>
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">Lab 4</a>
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">Lab 5</a>
+  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">Lab 6</a>
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">Lab 7</a>
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">Lab 9</a>
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Solutions</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">Lab 1 (solutions)</a>
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link active">Lab 3 (solutions)</a>
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">Lab 4 (solutions)</a>
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">Lab 5 (solutions)</a>
+  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">Lab 6 (solutions)</a>
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">Lab 7 (solutions)</a>
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">Lab 9 (solutions)</a>
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9 (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -264,35 +292,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="toc-section-number">1</span>  Learning goals</a></li>
-  <li><a href="#essential-analytical-skills" id="toc-essential-analytical-skills" class="nav-link" data-scroll-target="#essential-analytical-skills"><span class="toc-section-number">2</span>  Essential analytical skills</a></li>
-  <li><a href="#eyeballing" id="toc-eyeballing" class="nav-link" data-scroll-target="#eyeballing"><span class="toc-section-number">3</span>  Eyeballing</a>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
+  <li><a href="#essential-analytical-skills" id="toc-essential-analytical-skills" class="nav-link" data-scroll-target="#essential-analytical-skills"><span class="header-section-number">2</span> Essential analytical skills</a></li>
+  <li><a href="#eyeballing" id="toc-eyeballing" class="nav-link" data-scroll-target="#eyeballing"><span class="header-section-number">3</span> Eyeballing</a>
   <ul class="collapse">
-  <li><a href="#plotting-curves" id="toc-plotting-curves" class="nav-link" data-scroll-target="#plotting-curves"><span class="toc-section-number">3.1</span>  Plotting curves</a></li>
+  <li><a href="#plotting-curves" id="toc-plotting-curves" class="nav-link" data-scroll-target="#plotting-curves"><span class="header-section-number">3.1</span> Plotting curves</a></li>
   </ul></li>
-  <li><a href="#modelling-functions-and-calculating-outcomes" id="toc-modelling-functions-and-calculating-outcomes" class="nav-link" data-scroll-target="#modelling-functions-and-calculating-outcomes"><span class="toc-section-number">4</span>  Modelling functions and calculating outcomes</a>
+  <li><a href="#modelling-functions-and-calculating-outcomes" id="toc-modelling-functions-and-calculating-outcomes" class="nav-link" data-scroll-target="#modelling-functions-and-calculating-outcomes"><span class="header-section-number">4</span> Modelling functions and calculating outcomes</a>
   <ul class="collapse">
-  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="toc-section-number">4.1</span>  For loops</a></li>
-  <li><a href="#handling-missing-values-na" id="toc-handling-missing-values-na" class="nav-link" data-scroll-target="#handling-missing-values-na"><span class="toc-section-number">4.2</span>  Handling missing values (NA)</a></li>
-  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function"><span class="toc-section-number">4.3</span>  Making a function</a></li>
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops"><span class="header-section-number">4.1</span> For loops</a></li>
+  <li><a href="#handling-missing-values-na" id="toc-handling-missing-values-na" class="nav-link" data-scroll-target="#handling-missing-values-na"><span class="header-section-number">4.2</span> Handling missing values (NA)</a></li>
+  <li><a href="#making-a-function" id="toc-making-a-function" class="nav-link" data-scroll-target="#making-a-function"><span class="header-section-number">4.3</span> Making a function</a></li>
   </ul></li>
-  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions"><span class="toc-section-number">5</span>  A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
-  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r"><span class="toc-section-number">6</span>  Evaluating derivatives in <code>R</code></a></li>
+  <li><a href="#a-quick-digression-ifelse-for-piecewise-functions" id="toc-a-quick-digression-ifelse-for-piecewise-functions" class="nav-link" data-scroll-target="#a-quick-digression-ifelse-for-piecewise-functions"><span class="header-section-number">5</span> A quick digression: <code>ifelse()</code> for piecewise functions</a></li>
+  <li><a href="#evaluating-derivatives-in-r" id="toc-evaluating-derivatives-in-r" class="nav-link" data-scroll-target="#evaluating-derivatives-in-r"><span class="header-section-number">6</span> Evaluating derivatives in <code>R</code></a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab3/solution.html">Lab 3 (solutions)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Lab 3: Analyzing functions</h1>
+<h1 class="title">Lab 3: Analyzing functions</h1>
 </div>
 
 
@@ -317,7 +346,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
+
 
 <section id="learning-goals" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
@@ -351,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-1_4aeef64385df0531744fcc56b6a1227b">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <p>Choosing appropriate deterministic functions</p>
@@ -387,7 +418,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="plotting-curves" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="plotting-curves"><span class="header-section-number">3.1</span> Plotting curves</h2>
 <p>Here are the <code>R</code> commands used to generate Figure 3.2 in the book (p 74). They just use <code>curve()</code>, with <code>add=FALSE</code> (the default, which draws a new plot) and <code>add=TRUE</code> (adds the curve to an existing plot), particular values of <code>from</code> and <code>to</code>, and various graphical parameters (<code>ylim</code>, <code>ylab</code>, <code>lty</code>).</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-2_bcdacdd8c7fc614023495437cc428e02">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">7</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">4</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(x<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">/</span><span class="dv">2</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
@@ -399,17 +430,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The only new thing in this figure is the use of <code>expression()</code> to add a mathematical formula to an <code>R</code> graphic. <code>text(x,y,"x^2")</code> puts <code>x^2</code> on the graph at position <span class="math inline">\((x,y)\)</span>; <code>text(x,y,expression(x^2))</code> (no quotation marks) puts <span class="math inline">\(x^2\)</span> on the graph. See <code>?plotmath</code> or <code>?demo(plotmath)</code> for (much) more information.</p>
 <p>An alternate way of plotting the exponential parts of this curve:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-3_d9c1c0600a66a43f5a3c309cbeabf2e1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xvec <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="at">length=</span><span class="dv">100</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>exp1_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec<span class="sc">/</span><span class="dv">2</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>xvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-4_0bbc437789777face87f4bd59286db2a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xvec,exp1_vec,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="at">ylab=</span><span class="st">""</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xvec,exp2_vec,<span class="at">lty=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, if you have a more complicated function you could use <code>sapply()</code> to call this function along with appropriate parameter values. you could say:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-5_b2a6b8f75696d8dd4272e12ce499f46e">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>expfun <span class="ot">=</span> <span class="cf">function</span>(x,<span class="at">a=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">1</span>) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   a<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>x)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> }</span>
@@ -421,7 +452,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 3.1</strong></summary><div>Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span>, <span class="math inline">\(y=1\)</span>). Write the equation, draw the curve in <code>R</code>, and explain how you got there.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-6_ab44ee450bdfeac758ea9171a743fcae">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <p>For example: <span class="math inline">\(-(x-5)^2+1\)</span></p>
@@ -439,7 +470,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 3.3</strong></summary><div>Time permitting repeat subquestions 3-5 for the other three datasets.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-7_cb704f4526463e2be7a5c2583ec0ee02">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <ol type="1">
@@ -472,9 +503,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div></details>
 </div>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-8_98abb47fd0280a5ab74244b61f34785a">
-
-</div>
 </section>
 </section>
 <section id="modelling-functions-and-calculating-outcomes" class="level1" data-number="4">
@@ -488,7 +516,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The body of the loop where you apply some code.</p></li>
 </ol>
 <p>Imagine that you want to calculate the factorial of 10. The factorial of a number is simply the product of all positive numbers smaller or equal than the number you specify (and it is denote with a “!” after the number). For example, the factorial of 3 is <span class="math inline">\(3! = 3 \times 2 \times 1\)</span>. A simple way of calculating the factorial of 10 by using a for loop is:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-9_0986b4a43c9138f5760672b41d68f640">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="dv">1</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> result<span class="sc">*</span>i</span>
@@ -496,7 +524,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>In this for loop, the collection is <code>1:10</code>, the variable to keep track of the number is <code>i</code> and the body of the loop is <code>result = result*i</code>. This for loop shows a very typical pattern: we want to summarise some collection of numbers into a single number, in this case, <code>result</code>.</p>
 <p>Another typical pattern is when we want to calculate the elements of a collection. In this case, it is a good practice to “pre-allocate” your output collection before looping, so <code>R</code> knows how much memory to allocate for this vector. For example,</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-10_6df822d5d8e742d7cf06df195e6352ea">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
@@ -505,7 +533,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>In this case, the result of the for loop (<code>y</code>) is a collection of 10 elements where each element is the exponential transformation of the element in x with the same position. Note that we specify before the loop that <code>y</code> will have 10 elements. Although this is not strictly required in this case, it is a good practice both to avoid errors and to make your code run faster.</p>
 <p>For loops are not that common in <code>R</code> as in other languages The reason is that many mathematical and statistical functions are already, implicitly, looping over your collections. For examples, when you take the exponential (<code>exp()</code>) of a collection of numbers, it will produce a new collection which is the result of looping over the original collection. That is:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-11_6ccd3ed93dc986ec0479ab790c5b47c7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">exp</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -515,7 +543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.1</strong></summary><div>Calculate the logarithm of the sequence 1:10, using first a for loop and then without a for loop.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-12_e4c69bd05d2e303c7818650e9f2006d9">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <pre><code>    for (i in 1:10){
@@ -534,17 +562,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Missing values in data collection and analysis deserve special attention. You can get missing values during you data collection for various reasons, e.g.&nbsp;you missed the opportunity to take a measurement, you lose one of the replicates due to contamination, you wrote down a wrong value, or you even lost some of your data.</p>
 <p>The most important thing you need to understand, is that in almost all cases of a missing value, you should <strong>not represent a missing value with a zero (0)</strong>. This will throw your analysis out of balance and give erroneous results. A common way of representing missing data when you are performing data input, would be with a character like an asterisk (*) or a hyphen (-).</p>
 <p>Many of the functions that read data in <code>R</code> have an argument that allows you to select how you have represented a missing-value in your data. As an example the function <strong>read.csv</strong> (which reads a comma-delimited data file) would be used like this to read from a file named “your-data-file”:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-13_66d670ff1db7f189783ede8746656c09">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"you-data-file"</span>, <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"-"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case we instructed <code>R</code>, with the argument <strong><code>na.strings=c("*","_")</code></strong> to read our file, and substitute any occurence of an asterisk (*) or a hyphen(-) with an <code>NA</code> symbol.</p>
 <p>The <code>R</code> languages has a special way of representing missing values in a dataset. A missing value is denoted with the symbol <code>NA</code> which stands for “<strong>N</strong>ot <strong>A</strong>vailable”. By default, missing values will “propagate” throughout the calculations. For example, given two vectors of data:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-14_0541bead1a101920a61c42372526fa64">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When you combine these vectors (e.g.&nbsp;add them or multiply them) you will see that the third component is always <code>NA</code></p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-15_aac8882ef56f5af3b81e1d48b3d1687a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  3  6 NA</code></pre>
@@ -555,7 +583,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>When you calculate some statistical property of your data (e.g.&nbsp;mean, standard deviation) it will, by default, report <code>NA</code> if there is at least one missing value in your data</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-16_292bac103fc07f59a628a1960e814d2d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
@@ -566,21 +594,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Most statistical functions in <code>R</code> allow you to specify how to deal with missing values. Most often, you are given the option to ignore any missing values from the data when calculating an statistical property through an argument often called <code>na.rm</code>. For example, in order to get the mean of the non-missing values of <code>y</code> we need:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-17_fa5f8338c12b7f924fab6f3f05f73b40">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
 <p>which, of course, is the mean of 2 and 4. However, other functions not have an option to handle <code>NA</code> even though you still need to make a decision on how to deal with them. For example, when you calculate the length of a dataset (<code>length()</code>) do you want to consider the whole data or only the non-missing values? This is not a trivial question and the answer on the context where you will use the result. In any case, if you want to remove the <code>NA</code> when calculating the length you need to be more creative. Fortunately, <code>R</code> offers the function <code>is.na</code> which returns a vector of TRUE or FALSE values corresponding to the index of mssing or non-missing data values in the vector <code>y</code>:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-18_5a94c4cf2a45ea67ffd2afe4fcc630f2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE FALSE  TRUE</code></pre>
 </div>
 </div>
 <p>Next a vector without NA can be obtained through:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-19_b40f0b9ba16b983783224b60da9099f7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(y[<span class="sc">!</span><span class="fu">is.na</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
@@ -592,7 +620,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.2</strong></summary><div>Given some data created from the following code <code>c(25,1,10,89, NA, NA)</code>, calculate the mean value and the standard error of this mean (<span class="math inline">\(s.e.m. = \sigma/\sqrt{n}\)</span>, where <span class="math inline">\(\sigma\)</span> is the standard deviation and <span class="math inline">\(n\)</span> is the number of items) by ignoring missing values.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-20_4a7ff26a00ee69bb14ff41d2d06960b6">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <pre><code>    data &lt;- c(25,1,10,89, NA, NA)
@@ -611,7 +639,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The return value of the function. This is the result of applying the function on the arguments. By default, the result of the last line code in the body of the function is the return value of the function. You can also return from any point in the body with the function <code>return()</code> with the variable you want to return inside.</p></li>
 </ol>
 <p>The <code>R</code> language specifies a particular syntax on how to build a function. For example, a <code>naive_mean</code> could be defined as:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-21_a242d8c6e9a8f19d4ab4a12942c90173">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>naive_mean <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.remove =</span> <span class="cn">FALSE</span>) {</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">=</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> na.remove)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x)])</span>
@@ -620,7 +648,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case, the function <code>naive_mean</code> has two arguments (<code>x</code> and <code>na.remove</code>) where the second argument has a default value of FALSE and the body consists of several lines of code. These are respectively the sum of the elements of <code>x</code> with the <code>na.rm</code> depending on whether you specified TRUE or FALSE in the <code>na.remove</code> argument; <code>n</code> that calculates the length of the vector x without NAs, and the calculation of the mean. The last statement returns the result. Notice that arguments are separated by commas and the body of the function is enclosed in curly braces <code>{}</code>. The name of the function is simply the name of the variable to which you assigned the function (i.e., <code>naive_mean</code>). You can see below that you can use this function in a similar manner to the built-in <code>mean</code></p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-22_1bc4a1c03189a31dd28b5cbced5e2669">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -628,7 +656,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Notice that we did not specify the value of <code>na.remove</code> as the default is ok in this case. However, if we had missing values, the NA would propagate to the output:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-23_ad0a693fb8c2afcb4d032bd9917d3ae7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -636,7 +664,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Specifying <code>na.remove=FALSE</code> can be used as a double check that there are no NAs in your vector. If they are present it forces us to make a decision about what to do with the NAs. Let’s say that, for the moment, we want to just remove the values that are NA from the calculation. In this case, we just change the value of the default parameter.</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-24_4bd2c115aaa93be2479b8cede1611d37">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x, <span class="at">na.remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.333333</code></pre>
@@ -647,7 +675,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.3</strong></summary><div>Build a function to calculate the standard deviation (<span class="math inline">\(\sigma = \sqrt{\frac{\sum_{i = 1}^n\left(x_i - \bar x\right)^2}{n - 1}}\)</span>). Test your function with some data that includes missing values, and compare to the built in function for the standard deviation <code>sd</code>.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-25_3c995ac161b8d27fc475447d7f5cdc7d">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <pre><code>    sigma.self = function(x,na.rm=F) {
@@ -664,7 +692,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 4.4</strong></summary><div>Make you own function for the sem and use your own home-made function of the standard deviation for that.<p></p>
 </div></details>
 </div>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-26_5d280cb791f813eef17c5db0586a8cc3">
+<div class="cell">
 <div class="Solution">
 <details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
 <pre><code>    sem.self &lt;- function(x,na.rm=F) {
@@ -680,7 +708,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> A quick digression: <code>ifelse()</code> for piecewise functions</h1>
 <p>The <code>ifelse()</code> command in <code>R</code> is useful for constructing piecewise functions. Its basic syntax is <code>ifelse(condition,value_if_true,value_if_false)</code>, where <code>condition</code> is a logical vector (e.g.&nbsp;<code>x&gt;0</code>), <code>value_if_true</code> is a vector of alternatives to use if <code>condition</code> is <code>TRUE</code>, and <code>value_if_false</code> is a vector of alternatives to use if <code>condition</code> is <code>FALSE</code>. If you specify just one value, it will be expanded (<em>recycled</em> in <code>R</code> jargon) to be the right length. A simple example:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-27_297ea4172410a64d6154cc4fca880131">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -689,14 +717,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>if you said <code>ifelse(x&lt;0,0,sqrt(x)))</code> you would get a warning: why)</p>
 <p>Here are some examples of using <code>ifelse()</code> to generate (1) a simple threshold; (2) a Holling type I or “hockey stick”; (3) a more complicated piecewise model that grows exponentially and then decreases linearly; (4) a double-threshold model. When plotting functions with abrubt changes with the function <code>curve</code>, beware that curve draws a line by evaluating a functions at several locations along the specified interval (<code>from</code>, <code>to</code>). You can increase these number of points by specifying <code>n</code>. The default value for <code>n</code> is 101.</p>
-<div class="cell" data-fig="true" data-hash="solution_cache/html/unnamed-chunk-28_78699eeda7426ff414dfd05109f2c876">
+<div class="cell" data-fig="true">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>op<span class="ot">=</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">*</span>x,<span class="dv">4</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="fu">exp</span>(x),<span class="fu">exp</span>(<span class="dv">2</span>)<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>(x<span class="dv">-2</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="solution_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="solution_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The double-threshold example (nested <code>ifelse()</code> commands) probably needs more explanation. In words, this command would go “if <span class="math inline">\(x\)</span> is less than 2, set <span class="math inline">\(y\)</span> to 1; otherwise (<span class="math inline">\(x \ge 2\)</span>), if <span class="math inline">\(x\)</span> is less than 4 (i.e.&nbsp;<span class="math inline">\(2 \le x&lt;4\)</span>), set <span class="math inline">\(y\)</span> to 3; otherwise (<span class="math inline">\(x \ge 4\)</span>), set <span class="math inline">\(y\)</span> to 5”.</p>
@@ -704,21 +736,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="evaluating-derivatives-in-r" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Evaluating derivatives in <code>R</code></h1>
 <p><code>R</code> can evaluate derivatives, but it is not very good at simplifying them. In order for <code>R</code> to know that you really mean (e.g) <code>x^2</code> to be a mathematical expression and not a calculation for <code>R</code> to try to do (and either fill in the current value of <code>x</code> or give an error that <code>x</code> is undefined), you have to specify it as <code>expression(x^2)</code>; you also have to tell <code>R</code> (in quotation marks) what variable you want to differentiate with respect to:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-29_9d7ac13a23c8cfb6a14b1cfd767f7a2c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">D</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">2</span>),<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2 * x</code></pre>
 </div>
 </div>
 <p>Use <code>eval()</code> to fill in a list of particular values for which you want a numeric answer:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-30_30582bb8901c2158e602cb98056175ad">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eval</span>(d1,<span class="fu">list</span>(<span class="at">x=</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
 <p>Taking the second derivative:</p>
-<div class="cell" data-hash="solution_cache/html/unnamed-chunk-31_9c55c1d0128be058dcd1565f05af1f32">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">D</span>(d1,<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
@@ -757,9 +789,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -795,10 +841,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -808,8 +871,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -821,9 +893,245 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -864,6 +1172,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
