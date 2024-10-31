@@ -6,3 +6,5 @@
 _site
 */*_cache
 */*_files
+
+/.luarc.json
