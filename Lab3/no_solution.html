@@ -104,12 +104,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 <style>
-.Exercise {
-  --color1: #00ff00;
-  --color2: #d9d9d9;
-}
 .Solution {
   --color1: #80bfff;
+  --color2: #d9d9d9;
+}
+.Exercise {
+  --color1: #00ff00;
   --color2: #d9d9d9;
 }
 </style>
@@ -359,26 +359,40 @@ window.Quarto = {
 <p>The models that we will be fitting to data are composed of a deterministic component and a stochastic component. The deterministic component describes the expected pattern in absence of any randomness. You are not restricted to linear functions (as in linear regression) but you can choose among different functions.</p>
 <p>Remember that functions can be purely phenomological or mechanistic (see p.21 of Bolker). Bolker mentions the following non-linear functions in his chapter about a bestiary of functions: Hyperbolic, Michaelis-Menten (=Monod or Holling type II), Holling type III, Holling type IV, negative exponential, monomolecular (=limited exponential growth), Ricker, logistic, power law, von Bertalanffy, Sheppard, Hassell, non-rectangular hyperbola.</p>
 <p>To choose a function one needs to be able to analyse its behaviour, in particular what happens to function values close to zero and when x goes to infinity.</p>
-<p>A series of connected and sequential exercises will be given. These exercises are based on the dataset ‘shapes.xlsx’ and contains six different datasets, of which only the first two will be used in this exercise, but if you want to practice more, you can do the exercise below for the remaining four as well.</p>
-<p>To make yourself familiar with a number of deterministic functions, you are asked to take a number of steps: read in a dataset into <code>R</code>, make plots of the first two datasets and choose at least two appropriate functions for each dataset. Next, you will explore the properties of the selected functions after which you will choose appropriate parameter values through eyeballing so you get a reasonable fit between the data and the choosen function.</p>
-<pre><code>+ _hint 1_: dataset 1 describes a light response curve of ten individual plants
-+ _hint 2_: dataset 2 describes the intake rate of a predator as a function of prey density
-+ _hint 3_: dataset 3 the data describe an allometric relationship
-+ _hint 4_: dataset 4 contains measurements of population size over time
-+ _hint 5_: This dataset you need to figure out for yourselves.
-+ _hint 6_: **optional** dataset 6 a species response curve (presence/absence). Fit a model that models the               probability of presence (use google to find a good one).</code></pre>
+<p>A series of connected and sequential exercises will be given. These exercises are based on the dataset <code>shapes.xlsx</code> and contains six different datasets stored as different worksheets</p>
+<p>To make yourself familiar with a number of deterministic functions, you are asked to take a number of steps:</p>
+<ol type="1">
+<li>Read in a dataset into <code>R</code>. We recommend using the <code>openxls</code> package which allows you to specify the worksheet you want to read in. For example, for the worksheet of the <code>shapes.xlsx</code> file, we can read it into R with the following:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("openxls") # Only run once if the package is not available</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dataset1 <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"shapes.xlsx"</span>, <span class="st">"dataset1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li><p>make plots of the first two datasets and choose at least two appropriate functions for each dataset.</p></li>
+<li><p>Next, you will explore the properties of the selected functions after which you will choose appropriate parameter values through eyeballing so you get a reasonable fit between the data and the choosen function.</p></li>
+</ol>
+<ul>
+<li><em>hint 1</em>: dataset 1 describes a light response curve of ten individual plants</li>
+<li><em>hint 2</em>: dataset 2 describes the intake rate of a predator as a function of prey density</li>
+<li><em>hint 3</em>: dataset 3 the data describe an allometric relationship</li>
+<li><em>hint 4</em>: dataset 4 contains measurements of population size over time</li>
+<li><em>hint 5</em>: dataset 6 you need to figure out for yourselves ;)</li>
+<li><em>hint 6</em>: (optional) dataset 6 describes a species response curve (presence/absence). Fit a model that models the probability of presence (use google to find a good one).</li>
+</ul>
 <p>The following exercise is a must; each written exam contains a question that is like it.</p>
 <div id="Exercise-2.1" class="Exercise">
 <details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 3. 2.1</strong></summary><div>
 <ol type="1">
-<li><p>Choose (at least) two appropriate functions based on the type of data or the shape of the data.</p></li>
-<li><p>Explore the properties of the selected functions in the following steps:</p>
+<li><p>Choose (at least) two appropriate functions based on the type of data or the shape of the data. If you have time please repeat this for all datasets.</p></li>
+<li><p>Explore the properties of the selected functions in the following steps:</p></li>
+</ol>
 <ol type="a">
 <li><p>What is the value of <span class="math inline">\(f(0)\)</span> and <span class="math inline">\(f'(0)\)</span>?</p></li>
 <li><p>What are the limits for <span class="math inline">\(x\to\infty\)</span> for <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(f'(x)\)</span></p></li>
 <li><p>What are the limits for <span class="math inline">\(x\to-\infty\)</span> for <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(f'(x)\)</span></p></li>
 <li><p>If <span class="math inline">\(f(x)\)</span> saturates at, say the value <span class="math inline">\(a\)</span>, for <span class="math inline">\(x\to\infty\)</span> then determine the <span class="math inline">\(x\)</span>-value <span class="math inline">\(x_1\)</span> at which <span class="math inline">\(f(x_1)=\frac{a}{2}\)</span>. If <span class="math inline">\(f(x)\)</span> obtains a maximum value, find the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinate of the maximum.</p></li>
-</ol></li>
 </ol>
 </div></details>
 </div>
@@ -611,7 +625,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="no_solution_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="no_solution_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
