@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Stephen Ellner, modified by Ben Bolker &amp; Bob Douma.">
-<meta name="author" content="Adapted by Alejandro Morales.">
-<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 1: An introduction to R for ecological modeling (solutions)</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +143,9 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab1/solution.html">Lab 1 (solutions)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -246,16 +245,16 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
@@ -359,36 +358,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab1/solution.html">Lab 1 (solutions)</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Lab 1: An introduction to <code>R</code> for ecological modeling (solutions)</h1>
-</div>
 
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Authors</div>
-    <div class="quarto-title-meta-contents">
-             <p>Stephen Ellner, modified by Ben Bolker &amp; Bob Douma. </p>
-             <p>Adapted by Alejandro Morales. </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2025</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="learning-outcomes" class="level1" data-number="1">
@@ -488,7 +458,7 @@ window.Quarto = {
 <p>b = (-1)^2 gives 1</p>
 <p>In complicated expressions you might start off by <em>using parentheses to specify explicitly what you want</em>, such as b = 12 - (4/(2^3)) or at least b = 12 - 4/(2^3); a few extra sets of parentheses never hurt, although when you get confused it’s better to think through the order of operations rather than flailing around adding parentheses at random. <code>R</code> also has many <em>built-in mathematical functions</em> that operate on variables (Table 1 shows a few).</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -497,7 +467,7 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Using editing shortcuts wherever you can, have <code>R</code> compute the values of:</p>
 <ol type="1">
@@ -510,42 +480,6 @@ Exercise
 </ul></li>
 <li><p>The standard normal probability density, <span class="math inline">\(\frac{1}{\sqrt(2\pi)}\exp(-x^2/2)\)</span>, for values of <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span> (<code>R</code> knows <span class="math inline">\(\pi\)</span> as <code>pi</code>). You can check your answers against the built-in function for the normal distribution; <code>dnorm(1)</code> and <code>dnorm(2)</code> should give you the values for the standard normal for <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span>.</p></li>
 </ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">^</span><span class="dv">7</span>)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">^</span><span class="dv">7-1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1-2</span><span class="sc">^</span><span class="dv">7</span>)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.2</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.2</span> <span class="sc">+</span> <span class="fl">0.2</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">cos</span>(<span class="fl">2.3</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">1</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="3" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>pi)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="dv">1</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>pi)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -556,7 +490,7 @@ Solution
 <ul>
 <li>You can get help on any R function by entering</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>?foo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>?foo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Where <code>foo</code> is the name of the function you are interested in (e.g., try <code>?sin</code>).</p>
 <ul>
 <li><p><code>??topic</code> or <code>help.search("topic")</code> (with quotes) will list information related to <code>topic</code> available in the base system or in any extra installed packages: then use <code>?topic</code> to see the information, perhaps using <code>library(pkg)</code> to load the appropriate package first. <code>help.search</code> uses “fuzzy matching” — for example, <code>help.search("log")</code> finds 528 entries (on my particular system) including lots of functions with “plot”, which includes the letters “lot”, which are <em>almost</em> like “log”. If you can’t stand it, you can turn this behavior off by specifying the incantation <code>help.search("log",agrep=FALSE)</code> (81 results which still include matches for “logistic”, “myelogenous”, and “phylogeny” …)</p></li>
@@ -591,49 +525,84 @@ Solution
 <p>Light: 20, 20, 20, 20, 21, 24, 44, 60, 90, 94, 101</p>
 <p><span class="math inline">\(r_{max}\)</span>: 1.73, 1.65, 2.02, 1.89, 2.61, 1.36, 2.37, 2.08, 2.69, 2.32, 3.67</p>
 <p>To analyze these data in R, first enter them as numerical <em>vectors</em> in your script and send them to the console:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Light <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">24</span>,<span class="dv">44</span>,<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">94</span>,<span class="dv">101</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rmax <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.73</span>,<span class="fl">1.65</span>,<span class="fl">2.02</span>,<span class="fl">1.89</span>,<span class="fl">2.61</span>,<span class="fl">1.36</span>,<span class="fl">2.37</span>,<span class="fl">2.08</span>,<span class="fl">2.69</span>,<span class="fl">2.32</span>,<span class="fl">3.67</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Light <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">24</span>,<span class="dv">44</span>,<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">94</span>,<span class="dv">101</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>rmax <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.73</span>,<span class="fl">1.65</span>,<span class="fl">2.02</span>,<span class="fl">1.89</span>,<span class="fl">2.61</span>,<span class="fl">1.36</span>,<span class="fl">2.37</span>,<span class="fl">2.08</span>,<span class="fl">2.69</span>,<span class="fl">2.32</span>,<span class="fl">3.67</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The function <code>c</code> <em>combines</em> the individual numbers into a vector. Try recalling (with <span class="math inline">\(\uparrow\)</span>) and modifying the above command to</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Light<span class="ot">=</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">24</span>,<span class="dv">44</span>,<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">94</span>,<span class="dv">101</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Light<span class="ot">=</span><span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">21</span>,<span class="dv">24</span>,<span class="dv">44</span>,<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">94</span>,<span class="dv">101</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>and see the error message you get: in order to create a vector of specified numbers, you <strong>must</strong> use the <code>c</code> function. Don’t be afraid of error messages: the answer to “what would happen if I …?” is usually “try it and see!”</p>
 <p>To see a histogram of the growth rates enter <code>hist(rmax)</code>, which opens a graphics window and displays the histogram. There are <em>many</em> other built-in statistics functions: for example <code>mean(rmax)</code> computes you the mean, and <code>sd(rmax)</code> and <code>var(rmax)</code> compute the standard deviation and variance, respectively. Play around with these functions, and any others you can think of.</p>
 <p>To see how light intensity affects algal rate of increase, type</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rmax <span class="sc">~</span> Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rmax <span class="sc">~</span> Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>in the script (and send it the console) to plot <code>rmax</code> (<span class="math inline">\(y\)</span>) against <code>Light</code> (<span class="math inline">\(x\)</span>). The <code>~</code> sign implies “as a function of”. Alternatively, type <code>plot(Light,rmax)</code>. A linear regression would seem like a reasonable model for these data. We’ll soon be adding to it.</p>
 <div class="cell" data-fig="true" height="2">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="material_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>R</code>’s default plotting character is an open circle. Open symbols are generally better than closed symbols for plotting because it is easier to see where they overlap, but you could include <code>pch=16</code> in the <code>plot</code> command if you wanted closed circles instead. Figure 1 shows several more ways to adjust the appearance of lines and points in <code>R</code>.</p>
 <p>To perform linear regression we create a linear model using the <code>lm</code> (<strong>l</strong>inear <strong>m</strong>odel) function:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">lm</span>(rmax<span class="sc">~</span>Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">lm</span>(rmax<span class="sc">~</span>Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(Note that linear model is read as “model <span class="math inline">\(r_{max}\)</span> as a function of light”.)</p>
 <p>The <code>lm</code> command produces no output at all, but it creates <code>fit</code> as an <strong>object</strong>, i.e.&nbsp;a data structure consisting of multiple parts, holding the results of a regression analysis with <code>rmax</code> being modeled as a function of <code>Light</code>. Unlike most statistics packages, R rarely produces automatic summary output from an analysis. Statistical analyses in R are done by creating a model, and then giving additional commands to extract desired information about the model or display results graphically.</p>
 <p>To get a summary of the results, enter the command <code>summary(fit)</code>. <code>R</code> sets up model objects (more on this later) so that the function <code>summary</code> “knows” that <code>fit</code> was created by <code>lm</code>, and produces an appropriate summary of results for an <code>lm</code> object:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[If you’ve had (and remember) a statistics course the output will make sense to you. The table of coefficients gives the estimated regression line as <span class="math inline">\(r_{max} = 1.581 + 0.014 \times Light\)</span>, and associated with each coefficient is the standard error of the estimate, the <span class="math inline">\(t\)</span>-statistic value for testing whether the coefficient is nonzero, and the <span class="math inline">\(p\)</span>-value corresponding to the <span class="math inline">\(t\)</span>-statistic. Below the table, the adjusted R-squared gives the estimated fraction of the variance explained by the regression line, and the <span class="math inline">\(p\)</span>-value in the last line is an overall test for significance of the model against the null hypothesis that the response variable is independent of the predictors.]</p>
 <p>You can add the regression line to the plot of the data with a function taking <code>fit</code> as its input (if you closed the plot of the data, you will need to create it again in order to add the regression line):</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(<code>abline</code>, pronounced “a b line”, is a general-purpose function for adding lines to a plot: you can specify horizontal or vertical lines, a slope and an intercept, or a regression model: <code>?abline</code>).</p>
 <p>You can get the coefficients by using the <code>coef</code> function:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can also “interrogate” <code>fit</code> directly. Type <code>names(fit)</code> to get a list of the components of <code>fit</code>, and then use the <code>$</code> symbol to extract components according to their names.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For more information (perhaps more than you want) about <code>fit</code>, use <code>str(fit)</code> (for <strong>str</strong>ucture). You can get the regression coefficients this way:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It’s good to be able to look inside <code>R</code> objects when necessary, but all other things being equal you should prefer (e.g.) <code>coef(x)</code> to <code>x$coefficients</code>.</p>
 <p>Usually data is loaded from a file. To illustrate this, grab <code>Intro2.R</code> and <code>ChlorellaGrowth.txt</code> from brighspace to see how this is done. In <code>ChlorellaGrowth.txt</code> the two variables are entered as columns of a data matrix. Then instead of typing these in by hand, the command</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>reads the file (<strong>from the current directory</strong>) and puts the data values into the variable <code>X</code>; <code>header=TRUE</code> specifies that the file includes column names. <strong>Note</strong> that as specified above you need to make sure that <code>R</code> is looking for the data file in the right place … either move the data file to your current working directory, or change the line so that it points to the actual location of the data file.</p>
 <p>Extract the variables from <code>X</code> with the commands</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Light <span class="ot">=</span> X[,<span class="dv">1</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>rmax <span class="ot">=</span> X[,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Light <span class="ot">=</span> X[,<span class="dv">1</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>rmax <span class="ot">=</span> X[,<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Think of these as shorthand for “<code>Light</code> = everything in column 1 of <code>X</code>”, and “<code>rmax</code> = everything in column 2 of <code>X</code>” (we’ll learn about working with data matrices later). From there on out it’s the same as before, with some additions that set the axis labels and add a title.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Make a copy of <code>Intro2.R</code> under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Run <code>Intro2.R</code>, then enter the command <code>plot(fit)</code> in the console and follow the directions in the console. Figure out what just happened.</p>
+</div>
+</div>
+</div>
+<p>R produced a series of diagnostic plots exploring whether or not the fitted linear model is a suitable fit to the data. In each of the plots, the 3 most extreme points (the most likely candidates for “outliers”) have been identified according to their sequence in the data set.</p>
+<p>The axes in plots are scaled automatically, but the outcome is not always ideal (e.g.&nbsp;if you want several graphs with exactly the same axis limits). You can use the <code>xlim</code> and <code>ylim</code> arguments in <code>plot</code> to control the limits: <code>plot(x,y,xlim=c(x1,x2), [other stuff])</code></p>
+<p>will draw the graph with the <span class="math inline">\(x\)</span>-axis running from <code>x1</code> to <code>x2</code>, and using <code>ylim=c(y1,y2)</code> within the <code>plot</code> command will do the same for the <span class="math inline">\(y\)</span>-axis.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -646,38 +615,26 @@ Exercise
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Make a copy of <code>Intro2.R</code> under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<p>Create a plot of growth rate versus light intensity with the <span class="math inline">\(x\)</span>-axis running from 0 to 120 and the <span class="math inline">\(y\)</span>-axis running from 1 to 4.</p>
+</div>
+</div>
+</div>
+<p>You can place several graphs within a single figure by using the <code>par</code> function (short for “parameter”) to adjust the layout of the plot. For example, the command</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>divides the plotting area into 2 rows and 3 columns. As <code>R</code> draws a series of graphs, it places them along the top row from left to right, then along the next row, and so on. <code>mfcol=c(2,3)</code> has the same effect except that <code>R</code> draws successive graphs down the first column, then down the second column, and so on.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A possible solution is as follows:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Light <span class="ot">=</span> X[,<span class="dv">1</span>]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>rmax <span class="ot">=</span> X[,<span class="dv">2</span>]</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>logLight <span class="ot">=</span> <span class="fu">log</span>(Light) <span class="co"># natural logarithm \n</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>op <span class="ot">=</span> <span class="fu">par</span>(<span class="at">cex=</span><span class="dv">1</span>,<span class="at">cex.main=</span><span class="fl">0.9</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(logLight,rmax,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab=</span><span class="fu">expression</span>(Log<span class="sc">~</span>light<span class="sc">~</span>intensity<span class="sc">~</span>(mu<span class="sc">*</span>E<span class="sc">/</span>m<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>s)),</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab=</span><span class="st">"Maximum growth rate rmax (1/d)"</span>,<span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main=</span><span class="st">"Data from Fussmann et al. (2000)"</span>)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">lm</span>(rmax<span class="sc">~</span>logLight)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit)</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>rcoef <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">coef</span>(fit),<span class="at">digits=</span><span class="dv">3</span>)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">3.7</span>,<span class="fl">3.5</span>,<span class="fu">paste</span>(<span class="st">"rmax="</span>,rcoef[<span class="dv">1</span>],<span class="st">"+"</span>,rcoef[<span class="dv">2</span>],<span class="st">"log(Light)"</span>))</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
+<p>Modify the script as follows. Use <code>mfcol=c(2,1)</code> to create graphs of growth rate as a function of <code>Light</code>, and of <code>log(growth rate)</code> as a function of <code>log(Light)</code> in the same figure. Do the same again, using <code>mfcol=c(1,2)</code>.</p>
 </div>
 </div>
 </div>
@@ -693,29 +650,27 @@ Exercise
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Run <code>Intro2.R</code>, then enter the command <code>plot(fit)</code> in the console and follow the directions in the console. Figure out what just happened.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<p>Use <code>?plot</code> and <code>?par</code> to read about other plot control parameters. The function <code>plot</code> takes a number of arguments such as <code>type</code> that allows you to draw a line through a series of points instead of plotting separate points. With <code>par</code> you can change anything you want to change. For example, you can choose the coloor of the points, or the shape of the points. You should definitely skim read this help as this is one of the longest help files in the whole R system!).</p>
+<p>Then draw a <span class="math inline">\(2 \times 2\)</span> set of plots, each showing the line <span class="math inline">\(y=5x + 3\)</span> with <span class="math inline">\(x\)</span> running from 3 to 8, but with 4 different line styles and 4 different line colors.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>By entering <code>?plot.lm</code> R brings up the Help page for the function <code>plot.lm</code> that carries out a <code>plot</code> command for an object produced by <code>lm</code>. This is one example of how R uses the fact that statistical analyses are stored as model objects. <code>fit</code> “knows” what kind of object it is (in this case an object of type <code>lm</code>, and so <code>plot(fit)</code> invokes a function that produces plots suitable for an <code>lm</code> object.</p>
+<p>Modify one of your scripts so that at the very end it saves the plot to disk. In Windows you can do this with specific functions like <code>jpeg</code> or <code>png</code>. Use <code>?jpeg</code> or <code>?png</code> to read about these functions. Note that the argument <code>filename</code> can include the path to a folder; for example, in Windows you can use <code>filename="c:/temp/Intro2Figure.png".</code></p>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<p>R produced a series of diagnostic plots exploring whether or not the fitted linear model is a suitable fit to the data. In each of the plots, the 3 most extreme points (the most likely candidates for “outliers”) have been identified according to their sequence in the data set.</p>
-<p>The axes in plots are scaled automatically, but the outcome is not always ideal (e.g.&nbsp;if you want several graphs with exactly the same axis limits). You can use the <code>xlim</code> and <code>ylim</code> arguments in <code>plot</code> to control the limits: <code>plot(x,y,xlim=c(x1,x2), [other stuff])</code></p>
-<p>will draw the graph with the <span class="math inline">\(x\)</span>-axis running from <code>x1</code> to <code>x2</code>, and using <code>ylim=c(y1,y2)</code> within the <code>plot</code> command will do the same for the <span class="math inline">\(y\)</span>-axis.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -728,179 +683,11 @@ Exercise
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Create a plot of growth rate versus light intensity with the <span class="math inline">\(x\)</span>-axis running from 0 to 120 and the <span class="math inline">\(y\)</span>-axis running from 1 to 4.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A possible solution would be:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Light,rmax,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">120</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>You can place several graphs within a single figure by using the <code>par</code> function (short for “parameter”) to adjust the layout of the plot. For example, the command</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>divides the plotting area into 2 rows and 3 columns. As <code>R</code> draws a series of graphs, it places them along the top row from left to right, then along the next row, and so on. <code>mfcol=c(2,3)</code> has the same effect except that <code>R</code> draws successive graphs down the first column, then down the second column, and so on.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Modify the script as follows. Use <code>mfcol=c(2,1)</code> to create graphs of growth rate as a function of <code>Light</code>, and of <code>log(growth rate)</code> as a function of <code>log(Light)</code> in the same figure. Do the same again, using <code>mfcol=c(1,2)</code>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mfcol<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rmax <span class="sc">~</span> Light)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rmax <span class="sc">~</span> logLight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Use <code>?plot</code> and <code>?par</code> to read about other plot control parameters. The function <code>plot</code> takes a number of arguments such as <code>type</code> that allows you to draw a line through a series of points instead of plotting separate points. With <code>par</code> you can change anything you want to change. For example, you can choose the coloor of the points, or the shape of the points. You should definitely skim read this help as this is one of the longest help files in the whole R system!).</p>
-<p>Then draw a <span class="math inline">\(2 \times 2\)</span> set of plots, each showing the line <span class="math inline">\(y=5x + 3\)</span> with <span class="math inline">\(x\)</span> running from 3 to 8, but with 4 different line styles and 4 different line colors.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A possible solution would be:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">5</span><span class="sc">*</span>x<span class="sc">+</span><span class="dv">3</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"blue"</span>)</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">4</span>,<span class="at">col=</span><span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Modify one of your scripts so that at the very end it saves the plot to disk. In Windows you can do this with specific functions like <code>jpeg</code> or <code>png</code>. Use <code>?jpeg</code> or <code>?png</code> to read about these functions. Note that the argument <code>filename</code> can include the path to a folder; for example, in Windows you can use <code>filename="c:/temp/Intro2Figure.png".</code></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A possible solution to save the figure in PNG format</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">"test.png"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">5</span><span class="sc">*</span>x<span class="sc">+</span><span class="dv">3</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"blue"</span>)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">lty=</span><span class="dv">4</span>,<span class="at">col=</span><span class="st">"orange"</span>)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p>Do some online research to figure out:</p>
 <ul>
 <li>How to rotate the y-axis labels</li>
 <li>How to change the background of the plot to grey</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>You can rotate the y-axis labels by setting <code>las = 2</code>.</p>
-<p>You can change the background by setting <code>par(bg = "grey")</code></p>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -916,24 +703,277 @@ Solution
 <ol type="1">
 <li>A command in the console window or a script file listing the values, such as</li>
 </ol>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Using <code>read.table</code>:</li>
 </ol>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"c:/temp/initialdata.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"c:/temp/initialdata.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(assuming of course that the file exists in the right place).</p>
 <p>You can then use a vector in calculations as if it were a number (more or less)</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>finalsize<span class="ot">=</span>initialsize<span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>finalsize</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>newsize<span class="ot">=</span><span class="fu">sqrt</span>(initialsize)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>newsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>finalsize<span class="ot">=</span>initialsize<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>finalsize</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>newsize<span class="ot">=</span><span class="fu">sqrt</span>(initialsize)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>newsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice that <code>R</code> applied each operation to every element in the vector. Similarly, commands like <code>initialsize-5, 2*initialsize, initialsize/10</code> apply subtraction, multiplication, and division to each element of the vector. The same is true for</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In <code>R</code> the default is to apply functions and operations to vectors in an <em>element by element</em> (or “vectorized”) manner. This is an extremely useful propery in <code>R</code>.</p>
 <section id="functions-for-creating-vectors" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="functions-for-creating-vectors"><span class="header-section-number">4.1.1</span> Functions for creating vectors</h3>
 <p>You can use the <code>seq</code> function to create a set of regularly spaced values. <code>seq</code>’s syntax is <code>x=seq(from,to,by)</code> or <code>x=seq(from,to)</code> or <code>x=seq(from,to,length.out)</code>. The first form generates a vector starting with <code>from</code> with the last entry not extending further than than <code>to</code> in steps of <code>by</code>. In the second form the value of <code>by</code> is assumed to be 1 or -1, depending on whether <code>from</code> or <code>to</code> is larger. The third form creates a vector with the desired endpoints and length. The syntax <code>from:to</code> is a shortcut for <code>seq(from,to)</code>:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to create a vector going from 1 to 5 in increments of 0.2.</p>
+</div>
+</div>
+</div>
+<p>You can use <code>rep</code> to create a constant vector such as <code>(1 1 1 1)</code>; the basic syntax is <code>rep(values,lengths)</code>. For example,</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>creates a vector in which the value 3 is repeated 5 times. <code>rep</code> will repeat a whole vector multiple times</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or will repeat each of the elements in a vector a given number of times:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="at">each=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Even more flexibly, you can repeat each element in the vector a different number of times:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>( <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 3 4 4 4 4 4</code></pre>
+</div>
+</div>
+<p>The value 3 was repeated 2 times, followed by the value 4 repeated 5 times. <code>rep</code> can be a little bit mind-blowing as you get started, but it will turn out to be useful.</p>
+<p>Table 3 lists some of the main functions for creating and working with vectors.</p>
+</section>
+<section id="vector-indexing" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="vector-indexing"><span class="header-section-number">4.1.2</span> Vector indexing</h3>
+<p>You will often want to extract a specific entry or other part of a vector. This procedure is called <em>vector indexing</em>, and uses square brackets (<code>[]</code>):</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>z[3]</code> extracts the third item, or <em>element</em>, in the vector <code>z</code>. You can also access a block of elements using the functions for vector construction, e.g.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>extracts the second through fifth elements.</p>
+<p>What happens if you enter <code>v=z[seq(1,5,2)]</code> ? Try it and see, and make sure you understand what happened.</p>
+<p>You can extracted irregularly spaced elements of a vector. For example</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can also use indexing to <strong>set specific values within a vector</strong>. For example,</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>changes the value of the first entry in <code>z</code> while leaving all the rest alone, and</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">44</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>changes the first, third, and fifth values (note that we had to use <code>c</code> to create the vector — can you interpret the error message you get if you try <code>z[1,3,5]</code> ?)</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Write a <em>one-line</em> command to extract a vector consisting of the second, first, and third elements of <code>z</code> <em>in that order</em>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Write a script file that computes values of <span class="math inline">\(y=\frac{(x-1)}{(x+1)}\)</span> for <span class="math inline">\(x=1,2,\cdots,10\)</span>, and plots <span class="math inline">\(y\)</span> versus <span class="math inline">\(x\)</span> with the points plotted and connected by a line <em>hint:</em> in <code>?plot</code>, search for <code>type</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The sum of the geometric series <span class="math inline">\(1 + r + r^2 + r^3 + ... + r^n\)</span> approaches the limit <span class="math inline">\(1/(1-r)\)</span> for <span class="math inline">\(r &lt; 1\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Set the values <span class="math inline">\(r=0.5\)</span> and <span class="math inline">\(n=10\)</span>, and then write a <em>one-line</em> command that creates the vector <span class="math inline">\(G = (r^0,r^1,r^2,...,r^n)\)</span>. Compare the sum (using <code>sum</code>) of this vector to the limiting value <span class="math inline">\(1/(1-r)\)</span>.</p>
+<p>Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that comparing very similar numeric values can be tricky: rounding can happen, and some numbers cannot be represented exactly in binary (computer) notation. By default <code>R</code> displays 7~significant digits (<code>options("digits")</code>).</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">1.999999</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>x<span class="dv">-2</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fl">1.9999999999999</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>x<span class="dv">-2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>All the digits are still there, in the second case, but they are not shown. Also note that <code>x-2</code> is not exactly <span class="math inline">\(-1 \times 10^{-13}\)</span>; this is unavoidable.)</p>
+</div>
+</div>
+</div>
+</section>
+<section id="logical-operators" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">4.1.3</span> Logical operators</h3>
+<p>Logical operators return a value of <code>TRUE</code> or <code>FALSE</code>. For example, try:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="dv">3</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span>a<span class="sc">&lt;</span>b</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>e<span class="ot">=</span>(a<span class="sc">&gt;</span>b)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>d</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The parentheses around (<code>a&gt;b</code>) are optional but make the code easier to read. One special case where you <em>do</em> need parentheses (or spaces) is when you make comparisons with negative values; <code>a&lt;-1</code> will surprise you by setting <code>a=1</code>, because <code>&lt;-</code> (representing a left-pointing arrow) is equivalent to <code>=</code> in <code>R</code>. Use <code>a&lt; -1</code>, or more safely <code>a&lt;(-1)</code>, to make this comparison.</p>
+<p>When we compare two vectors or matrices of the same size, or compare a number with a vector or matrix, comparisons are done element-by-element. For example,</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>(x<span class="sc">&lt;=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So if <code>x</code> and <code>y</code> are vectors, then <code>(x==y)</code> will return a vector of values giving the element-by-element comparisons. If you want to know whether <code>x</code> and <code>y</code> are identical vectors, use <code>identical(x,y)</code> which returns a single value: <code>TRUE</code> if each entry in <code>x</code> equals the corresponding entry in <code>y</code>, otherwise <code>FALSE</code>. You can use <code>?Logical</code> to read more about logical operators. Note the difference between = and ==</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Run the code block below. Can you figure out why <code>a==b</code> gives different results the first and second time you execute them?</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>b</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Exclamation marks <code>!</code> are used in <code>R</code> to mean “not”; <code>!=</code> (not <code>==</code>) means “not equal to”.</p>
+<p><code>R</code> also does arithmetic on logical values, treating <code>TRUE</code> as 1 and <code>FALSE</code> as 0. So <code>sum(b)</code> returns the value 3, telling us that three entries of <code>x</code> satisfied the condition (<code>x&lt;=3</code>). This is useful for (e.g.) seeing how many of the elements of a vector are larger than a cutoff value. Build more complicated conditions by using <em>logical operators</em> to combine comparisons:</p>
+<ul>
+<li><code>!</code>: Negation</li>
+<li><code>&amp;</code>, <code>&amp;&amp;</code>: AND</li>
+<li><code>|</code>, <code>||</code>: OR</li>
+</ul>
+<p>OR is <em>non-exclusive</em>, meaning that <code>x|y</code> is true if either <code>x</code> or <code>y</code> <em>or both</em> are true (a ham-and-cheese sandwich would satisfy the condition “ham OR cheese”). For example, try</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>(a <span class="sc">&lt;</span> b) <span class="sc">&amp;</span> (a <span class="sc">&gt;</span> <span class="dv">3</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>(a <span class="sc">&lt;</span> b) <span class="sc">|</span> (a <span class="sc">&gt;</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and make sure you understand what happened. If it’s confusing, try breaking up the expression and looking at the results of <code>a&lt;b</code> and <code>a&gt;3</code> separately first. The two forms of AND and OR differ in how they handle vectors. The shorter one does element-by-element comparisons; the longer one only looks at the first element in each vector.</p>
+<p>We can also use <em>logical</em> vectors (lists of <code>TRUE</code> and <code>FALSE</code> values) to pick elements out of vectors. This is important, e.g., for subsetting data (getting rid of those pesky outliers!)</p>
+<p>As a simple example, we might want to focus on just the low-light values of <span class="math inline">\(r_{max}\)</span> in the <em>Chlorella</em> example:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>Light<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>rmax<span class="ot">=</span>X[,<span class="dv">2</span>]</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>lowLight <span class="ot">=</span> Light[Light<span class="sc">&lt;</span><span class="dv">50</span>]</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>lowLightrmax <span class="ot">=</span> rmax[Light<span class="sc">&lt;</span><span class="dv">50</span>]</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>lowLight</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>lowLightrmax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What is really happening here (think about it for a minute) is that <code>Light&lt;50</code> generates a logical vector the same length as <code>Light</code> (<code>TRUE TRUE TRUE ...</code>) which is then used to select the appropriate values.</p>
+<p>If you want the positions at which <code>Light</code> is lower than 50, you could say <code>(1:length(Light))[Light&lt;50]</code>, but you can also use a built-in function: <code>which(Light&lt;50)</code>. If you wanted the position at which the maximum value of <code>Light</code> occurs, you could say <code>which(Light==max(Light))</code>. (This normally results in a vector of length 1; when could it give a longer vector?) There is even a built-in command for this specific function, <code>which.max</code> (although <code>which.max</code> always returns just the <em>first</em> position at which the maximum occurs).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>What would happen if instead of setting <code>lowLight</code> you replaced <code>Light</code> by saying <code>Light=Light[Light&lt;50]</code>, and then <code>rmax=rmax[Light&lt;50]</code>?</p>
+<p>Why would that be wrong?</p>
+<p>Try it with some temporary variables — set <code>Light2=Light</code> and <code>rmax2=rmax</code> and then play with <code>Light2</code> and <code>rmax2</code> so you dont mess up your working variables — and work out what happened…</p>
+<p>We can also combine logical operators (making sure to use the element-by-element <code>&amp;</code> and <code>|</code> versions of AND and OR):</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>runif(n)</code> is a function (more on it soon) that generates a vector of <code>n</code> random, uniformly distributed numbers between 0 and 1. Create a vector of 20 numbers, then select the subset of those numbers that is less than the mean. (If you want your answers to match mine exactly, use <code>set.seed(273)</code> to set the random-number generator to a particular starting point before you use <code>runif</code>. [273 is an arbitrary number I chose].)</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Find the <em>positions</em> of the elements that are less than the mean of the vector you just created (e.g.&nbsp;if your vector were <code>(0.1 0.9. 0.7 0.3)</code> the answer would be <code>(1 4)</code>).</p>
+</div>
+</div>
+</div>
+<p>As I mentioned in passing above, vectors can have names associated with their elements: if they do, you can also extract elements by name (use <code>names</code> to find out the names).</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="at">first=</span><span class="dv">7</span>,<span class="at">second=</span><span class="dv">5</span>,<span class="at">third=</span><span class="dv">2</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>x[<span class="st">"first"</span>]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="st">"third"</span>,<span class="st">"first"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, it is sometimes handy to be able to drop a particular set of elements, rather than taking a particular set: you can do this with negative indices. For example, <code>x[-1]</code> extracts all but the first element of a vector.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Specify two ways to take only the elements in the odd positions (first, third, …) of a vector of arbitrary length.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="matrices" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="matrices"><span class="header-section-number">4.2</span> Matrices</h2>
+<section id="creating-matrices" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="creating-matrices"><span class="header-section-number">4.2.1</span> Creating matrices</h3>
+<p>A matrix is a two-dimensional array, and has the same kind of variables in every column. You can create matrices of numbers by creating a vector of the matrix entries, and then reshaping them to the desired number of rows and columns using the function <code>matrix</code>. For example</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">X =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="at">nrow=</span><span class="dv">2</span>,<span class="at">ncol=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>takes the values 1 to 6 and reshapes them into a 2 by 3 matrix.</p>
+<p>By default <code>R</code> loads the values into the matrix <em>column-wise</em> (this is probably counter-intuitive since we’re used to reading tables row-wise). Use the optional parameter <code>byrow</code> to change this behavior. For example:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">A =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">3</span>,<span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>R</code> will re-cycle through entries in the data vector, if necessary to fill a matrix of the specified size. So for example</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span>,<span class="at">nrow=</span><span class="dv">10</span>,<span class="at">ncol=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>creates a <span class="math inline">\(10 \times 10\)</span> matrix of ones.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -946,59 +986,54 @@ Exercise
 </div>
 <div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Use <code>seq</code> to create the vector <code>v=(1 5 9 13)</code>, and to create a vector going from 1 to 5 in increments of 0.2.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<p>Use a command of the form <code>X = matrix(v,nrow=2,ncol=4)</code> where <code>v</code> is a data vector, to create the following matrix <code>X</code>:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    1    1    1
+[2,]    2    2    2    2</code></pre>
+</div>
+</div>
+<p>If you can, try to use <code>R</code> commands to construct the vector rather than typing out all of the individual values.</p>
+<p><code>R</code> will also collapse a matrix to behave like a vector whenever it makes sense: for example <code>sum(X)</code> above is 12.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Solution
+Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">13</span>,<span class="dv">4</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian (normally distributed) numbers with a specified mean and standard deviation instead) and <code>matrix</code> to create a <span class="math inline">\(5 \times 7\)</span> matrix of Gaussian random numbers with mean 1 and standard deviation 2. (Use <code>set.seed(273)</code> again for consistency).</p>
 </div>
 </div>
 </div>
+<p>Another useful function for creating matrices is <code>diag</code>. <code>diag(v,n)</code> creates an <span class="math inline">\(n \times n\)</span> matrix with data vector <span class="math inline">\(v\)</span> on its diagonal. So for example <code>diag(1,5)</code> creates the <span class="math inline">\(5 \times 5\)</span> <em>identity matrix</em>, which has 1’s on the diagonal and 0 everywhere else. Try <code>diag(1:5,5)</code> and <code>diag(1:2,5)</code>; Observe what is happening. Is this desired behaviour?</p>
+<p>Finally, you can use the <code>data.entry</code> function. This function can only edit existing matrices, but for example</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">4</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.entry</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>will create <code>A</code> as a <span class="math inline">\(3 \times 4\)</span> matrix, and then call up a spreadsheet-like interface in which you can change the values to whatever you need.</p>
+<div class="cell" data-result="asis">
+<div class="cell-output-display">
+
 </div>
 </div>
-</div>
-<p>You can use <code>rep</code> to create a constant vector such as <code>(1 1 1 1)</code>; the basic syntax is <code>rep(values,lengths)</code>. For example,</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>creates a vector in which the value 3 is repeated 5 times. <code>rep</code> will repeat a whole vector multiple times</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>or will repeat each of the elements in a vector a given number of times:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="at">each=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Even more flexibly, you can repeat each element in the vector a different number of times:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>( <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 3 4 4 4 4 4</code></pre>
-</div>
-</div>
-<p>The value 3 was repeated 2 times, followed by the value 4 repeated 5 times. <code>rep</code> can be a little bit mind-blowing as you get started, but it will turn out to be useful.</p>
-<p>Table 3 lists some of the main functions for creating and working with vectors.</p>
 </section>
-<section id="vector-indexing" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="vector-indexing"><span class="header-section-number">4.1.2</span> Vector indexing</h3>
-<p>You will often want to extract a specific entry or other part of a vector. This procedure is called <em>vector indexing</em>, and uses square brackets (<code>[]</code>):</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>z[3]</code> extracts the third item, or <em>element</em>, in the vector <code>z</code>. You can also access a block of elements using the functions for vector construction, e.g.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>extracts the second through fifth elements.</p>
-<p>What happens if you enter <code>v=z[seq(1,5,2)]</code> ? Try it and see, and make sure you understand what happened.</p>
-<p>You can extracted irregularly spaced elements of a vector. For example</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can also use indexing to <strong>set specific values within a vector</strong>. For example,</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>changes the value of the first entry in <code>z</code> while leaving all the rest alone, and</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>)]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">44</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>changes the first, third, and fifth values (note that we had to use <code>c</code> to create the vector — can you interpret the error message you get if you try <code>z[1,3,5]</code> ?)</p>
+<section id="cbind-and-rbind" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="cbind-and-rbind"><span class="header-section-number">4.2.2</span> <code>cbind</code> and <code>rbind</code></h3>
+<p>If their sizes match, you can combine vectors to form matrices, and stick matrices together with vectors or other matrices. <code>cbind</code> (“column bind”) and <code>rbind</code> (“row bind”) are the functions to use.</p>
+<p><code>cbind</code> binds together columns of two objects. One thing it can do is put vectors together to form a matrix:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">C =</span> <span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>R</code> interprets vectors as row or column vectors according to what you’re doing with them. Here it treats them as column vectors so that columns exist to be bound together. On the other hand,</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">D =</span> <span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>treats them as rows. Now we have two matrices that can be combined.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1011,465 +1046,7 @@ Exercise
 </div>
 <div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Write a <em>one-line</em> command to extract a vector consisting of the second, first, and third elements of <code>z</code> <em>in that order</em>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>z[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Write a script file that computes values of <span class="math inline">\(y=\frac{(x-1)}{(x+1)}\)</span> for <span class="math inline">\(x=1,2,\cdots,10\)</span>, and plots <span class="math inline">\(y\)</span> versus <span class="math inline">\(x\)</span> with the points plotted and connected by a line <em>hint:</em> in <code>?plot</code>, search for <code>type</code>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> (x<span class="dv">-1</span>)<span class="sc">/</span>(x<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x,<span class="at">type=</span><span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The sum of the geometric series <span class="math inline">\(1 + r + r^2 + r^3 + ... + r^n\)</span> approaches the limit <span class="math inline">\(1/(1-r)\)</span> for <span class="math inline">\(r &lt; 1\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
-<p>Set the values <span class="math inline">\(r=0.5\)</span> and <span class="math inline">\(n=10\)</span>, and then write a <em>one-line</em> command that creates the vector <span class="math inline">\(G = (r^0,r^1,r^2,...,r^n)\)</span>. Compare the sum (using <code>sum</code>) of this vector to the limiting value <span class="math inline">\(1/(1-r)\)</span>.</p>
-<p>Repeat for <span class="math inline">\(n=50\)</span>. (<em>Note</em> that comparing very similar numeric values can be tricky: rounding can happen, and some numbers cannot be represented exactly in binary (computer) notation. By default <code>R</code> displays 7~significant digits (<code>options("digits")</code>).</p>
-<p>For example:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fl">1.999999</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>x<span class="dv">-2</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fl">1.9999999999999</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>x<span class="dv">-2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>All the digits are still there, in the second case, but they are not shown. Also note that <code>x-2</code> is not exactly <span class="math inline">\(-1 \times 10^{-13}\)</span>; this is unavoidable.)</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(r<span class="sc">^</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span>n))</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">50</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(r<span class="sc">^</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span>n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="logical-operators" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="logical-operators"><span class="header-section-number">4.1.3</span> Logical operators</h3>
-<p>Logical operators return a value of <code>TRUE</code> or <code>FALSE</code>. For example, try:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="dv">1</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="dv">3</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span>a<span class="sc">&lt;</span>b</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>e<span class="ot">=</span>(a<span class="sc">&gt;</span>b)</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>d</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The parentheses around (<code>a&gt;b</code>) are optional but make the code easier to read. One special case where you <em>do</em> need parentheses (or spaces) is when you make comparisons with negative values; <code>a&lt;-1</code> will surprise you by setting <code>a=1</code>, because <code>&lt;-</code> (representing a left-pointing arrow) is equivalent to <code>=</code> in <code>R</code>. Use <code>a&lt; -1</code>, or more safely <code>a&lt;(-1)</code>, to make this comparison.</p>
-<p>When we compare two vectors or matrices of the same size, or compare a number with a vector or matrix, comparisons are done element-by-element. For example,</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>(x<span class="sc">&lt;=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>So if <code>x</code> and <code>y</code> are vectors, then <code>(x==y)</code> will return a vector of values giving the element-by-element comparisons. If you want to know whether <code>x</code> and <code>y</code> are identical vectors, use <code>identical(x,y)</code> which returns a single value: <code>TRUE</code> if each entry in <code>x</code> equals the corresponding entry in <code>y</code>, otherwise <code>FALSE</code>. You can use <code>?Logical</code> to read more about logical operators. Note the difference between = and ==</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Run the code block below. Can you figure out why <code>a==b</code> gives different results the first and second time you execute them?</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>b</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We overwrote a by b in the command <code>a=b</code> and so the last statement confirms that they are identical</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Exclamation marks <code>!</code> are used in <code>R</code> to mean “not”; <code>!=</code> (not <code>==</code>) means “not equal to”.</p>
-<p><code>R</code> also does arithmetic on logical values, treating <code>TRUE</code> as 1 and <code>FALSE</code> as 0. So <code>sum(b)</code> returns the value 3, telling us that three entries of <code>x</code> satisfied the condition (<code>x&lt;=3</code>). This is useful for (e.g.) seeing how many of the elements of a vector are larger than a cutoff value. Build more complicated conditions by using <em>logical operators</em> to combine comparisons:</p>
-<ul>
-<li><code>!</code>: Negation</li>
-<li><code>&amp;</code>, <code>&amp;&amp;</code>: AND</li>
-<li><code>|</code>, <code>||</code>: OR</li>
-</ul>
-<p>OR is <em>non-exclusive</em>, meaning that <code>x|y</code> is true if either <code>x</code> or <code>y</code> <em>or both</em> are true (a ham-and-cheese sandwich would satisfy the condition “ham OR cheese”). For example, try</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">5</span>)</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>(a <span class="sc">&lt;</span> b) <span class="sc">&amp;</span> (a <span class="sc">&gt;</span> <span class="dv">3</span>)</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>(a <span class="sc">&lt;</span> b) <span class="sc">|</span> (a <span class="sc">&gt;</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>and make sure you understand what happened. If it’s confusing, try breaking up the expression and looking at the results of <code>a&lt;b</code> and <code>a&gt;3</code> separately first. The two forms of AND and OR differ in how they handle vectors. The shorter one does element-by-element comparisons; the longer one only looks at the first element in each vector.</p>
-<p>We can also use <em>logical</em> vectors (lists of <code>TRUE</code> and <code>FALSE</code> values) to pick elements out of vectors. This is important, e.g., for subsetting data (getting rid of those pesky outliers!)</p>
-<p>As a simple example, we might want to focus on just the low-light values of <span class="math inline">\(r_{max}\)</span> in the <em>Chlorella</em> example:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>Light<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>rmax<span class="ot">=</span>X[,<span class="dv">2</span>]</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>lowLight <span class="ot">=</span> Light[Light<span class="sc">&lt;</span><span class="dv">50</span>]</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>lowLightrmax <span class="ot">=</span> rmax[Light<span class="sc">&lt;</span><span class="dv">50</span>]</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>lowLight</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>lowLightrmax</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>What is really happening here (think about it for a minute) is that <code>Light&lt;50</code> generates a logical vector the same length as <code>Light</code> (<code>TRUE TRUE TRUE ...</code>) which is then used to select the appropriate values.</p>
-<p>If you want the positions at which <code>Light</code> is lower than 50, you could say <code>(1:length(Light))[Light&lt;50]</code>, but you can also use a built-in function: <code>which(Light&lt;50)</code>. If you wanted the position at which the maximum value of <code>Light</code> occurs, you could say <code>which(Light==max(Light))</code>. (This normally results in a vector of length 1; when could it give a longer vector?) There is even a built-in command for this specific function, <code>which.max</code> (although <code>which.max</code> always returns just the <em>first</em> position at which the maximum occurs).</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>What would happen if instead of setting <code>lowLight</code> you replaced <code>Light</code> by saying <code>Light=Light[Light&lt;50]</code>, and then <code>rmax=rmax[Light&lt;50]</code>?</p>
-<p>Why would that be wrong?</p>
-<p>Try it with some temporary variables — set <code>Light2=Light</code> and <code>rmax2=rmax</code> and then play with <code>Light2</code> and <code>rmax2</code> so you dont mess up your working variables — and work out what happened…</p>
-<p>We can also combine logical operators (making sure to use the element-by-element <code>&amp;</code> and <code>|</code> versions of AND and OR):</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-27" class="callout-27-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If we combine logical operators we do not need intermediate variables:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>Light[Light<span class="sc">&lt;</span><span class="dv">50</span> <span class="sc">&amp;</span> rmax <span class="sc">&lt;=</span> <span class="fl">2.0</span>]</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>rmax[Light<span class="sc">&lt;</span><span class="dv">50</span> <span class="sc">&amp;</span> rmax <span class="sc">&lt;=</span> <span class="fl">2.0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><code>runif(n)</code> is a function (more on it soon) that generates a vector of <code>n</code> random, uniformly distributed numbers between 0 and 1. Create a vector of 20 numbers, then select the subset of those numbers that is less than the mean. (If you want your answers to match mine exactly, use <code>set.seed(273)</code> to set the random-number generator to a particular starting point before you use <code>runif</code>. [273 is an arbitrary number I chose].)</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-29" class="callout-29-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">20</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>a[a <span class="sc">&lt;</span> <span class="fu">mean</span>(a)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-32" class="callout-32-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Find the <em>positions</em> of the elements that are less than the mean of the vector you just created (e.g.&nbsp;if your vector were <code>(0.1 0.9. 0.7 0.3)</code> the answer would be <code>(1 4)</code>).</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-31" class="callout-31-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(a <span class="sc">&lt;</span> <span class="fu">mean</span>(a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>As I mentioned in passing above, vectors can have names associated with their elements: if they do, you can also extract elements by name (use <code>names</code> to find out the names).</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="at">first=</span><span class="dv">7</span>,<span class="at">second=</span><span class="dv">5</span>,<span class="at">third=</span><span class="dv">2</span>)</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x)</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>x[<span class="st">"first"</span>]</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="st">"third"</span>,<span class="st">"first"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally, it is sometimes handy to be able to drop a particular set of elements, rather than taking a particular set: you can do this with negative indices. For example, <code>x[-1]</code> extracts all but the first element of a vector.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-34" class="callout-34-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Specify two ways to take only the elements in the odd positions (first, third, …) of a vector of arbitrary length.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-33" class="callout-33-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">20</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>a1 <span class="ot">=</span> a[<span class="fu">seq</span>(<span class="dv">1</span>,n,<span class="dv">2</span>)]</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>a2 <span class="ot">=</span> a[<span class="sc">-</span><span class="fu">seq</span>(<span class="dv">2</span>,n,<span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="matrices" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="matrices"><span class="header-section-number">4.2</span> Matrices</h2>
-<section id="creating-matrices" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="creating-matrices"><span class="header-section-number">4.2.1</span> Creating matrices</h3>
-<p>A matrix is a two-dimensional array, and has the same kind of variables in every column. You can create matrices of numbers by creating a vector of the matrix entries, and then reshaping them to the desired number of rows and columns using the function <code>matrix</code>. For example</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">X =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="at">nrow=</span><span class="dv">2</span>,<span class="at">ncol=</span><span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>takes the values 1 to 6 and reshapes them into a 2 by 3 matrix.</p>
-<p>By default <code>R</code> loads the values into the matrix <em>column-wise</em> (this is probably counter-intuitive since we’re used to reading tables row-wise). Use the optional parameter <code>byrow</code> to change this behavior. For example:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">A =</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">3</span>,<span class="at">byrow=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>R</code> will re-cycle through entries in the data vector, if necessary to fill a matrix of the specified size. So for example</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span>,<span class="at">nrow=</span><span class="dv">10</span>,<span class="at">ncol=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>creates a <span class="math inline">\(10 \times 10\)</span> matrix of ones.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-36" class="callout-36-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Use a command of the form <code>X = matrix(v,nrow=2,ncol=4)</code> where <code>v</code> is a data vector, to create the following matrix <code>X</code>:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3] [,4]
-[1,]    1    1    1    1
-[2,]    2    2    2    2</code></pre>
-</div>
-</div>
-<p>If you can, try to use <code>R</code> commands to construct the vector rather than typing out all of the individual values.</p>
-<p><code>R</code> will also collapse a matrix to behave like a vector whenever it makes sense: for example <code>sum(X)</code> above is 12.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-35" class="callout-35-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">4</span>),<span class="at">nrow=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-38" class="callout-38-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Use <code>rnorm</code> (which is like <code>runif</code>, but generates Gaussian (normally distributed) numbers with a specified mean and standard deviation instead) and <code>matrix</code> to create a <span class="math inline">\(5 \times 7\)</span> matrix of Gaussian random numbers with mean 1 and standard deviation 2. (Use <code>set.seed(273)</code> again for consistency).</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-37" class="callout-37-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">273</span>)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">35</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">sd=</span><span class="dv">2</span>),<span class="at">nrow=</span><span class="dv">5</span>,<span class="at">ncol=</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Another useful function for creating matrices is <code>diag</code>. <code>diag(v,n)</code> creates an <span class="math inline">\(n \times n\)</span> matrix with data vector <span class="math inline">\(v\)</span> on its diagonal. So for example <code>diag(1,5)</code> creates the <span class="math inline">\(5 \times 5\)</span> <em>identity matrix</em>, which has 1’s on the diagonal and 0 everywhere else. Try <code>diag(1:5,5)</code> and <code>diag(1:2,5)</code>; Observe what is happening. Is this desired behaviour?</p>
-<p>Finally, you can use the <code>data.entry</code> function. This function can only edit existing matrices, but for example</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">4</span>)</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.entry</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>will create <code>A</code> as a <span class="math inline">\(3 \times 4\)</span> matrix, and then call up a spreadsheet-like interface in which you can change the values to whatever you need.</p>
-<div class="cell" data-result="asis">
-<div class="cell-output-display">
-
-</div>
-</div>
-</section>
-<section id="cbind-and-rbind" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="cbind-and-rbind"><span class="header-section-number">4.2.2</span> <code>cbind</code> and <code>rbind</code></h3>
-<p>If their sizes match, you can combine vectors to form matrices, and stick matrices together with vectors or other matrices. <code>cbind</code> (“column bind”) and <code>rbind</code> (“row bind”) are the functions to use.</p>
-<p><code>cbind</code> binds together columns of two objects. One thing it can do is put vectors together to form a matrix:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">C =</span> <span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>R</code> interprets vectors as row or column vectors according to what you’re doing with them. Here it treats them as column vectors so that columns exist to be bound together. On the other hand,</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">D =</span> <span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>treats them as rows. Now we have two matrices that can be combined.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-40" class="callout-40-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p>Verify that <code>rbind(C,D)</code> works, <code>cbind(C,C)</code> works, but <code>cbind(C,D)</code> doesn’t. Why not?</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-39" class="callout-39-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>C<span class="ot">=</span><span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>D<span class="ot">=</span><span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(C,D)</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(C,D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1477,24 +1054,24 @@ Solution
 <section id="matrix-indexing" class="level3" data-number="4.2.3">
 <h3 data-number="4.2.3" class="anchored" data-anchor-id="matrix-indexing"><span class="header-section-number">4.2.3</span> Matrix indexing</h3>
 <p>Matrix indexing is like vector indexing except that you have to specify both the row and column, or range of rows and columns. For example <code>z=A[2,3]</code> sets <code>z</code> equal to 6, which is the (2nd row, 3rd column) entry of the matrix <strong>A</strong> that you recently created, and</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">B=</span>A[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">B=</span>A[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>There is an easy shortcut to extract entire rows or columns: leave out the limits, leaving a blank before or after the comma.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">first.row=</span>A[<span class="dv">1</span>,])</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">second.column=</span>A[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">first.row=</span>A[<span class="dv">1</span>,])</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">second.column=</span>A[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(What does <code>A[,]</code> do?)</p>
 <p>As with vectors, indexing also works in reverse for assigning values to matrix entries. For example,</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,<span class="dv">1</span>]<span class="ot">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can do the same with blocks, rows, or columns, for example</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>(A[<span class="dv">1</span>,]<span class="ot">=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you use <code>which</code> on a matrix, <code>R</code> will normally treat the matrix as a vector — so for example <code>which(A==8)</code> will give the answer 6 (figure out why). However, <code>which</code> does have an option that will treat its argument as a matrix:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(A<span class="sc">==</span><span class="dv">8</span>,<span class="at">arr.ind=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(A<span class="sc">==</span><span class="dv">8</span>,<span class="at">arr.ind=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="lists" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">4.3</span> Lists</h2>
 <p>While vectors and matrices may seem familiar, lists are probably new to you. Vectors and matrices have to contain elements that are all the same type: lists in <code>R</code> can contain anything — vectors, matrices, other lists… Indexing lists is a little different too: use double square brackets <code>[[ ]]</code> (rather than single square brackets as for a vector) to extract an element of a list by number or name, or <code>$</code> to extract an element by name (only). Given a list like this:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> <span class="fu">list</span>(<span class="at">A=</span>x,<span class="at">B=</span>y,<span class="at">C=</span><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> <span class="fu">list</span>(<span class="at">A=</span>x,<span class="at">B=</span>y,<span class="at">C=</span><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then <code>L$A</code>, <code>L[["A"]]</code>, and <code>L[[1]]</code> will all grab the first element of the list.</p>
 <p>You won’t use lists too much at the beginning, but many of <code>R</code>’s own results are structured in the form of lists.</p>
 </section>

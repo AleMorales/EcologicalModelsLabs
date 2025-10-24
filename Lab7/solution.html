@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ben Bolker, Bob Douma and Alejandro Morales. Bayesian part by AM">
-<meta name="dcterms.date" content="2022-11-16">
+<meta name="author" content="Ben Bolker, Bob Douma and Alejandro Morales">
+<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R - Lab 7 Optimisation and all that (including Bayesian approaches)</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 7: Optimisation and all that (solutions)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,7 +75,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,18 +102,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>
-.Exercise {
-  --color1: #00ff00;
-  --color2: #d9d9d9;
-}
-.Solution {
-  --color1: #80bfff;
-  --color2: #d9d9d9;
-}
-</style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -144,7 +133,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar docked">
@@ -153,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab7/solution.html">Lab 7 (solutions)</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -196,7 +185,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
@@ -214,14 +203,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 6</span></a>
+ <span class="menu-text">Lab 5 &amp; 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -236,11 +219,35 @@ window.Quarto = {
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: mle2 vs optim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Canned methods</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -249,6 +256,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -265,14 +278,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5 (solutions)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 6 (solutions)</span></a>
+ <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -285,6 +292,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -302,10 +321,9 @@ window.Quarto = {
   <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a>
   <ul class="collapse">
   <li><a href="#optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" id="toc-optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" class="nav-link" data-scroll-target="#optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates"><span class="header-section-number">1.1</span> Optimisation problems and assessing the confidence limits of parameter estimates</a></li>
-  <li><a href="#bayesian-parameter-estimation-negative-binomial" id="toc-bayesian-parameter-estimation-negative-binomial" class="nav-link" data-scroll-target="#bayesian-parameter-estimation-negative-binomial"><span class="header-section-number">1.2</span> Bayesian parameter estimation: negative binomial</a>
+  <li><a href="#bayesian-parameter-estimation-hamiltonian-monte-carlo" id="toc-bayesian-parameter-estimation-hamiltonian-monte-carlo" class="nav-link" data-scroll-target="#bayesian-parameter-estimation-hamiltonian-monte-carlo"><span class="header-section-number">1.2</span> Bayesian parameter estimation: Hamiltonian Monte Carlo</a>
   <ul class="collapse">
-  <li><a href="#from-bayes-rule-to-log-posterior" id="toc-from-bayes-rule-to-log-posterior" class="nav-link" data-scroll-target="#from-bayes-rule-to-log-posterior"><span class="header-section-number">1.2.1</span> From Bayes rule to log posterior</a></li>
-  <li><a href="#sampling-from-posterior-metropolis-hastings-algorithm" id="toc-sampling-from-posterior-metropolis-hastings-algorithm" class="nav-link" data-scroll-target="#sampling-from-posterior-metropolis-hastings-algorithm"><span class="header-section-number">1.2.2</span> Sampling from posterior: Metropolis-Hastings algorithm</a></li>
+  <li><a href="#modern-bayesian-information-criteria" id="toc-modern-bayesian-information-criteria" class="nav-link" data-scroll-target="#modern-bayesian-information-criteria"><span class="header-section-number">1.2.1</span> Modern Bayesian information criteria</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -316,7 +334,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab7/solution.html">Lab 7 (solutions)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Lab 7 Optimisation and all that (including Bayesian approaches)</h1>
+<h1 class="title">Lab 7: Optimisation and all that (solutions)</h1>
 </div>
 
 
@@ -326,14 +344,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Ben Bolker, Bob Douma and Alejandro Morales. Bayesian part by AM </p>
+             <p>Ben Bolker, Bob Douma and Alejandro Morales </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">16 November 2022</p>
+      <p class="date">October 24, 2025</p>
     </div>
   </div>
   
@@ -350,15 +368,27 @@ window.Quarto = {
 <p>You will learn how to:</p>
 <ol type="1">
 <li><p>Deal with optimization problems and assess confidence limits</p></li>
-<li><p>Estimate parameters in a Bayesian framework and how parameter uncertainty can be assessed</p></li>
+<li><p>Otimally, estimate parameters in a Bayesian way using Stan</p></li>
 </ol>
 <section id="optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates"><span class="header-section-number">1.1</span> Optimisation problems and assessing the confidence limits of parameter estimates</h2>
 <p>Fitting a model to data requires you to specify a relationship between variables. After specifying this relationship we need to fit parameters of this model that best fits the data. This fitting is done through computer algorithms (optimizers). However, sometimes it may be hard to fit a model to data. After having found the best fitting model, you want to assess how certain you are about the parameter estimates. For assessing the uncertainty of model parameters several methods exist that have pros and cons.</p>
-<p>If you feel comfortable with fitting models to data you are ready for a more challenging exercise. If you do not feel comfortable yet, go back to question 5.2 and practise a bit more.</p>
+<p>If you feel comfortable with fitting models to data you are ready for a more challenging exercise. If you do not feel comfortable yet, go back to question the previous lab and practise a bit more.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>This exercise has two purposes. First you will learn that an innocent looking function can be challenging to fit. Second, you will learn to assess the uncertainty in the parameter values. For assessing the uncertainty in the parameter estimates there are two methods: the profiling method and the quadratic approximation. Bolker recommends to use the likelihood profile for assessing the uncertainty in the parameters because this one is more accurate than the approxation based on the Hessian matrix.</p>
 <ol type="1">
-<li><p>Take the first dataset of the six datasets you have worked with earlier on. Assume that the function was generated by the monomolecular function <span class="math inline">\(a(1-e^{(-bx)}\)</span>. Fit this model with normally distributed errors through this data with <code>mle2</code> and optim method <code>Nelder-Mead</code>. Choose four different starting points of the optimisation: <code>start_a = c(5,10,20,30)</code>, <code>start_b = c(0.001,0.005,0.01,0.1)</code> and compare the NLL of those four optimisations. Plot the curves into the plot with data and try to understand what happened. You can set the <span class="math inline">\(\sigma\)</span> to 3.</p></li>
+<li><p>Take the first dataset of the six datasets you have worked with earlier on. Assume that the function was generated by the monomolecular function <span class="math inline">\(a(1-e^{(-bx)}\)</span>. Fit this model with normally distributed errors through this data with <code>mle2</code> and method <code>Nelder-Mead</code>. Choose four different starting points of the optimisation: <code>start_a = c(5,10,20,30)</code>, <code>start_b = c(0.001,0.005,0.01,0.1)</code> and compare the NLL of those four optimisations. Plot the curves into the plot with data and try to understand what happened. You can set the <span class="math inline">\(\sigma\)</span> to 3.</p></li>
 <li><p>To understand the behaviour of the optimisation routine we will plot the likelihood surface over a range of values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. For <span class="math inline">\(a\)</span> choose a number of parameter values in the range of 0-40 and for <span class="math inline">\(b\)</span> choose a number of values in the range 0.1-10. Calculate for each combination the NLL and plot the NLL surface using <code>contour</code> plot. For more insight into the functioning of what the optimisation method did, you can add the starting points that you gave to mle2 and the best fitting points, use <code>points()</code> for this. Do you have a clue why the optimisation did not find the minimum point in the landscape? Now zoom in and choose values for <span class="math inline">\(b\)</span> in the range of 0.001-0.03 and check again the NLL surface.</p>
 <p><em>hint</em>: See Bolker Lab 6 for inspiration on coding.</p>
 <p><em>hint</em>: You can use a for a double for-loop to run over all parameters</p>
@@ -389,322 +419,302 @@ window.Quarto = {
 <p><em>hint</em>: If the predictions are stored in a matrix <code>mat</code>, you can use <code>apply(mat,2,quantile,0.975)</code> to get the upper limit.</p></li>
 </ol></li>
 </ol>
-<div class="cell">
-<div class="Solution">
-<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>The solution is given below in the big chunk of code</p>
-<pre><code>    shapes1= read.csv("shapes1.csv")
-    plot(shapes1)
-    nll.mle = function(a,b,sd){
-      # this calculates the mean y for a given value of x: the deterministic function
-      mu = a*(1-exp(-b*shapes1$x))
-      # this calculates the likelihood of the function given the probability
-      # distribution, the data and mu and sd
-      nll = -sum(dnorm(shapes1$y,mean=mu,sd=sd,log=T))
-      return(nll)
-    }
-    library(bbmle)
-    # Try 4 different starting points
-    mle2.1 = vector("list", 4)
-    start_a = c(5,10,20,30)
-    start_b = c(0.001,0.005,0.01,0.1)
-    for(i in 1:4) {
-      mle2.1[[i]] = mle2(nll.mle,start=list(a=start_a[i],b = start_b[i], sd=1), method="Nelder-Mead")
-    }
-    # Check the best fit (in this case it is 3rd starting point)
-    for(i in 1:4) {
-      print(logLik(mle2.1[[i]]))
-    }
-    # Extract the best fit for the rest of the analysis
-    best_mle2.1 = mle2.1[[3]]
-    summary(best_mle2.1)
-    logLik(best_mle2.1)
-    confint(best_mle2.1)
-    coef(best_mle2.1)
-    plot(shapes1)
-    curve(coef(best_mle2.1)[1]*(1-exp(-coef(best_mle2.1)[2]*x)),add=T)
-    curve(coef(mle2.1[[1]])[1]*(1-exp(-coef(mle2.1[[1]])[2]*x)),add=T, col = 2)
-    # likelihood surface
-    a1 = seq(0,40,length.out = 100)
-    b1.1 = seq(0.001,0.03,length.out=100)
-    b1.2 = seq(0.1,10,length.out=100)
-    nll.grid = expand.grid(a1,b1.1)
-    nll.grid$NLL = NA
-    no = 0
-    # Construct first contour
-    for (i in 1:length(a1)){
-      for (j in 1:length(b1.1)){
-        no = no + 1
-        nll.grid[no,1] = a1[i]
-        nll.grid[no,2] = b1.1[j]
-        nll.grid[no,3] = nll.mle(a=a1[i],b=b1.1[j],sd=2.06)
-      }
-    }
-    library(reshape2)
-    z1.1 = as.matrix(dcast(nll.grid,Var1~Var2)[,-1])
-    # Construct second contour
-    no = 0
-    for (i in 1:length(a1)){
-      for (j in 1:length(b1.2)){
-        no = no + 1
-        nll.grid[no,1] = a1[i]
-        nll.grid[no,2] = b1.2[j]
-        nll.grid[no,3] = nll.mle(a=a1[i],b=b1.2[j],sd=2.06)
-      }
-    }
-    z1.2 = as.matrix(dcast(nll.grid,Var1~Var2)[,-1])
-    # Plot the two contours
-    par(mfrow = c(2,1), mar = c(0,4,1,1), las = 1)
-    contour(a1,b1.2,z1.2,nlevels = 20, xaxt = "n", yaxt = "n", ylim = c(0,9))
-    axis(2, seq(1,9,2))
-    points(start_a[4],start_b[4],pch=4, col = 4, lwd = 2)
-    points(coef(mle2.1[[1]])[1],coef(mle2.1[[1]])[2],pch=19, col = 2)
-    points(coef(mle2.1[[2]])[1],coef(mle2.1[[2]])[2],pch=19, col = 3)
-    points(coef(mle2.1[[4]])[1],coef(mle2.1[[4]])[2],pch=19, col = 4)
-    contour(a1,b1.2,z1.2,levels=120,col=2,add=T)
-    par(mar = c(3.5,4,0.5,1))
-    contour(a1,b1.1,z1.1,nlevels = 20)
-    points(coef(best_mle2.1)[1],coef(best_mle2.1)[2],pch=19)
-    points(start_a[1],start_b[1],pch=4, col = 2, lwd = 2)
-    points(start_a[2],start_b[2],pch=4, col = 3, lwd = 2)
-    points(start_a[3],start_b[3],pch=4, col = 1, lwd = 2)
-    contour(a1,b1.1,z1.1,levels=120,col=2,add=T)
-    # profile
-    nll.mle1 = function(a,sd){
-      # this calculates the mean y for a given value of x: the deterministic function
-      mu = a*(1-exp(-b*x))
-      # this calculates the likelihood of the function given the probability
-      # distribution, the data and mu and sd
-      nll = -sum(dnorm(y,mean=mu,sd=sd,log=T))
-      return(nll)
-    }
-    nll = numeric(length(b1.1))
-    for (i in 1:length(b1.1)){
-      b = b1.1[i]
-      mle.21 = mle2(nll.mle1,start=list(a=25,sd=7.96),data=data.frame(x=shapes1$x,y=shapes1$y),method="Nelder-Mead")
-      nll[i] = -logLik(mle.21)
-    }
-    par(mfrow = c(1,1))
-    plot(nll~ b1.1,type="l",xlim=c(0.008,0.012), ylim = c(117,125))
-    which.min(nll)
-    # cutoff
-    -logLik(best_mle2.1) + qchisq(0.95, 1)/2
-    which(nll &lt; 119.852)
-    b1.1[c(23,35)]
-    plot(nll~ b1.1,type="l",xlim=c(0.0070,0.012),ylim=c(116,125))
-    abline(v=c(0.00744,0.01096),lty=2)
-    abline(v=0.008968,lty=1,lwd=2)
-    abline(v=c(0.00738,0.01103),lty=2,col="red")
-    se.mu = sqrt(diag(solve(best_mle2.1@details$hessian))[2])
-    b + c(-1,1)*qnorm(0.975) * se.mu
-    confint(best_mle2.1)
-    abline(v=c(0.007177,0.0107589),col="blue")</code></pre>
-</div></details>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shapes1<span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"shapes1.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shapes1)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>nll.mle <span class="ot">=</span> <span class="cf">function</span>(a,b,sd){</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this calculates the mean y for a given value of x: the deterministic function</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> a<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>shapes1<span class="sc">$</span>x))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this calculates the likelihood of the function given the probability</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># distribution, the data and mu and sd</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(shapes1<span class="sc">$</span>y,<span class="at">mean=</span>mu,<span class="at">sd=</span>sd,<span class="at">log=</span>T))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Try 4 different starting points</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>mle2<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">vector</span>(<span class="st">"list"</span>, <span class="dv">4</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>start_a <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>start_b <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.001</span>,<span class="fl">0.005</span>,<span class="fl">0.01</span>,<span class="fl">0.1</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    mle2<span class="fl">.1</span>[[i]] <span class="ot">=</span> <span class="fu">mle2</span>(nll.mle,<span class="at">start=</span><span class="fu">list</span>(<span class="at">a=</span>start_a[i],<span class="at">b =</span> start_b[i], <span class="at">sd=</span><span class="dv">1</span>), <span class="at">method=</span><span class="st">"Nelder-Mead"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the best fit (in this case it is 3rd starting point)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">logLik</span>(mle2<span class="fl">.1</span>[[i]]))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the best fit for the rest of the analysis</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>best_mle2<span class="fl">.1</span> <span class="ot">=</span> mle2<span class="fl">.1</span>[[<span class="dv">3</span>]]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(best_mle2<span class="fl">.1</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(best_mle2<span class="fl">.1</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(best_mle2<span class="fl">.1</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(best_mle2<span class="fl">.1</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shapes1)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">coef</span>(best_mle2<span class="fl">.1</span>)[<span class="dv">1</span>]<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fu">coef</span>(best_mle2<span class="fl">.1</span>)[<span class="dv">2</span>]<span class="sc">*</span>x)),<span class="at">add=</span>T)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">1</span>]])[<span class="dv">1</span>]<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">1</span>]])[<span class="dv">2</span>]<span class="sc">*</span>x)),<span class="at">add=</span>T, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood surface</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>a1 <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">40</span>,<span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>b1<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.001</span>,<span class="fl">0.03</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>b1<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="dv">10</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>nll.grid <span class="ot">=</span> <span class="fu">expand.grid</span>(a1,b1<span class="fl">.1</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>nll.grid<span class="sc">$</span>NLL <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>no <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct first contour</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(a1)){</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(b1<span class="fl">.1</span>)){</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    no <span class="ot">=</span> no <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">1</span>] <span class="ot">=</span> a1[i]</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">2</span>] <span class="ot">=</span> b1<span class="fl">.1</span>[j]</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">nll.mle</span>(<span class="at">a=</span>a1[i],<span class="at">b=</span>b1<span class="fl">.1</span>[j],<span class="at">sd=</span><span class="fl">2.06</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>z1<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">pivot_wider</span>(nll.grid, <span class="at">names_from =</span> Var2, <span class="at">values_from =</span> NLL)[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct second contour</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>no <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(a1)){</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(b1<span class="fl">.2</span>)){</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    no <span class="ot">=</span> no <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">1</span>] <span class="ot">=</span> a1[i]</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">2</span>] <span class="ot">=</span> b1<span class="fl">.2</span>[j]</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    nll.grid[no,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">nll.mle</span>(<span class="at">a=</span>a1[i],<span class="at">b=</span>b1<span class="fl">.2</span>[j],<span class="at">sd=</span><span class="fl">2.06</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>z1<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">pivot_wider</span>(nll.grid, <span class="at">names_from =</span> Var2, <span class="at">values_from =</span> NLL)[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the two contours</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(a1,b1<span class="fl">.2</span>,z1<span class="fl">.2</span>,<span class="at">nlevels =</span> <span class="dv">20</span>, <span class="at">xaxt =</span> <span class="st">"n"</span>, <span class="at">yaxt =</span> <span class="st">"n"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">9</span>))</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">2</span>))</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(start_a[<span class="dv">4</span>],start_b[<span class="dv">4</span>],<span class="at">pch=</span><span class="dv">4</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">1</span>]])[<span class="dv">1</span>],<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">1</span>]])[<span class="dv">2</span>],<span class="at">pch=</span><span class="dv">19</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">2</span>]])[<span class="dv">1</span>],<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">2</span>]])[<span class="dv">2</span>],<span class="at">pch=</span><span class="dv">19</span>, <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">4</span>]])[<span class="dv">1</span>],<span class="fu">coef</span>(mle2<span class="fl">.1</span>[[<span class="dv">4</span>]])[<span class="dv">2</span>],<span class="at">pch=</span><span class="dv">19</span>, <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(a1,b1<span class="fl">.2</span>,z1<span class="fl">.2</span>,<span class="at">levels=</span><span class="dv">120</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">add=</span>T)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.5</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="dv">1</span>))</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(a1,b1<span class="fl">.1</span>,z1<span class="fl">.1</span>,<span class="at">nlevels =</span> <span class="dv">20</span>)</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">coef</span>(best_mle2<span class="fl">.1</span>)[<span class="dv">1</span>],<span class="fu">coef</span>(best_mle2<span class="fl">.1</span>)[<span class="dv">2</span>],<span class="at">pch=</span><span class="dv">19</span>)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(start_a[<span class="dv">1</span>],start_b[<span class="dv">1</span>],<span class="at">pch=</span><span class="dv">4</span>, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(start_a[<span class="dv">2</span>],start_b[<span class="dv">2</span>],<span class="at">pch=</span><span class="dv">4</span>, <span class="at">col =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(start_a[<span class="dv">3</span>],start_b[<span class="dv">3</span>],<span class="at">pch=</span><span class="dv">4</span>, <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(a1,b1<span class="fl">.1</span>,z1<span class="fl">.1</span>,<span class="at">levels=</span><span class="dv">120</span>,<span class="at">col=</span><span class="dv">2</span>,<span class="at">add=</span>T)</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co"># profile</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>nll.mle1 <span class="ot">=</span> <span class="cf">function</span>(a,sd){</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this calculates the mean y for a given value of x: the deterministic function</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">=</span> a<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>x))</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this calculates the likelihood of the function given the probability</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># distribution, the data and mu and sd</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y,<span class="at">mean=</span>mu,<span class="at">sd=</span>sd,<span class="at">log=</span>T))</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nll)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(b1<span class="fl">.1</span>))</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(b1<span class="fl">.1</span>)){</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">=</span> b1<span class="fl">.1</span>[i]</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>    mle<span class="fl">.21</span> <span class="ot">=</span> <span class="fu">mle2</span>(nll.mle1,<span class="at">start=</span><span class="fu">list</span>(<span class="at">a=</span><span class="dv">25</span>,<span class="at">sd=</span><span class="fl">7.96</span>),<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">x=</span>shapes1<span class="sc">$</span>x,<span class="at">y=</span>shapes1<span class="sc">$</span>y),<span class="at">method=</span><span class="st">"Nelder-Mead"</span>)</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    nll[i] <span class="ot">=</span> <span class="sc">-</span><span class="fu">logLik</span>(mle<span class="fl">.21</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll<span class="sc">~</span> b1<span class="fl">.1</span>,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="fl">0.008</span>,<span class="fl">0.012</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">117</span>,<span class="dv">125</span>))</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(nll)</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co"># cutoff</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fu">logLik</span>(best_mle2<span class="fl">.1</span>) <span class="sc">+</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(nll <span class="sc">&lt;</span> <span class="fl">119.852</span>)</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>b1<span class="fl">.1</span>[<span class="fu">c</span>(<span class="dv">23</span>,<span class="dv">35</span>)]</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nll<span class="sc">~</span> b1<span class="fl">.1</span>,<span class="at">type=</span><span class="st">"l"</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="fl">0.0070</span>,<span class="fl">0.012</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">116</span>,<span class="dv">125</span>))</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="fl">0.00744</span>,<span class="fl">0.01096</span>),<span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">0.008968</span>,<span class="at">lty=</span><span class="dv">1</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="fl">0.00738</span>,<span class="fl">0.01103</span>),<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>se.mu <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">solve</span>(best_mle2<span class="fl">.1</span><span class="sc">@</span>details<span class="sc">$</span>hessian))[<span class="dv">2</span>])</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>b <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span><span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se.mu</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(best_mle2<span class="fl">.1</span>)</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="fl">0.007177</span>,<span class="fl">0.0107589</span>),<span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
-<section id="bayesian-parameter-estimation-negative-binomial" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="bayesian-parameter-estimation-negative-binomial"><span class="header-section-number">1.2</span> Bayesian parameter estimation: negative binomial</h2>
-<p>In this section we will practice parameter estimation using the Bayesian method on the same negative binomial example as before (Section 6.1). The purpose of this exercise is to gain intuition of how Markov Chain Monte Carlo (MCMC) algorithms work and better understand the differences (and similarities) between maximum likelihood and Bayesian parameter estimation. The MCMC algorithm implemented below can be useful for relatively simple models such as the ones covered in this course. For more complex data analysis we recommend to use dedicated R packages that implement more powerful (and automated) algorithms. A list of such packages can be found in the task view on Bayesian Inference (https://cran.r-project.org/web/views/Bayesian.html).</p>
-<section id="from-bayes-rule-to-log-posterior" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="from-bayes-rule-to-log-posterior"><span class="header-section-number">1.2.1</span> From Bayes rule to log posterior</h3>
-<p>The aim of Bayesian analysis is to estimate the parameters of a model conditional on observed data (<span class="math inline">\(P(\theta | D)\)</span>, known as <em>posterior distribution</em>) given the likelihood (<span class="math inline">\(L(\theta|D) = P(D|\theta)\)</span>) and <em>prior distributions</em> of the parameters (<span class="math inline">\(P(\theta)\)</span>), according to Bayes rule:</p>
-<p><span class="math display">\[
-P(\theta | D) = \frac{P(D|\theta) P(\theta)}{P(D)}
-\]</span></p>
-<p>Details on Bayes rule are given in section 4.3 and 6.2.2 of the book. Note that the only unknown in the right hand side of Bayes rule is <span class="math inline">\(P(D)\)</span>. However, we know that <span class="math inline">\(P(D) = \int P(D|\theta)P(\theta)d\theta\)</span>. Therefore, in order to calculate the posterior distribution, we could calculate this integral. Any integration method would work, but integration will not be feasible for a large number of parameters. In practice, a more popular approach is to generate samples from the posterior distribution, while avoiding the integral. This is achieved by so-called Markov Chain Monte Carlo (MCMC) algorithms. These algorithms will provide a random sample from the posterior distribution given a formulation of the problem as:</p>
-<p><span class="math display">\[
-\log(P(\theta | D)) \propto \log(P(D|\theta)) + \log(P(\theta)) = \mathcal{L} + \log(P(\theta))
-\]</span></p>
-<p>Where <span class="math inline">\(\mathcal{L}\)</span> is the positive log-likelihood and <span class="math inline">\(\propto\)</span> means “proportional to”. These algorithms work with logarithms for the same reason as in maximum likelihood estimation (i.e., to avoid numerical instability due to very large or very small numbers that would result from multiplication).</p>
-<p>The first step of Bayesian parameter estimation is to build a function that calculates the log-posterior density for every parameter value. We will use the example of the negative binomial from section 6.1. This example fits a negative binomial distribution parameterized by its mean (<code>mu</code>) and size (<code>k</code>) both of which have to be positive.</p>
-<p>In a Bayesian approach, we need to assign prior probabilities to each of the parameters, which means choosing a distribution and its parameters, based on prior knowledge. Of course, without a context, it is not possible to specify meaningful prior distributions (and this is arguably the hardest step in any Bayesian analysis), but for the sake of this exercise let’s assume that we can represent our prior beliefs with Normal distributions centered around 0 and with a standard deviation of 2 (in practice only half of these prior distributions are being used as <code>mu</code> and <code>k</code> are positive, but that is fine). This essentially means that were are 99% certain that <code>mu</code> and <code>k</code> will be lower than 4.6, prior to seeing any data.</p>
-<p>We have to construct a function that can return the sum of the log-likelihood and log-prior densities for a given combination of <code>mu</code> and <code>k</code> in order to use MCMC (remember, this is not the exact log-posterior because of the unknown normalizing constant):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LPfun1 <span class="ot">=</span> <span class="cf">function</span>(p, <span class="at">dat =</span> x) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mean and size of the negative binomial (use exp to force them to be positive)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> <span class="fu">exp</span>(p[<span class="dv">1</span>])</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  k  <span class="ot">=</span> <span class="fu">exp</span>(p[<span class="dv">2</span>])</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Logarithm of the prior distributions on mu and k</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># (0 and 2 are parameters chosen by the user, they represent prior beliefs)</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  lp_mu <span class="ot">=</span> <span class="fu">dnorm</span>(mu, <span class="dv">0</span>, <span class="dv">2</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  lp_k <span class="ot">=</span> <span class="fu">dnorm</span>(k, <span class="dv">0</span>, <span class="dv">2</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  log_prior <span class="ot">=</span> lp_mu <span class="sc">+</span> lp_k</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Log-likelihood of the data under the model</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  LL <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">dnbinom</span>(dat,<span class="at">mu=</span>mu,<span class="at">size=</span>k,<span class="at">log=</span><span class="cn">TRUE</span>))</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sum of the log-likelihood and the log-prior</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  LL <span class="sc">+</span> log_prior</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The main difference between <code>LPfun1</code> and <code>NLLfun1</code> created in section 6.1 is that the new function includes the log-prior densities of <code>mu</code> and <code>k</code> (<code>lp_mu</code> and <code>lp_k</code>, respectively) and that it returns the sum of log-likelihood + log-prior densities.</p>
-</section>
-<section id="sampling-from-posterior-metropolis-hastings-algorithm" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="sampling-from-posterior-metropolis-hastings-algorithm"><span class="header-section-number">1.2.2</span> Sampling from posterior: Metropolis-Hastings algorithm</h3>
-<p>Below is a simple version of the Metropolis-Hastings algorithm (section 7.3.1 of the book), with a multivariate Normal proposal distribution (<strong>you need to install package <code>mvtnorm</code> first!</strong>). Note that this function is written in a generic fashion, that is, it will work with any user-defined function that is assigned to the first argument (<code>model</code>) and any data required by said function is passed through the <code>...</code> argument (this is the strategy is used in many R functions, including <code>optim</code>).</p>
-<p>The inputs of the <code>MH</code> function (see below for code) are:</p>
+<section id="bayesian-parameter-estimation-hamiltonian-monte-carlo" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="bayesian-parameter-estimation-hamiltonian-monte-carlo"><span class="header-section-number">1.2</span> Bayesian parameter estimation: Hamiltonian Monte Carlo</h2>
+<p>In this section we will revisit the examples we did in Lab 6 but using a Markov Chain Monte Carlo approach to generate samples from the posterior distribution without having to make assumptions about its shape.</p>
+<p>The software Stan implements a different type of MCMC algorithm to the one described in Bolker’s book. It uses an algorithm called Hamiltonian Monte Carlo that has a smart way to generate candidate points in the posterior distribution that lead to a much more efficient sampling (less autocorrelation, much faster adaptation, etc). We will not learn the details of the algorithm (is much more complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM), instead we will focus on how to assess the results.</p>
+<p>Remember that in lab 6 we created a model for the prediation data (<code>shapes2</code>). We will modify that model to keep track of the log-likelihood for the different parameter combinations (we need it for model comparison later). The original code was as follows</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] x;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] y;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b;</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  a     ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  b     ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  y ~ normal(a*x./(b + x), sigma);</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You need to add an extra block that computes the log-likelihood for each parameter value:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  vector[N] log_lik;</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(n <span class="cf">in</span> N) log_lik[n] <span class="ot">=</span> <span class="fu">normal_lpdf</span>(y[n] <span class="sc">|</span> a<span class="sc">*</span>x[n]<span class="sc">/</span>(b <span class="sc">+</span> x[n]), sigma);</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be added at the end of the file with the model implementation. Notice that inside the <code>generated quantities</code> block you can only use the <code>normal_lpdf</code> style of programming (not the <code>y ~ normal</code> style).</p>
+<p>We could compile and load the model as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mm_model <span class="ot">=</span> <span class="fu">stan_model</span>(<span class="at">file =</span> <span class="st">"./Lab7/mm_ll.stan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, instead of applying Laplace’s approximation we will generate the samples using HMC. We can achieve this with the function <code>sampling</code> (assuming you have loaded the <code>shapes2</code> data:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(shapes2), <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">10</span>)) <span class="co"># see above for priors</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">4</span>) <span class="co"># Adjust to the number of cores you have</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>mm_fit <span class="ot">=</span> <span class="fu">sampling</span>(mm_model, <span class="at">data =</span> data, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">iter =</span> <span class="dv">4000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this called to <code>sampling()</code> we are running 4 chains in parallel <code>ncores = 4</code> and <code>nchains = 4</code>. Each chain will first run for 1000 iterations to adapt (<em>warmup</em> is equivalent to <em>burn-in</em>) and then 3000 more to fill up the <code>iter = 4000</code>. This means we get in total 12000 samples from posterior across 4 independent chains.</p>
+<p>We can look at summaries of the samples with the usual function. You should specify the parameters you want out (otherwise you get all the <code>log_lik</code> estimates printed:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Stan is calculate the mean of each marginal posterior distribution (one per parameter). It also gives several quantiles, an estimate of the effective sample size (corrected for autocorrelation) and the <span class="math inline">\(\hat{R}\)</span> (<code>Rhat</code>) statistic (Bolker calls it <em>Gelman-Rubin</em> diagnostic). This statistic should be as close to 1 as possible, with values about 1.2 indicating a quite bad convergence (the results we get here are pretty much perfect).</p>
+<p>When you get an <span class="math inline">\(\hat{R}\)</span> of 1.00, there is no much need to look at the traces of the chains, but if you want to you can still do it:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traceplot</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the four chains are well mixed for all parameters and they look like white noise. If you want to process the samples your self, you can convert the Stan object into a data.frame</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="ot">=</span> <span class="fu">as.data.frame</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now we can reproduce the plots we made in the previous Lab</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"a"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"b"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"b"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(posterior_samples[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">ylab =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the uncertainty in the parameter <code>b</code> is much larger than what we estimated with Laplace’s approximation. This is indeed the problem of using quadratic approximation to estimate uncertainty. It does not matter whether we are using in a Bayesian context or for maximum likelihood, in both cases we often underestimate uncertainty.</p>
+<section id="modern-bayesian-information-criteria" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="modern-bayesian-information-criteria"><span class="header-section-number">1.2.1</span> Modern Bayesian information criteria</h3>
+<p>Finally, we can compute information criteria for model comparison. Bolker mentions DIC but this criterion has by now been superseded by two more recent approaches. The first one is WAIC which is a Bayesian generalization of AIC. The other one is an estimate of leave-one-out cross-validation (that can be done in a Bayesian context and is much faster than actual cross-validation). The package <code>loo</code> implements these indices:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(loo)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the log-likelihoods from the fit</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>log_lik <span class="ot">=</span> <span class="fu">extract_log_lik</span>(mm_fit)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the WAIC</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>waic_mm <span class="ot">=</span> <span class="fu">waic</span>(log_lik)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the loo IC</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>loo_mm <span class="ot">=</span> <span class="fu">loo</span>(log_lik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that there were some warnings, they refer to one data point (2% of the data) that is probably a bit of an outlier and this can have an influence on any information criterion. We can identify as follows:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>suspect <span class="ot">=</span> <span class="fu">pareto_k_ids</span>(loo_mm)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shapes2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2[suspect,], <span class="at">col =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Indeed, that value is way above the rest of the curve (for that value of <code>x</code>). We can remove the column in <code>log_lik</code> that corresponds to this point and recalculate the indices:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>log_lik_clean <span class="ot">=</span> log_lik[,<span class="sc">-</span><span class="dv">7</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>waic_mm <span class="ot">=</span> <span class="fu">waic</span>(log_lik_clean)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>loo_mm <span class="ot">=</span> <span class="fu">loo</span>(log_lik_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now complaints anymore. Let’s look at these objects</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>waic_mm</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>loo_mm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>They give exactly the same result. Sometimes they will not and in that case the recommendation is to use <code>loo</code> instead of <code>waic</code>. This will tend to happen with fewer datapoints and/or more complex models. There are a lot of numbers there:</p>
 <ul>
-<li><code>model</code>: Function that calculates the non-normalized log-posterior (i.e.&nbsp;<code>LPfun1</code>).</li>
-<li><code>init</code>: Initial values for the parameters. The closer to the “true” values the faster the MCMC algorithm will converge to the posterior distribution.</li>
-<li><code>sigma</code>: Variance-covariance matrix of the proposal distribution used to calculate jumps in parameter space.</li>
-<li><code>niter</code>: Number of iterations the algorithm will run for.</li>
-<li><code>burn</code>: Fraction of iterations that will be used as burn-in (check section 7.3.2). These iterations will not be used for analysis but are required for convergence of the MCMC algorithm.</li>
-<li><code>seed</code>: Seed for pseudo-random number generator that allows reproducing results.</li>
+<li><p><code>elpd_</code> is the average predictive log-likelihood (so it is already penalized by model complexity).</p></li>
+<li><p><code>p_</code> is the effective degrees of freedom we would need to compute <code>elpd</code> from our sample. In AIC this would <span class="math inline">\(2k = 6\)</span>. The reason why this number is smaller than 6 in a Bayesian prior is because prior information constrains the model, so the effective number of degrees of freedom is lower than the number of parameters being estimated. The effective degrees of freedom will also depend on the sample size (the more data we have, the less informative the priors become).</p></li>
+<li><p><code>waic</code> and <code>looic</code> is just -2 times elpd so that it is expressed in the same units as AIC or BIC.</p></li>
 </ul>
-<p>The algorithm keeps track of all the parameter values it visits and stores them in the variable <code>chain</code>. Each iteration, it proposes new values for each parameter (<code>proposal</code>) sampled from a multivariate Normal distribution centered at the current values. The probability of accepting the proposal is equal to the exponent of the difference in log posterior densities (<code>paccept</code>, see Equation 7.3.2 in the book, taking into account that the proposal distribution is symmetric). If the proposal is accepted, then it is added to the <code>chain</code> and becomes the new <code>current</code> values (i.e., the algorithm “moves” to that location). After the run is finished, the values in <code>chain</code> are split between the burn-in samples and after burn-in. The variable <code>acceptance</code> calculates the fraction of jumps that were accepted (do not confuse with the probability of accepting an individual jump!). The higher this number is, the more efficient the algorithm is in exploring the posterior distribution.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MH <span class="ot">=</span> <span class="cf">function</span>(model, init, <span class="at">Sigma =</span> <span class="fu">diag</span>(init<span class="sc">/</span><span class="dv">10</span>), <span class="at">niter =</span> <span class="fl">3e4</span>, <span class="at">burn =</span> <span class="fl">0.5</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">seed =</span> <span class="dv">1134</span>, ...) {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># To make results reproducible you should set a seed (change among chains!!!)</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Pre-allocate chain of values</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  chain <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">ncol =</span> <span class="fu">length</span>(init), <span class="at">nrow =</span> niter)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Chain starts at init</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  current <span class="ot">=</span> init</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  lp_current <span class="ot">=</span> <span class="fu">model</span>(current, ...)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterate niter times and update chain</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(iter <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>niter) {</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate proposal values from multivariate Normal distribution</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    proposal <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sigma =</span> Sigma)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate probability of acceptance (proposal distribution is symmetric)</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    lp_proposal <span class="ot">=</span> <span class="fu">model</span>(proposal, ...)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    paccept <span class="ot">=</span> <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">exp</span>(lp_proposal <span class="sc">-</span> lp_current))</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Accept the proposal... or not!</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If accept, update the current and lp_current values</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    accept <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">1</span>) <span class="sc">&lt;</span> paccept</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(accept) {</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      chain[iter,] <span class="ot">=</span> proposal</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      lp_current <span class="ot">=</span> lp_proposal</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>      current <span class="ot">=</span> chain[iter,]</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>      chain[iter,] <span class="ot">=</span> current</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate the length of burn-in</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  nburn <span class="ot">=</span> <span class="fu">floor</span>(niter<span class="sc">*</span>burn)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate final acceptance probability after burn-in (fraction of proposals accepted)</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  acceptance <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">duplicated</span>(chain[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span>nburn),]))</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Package the results</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">burnin =</span> chain[<span class="dv">1</span><span class="sc">:</span>nburn,], <span class="at">sample =</span> chain[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span>nburn),],</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">acceptance =</span> acceptance, <span class="at">nburn =</span> nburn)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can use WAIC or LOO-IC in a similar way to how you use AIC or BIC. Notice that we also get a standard error <code>SE</code> for the index, so you may also use that information for model comparison (i.e., if the WAIC or two models differ by more than twice the SE, you can assume a difference in predictive power between the models).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>So let’s tackle the negative binomial problem with the algorithm above. First, let’s regenerate the data that was used in the previous section:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mu.true<span class="ot">=</span><span class="dv">1</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>k.true<span class="ot">=</span><span class="fl">0.4</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="dv">50</span>,<span class="at">mu=</span>mu.true,<span class="at">size=</span>k.true)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-title-container flex-fill">
+Exercise
 </div>
-<p>Now we can run <code>MH</code> with some values. I want to make the point that choosing a good proposal distribution matters for an efficient MCMC algorithm. So let’s start with a variance-covariance matrix that is not reasonable (because it is too wide):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">diag</span>(<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<p>Now we can run <code>MH</code> combined with the <code>LPfun1</code> function and some initial values:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>init <span class="ot">=</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bay1 <span class="ot">=</span> <span class="fu">MH</span>(LPfun1, init, Sigma, <span class="at">burn =</span> <span class="fl">0.3</span>, <span class="at">dat =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The first result you want to check is the acceptance probability to see how succesful proposals were:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bay1<span class="sc">$</span>acceptance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01957143</code></pre>
-</div>
-</div>
-<p>This is terrible! 98% of the proposed values were rejected so it would take really long to get a representative sample from the posterior distribution. The next step is usually to take a look at the traces of the values sampled by the MCMC (noticed that the sampling was done on the log transformation of the parameters as they are positive):</p>
-<div class="cell" data-layout-align="c">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bay1<span class="sc">$</span>sample[,<span class="dv">1</span>], <span class="at">t =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Trace of log(mu)"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bay1<span class="sc">$</span>sample[,<span class="dv">2</span>], <span class="at">t =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Trace of log(k)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-c">
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-c figure-img" width="480"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The low probability of acceptance means that the traces look like “squiggly lines”, getting stuck at different values for hundreds of iterations (i.e., horizontal sections in the traces). This slows down the effective sampling and can introduce biases in the estimates (unless the algorithm runs for very long).</p>
-<p>Note that more modern MCMC algorithms (that R packages specialized on Bayesian statistics will use internally) will automatically <em>tune</em> the proposal distribution or even use alternatives methods to propose values that are more robust. However a poor man’s tuned MCMC may suffice for this introduction (and for simple models with few parameters) and it works as follows:</p>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Calculate the value that maximizes the posterior distribution using <code>optim</code> (<em>a.k.a</em> Maximum A Posteriori estimate or MAP for short).</p></li>
-<li><p>Estimate the variance-covariance matrix of the posterior distribution using the Hessian matrix returned by <code>optim</code> (analogous to what we do for maximum likelihood estimation).</p></li>
-<li><p>Run <code>MH</code> using the above results as the values for <code>init</code> and <code>sigma</code>, respectively.</p></li>
+<li><p>Fit the model <code>a*x^2/(b + x^2)</code> to the same dataset as the model above using Hamiltonian Monte Carlo.</p></li>
+<li><p>Compare the two models using WAIC or LOO-IC</p></li>
 </ol>
-<p>The reason why this works better is because points 1 and 2 will often give a good first approximation of the posterior distribution, especially for large data (in which case the posterior distribution approaches a Normal distribution). This means that <code>MH</code> will be sampling from a distribution similar to the target distribution and hence a higher proportion of proposals will be accepted (intuitively, fewer values that are far in the tails of the posterior distribution will be proposed). This approach can be implemented as:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mapfit <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">fn =</span> LPfun1, <span class="at">par =</span> <span class="fu">log</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)),</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">hessian =</span> <span class="cn">TRUE</span>, <span class="at">method =</span> <span class="st">"BFGS"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">dat =</span> x)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="sc">-</span>mapfit<span class="sc">$</span>hessian)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>init <span class="ot">=</span> mapfit<span class="sc">$</span>par</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>bay2 <span class="ot">=</span> <span class="fu">MH</span>(LPfun1, init, Sigma, <span class="at">burn =</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>Notice that we should use <code>control = list(fnscale = -1)</code> because we want to maximize the posterior probability, not minimize it. That is also the reason why I add a negative sign in front of the Hessian as in <code>solve(-mapfit$hessian)</code> (in previous examples we were minimizing the negative log likelihood and we did not include the negative sign in front of the Hessian).</p>
-<p>We can see that the matrix <code>Sigma</code> obtained from the Hessian around the MAP estimate is different from the one assumed in the first MH run (specifically, the variances are much smaller):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>            [,1]        [,2]
-[1,] 0.078897091 0.002920995
-[2,] 0.002920995 0.122861528</code></pre>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The stan model will look as follows (I use the probabilistic flavour because it is a bit easier to write down)</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] x;</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] y;</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp;</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a;</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b;</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  a     ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  b     ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  y ~ normal(a*pow(x, <span class="dv">2</span>)./(b + pow(x, <span class="dv">2</span>)), sigma);</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="kw">generated quantities</span> {</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] log_lik;</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(n <span class="cf">in</span> <span class="dv">1</span>:N) </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    log_lik[n] = normal_lpdf(y[n] | a*pow(x[n],<span class="dv">2</span>)/(b + pow(x[n],<span class="dv">2</span>)), sigma);</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We then load the new model and run HMC on it:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mm2_model <span class="ot">=</span> <span class="fu">stan_model</span>(<span class="at">file =</span> <span class="st">"./Lab7/mm2_ll.stan"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(shapes2), <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">10</span>)) <span class="co"># see above for priors</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>mm2_fit <span class="ot">=</span> <span class="fu">sampling</span>(mm2_model, <span class="at">data =</span> data, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">iter =</span> <span class="dv">4000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And I can retrieve the parameter values as I did before</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mm2_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And visualize them:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="ot">=</span> <span class="fu">as.data.frame</span>(mm2_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"a"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"b"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"b"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(posterior_samples[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">ylab =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To compare with the other model we should compute cross-validation also without data point 7:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(loo)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the log-likelihoods from the fit</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>log_lik <span class="ot">=</span> <span class="fu">extract_log_lik</span>(mm2_fit)[,<span class="sc">-</span><span class="dv">7</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the WAIC</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>waic_mm2 <span class="ot">=</span> <span class="fu">waic</span>(log_lik)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>waic_mm2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ok, there seems to be another suspect, let’s check with <code>loo</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>loo_mm2 <span class="ot">=</span> <span class="fu">loo</span>(log_lik)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>loo_mm2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We do not get warnings so we should be safe. We can now compare the two models.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(loo_mm<span class="sc">$</span>estimates[<span class="st">"looic"</span>,],</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>      loo_mm2<span class="sc">$</span>estimates[<span class="st">"looic"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the first model we tried was much better than the second model even when accounting for the standard error in the estimation. We can use the <code>loo_compare</code> function, which compares <code>elpd</code> values (i.e., without multiplying by -2, so bigger is better):</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loo_compare</span>(loo_mm, loo_mm2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>These lower variances mean that the Markov chain does not wonder far into the tails of the posterior distribution but rather remains in the area of high probability. Thus, the new run has a higher acceptance probability:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bay2<span class="sc">$</span>acceptance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5599524</code></pre>
 </div>
 </div>
-<p>Now this is the good. 56% of the time the candidates will be accepted, ensuring that the chain samples efficiently from the posterior. The traces will approach white noise (these are often called “fuzzy caterpillars” in the community):</p>
-<div class="cell" data-layout-align="c">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bay2<span class="sc">$</span>sample[,<span class="dv">1</span>], <span class="at">t =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Trace of log(mu)"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bay2<span class="sc">$</span>sample[,<span class="dv">2</span>], <span class="at">t =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Trace of log(k)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-c">
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-c figure-img" width="480"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>At this point we would normally calculate more diagnostics to build up more confidence on the results of the MCMC chains, but we will keep it simple in this introduction. The object <code>bay2$sample</code> contains a random sample from the posterior from which we can calculate several properties. First, remember that we took the logarithm of the parameters to avoid negative values, so we need to undo this transformation in the result:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bay2sample <span class="ot">=</span> <span class="fu">exp</span>(bay2<span class="sc">$</span>sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can visualize the estimates for each parameter using <code>density</code> (more common) or <code>hist</code> (easier to interpret):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">1.5</span>,<span class="dv">1</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bay2sample[,<span class="dv">1</span>], <span class="at">main =</span> <span class="st">"Density of mu"</span>, <span class="at">freq =</span> F, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bay2sample[,<span class="dv">2</span>], <span class="at">main =</span> <span class="st">"Density of k"</span>, <span class="at">freq =</span> F, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>One striking feature is that the distributions are not symmetric, they have a longer tail to the right. This is typical of positive parameters that are close to 0. A consequence of this is that the mean, median and mode of the distributions will differ (though in in this case not so much). Let’s compare all the estimates we have so far for the negative binomial fitted to these data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>map <span class="ot">=</span> <span class="fu">exp</span>(mapfit<span class="sc">$</span>par)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>meanp <span class="ot">=</span> <span class="fu">colMeans</span>(bay2sample)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>medianp <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">median</span>(bay2sample[,<span class="dv">1</span>]), <span class="fu">median</span>(bay2sample[,<span class="dv">2</span>]))</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(map, meanp, medianp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.2209093 0.2876172 1.2897290 0.2926038 1.2222475 0.2745380</code></pre>
-</div>
-</div>
-<p>The 95% credible intervals (analogous to 95% confidence intervals) can be calculated with the <code>quantile</code> function applied directly to the sample from the posterior:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">apply</span>(bay2sample, <span class="dv">2</span>, quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          2.5%     97.5%
-[1,] 0.7078096 2.2138543
-[2,] 0.1348619 0.5519341</code></pre>
 </div>
 </div>
 
@@ -749,18 +759,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -792,7 +791,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -800,7 +821,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Alejandro Morales">
+<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Practical Labs CSA-40306 Ecological Modelling and Data Analysis</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Supplement: mle2 vs optim</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -80,9 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Supplements/optim.html">Supplement: mle2 vs optim</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
+      <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -116,67 +116,67 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 5 &amp; 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 7</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 10</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/optim.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Supplement: mle2 vs optim</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/canned.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Supplement: Canned methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
   </div>
 </li>
@@ -191,55 +191,55 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab1/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab2/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab3/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab4/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab6/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab7/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 7 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab9/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab10/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 10 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
@@ -258,14 +258,26 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Practical Labs CSA-40306 Ecological Modelling and Data Analysis</h1>
+<h1 class="title">Supplement: mle2 vs optim</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alejandro Morales </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 24, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -275,24 +287,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Practical labs for the course <a href="https://studyhandbook.wur.nl/modules/CSA40306?type=Cursory">CSA-40306 Ecological Modelling and Data Analysis</a> at Wageningen University.</p>
-<p>Based on Ben Bolker’s book <a href="https://math.mcmaster.ca/~bolker/emdbook/index.html">Ecological Models and Data in R</a> modified over the years by Bob Douma and Alejandro Morales.</p>
-<p><strong>How to use these practical labs</strong></p>
-<ul>
-<li><p>Use the sidebar to navigate through the labs. These follow the different chapters in the book (but not all chapters are covered in the course).</p></li>
-<li><p>Exercises are included throughout the labs as subheadings denoted <span style="color:red; font-weight:bold;">Exercise</span></p></li>
-<li><p>A copy of each lab is provided at the end of the sidebar with possible solutions. The solutions are given after each <span style="color:red; font-weight:bold;">Exercise</span> in their own headings denoted <span style="color:green; font-weight:bold;">Solution</span>.</p></li>
-<li><p>The output of the different code chunks are not given and this is on purpose to prevent that you just read the material. You are meant to execute the code yourself and judge the output. Please type the code yourself rather than copy-pasting. This may seem like a waste of time but somehow the learning process is more effective when you actually type the code yourself.</p></li>
-<li><p>If you suspect that something went wrong, please ask your colleagues and see if you can figure out the problem together. Do not immediately ask the teachers.</p></li>
-</ul>
-<p><strong>Note on how the labs have evolved over time</strong></p>
-<p>The book by Benjamin Bolker is one of a kind and still very valuable to learn the foundations of likelihood functions and the role they play in model-based inference in ecology.</p>
-<p>However, the code use in the book and R supplement are about 20 years old at the time of writing. In the labs we have made our best efforts over the year to update the material while at the same time maintaning some level of consistency.</p>
-<p>Biggest changes include:</p>
-<ul>
-<li><p>Use of Stan for all the Bayesian modeling (a supplement is provided on how to translate from BUGS to Stan and the overall structure of Stan programs).</p></li>
-<li><p>Use of <code>ggplot2</code> and other tools from the <code>tidyverse</code> in parts of the labs.</p></li>
-</ul>
+<p><em>Work in progress</em></p>
 
 
 

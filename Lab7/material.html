@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 9: Canned functions and modeling variance</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +143,9 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab9/no_solution.html">Lab 9</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -215,7 +215,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
@@ -318,71 +318,34 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
-  <li><a href="#variance-across-groups" id="toc-variance-across-groups" class="nav-link" data-scroll-target="#variance-across-groups"><span class="header-section-number">2</span> Variance across groups</a></li>
-  <li><a href="#variance-along-continuous-variables" id="toc-variance-along-continuous-variables" class="nav-link" data-scroll-target="#variance-along-continuous-variables"><span class="header-section-number">3</span> Variance along continuous variables</a></li>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a>
+  <ul class="collapse">
+  <li><a href="#optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" id="toc-optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" class="nav-link" data-scroll-target="#optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates"><span class="header-section-number">1.1</span> Optimisation problems and assessing the confidence limits of parameter estimates</a></li>
+  <li><a href="#bayesian-parameter-estimation-hamiltonian-monte-carlo" id="toc-bayesian-parameter-estimation-hamiltonian-monte-carlo" class="nav-link" data-scroll-target="#bayesian-parameter-estimation-hamiltonian-monte-carlo"><span class="header-section-number">1.2</span> Bayesian parameter estimation: Hamiltonian Monte Carlo</a>
+  <ul class="collapse">
+  <li><a href="#modern-bayesian-information-criteria" id="toc-modern-bayesian-information-criteria" class="nav-link" data-scroll-target="#modern-bayesian-information-criteria"><span class="header-section-number">1.2.1</span> Modern Bayesian information criteria</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Lab 9: Canned functions and modeling variance</h1>
-</div>
 
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Alejandro Morales </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2025</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="learning-goals" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>You will learn how to:</p>
 <ol type="1">
-<li><p>Allow for variance to vary across groups</p></li>
-<li><p>Allow for variance to vary as a continuous function</p></li>
+<li><p>Deal with optimization problems and assess confidence limits</p></li>
+<li><p>Otimally, estimate parameters in a Bayesian way using Stan</p></li>
 </ol>
-</section>
-<section id="variance-across-groups" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Variance across groups</h1>
-<p>In previous labs we have been modelling the mean of the population or process under study. In this lab we are going to look into models of the variance or parameters related to variance (called scale parameters). For many distributions, the mean and variance are not independent and it might not be possible to specify them directly with the usual parameterizations. When it doubt, check Chapter 4 of the book (I will give you some hints on possible ways to decouple mean and scale parameters).</p>
-<p>In this first section we will work with allometry data relating the length and biomass (as ash-free dry weight or <code>AFD</code>) of clams on a beach in Argentina (this data was used in the book by Zuur et al.&nbsp;(2009)). I have given you the data in the file <code>Clams.txt</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>clams <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"./Lab9/Clams.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clams, <span class="fu">aes</span>(<span class="at">x =</span> LENGTH, <span class="at">y =</span> AFD, <span class="at">color =</span> <span class="fu">as.factor</span>(MONTH))) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is an allometric relationship, so I will try a power law with a log-normal. I will also parameterize the log-normal distribution as a function of the actual mean <span class="math inline">\(\mu\)</span> and coefficient of variation <span class="math inline">\(cv\)</span>. We can calculate the <code>meanlog</code> and <code>sdlog</code> from <code>mu</code> and <code>cv</code> as</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derived from the moments of log-normal (check Wikipedia)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fl">0.2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cv <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">rlnorm</span>(<span class="dv">10000</span>, <span class="at">meanlog =</span> meanlog, <span class="at">sdlog =</span> sdlog)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test) <span class="sc">-</span> mu)<span class="sc">/</span>mu</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test)<span class="sc">/</span><span class="fu">sd</span>(test) <span class="sc">-</span> cv)<span class="sc">/</span>cv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="optimisation-problems-and-assessing-the-confidence-limits-of-parameter-estimates"><span class="header-section-number">1.1</span> Optimisation problems and assessing the confidence limits of parameter estimates</h2>
+<p>Fitting a model to data requires you to specify a relationship between variables. After specifying this relationship we need to fit parameters of this model that best fits the data. This fitting is done through computer algorithms (optimizers). However, sometimes it may be hard to fit a model to data. After having found the best fitting model, you want to assess how certain you are about the parameter estimates. For assessing the uncertainty of model parameters several methods exist that have pros and cons.</p>
+<p>If you feel comfortable with fitting models to data you are ready for a more challenging exercise. If you do not feel comfortable yet, go back to question the previous lab and practise a bit more.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -395,43 +358,126 @@ Exercise
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>This exercise has two purposes. First you will learn that an innocent looking function can be challenging to fit. Second, you will learn to assess the uncertainty in the parameter values. For assessing the uncertainty in the parameter estimates there are two methods: the profiling method and the quadratic approximation. Bolker recommends to use the likelihood profile for assessing the uncertainty in the parameters because this one is more accurate than the approxation based on the Hessian matrix.</p>
 <ol type="1">
-<li><p>Fit a power law of the form <span class="math inline">\(a x ^b\)</span> to the clam data with a fixed <code>cv</code>. Make sure to use proper lower and upper bounds on all parameters. Make sure that <code>mu</code> remains positive or the code will crash. Also, since <code>a</code> is very small you probably want to work with <code>log(a)</code> or something like that and undo the transformation inside the <code>nll</code> function.</p></li>
-<li><p>The scatter seems to vary across months. Refit the model but vary <code>cv</code> per month. Interpret the result: is there evidence that <code>cv</code> would vary across months? Can we justify using this second model?</p></li>
+<li><p>Take the first dataset of the six datasets you have worked with earlier on. Assume that the function was generated by the monomolecular function <span class="math inline">\(a(1-e^{(-bx)}\)</span>. Fit this model with normally distributed errors through this data with <code>mle2</code> and method <code>Nelder-Mead</code>. Choose four different starting points of the optimisation: <code>start_a = c(5,10,20,30)</code>, <code>start_b = c(0.001,0.005,0.01,0.1)</code> and compare the NLL of those four optimisations. Plot the curves into the plot with data and try to understand what happened. You can set the <span class="math inline">\(\sigma\)</span> to 3.</p></li>
+<li><p>To understand the behaviour of the optimisation routine we will plot the likelihood surface over a range of values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. For <span class="math inline">\(a\)</span> choose a number of parameter values in the range of 0-40 and for <span class="math inline">\(b\)</span> choose a number of values in the range 0.1-10. Calculate for each combination the NLL and plot the NLL surface using <code>contour</code> plot. For more insight into the functioning of what the optimisation method did, you can add the starting points that you gave to mle2 and the best fitting points, use <code>points()</code> for this. Do you have a clue why the optimisation did not find the minimum point in the landscape? Now zoom in and choose values for <span class="math inline">\(b\)</span> in the range of 0.001-0.03 and check again the NLL surface.</p>
+<p><em>hint</em>: See Bolker Lab 6 for inspiration on coding.</p>
+<p><em>hint</em>: You can use a for a double for-loop to run over all parameters</p>
+<p><em>hint</em>: Store the NLL results in a matrix (you can make a 100x100 matrix by <code>matrix(NA,nrow=100,ncol=100)</code>).</p></li>
+<li><p>Calculate the confidence intervals of the parameters through constructing the likelihood profile. Consult page 106 of Bokler or Lab 6 for how to calculate the confidence intervals based on the likelihood profile. Use the following pseudocode to achieve this:</p>
+<ol type="a">
+<li>Adapt the likelihood function such that one parameter is not optimised but chosen by you, say parameter <span class="math inline">\(a\)</span>.</li>
+<li>Vary <span class="math inline">\(a\)</span> of a range and optimise the other parameteters.</li>
+<li>Plot the NLL as a function of parameter <span class="math inline">\(a\)</span>.</li>
+<li>Find the values of <span class="math inline">\(a\)</span> that enclose <span class="math inline">\(-L + \chi^2(1-\alpha)/2\)</span>. In <code>R</code> this can be done through <code>qchisq(0.95,1)/2</code>.</li>
+<li>Compare your results with the results from the <code>R</code> function <code>confint()</code>. <code>confint()</code> uses the profiling method along with interpolation methods.</li>
+</ol></li>
+<li><p><em>(time permitting)</em> Calculate the confidence intervals through the quadratic approximation. Take the following steps to achieve this:</p>
+<ol type="a">
+<li>Get the standard error of the parameter estimates through <code>vcov</code>. Note that <code>vcov</code> return the variance/covariance matrix</li>
+<li>Calculate the interval based on the fact that the 95% limits are 1.96 (qnorm(0.975,0,1)) standard deviation units away from the mean.</li>
+</ol></li>
+<li><p><em>(time permitting)</em> Plot the confidence limits of the both method and compare the results. Is there a big difference between the methods?</p></li>
+<li><p>To assess the uncertainty in the predictions from the model you can construct population prediction intervals (PPIs, see 7.5.3 Bolker). Population prediction intervals shows the interval in which a new observation will likely fall. To construct the PPI take the following steps</p>
+<ol type="a">
+<li><p>Simulate a number of parameter values taken the uncertainty in the parameter estimates into account.</p>
+<p><em>hint</em>: If the fitted mle object is called <code>mle2.obj</code>, then you can extract the variance-covariance matrix by using <code>vcov(mle2.obj)</code>. You can extract the mean parameter estimates by using <code>coef(mle2.obj)</code>. Now you are ready to simulate 1000 combinations of parameter values through <code>z = mvrnorm(1000,mu=coef(mle2.obj),Sigma=vcov(mle2.obj))</code>. <code>mvrnorm</code> is a function to randomly draw values from a multivariate normal distribution.</p></li>
+<li><p>Predict the mean response based on the simulated parameter values and the values of <span class="math inline">\(x\)</span></p>
+<p><em>hint</em>: make a for-loop and predict for each simulated pair of parameter values the mean for a given x. Thus <code>mu = z[i,1]*(1-exp(-z[i,2]*x))</code></p></li>
+<li><p>Draw from a normal distribution with a mean that was predicted in the previous step and the sd that you simulated in step a.</p>
+<p><em>hint</em>: <code>pred = rnorm(length(mu),mean=mu,sd=z[i,3])</code>. Store pred in a matrix with each simulated dataset in a seperate row.</p></li>
+<li><p>Calculate for each value of <span class="math inline">\(x\)</span> the 2.5% and the 97.5% quantiles</p>
+<p><em>hint</em>: If the predictions are stored in a matrix <code>mat</code>, you can use <code>apply(mat,2,quantile,0.975)</code> to get the upper limit.</p></li>
+</ol></li>
 </ol>
 </div>
 </div>
 </div>
 </section>
-<section id="variance-along-continuous-variables" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Variance along continuous variables</h1>
-<p>In the book, Bolker analyzes a dataset on cone production by fir trees as a function of their diameter:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can see that the average cone production increases with the diameter but also the scatter in the data. Therefore, it might be a good idea to model how this scatter increases with diameter.</p>
-<p>To helps us figure out a way to model this, we can try to visualize how the standard deviation varies across diameter but for that we need to bin the data. I show you below how to do this, and I also calculate the coefficient of variation because in many distributions (like Gamma and Log-Normal) the standard deviation is not constant but the coefficient of variation is.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cleanFIR <span class="ot">=</span> FirDBHFec[<span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>TOTCONES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>DBH),]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>DBHpoints <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">18</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate vetor to store cvs and sd and calculate for first bin</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>cvs <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[<span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>cvs[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>sds[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for all bins</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(DBHpoints)) {</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[i] <span class="sc">&amp;</span> DBH <span class="sc">&gt;=</span> DBHpoints[i <span class="sc">-</span> <span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  cvs[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  sds[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can now plot the results</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), sds, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"sd TOTCONES"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), cvs, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"cv TOTCONES"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can see that while the standard deviation increases with DBH, the coefficient of variation decreases. If I were to model these data with a normal distribution (which is not a good idea because it will predict a lot of negative cone production) I would need to add an increase in the standard deviation with diameter. If I were to model with a log-normal parameterized with a coefficient of variation (like in the example with clams), I would need to model the decrease in the coefficient of variation wit diameter.</p>
+<section id="bayesian-parameter-estimation-hamiltonian-monte-carlo" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="bayesian-parameter-estimation-hamiltonian-monte-carlo"><span class="header-section-number">1.2</span> Bayesian parameter estimation: Hamiltonian Monte Carlo</h2>
+<p>In this section we will revisit the examples we did in Lab 6 but using a Markov Chain Monte Carlo approach to generate samples from the posterior distribution without having to make assumptions about its shape.</p>
+<p>The software Stan implements a different type of MCMC algorithm to the one described in Bolker’s book. It uses an algorithm called Hamiltonian Monte Carlo that has a smart way to generate candidate points in the posterior distribution that lead to a much more efficient sampling (less autocorrelation, much faster adaptation, etc). We will not learn the details of the algorithm (is much more complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM), instead we will focus on how to assess the results.</p>
+<p>Remember that in lab 6 we created a model for the prediation data (<code>shapes2</code>). We will modify that model to keep track of the log-likelihood for the different parameter combinations (we need it for model comparison later). The original code was as follows</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] x;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] y;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  a     ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  b     ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  y ~ normal(a*x./(b + x), sigma);</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You need to add an extra block that computes the log-likelihood for each parameter value:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>generated quantities {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  vector[N] log_lik;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(n <span class="cf">in</span> N) log_lik[n] <span class="ot">=</span> <span class="fu">normal_lpdf</span>(y[n] <span class="sc">|</span> a<span class="sc">*</span>x[n]<span class="sc">/</span>(b <span class="sc">+</span> x[n]), sigma);</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This can be added at the end of the file with the model implementation. Notice that inside the <code>generated quantities</code> block you can only use the <code>normal_lpdf</code> style of programming (not the <code>y ~ normal</code> style).</p>
+<p>We could compile and load the model as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mm_model <span class="ot">=</span> <span class="fu">stan_model</span>(<span class="at">file =</span> <span class="st">"./Lab7/mm_ll.stan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, instead of applying Laplace’s approximation we will generate the samples using HMC. We can achieve this with the function <code>sampling</code> (assuming you have loaded the <code>shapes2</code> data:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(shapes2), <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">10</span>)) <span class="co"># see above for priors</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> <span class="dv">4</span>) <span class="co"># Adjust to the number of cores you have</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mm_fit <span class="ot">=</span> <span class="fu">sampling</span>(mm_model, <span class="at">data =</span> data, <span class="at">cores =</span> <span class="dv">4</span>, <span class="at">chains =</span> <span class="dv">4</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">warmup =</span> <span class="dv">1000</span>, <span class="at">iter =</span> <span class="dv">4000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this called to <code>sampling()</code> we are running 4 chains in parallel <code>ncores = 4</code> and <code>nchains = 4</code>. Each chain will first run for 1000 iterations to adapt (<em>warmup</em> is equivalent to <em>burn-in</em>) and then 3000 more to fill up the <code>iter = 4000</code>. This means we get in total 12000 samples from posterior across 4 independent chains.</p>
+<p>We can look at summaries of the samples with the usual function. You should specify the parameters you want out (otherwise you get all the <code>log_lik</code> estimates printed:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Stan is calculate the mean of each marginal posterior distribution (one per parameter). It also gives several quantiles, an estimate of the effective sample size (corrected for autocorrelation) and the <span class="math inline">\(\hat{R}\)</span> (<code>Rhat</code>) statistic (Bolker calls it <em>Gelman-Rubin</em> diagnostic). This statistic should be as close to 1 as possible, with values about 1.2 indicating a quite bad convergence (the results we get here are pretty much perfect).</p>
+<p>When you get an <span class="math inline">\(\hat{R}\)</span> of 1.00, there is no much need to look at the traces of the chains, but if you want to you can still do it:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">traceplot</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the four chains are well mixed for all parameters and they look like white noise. If you want to process the samples your self, you can convert the Stan object into a data.frame</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="ot">=</span> <span class="fu">as.data.frame</span>(mm_fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now we can reproduce the plots we made in the previous Lab</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"a"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"b"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"b"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(posterior_samples[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">ylab =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the uncertainty in the parameter <code>b</code> is much larger than what we estimated with Laplace’s approximation. This is indeed the problem of using quadratic approximation to estimate uncertainty. It does not matter whether we are using in a Bayesian context or for maximum likelihood, in both cases we often underestimate uncertainty.</p>
+<section id="modern-bayesian-information-criteria" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="modern-bayesian-information-criteria"><span class="header-section-number">1.2.1</span> Modern Bayesian information criteria</h3>
+<p>Finally, we can compute information criteria for model comparison. Bolker mentions DIC but this criterion has by now been superseded by two more recent approaches. The first one is WAIC which is a Bayesian generalization of AIC. The other one is an estimate of leave-one-out cross-validation (that can be done in a Bayesian context and is much faster than actual cross-validation). The package <code>loo</code> implements these indices:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(loo)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the log-likelihoods from the fit</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>log_lik <span class="ot">=</span> <span class="fu">extract_log_lik</span>(mm_fit)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the WAIC</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>waic_mm <span class="ot">=</span> <span class="fu">waic</span>(log_lik)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the loo IC</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>loo_mm <span class="ot">=</span> <span class="fu">loo</span>(log_lik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that there were some warnings, they refer to one data point (2% of the data) that is probably a bit of an outlier and this can have an influence on any information criterion. We can identify as follows:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>suspect <span class="ot">=</span> <span class="fu">pareto_k_ids</span>(loo_mm)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shapes2)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2[suspect,], <span class="at">col =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Indeed, that value is way above the rest of the curve (for that value of <code>x</code>). We can remove the column in <code>log_lik</code> that corresponds to this point and recalculate the indices:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>log_lik_clean <span class="ot">=</span> log_lik[,<span class="sc">-</span><span class="dv">7</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>waic_mm <span class="ot">=</span> <span class="fu">waic</span>(log_lik_clean)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>loo_mm <span class="ot">=</span> <span class="fu">loo</span>(log_lik_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now complaints anymore. Let’s look at these objects</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>waic_mm</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>loo_mm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>They give exactly the same result. Sometimes they will not and in that case the recommendation is to use <code>loo</code> instead of <code>waic</code>. This will tend to happen with fewer datapoints and/or more complex models. There are a lot of numbers there:</p>
+<ul>
+<li><p><code>elpd_</code> is the average predictive log-likelihood (so it is already penalized by model complexity).</p></li>
+<li><p><code>p_</code> is the effective degrees of freedom we would need to compute <code>elpd</code> from our sample. In AIC this would <span class="math inline">\(2k = 6\)</span>. The reason why this number is smaller than 6 in a Bayesian prior is because prior information constrains the model, so the effective number of degrees of freedom is lower than the number of parameters being estimated. The effective degrees of freedom will also depend on the sample size (the more data we have, the less informative the priors become).</p></li>
+<li><p><code>waic</code> and <code>looic</code> is just -2 times elpd so that it is expressed in the same units as AIC or BIC.</p></li>
+</ul>
+<p>You can use WAIC or LOO-IC in a similar way to how you use AIC or BIC. Notice that we also get a standard error <code>SE</code> for the index, so you may also use that information for model comparison (i.e., if the WAIC or two models differ by more than twice the SE, you can assume a difference in predictive power between the models).</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -445,14 +491,16 @@ Exercise
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Fit a non-linear model with a log-normal error distribution to the relationship between <code>TOTCONES</code> and <code>DBH</code> using the same parameterization as we used for the study on clams. Make sure to include a component to capture the decrease in the coefficient of variation with diameter.</li>
+<li><p>Fit the model <code>a*x^2/(b + x^2)</code> to the same dataset as the model above using Hamiltonian Monte Carlo.</p></li>
+<li><p>Compare the two models using WAIC or LOO-IC</p></li>
 </ol>
-<p>Be careful that <code>TOTCONES</code> contains zeros so you will need to adjust those (the trick that Bolker uses is to just add 1).</p>
 </div>
 </div>
 </div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

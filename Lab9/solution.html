@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Bob Douma">
-<meta name="dcterms.date" content="2018-12-03">
+<meta name="author" content="Alejandro Morales">
+<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R - Lab 9 + GLS and Mixed effect Models (solutions)</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 9: Canned functions and modeling variance (solutions)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,7 +75,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,18 +102,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>
-.Exercise {
-  --color1: #00ff00;
-  --color2: #d9d9d9;
-}
-.Solution {
-  --color1: #80bfff;
-  --color2: #d9d9d9;
-}
-</style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -144,7 +133,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar docked">
@@ -153,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab9/solution.html">Lab 9 (solutions)</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -196,7 +185,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
@@ -214,14 +203,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 6</span></a>
+ <span class="menu-text">Lab 5 &amp; 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -236,11 +219,35 @@ window.Quarto = {
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: mle2 vs optim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Canned methods</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -249,6 +256,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -265,14 +278,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5 (solutions)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 6 (solutions)</span></a>
+ <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -285,6 +292,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lab 9 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -300,9 +319,8 @@ window.Quarto = {
    
   <ul>
   <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
-  <li><a href="#fitting-models-containing-categorical-predictors" id="toc-fitting-models-containing-categorical-predictors" class="nav-link" data-scroll-target="#fitting-models-containing-categorical-predictors"><span class="header-section-number">2</span> Fitting models containing categorical predictors</a></li>
-  <li><a href="#fitting-models-with-the-heterogenous-variance" id="toc-fitting-models-with-the-heterogenous-variance" class="nav-link" data-scroll-target="#fitting-models-with-the-heterogenous-variance"><span class="header-section-number">3</span> Fitting models with the heterogenous variance</a></li>
-  <li><a href="#fitting-models-to-nested-data." id="toc-fitting-models-to-nested-data." class="nav-link" data-scroll-target="#fitting-models-to-nested-data."><span class="header-section-number">4</span> Fitting models to nested data.</a></li>
+  <li><a href="#variance-across-groups" id="toc-variance-across-groups" class="nav-link" data-scroll-target="#variance-across-groups"><span class="header-section-number">2</span> Variance across groups</a></li>
+  <li><a href="#variance-along-continuous-variables" id="toc-variance-along-continuous-variables" class="nav-link" data-scroll-target="#variance-along-continuous-variables"><span class="header-section-number">3</span> Variance along continuous variables</a></li>
   </ul>
 </nav>
     </div>
@@ -311,7 +329,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab9/solution.html">Lab 9 (solutions)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Lab 9 + GLS and Mixed effect Models</h1>
+<h1 class="title">Lab 9: Canned functions and modeling variance (solutions)</h1>
 </div>
 
 
@@ -321,14 +339,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Bob Douma </p>
+             <p>Alejandro Morales </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">3 December 2018</p>
+      <p class="date">October 24, 2025</p>
     </div>
   </div>
   
@@ -344,165 +362,199 @@ window.Quarto = {
 <h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
 <p>You will learn how to:</p>
 <ol type="1">
-<li><p>Estimate the parameters of a model with the variance varying as a function of a covariate (<code>gls</code>)</p></li>
-<li><p>Apply mixed effect models to data with nested structures</p></li>
+<li><p>Allow for variance to vary across groups</p></li>
+<li><p>Allow for variance to vary as a continuous function</p></li>
 </ol>
 </section>
-<section id="fitting-models-containing-categorical-predictors" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Fitting models containing categorical predictors</h1>
-</section>
-<section id="fitting-models-with-the-heterogenous-variance" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Fitting models with the heterogenous variance</h1>
-<p>It is common to observe that the variance of your data is not constant along your predictor <span class="math inline">\(x\)</span>. In case of the Poisson distribution, the relationship between the mean and the variance is fixed through <span class="math inline">\(\lambda\)</span>. For other probability distributions with <span class="math inline">\(\geq2\)</span> parameters the variance can be modelled (somewhat) independent of the mean. A classic example is the normal distribution with <span class="math inline">\(mu\)</span> equal to the mean of the distribution and <span class="math inline">\(\sigma\)</span> to the square root of the variance. Traditionally, when the variance increases with <span class="math inline">\(x\)</span> log transformations are applied. However, the variance can also be modelled explicitly. The purpose of this exercise is to give you insight how this can done (by showing a simple but wrong approach), followed by the correct, but canned approach <code>gls</code> in <code>R</code>.</p>
-<p>To illustrate the principle, we generate data from scratch first with constant variance: ::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">100</span>,<span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="dv">20</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<section id="variance-across-groups" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Variance across groups</h1>
+<p>In previous labs we have been modelling the mean of the population or process under study. In this lab we are going to look into models of the variance or parameters related to variance (called scale parameters). For many distributions, the mean and variance are not independent and it might not be possible to specify them directly with the usual parameterizations. When it doubt, check Chapter 4 of the book (I will give you some hints on possible ways to decouple mean and scale parameters).</p>
+<p>In this first section we will work with allometry data relating the length and biomass (as ash-free dry weight or <code>AFD</code>) of clams on a beach in Argentina (this data was used in the book by Zuur et al.&nbsp;(2009)). I have given you the data in the file <code>Clams.txt</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>clams <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"./Lab9/Clams.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clams, <span class="fu">aes</span>(<span class="at">x =</span> LENGTH, <span class="at">y =</span> AFD, <span class="at">color =</span> <span class="fu">as.factor</span>(MONTH))) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is an allometric relationship, so I will try a power law with a log-normal. I will also parameterize the log-normal distribution as a function of the actual mean <span class="math inline">\(\mu\)</span> and coefficient of variation <span class="math inline">\(cv\)</span>. We can calculate the <code>meanlog</code> and <code>sdlog</code> from <code>mu</code> and <code>cv</code> as</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derived from the moments of log-normal (check Wikipedia)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cv <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">rlnorm</span>(<span class="dv">10000</span>, <span class="at">meanlog =</span> meanlog, <span class="at">sdlog =</span> sdlog)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test) <span class="sc">-</span> mu)<span class="sc">/</span>mu</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test)<span class="sc">/</span><span class="fu">sd</span>(test) <span class="sc">-</span> cv)<span class="sc">/</span>cv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Exercise
 </div>
-<p>:::</p>
-<p>Now we let the variance increase linearly with <span class="math inline">\(x\)</span>. Note that the <code>rnorm</code> takes the standard deviation, hence the <span class="math inline">\(\sqrt(20x)\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">100</span>,<span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,<span class="fu">sqrt</span>(<span class="dv">20</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">1</span>))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">data.frame</span>(x,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ol type="1">
-<li>Estimate the paramaters of the model through applying the Bolker approach. Make two models, one with constant variance and another one with the variance as a function of <span class="math inline">\(x\)</span>.</li>
+<li><p>Fit a power law of the form <span class="math inline">\(a x ^b\)</span> to the clam data with a fixed <code>cv</code>. Make sure to use proper lower and upper bounds on all parameters. Make sure that <code>mu</code> remains positive or the code will crash. Also, since <code>a</code> is very small you probably want to work with <code>log(a)</code> or something like that and undo the transformation inside the <code>nll</code> function.</p></li>
+<li><p>The scatter seems to vary across months. Refit the model but vary <code>cv</code> per month. Interpret the result: is there evidence that <code>cv</code> would vary across months? Can we justify using this second model?</p></li>
 </ol>
-<div class="cell">
-<div class="Solution">
-<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
-<pre><code>    nll = function(par,dat){
-      y.mean = par[1] + par[2]*dat$x
-      nll = -sum(dnorm(dat$y,y.mean,sd=par[3],log=T))
-      return(nll)
-    }
-    par = c(2,2,2)
-    opt1= optim(par,fn=nll,dat=dat)
-
-    nll2 = function(par,dat){
-      y.mean = par[1] + par[2]*dat$x
-      nll = -sum(dnorm(dat$y,y.mean,sd=sqrt(par[3]*dat$x^par[4]),log=T))
-      return(nll)
-    }
-    par = c(2,2,2,1)
-    opt2= optim(par,fn=nll2,dat=dat)</code></pre>
-</div></details>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Solution
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>First eyeball possible parameter values:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(clams, <span class="fu">plot</span>(LENGTH, AFD))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fl">5e-4</span><span class="sc">*</span>x<span class="sc">^</span><span class="fl">1.7</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Calculate MLE</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(la, b, cv) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span>la <span class="co"># Avoid scale issues</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>clams<span class="sc">$</span>LENGTH<span class="sc">^</span>b</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(mu <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="fu">browser</span>()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dlnorm</span>(clams<span class="sc">$</span>AFD, meanlog, sdlog, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>par0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="fu">log10</span>(<span class="fl">5e-4</span>), <span class="at">b =</span> <span class="fl">1.7</span>, <span class="at">cv =</span> <span class="fl">0.1</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> nll, <span class="at">start =</span> <span class="fu">as.list</span>(par0), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="sc">-</span><span class="dv">6</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">cv =</span> <span class="fl">1e-2</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">cv =</span> <span class="dv">1</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par0), <span class="at">trace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Look at results</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mle_a <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">coef</span>(fit)[<span class="dv">1</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(clams, <span class="fu">plot</span>(LENGTH, AFD))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(mle_a<span class="sc">*</span>x<span class="sc">^</span><span class="fu">coef</span>(fit)[<span class="dv">2</span>], <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
-<li>Compare the AIC of both models. Which model is preferred?</li>
+<li>New NLL where a different cv is computed per month</li>
 </ol>
-<div class="cell">
-<div class="Solution">
-<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
-<pre><code>    2*3+2*opt1$value
-    2*4+2*opt2$value</code></pre>
-</div></details>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>month_index <span class="ot">=</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(clams<span class="sc">$</span>MONTH))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nll2 <span class="ot">=</span> <span class="cf">function</span>(la, b, cv1, cv2, cv3, cv4, cv5, cv6) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Avoid scale issues</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">=</span> <span class="dv">10</span><span class="sc">^</span>la</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select the right cv</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">=</span> <span class="fu">c</span>(cv1, cv2, cv3, cv4, cv5, cv6)[month_index]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>clams<span class="sc">$</span>LENGTH<span class="sc">^</span>b</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(mu <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="fu">browser</span>()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dlnorm</span>(clams<span class="sc">$</span>AFD, meanlog, sdlog, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>par0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="fu">log10</span>(<span class="fl">5e-4</span>), <span class="at">b =</span> <span class="fl">1.7</span>, <span class="at">cv1 =</span> <span class="fl">0.1</span>, <span class="at">cv2 =</span> <span class="fl">0.1</span>, <span class="at">cv3 =</span> <span class="fl">0.1</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">cv4 =</span> <span class="fl">0.1</span>, <span class="at">cv5 =</span> <span class="fl">0.1</span>, <span class="at">cv6 =</span> <span class="fl">0.1</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> nll2, <span class="at">start =</span> <span class="fu">as.list</span>(par0), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="sc">-</span><span class="dv">6</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">cv1 =</span> <span class="fl">0.01</span>, <span class="at">cv2 =</span> <span class="fl">0.01</span>, <span class="at">cv3 =</span> <span class="fl">0.01</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cv4 =</span> <span class="fl">0.01</span>, <span class="at">cv5 =</span> <span class="fl">0.01</span>, <span class="at">cv6 =</span> <span class="fl">0.01</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">la =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">cv1 =</span> <span class="dv">1</span>, <span class="at">cv2 =</span> <span class="dv">1</span>, <span class="at">cv3 =</span> <span class="dv">1</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">cv4 =</span> <span class="dv">1</span>, <span class="at">cv5 =</span> <span class="dv">1</span>, <span class="at">cv6 =</span> <span class="dv">1</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par0), <span class="at">trace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There is substantial variation in the estimated <code>cv</code>s that cannot be explain by uncertainty, suggesting that they might be different across months (at least when we hold <code>a</code> and <code>b</code> constant).</p>
+<p>Because the models are nested and we have a lot of data, we could use a likelihood ratio test to compare them or AIC:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit, fit2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(fit, fit2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both indices confirm that the second model is much better.</p>
 </div>
 </div>
-<ol start="3" type="1">
-<li>Now we will apply the function <code>gls</code> (from the package <code>nlme</code>), see below the R-script. Do the values of the <code>gls.2</code> correspond to the values that were obtained through the Bolker approach? To understand the differences, look careful at 1) the residual standard error of the gls (how does this compare to the variance?), 2) the equation of <code>varPower</code> (see Zuur), 3) and how the data was generated. To fit the models you can type:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.1</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># to specify the variance as a function of x we can use different functions</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (see chapter 4 of Zuur for details) or see ?varClasses</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>gls<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">weights=</span><span class="fu">varPower</span>(<span class="at">form=</span><span class="sc">~</span>x), <span class="at">data=</span>dat,<span class="at">method=</span><span class="st">"ML"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gls<span class="fl">.2</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(gls<span class="fl">.1</span>,gls<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol start="4" type="1">
-<li>The variance estimates are biased because they are estimated with <em>maximum likelihood</em> and not <em>restricted maximum likelihood</em> (<code>method=REML</code> is the default in <code>gls</code>). With restricted maximumlikelihood you account for the fact that you need estimate the mean from the data. Since the esimated mean will be slightly different than the true mean, the estimated variance is also slightly different from the true variance (i.e.&nbsp;<span class="math inline">\(\sigma^2=\sum_{i=1}^{N}(y_i-\mu)^2\)</span>). Thus the mean itself is an estimate from the data (i.e.&nbsp;<span class="math inline">\(\bar{y}\)</span>) and not the population parameter itself (i.e.&nbsp;<span class="math inline">\(\mu\)</span>). Thus you should fit models with <code>REML</code> when applying AIC. Which model fits the data better?</li>
-</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="fitting-models-to-nested-data." class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Fitting models to nested data.</h1>
-<p>An important assumption of the models we have discussed so far (linear models, generalized linear models and generalized least squares models) is that the observations are independent of each other. This assumptions is often violated in ecological data. The solution for the lack of independence is to model the data with so called <code>mixed effect models</code>. Mixed effect models contain a fixed part and a random part (see Zuur for more information). To understand how mixed effect models work, we will generate data ourselves and backfit the coefficients with a mixed effect model:</p>
-<p><span class="math display">\[Y_{i,j} = \alpha+\beta x + b_{i}+\epsilon_{j}\]</span> with <span class="math inline">\(b_{i} \sim N(0,\sigma_{site})\)</span></p>
-<p>with <span class="math inline">\(\epsilon_{j} \sim N(0,\sigma_{res})\)</span></p>
-<p>We can simulate data as follows:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">200</span>,<span class="dv">0</span>,<span class="dv">10</span>) <span class="co"># this is the covariate</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sigma_site <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>site <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">0</span>,sigma_site) <span class="co"># we construct 10 different sites</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),<span class="dv">20</span>)) <span class="co"># site id</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sigma_res <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span><span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>x <span class="sc">+</span> site[id] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>,<span class="dv">0</span>,sigma_res)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>dat<span class="ot">=</span> <span class="fu">data.frame</span>(x,y,id)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># let's make a plot</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span>x,<span class="at">col=</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<section id="variance-along-continuous-variables" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Variance along continuous variables</h1>
+<p>In the book, Bolker analyzes a dataset on cone production by fir trees as a function of their diameter:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the average cone production increases with the diameter but also the scatter in the data. Therefore, it might be a good idea to model how this scatter increases with diameter.</p>
+<p>To helps us figure out a way to model this, we can try to visualize how the standard deviation varies across diameter but for that we need to bin the data. I show you below how to do this, and I also calculate the coefficient of variation because in many distributions (like Gamma and Log-Normal) the standard deviation is not constant but the coefficient of variation is.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cleanFIR <span class="ot">=</span> FirDBHFec[<span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>TOTCONES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>DBH),]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>DBHpoints <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">18</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate vetor to store cvs and sd and calculate for first bin</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>cvs <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[<span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>cvs[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>sds[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for all bins</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(DBHpoints)) {</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[i] <span class="sc">&amp;</span> DBH <span class="sc">&gt;=</span> DBHpoints[i <span class="sc">-</span> <span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  cvs[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  sds[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now plot the results</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), sds, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"sd TOTCONES"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), cvs, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"cv TOTCONES"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that while the standard deviation increases with DBH, the coefficient of variation decreases. If I were to model these data with a normal distribution (which is not a good idea because it will predict a lot of negative cone production) I would need to add an increase in the standard deviation with diameter. If I were to model with a log-normal parameterized with a coefficient of variation (like in the example with clams), I would need to model the decrease in the coefficient of variation wit diameter.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+Exercise
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<p>Now let’s fit a mixed effect model with a random intercept across sites:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lme<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>id,<span class="at">data=</span>dat)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lme<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ol start="5" type="1">
-<li>Check the coefficients of the mixed effect model object <code>lme.1</code>. Do the values of the random effects make sense? And do the values of the fixed part make sense?</li>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Fit a non-linear model with a log-normal error distribution to the relationship between <code>TOTCONES</code> and <code>DBH</code> using the same parameterization as we used for the study on clams. Make sure to include a component to capture the decrease in the coefficient of variation with diameter.</li>
 </ol>
-<p>Let’s plot the fitted lines for each site:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.site <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">1</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>fit.main <span class="ot">=</span> <span class="fu">fitted</span>(lme<span class="fl">.1</span>,<span class="at">level=</span><span class="dv">0</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dat) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>y,<span class="at">colour=</span>id))<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.site,<span class="at">colour=</span>id))<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>x,<span class="at">y=</span>fit.main),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Be careful that <code>TOTCONES</code> contains zeros so you will need to adjust those (the trick that Bolker uses is to just add 1).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<ol start="6" type="1">
-<li>Simulate data when allowing for random slopes across sites. Choose a <span class="math inline">\(\sigma\)</span> for the slopes of 1. Fit a mixed effects model with simulated data now allowing for random variation across slopes. Check the book of Zuur for the syntax. If you get convergence problems, run <code>ctrl &lt;- lmeControl(opt='optim')</code>, and add <code>control=ctrl</code> to the lme function, i.e.&nbsp;<code>lme(y~x..,control=ctrl)</code>.</li>
-</ol>
-<div class="cell">
-<div class="Solution">
-<details class="Solution fbx-simplebox fbx-default" open=""><summary><strong>Solution</strong></summary><div>
-<pre><code>    x = runif(200,0,10) # this is the covariate
-    sigma_site = 1
-    site = rnorm(10,0,sigma_site) # we construct 10 different sites
-    id = as.factor(rep(c(1:10),20)) # site id
-    sigma_res = 2
-    y = 2+ (2+site[id])*x + site[id] + rnorm(200,0,sigma_res)
-    dat= data.frame(x,y,id)
-    # let's make a plot
-    plot(y ~x,col=id)
-    lme.2 = lme(y ~ x, random=~x|id,data=dat,control=ctrl)
-    summary(lme.2)
-    library(ggplot2)
-    dat$fit.site = fitted(lme.2,level=1)
-    dat$fit.main = fitted(lme.2,level=0)
-    ggplot(data=dat) +
-      geom_point(aes(x=x,y=y,colour=id))+
-      geom_line(aes(x=x,y=fit.site,colour=id))+
-      geom_line(aes(x=x,y=fit.main),size=2)</code></pre>
-</div></details>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>I am going to fit a power law for the mean trend, just like for the clams. Let’s eyeball its coefficients from the raw data:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And I am going to assume an exponential decrease in the coefficient of variation with respect to diameter.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(cvs<span class="sc">~</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>)))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">3</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.15</span><span class="sc">*</span>x), <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now fit the model using these four starting values:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(a, b, c, d) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH<span class="sc">^</span>b</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">=</span> c<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>d<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  NLL <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dlnorm</span>(cleanFIR<span class="sc">$</span>TOTCONES <span class="sc">+</span> <span class="dv">1</span>, meanlog, sdlog, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  NLL</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>par0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">3</span>, <span class="at">d =</span> <span class="fl">0.15</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> nll, <span class="at">start =</span> <span class="fu">as.list</span>(par0), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.1</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">c =</span> <span class="dv">1</span>, <span class="at">d =</span> <span class="dv">0</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="dv">10</span>, <span class="at">d =</span> <span class="dv">1</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par0), <span class="at">trace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -545,18 +597,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -588,7 +629,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -596,7 +659,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

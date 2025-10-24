@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Practical Labs CSA-40306 Ecological Modelling and Data Analysis</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +20,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -67,6 +101,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -97,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
+      <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
@@ -116,67 +179,67 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 5 &amp; 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 7</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 10</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/optim.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Supplement: mle2 vs optim</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/canned.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Supplement: Canned methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
   </div>
 </li>
@@ -191,55 +254,55 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab1/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab2/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab3/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab4/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab6/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab7/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 7 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab9/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lab10/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 10 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
@@ -250,51 +313,119 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
+  <li><a href="#variance-across-groups" id="toc-variance-across-groups" class="nav-link" data-scroll-target="#variance-across-groups"><span class="header-section-number">2</span> Variance across groups</a></li>
+  <li><a href="#variance-along-continuous-variables" id="toc-variance-along-continuous-variables" class="nav-link" data-scroll-target="#variance-along-continuous-variables"><span class="header-section-number">3</span> Variance along continuous variables</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Practical Labs CSA-40306 Ecological Modelling and Data Analysis</h1>
+
+
+
+<section id="learning-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
+<p>You will learn how to:</p>
+<ol type="1">
+<li><p>Allow for variance to vary across groups</p></li>
+<li><p>Allow for variance to vary as a continuous function</p></li>
+</ol>
+</section>
+<section id="variance-across-groups" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Variance across groups</h1>
+<p>In previous labs we have been modelling the mean of the population or process under study. In this lab we are going to look into models of the variance or parameters related to variance (called scale parameters). For many distributions, the mean and variance are not independent and it might not be possible to specify them directly with the usual parameterizations. When it doubt, check Chapter 4 of the book (I will give you some hints on possible ways to decouple mean and scale parameters).</p>
+<p>In this first section we will work with allometry data relating the length and biomass (as ash-free dry weight or <code>AFD</code>) of clams on a beach in Argentina (this data was used in the book by Zuur et al.&nbsp;(2009)). I have given you the data in the file <code>Clams.txt</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>clams <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"./Lab9/Clams.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clams, <span class="fu">aes</span>(<span class="at">x =</span> LENGTH, <span class="at">y =</span> AFD, <span class="at">color =</span> <span class="fu">as.factor</span>(MONTH))) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is an allometric relationship, so I will try a power law with a log-normal. I will also parameterize the log-normal distribution as a function of the actual mean <span class="math inline">\(\mu\)</span> and coefficient of variation <span class="math inline">\(cv\)</span>. We can calculate the <code>meanlog</code> and <code>sdlog</code> from <code>mu</code> and <code>cv</code> as</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derived from the moments of log-normal (check Wikipedia)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cv <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Test it</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> <span class="fu">rlnorm</span>(<span class="dv">10000</span>, <span class="at">meanlog =</span> meanlog, <span class="at">sdlog =</span> sdlog)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test) <span class="sc">-</span> mu)<span class="sc">/</span>mu</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(test)<span class="sc">/</span><span class="fu">sd</span>(test) <span class="sc">-</span> cv)<span class="sc">/</span>cv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Fit a power law of the form <span class="math inline">\(a x ^b\)</span> to the clam data with a fixed <code>cv</code>. Make sure to use proper lower and upper bounds on all parameters. Make sure that <code>mu</code> remains positive or the code will crash. Also, since <code>a</code> is very small you probably want to work with <code>log(a)</code> or something like that and undo the transformation inside the <code>nll</code> function.</p></li>
+<li><p>The scatter seems to vary across months. Refit the model but vary <code>cv</code> per month. Interpret the result: is there evidence that <code>cv</code> would vary across months? Can we justify using this second model?</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="variance-along-continuous-variables" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Variance along continuous variables</h1>
+<p>In the book, Bolker analyzes a dataset on cone production by fir trees as a function of their diameter:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the average cone production increases with the diameter but also the scatter in the data. Therefore, it might be a good idea to model how this scatter increases with diameter.</p>
+<p>To helps us figure out a way to model this, we can try to visualize how the standard deviation varies across diameter but for that we need to bin the data. I show you below how to do this, and I also calculate the coefficient of variation because in many distributions (like Gamma and Log-Normal) the standard deviation is not constant but the coefficient of variation is.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cleanFIR <span class="ot">=</span> FirDBHFec[<span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>TOTCONES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>DBH),]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>DBHpoints <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">18</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate vetor to store cvs and sd and calculate for first bin</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>cvs <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[<span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>cvs[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>sds[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for all bins</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(DBHpoints)) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[i] <span class="sc">&amp;</span> DBH <span class="sc">&gt;=</span> DBHpoints[i <span class="sc">-</span> <span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  cvs[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  sds[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now plot the results</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), sds, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"sd TOTCONES"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), cvs, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"cv TOTCONES"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that while the standard deviation increases with DBH, the coefficient of variation decreases. If I were to model these data with a normal distribution (which is not a good idea because it will predict a lot of negative cone production) I would need to add an increase in the standard deviation with diameter. If I were to model with a log-normal parameterized with a coefficient of variation (like in the example with clams), I would need to model the decrease in the coefficient of variation wit diameter.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Fit a non-linear model with a log-normal error distribution to the relationship between <code>TOTCONES</code> and <code>DBH</code> using the same parameterization as we used for the study on clams. Make sure to include a component to capture the decrease in the coefficient of variation with diameter.</li>
+</ol>
+<p>Be careful that <code>TOTCONES</code> contains zeros so you will need to adjust those (the trick that Bolker uses is to just add 1).</p>
+</div>
+</div>
 </div>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>Practical labs for the course <a href="https://studyhandbook.wur.nl/modules/CSA40306?type=Cursory">CSA-40306 Ecological Modelling and Data Analysis</a> at Wageningen University.</p>
-<p>Based on Ben Bolker’s book <a href="https://math.mcmaster.ca/~bolker/emdbook/index.html">Ecological Models and Data in R</a> modified over the years by Bob Douma and Alejandro Morales.</p>
-<p><strong>How to use these practical labs</strong></p>
-<ul>
-<li><p>Use the sidebar to navigate through the labs. These follow the different chapters in the book (but not all chapters are covered in the course).</p></li>
-<li><p>Exercises are included throughout the labs as subheadings denoted <span style="color:red; font-weight:bold;">Exercise</span></p></li>
-<li><p>A copy of each lab is provided at the end of the sidebar with possible solutions. The solutions are given after each <span style="color:red; font-weight:bold;">Exercise</span> in their own headings denoted <span style="color:green; font-weight:bold;">Solution</span>.</p></li>
-<li><p>The output of the different code chunks are not given and this is on purpose to prevent that you just read the material. You are meant to execute the code yourself and judge the output. Please type the code yourself rather than copy-pasting. This may seem like a waste of time but somehow the learning process is more effective when you actually type the code yourself.</p></li>
-<li><p>If you suspect that something went wrong, please ask your colleagues and see if you can figure out the problem together. Do not immediately ask the teachers.</p></li>
-</ul>
-<p><strong>Note on how the labs have evolved over time</strong></p>
-<p>The book by Benjamin Bolker is one of a kind and still very valuable to learn the foundations of likelihood functions and the role they play in model-based inference in ecology.</p>
-<p>However, the code use in the book and R supplement are about 20 years old at the time of writing. In the labs we have made our best efforts over the year to update the material while at the same time maintaning some level of consistency.</p>
-<p>Biggest changes include:</p>
-<ul>
-<li><p>Use of Stan for all the Bayesian modeling (a supplement is provided on how to translate from BUGS to Stan and the overall structure of Stan programs).</p></li>
-<li><p>Use of <code>ggplot2</code> and other tools from the <code>tidyverse</code> in parts of the labs.</p></li>
-</ul>
-
-
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

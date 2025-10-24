@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab1/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab3/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab4/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5 &amp; 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab7/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab9/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: mle2 vs optim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Canned methods</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Solutions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 1 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 3 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 4 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab7/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 7 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 9 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">1</span> Learning goals</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">2</span> Introduction</a></li>
+  <li><a href="#maximum-marginal-likelihood-approach" id="toc-maximum-marginal-likelihood-approach" class="nav-link" data-scroll-target="#maximum-marginal-likelihood-approach"><span class="header-section-number">3</span> Maximum marginal likelihood approach</a>
+  <ul class="collapse">
+  <li><a href="#model-with-measurement-error" id="toc-model-with-measurement-error" class="nav-link" data-scroll-target="#model-with-measurement-error"><span class="header-section-number">3.1</span> Model with measurement error</a>
+  <ul class="collapse">
+  <li><a href="#estimation-of-parameters" id="toc-estimation-of-parameters" class="nav-link" data-scroll-target="#estimation-of-parameters"><span class="header-section-number">3.1.1</span> Estimation of parameters</a></li>
+  </ul></li>
+  <li><a href="#model-for-nested-data" id="toc-model-for-nested-data" class="nav-link" data-scroll-target="#model-for-nested-data"><span class="header-section-number">3.2</span> Model for nested data</a>
+  <ul class="collapse">
+  <li><a href="#stepwise-procedure" id="toc-stepwise-procedure" class="nav-link" data-scroll-target="#stepwise-procedure"><span class="header-section-number">3.2.1</span> Stepwise procedure</a></li>
+  <li><a href="#estimating-at-population-level" id="toc-estimating-at-population-level" class="nav-link" data-scroll-target="#estimating-at-population-level"><span class="header-section-number">3.2.2</span> Estimating at population level</a></li>
+  <li><a href="#estimating-at-individual-level" id="toc-estimating-at-individual-level" class="nav-link" data-scroll-target="#estimating-at-individual-level"><span class="header-section-number">3.2.3</span> Estimating at individual level</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#bayesian-approach" id="toc-bayesian-approach" class="nav-link" data-scroll-target="#bayesian-approach"><span class="header-section-number">4</span> Bayesian approach</a>
+  <ul class="collapse">
+  <li><a href="#model-with-measurement-error-1" id="toc-model-with-measurement-error-1" class="nav-link" data-scroll-target="#model-with-measurement-error-1"><span class="header-section-number">4.1</span> Model with measurement error</a></li>
+  <li><a href="#model-for-nested-data-1" id="toc-model-for-nested-data-1" class="nav-link" data-scroll-target="#model-for-nested-data-1"><span class="header-section-number">4.2</span> Model for nested data</a></li>
+  <li><a href="#informative-prior-elicitation" id="toc-informative-prior-elicitation" class="nav-link" data-scroll-target="#informative-prior-elicitation"><span class="header-section-number">4.3</span> Informative prior elicitation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="learning-goals" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Learning goals</h1>
+<p>In this practical you will learn</p>
+<ul>
+<li><p>The concept of maximum marginal likelihood</p></li>
+<li><p>Estimate models with process and measurement errors</p></li>
+<li><p>Estimate multilevel non linear models with Gaussian quadrature</p></li>
+<li><p>The Bayesian approach for the two models above</p></li>
+<li><p>Specify informative priors using general knowledge</p></li>
+</ul>
+</section>
+<section id="introduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
+<p>In this practical we will cover solve a couple of examples to illustrate how to solve multilevel models are addressed.</p>
+<ul>
+<li><p>The first example illustrates situations where it is important to separate process error (aka stochasticity) and measurement error, which leads to two nested stochastic models.</p></li>
+<li><p>The second example illustrate situations where multiple individuals are measured and parameters (<em>traits</em>) vary across individuals (representing true ecological variation, not error), which also leads to two (or more) nested stochastic models.</p></li>
+</ul>
+<p>These are more advanced models compared to the rest of the course and the book only introduces them as teasers, you are not meant to master them. Therefore, these practicals are really more tutorials with small exercises in each section for you to practice and mastering these type of models would require additional learning beyond this course.</p>
+<p>Here is how the rest of the practical is organized:</p>
+<ul>
+<li><p>First I show how to solve these two problems using maximum marginal likelihood, explicitly going through every step and introducing some simplifications.</p></li>
+<li><p>In the second part I show how to solve these problems using a Bayesian approach. Remember that this is optional.</p></li>
+</ul>
+<p>Just like in the previous chapters, there are <em>canned</em> procedures that can tackle subsets of the problems you may face and these procedures are much easier to use in practice. Check the relevant supplement.</p>
+</section>
+<section id="maximum-marginal-likelihood-approach" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Maximum marginal likelihood approach</h1>
+<p>The maximum likelihood approach to estimate parameters in multilevel models is based on the concept of Expectation-Maximization. The general idea is as follows:</p>
+<ol type="1">
+<li><p>Organize the random variables in a multilevel hierarchy (the output of one level is the input to the next). We sort the levels from 1 (bottom) to <span class="math inline">\(n_L\)</span> (top).</p></li>
+<li><p>Calculate a <em>marginal</em> likelihood that integrates the full model over all levels random variables that are not observed. This result in a likelihood with only one stochastic model in it.</p></li>
+<li><p>Calculate the parameters of the model by maximizing the marginal likelihood from step 2.</p></li>
+<li><p>Calculate the <em>conditional</em> likelihood for the level <span class="math inline">\(N_L - 1\)</span> by marginalizing over all the level below and fixing parameters to the values estimated in step 3. Maximizing the conditional likelihood will give you an estimate to the values of the latent random variable at level <span class="math inline">\(N_L - 1\)</span>.</p></li>
+<li><p>If your model has more than two levels, keep repeating step 4 going one level at a time (walking down the hierarchy).</p></li>
+</ol>
+<p>The examples below will only deal with two levels so step 5 will not be relevant. Please go through the examples below and come back to the steps above to better understand the procedure.</p>
+<section id="model-with-measurement-error" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="model-with-measurement-error"><span class="header-section-number">3.1</span> Model with measurement error</h2>
+<p>Let’s assume that the growth rates of trees within a forest follow a Gamma distribution and the measurements of this growth rate contain errors that follow a Normal distribution. This is the problem described in section 10.5.2 of the book. This is a model with two levels:</p>
+<p><span class="math display">\[
+\begin{align*}
+\text{Level}~2~:~X_{true} &amp;\sim Gamma(a, s) \\
+\text{Level}~1~:~X_{obs~~}  &amp;\sim Normal(X_{true}, \sigma)
+\end{align*}
+\]</span></p>
+<p>Where <span class="math inline">\(X_{true}\)</span> are the true growth rates of the trees and <span class="math inline">\(X_{obs}\)</span> are the measured growth rates. Notice that the level 1 uses as input the output of level 2 (<span class="math inline">\(X_{true}\)</span>), which determines the order.</p>
+<p>In this exercise we will work with synthetic data generated by stochastic simulation (see Chapter 5 of the book):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x_true <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="dv">1000</span>, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">scale =</span> <span class="dv">10</span>) <span class="co"># True growth rates</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x_obs  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> x_true, <span class="at">sd =</span> <span class="dv">10</span>) <span class="co"># Observed growth rates with error</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x_obs, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x_true, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">0.3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>According to the general procedure described below, we can estimate <span class="math inline">\(a\)</span> and <span class="math inline">\(s\)</span> from level 2 by creating a marginal likelihood (integrating over level 1) and maximizing it (steps 2 - 3). This is shown in the next section. Once that estimation is done, we can estimate each of value of <span class="math inline">\(X_{true}\)</span> by maximizing the conditional likelihood (step 4).</p>
+<section id="estimation-of-parameters" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="estimation-of-parameters"><span class="header-section-number">3.1.1</span> Estimation of parameters</h3>
+<p>The marginal likelihood is defined as:</p>
+<p><span class="math display">\[
+L_m \left(X_{obs,i} | a, s , \sigma \right) = \prod_{i=1}^{n} \int{\text{Gamma}\left(X_{true,i} | a, s\right) \text{Normal}\left(X_{obs,i} | X_{true,i} , \sigma \right) dX_{true,i}
+\]</span></p>
+<p>That is, for each observation we integrate over all the possible true values (that is the <em>latent</em> random variable we do not observe) to obtained a likelihood function that only contains observations and parameters. Because the measurement error is normal, we can reparameterized as:</p>
+<p><span class="math display">\[
+L_m \left(X_{obs,i} | a, s , \sigma \right) = \prod_{i=1}^{n} \int{\text{Gamma}\left(X_{obs,i} - \epsilon_i | a, s\right) \text{Normal}\left(\epsilon_i |0 , \sigma \right) d\epsilon_i}
+\]</span></p>
+<p>Where we replace <span class="math inline">\(X_{true} = X_{obs} - \epsilon\)</span>. This form is how most multilevel models are expressed. In R the product of the two distributions is:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>prodfun <span class="ot">&lt;-</span> <span class="cf">function</span>(eps, a, s, sigma, x) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">dgamma</span>(x <span class="sc">-</span> eps, <span class="at">shape =</span> a, <span class="at">scale =</span> s)<span class="sc">*</span><span class="fu">dnorm</span>(eps, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span>  sigma)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">prodfun</span>(<span class="at">eps =</span> <span class="dv">1</span>, <span class="at">a =</span> <span class="dv">3</span>, <span class="at">s =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">1</span>, <span class="at">x =</span> x_obs[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now integrate <code>prodfun</code> using the function <code>integrate</code> (note: this only works for one latent random variable, more advanced methods are needed when more latent variables are used):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(<span class="at">f =</span> prodfun, <span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="cn">Inf</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">a =</span> <span class="dv">3</span>, <span class="at">s =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">1</span>, <span class="at">x =</span> x_obs[<span class="dv">1</span>],</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">rel.tol =</span> <span class="fl">1e-6</span>, <span class="at">abs.tol =</span> <span class="fl">1e-6</span>)<span class="sc">$</span>value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now build a function to compute the negative log marginal likelihood by applying this integral to each observations:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NLML <span class="ot">&lt;-</span> <span class="cf">function</span>(x, a, s, sigma) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Marginal likelihood of each observation</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  ML <span class="ot">&lt;-</span> <span class="fu">sapply</span>(x, <span class="cf">function</span>(x) <span class="fu">integrate</span>(<span class="at">f =</span> prodfun, <span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="cn">Inf</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">rel.tol =</span> <span class="fl">1e-6</span>, <span class="at">abs.tol =</span> <span class="fl">1e-6</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">a =</span> a, <span class="at">s =</span> s, <span class="at">sigma =</span> sigma, <span class="at">x =</span> x)<span class="sc">$</span>value)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Negative log marginal likelihood</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  NLML <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(ML))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  NLML</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">NLML</span>(x_obs, <span class="at">a =</span> <span class="dv">3</span>, <span class="at">s =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that this takes a bit longer than usual because we are doing 1000 numerical integrations. We can minimize the function <code>NLML</code> with <code>mle2</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> NLML,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">s =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">1</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">lower =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">list</span>(<span class="at">x =</span> x_obs), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now compare the true and estimated models for growth and error to see how well the estimation worked:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">=</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(x_obs), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.045</span>), <span class="at">xlab =</span> <span class="st">"Growth rate"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Probability density"</span>, <span class="at">main =</span> <span class="st">""</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x, <span class="at">shape =</span> <span class="dv">3</span>, <span class="at">scale =</span> <span class="dv">10</span>), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dgamma</span>(x, <span class="at">shape =</span> pars[<span class="st">"a"</span>], <span class="at">scale =</span> pars[<span class="st">"s"</span>]), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">10</span>), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> pars[<span class="st">"sigma"</span>]), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Obs"</span>, <span class="st">"True growth"</span>, <span class="st">"Est growth"</span>, <span class="st">"True error"</span>, <span class="st">"Est error"</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can quickly estimate the confidence intervals using the quadratic approximation:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">"quad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that the true values (<code>a = 3</code>, <code>s = 10</code> and <code>sigma = 10</code>) are within the confidence intervals, so the estimation has worked. We could also try building the likelihood profiles but that would take quite a while since this would require many more optimizations so we will skip this part.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Add an exercise with measurement errors</strong></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="model-for-nested-data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="model-for-nested-data"><span class="header-section-number">3.2</span> Model for nested data</h2>
+<p>To keep it within the same theme, in this example we will look at a simple dataset of tree growth, but this time using real data. The data describes the growth in height of several individuals of Loblolly pine (<em>Pinus taeda</em>). We can load the data as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Loblolly)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Loblolly)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># eyeballing; hm = 60, b = 0.25, c = 12 (check  Figure 3.9 in the book)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Loblolly, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> height, <span class="at">color =</span> Seed)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="dv">60</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.25</span><span class="sc">*</span>(x <span class="sc">-</span> <span class="dv">12</span>))), <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each tree is identified by the column <code>Seed</code> and six measurements of height over the age of the tree are reported. The growth curve of each tree will be modeled using a logistic curve:</p>
+<p><span class="math display">\[
+h(t) =  \frac{h_m}{1 + e^{-b\left(t - c \right)}
+\]</span></p>
+<p>where <span class="math inline">\(h\)</span> is the height of the tree, <span class="math inline">\(h_m\)</span> is the maximum height, <span class="math inline">\(b\)</span> control the steepness of the curve and <span class="math inline">\(c\)</span> is the age at which the half maximum height is reached (see Chapter 3 of the book, I will refer to these parameters as traits from here on) and <span class="math inline">\(t\)</span> is the age of the tree. We want to know the average values for the three traits as well as how much they vary across individuals (variation in traits across individuals is often very relevant in ecology). In a mixed model, <span class="math inline">\(h_m\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(c\)</span> are assumed to vary across individuals assuming particular distributions (we will assume normal distributions which is the standard in mixed models).</p>
+<p>As a first approach, we can try to estimate the curve for each tree independently. This is a good way to get a first estimate of how much the traits vary across individuals as well as the observation error. As we will see in the examples below, non-linear mixed models as simple as these ones already need quite some constraints in order to work.</p>
+<section id="stepwise-procedure" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="stepwise-procedure"><span class="header-section-number">3.2.1</span> Stepwise procedure</h3>
+<p>The stepwise procedure is as follows:</p>
+<ol type="1">
+<li><p>Fit the model to each individual separately, using maximum likelihood.</p></li>
+<li><p>Treat the maximum likelihood estimates from each individuals as if they were observations and analyze them with a separate model.</p></li>
+</ol>
+<p>Let’s setup a function to fit the logistic growth curve to each tree:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>logistic <span class="ot">&lt;-</span> <span class="cf">function</span>(b, c, h_m, t) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  h_m<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>(t <span class="sc">-</span> c)))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>mle_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(b, c, h_m, sigma, t, h) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  hmod <span class="ot">=</span> <span class="fu">logistic</span>(b, c, h_m, t)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(h, hmod, sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can test the function for the first tree:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>seeds <span class="ot">=</span> <span class="fu">unique</span>(Loblolly<span class="sc">$</span>Seed)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tree1 <span class="ot">=</span> <span class="fu">subset</span>(Loblolly, Seed <span class="sc">==</span> seeds[<span class="dv">1</span>])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mle_fun</span>(<span class="at">c =</span> <span class="dv">12</span>, <span class="at">b =</span> <span class="fl">0.25</span>, <span class="at">h_m =</span> <span class="dv">60</span>, <span class="at">sigma =</span> <span class="dv">1</span>, <span class="at">t =</span> tree1<span class="sc">$</span>age, <span class="at">h =</span> tree1<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s estimate the parameters for this first tree:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">=</span> <span class="fu">mle2</span>(mle_fun, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">c =</span> <span class="dv">12</span>, <span class="at">b =</span> <span class="fl">0.25</span>, <span class="at">h_m =</span> <span class="dv">60</span>, <span class="at">sigma =</span> <span class="dv">1</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> <span class="fu">list</span>(<span class="at">t =</span> tree1<span class="sc">$</span>age, <span class="at">h =</span> tree1<span class="sc">$</span>height))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>fit1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s repeat it for all trees:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> <span class="fu">length</span>(seeds))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(traits) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"h_m"</span>, <span class="st">"sigma"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(seeds)) {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  tree <span class="ot">=</span> <span class="fu">subset</span>(Loblolly, Seed <span class="sc">==</span> seeds[i])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">=</span> <span class="fu">mle2</span>(mle_fun, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">c=</span> <span class="dv">12</span>, <span class="at">b =</span> <span class="fl">0.25</span>, <span class="at">h_m =</span> <span class="dv">60</span>, <span class="at">sigma =</span> <span class="dv">1</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">c =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="fl">1e-4</span>, <span class="at">h_m =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="fl">1e-4</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">c =</span> <span class="dv">30</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">h_m =</span> <span class="dv">80</span>, <span class="at">sigma =</span> <span class="dv">20</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">list</span>(<span class="at">t =</span> tree<span class="sc">$</span>age, <span class="at">h =</span> tree<span class="sc">$</span>height), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  traits[i,] <span class="ot">=</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>traits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s look at the individual fits by adding the predicitons to the data:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">hm1  =</span> <span class="fu">rep</span>(traits[,<span class="st">"h_m"</span>], <span class="at">each =</span> <span class="dv">6</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">c1  =</span> <span class="fu">rep</span>(traits[,<span class="st">"c"</span>], <span class="at">each =</span> <span class="dv">6</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">b1  =</span> <span class="fu">rep</span>(traits[,<span class="st">"b"</span>], <span class="at">each =</span> <span class="dv">6</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction from stepwise model</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly, <span class="at">pred_height1 =</span> <span class="fu">logistic</span>(b1, c1, hm1, age))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data and predictions for each indicidual</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Loblolly, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> height, <span class="at">color =</span> Seed)) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> pred_height1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now look at the (co-)variation of the traits:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(<span class="at">data =</span> traits[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that b and c are correlated. The standard averages and standard deviations can be used as initial estimates for the mixed model later:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">=</span> <span class="fu">colMeans</span>(traits)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sds   <span class="ot">=</span> <span class="fu">apply</span>(traits, <span class="dv">2</span>, sd)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(means, sds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the next sections (and to keep it simple) we will fit a multilevel model where only <span class="math inline">\(h_m\)</span> is allow to vary across trees.</p>
+</section>
+<section id="estimating-at-population-level" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="estimating-at-population-level"><span class="header-section-number">3.2.2</span> Estimating at population level</h3>
+<p>To obtain the mean estimates of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> and <span class="math inline">\(h_m\)</span> we need to construct a marginal likelihood to integrate over the distribution of values across individuals. If we only assume a random effect for <span class="math inline">\(h_m\)</span> we can specify the model as follows:</p>
+<p><span class="math display">\[
+\begin{align*}
+h_{ij} &amp;\sim \text{Normal} \left(\frac{h_{mi}{1 + e^{-b\left(t_j - c \right)}, \sigma \right) \\
+h_{mi}  &amp;\sim \text{Normal}(\mu_{hm}, \sigma_{hm})
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(h_{ij}\)</span> is the height of tree <span class="math inline">\(i\)</span> at age <span class="math inline">\(j\)</span>, and <span class="math inline">\(mu_hm\)</span> is the population mean for <span class="math inline">\(h_m\)</span>, <span class="math inline">\(\sigma\)</span> represents the observation error and <span class="math inline">\(\sigma_{hm}\)</span> represents the variation of <span class="math inline">\(h_{mi}\)</span> across individuals. In some of the literature, the distribution of <span class="math inline">\(h_{ij}\)</span> is referred to as “individual level” and the distribution of <span class="math inline">\(h_{mi}\)</span> is known as “population level” (and this type of models are known as <em>multilevel</em> or <em>hierarchical</em> models).</p>
+<p>We can decompose the values of <span class="math inline">\(h_m\)</span> for each individual into the average and the deviation with respect to the average (<span class="math inline">\(\epsilon\)</span>). In some of the literature (where these models are know as <em>mixed effect</em> models) the values of <span class="math inline">\(\epsilon\)</span> are know as random effects:</p>
+<p><span class="math display">\[
+\begin{align*}
+h_{ij} &amp;\sim \text{Normal} \left(\frac{h_{mi}{1 + e^{-b\left(t_j - c \right)}, \sigma \right) \\
+h_{mi} &amp;= \mu_{hm} - \epsilon_{hmi} \\
+\epsilon_{hmi}  &amp;\sim \text{Normal}(0, \sigma_{hm}) \\
+\end{align*}
+\]</span></p>
+<p>To create the marginal likelihood we now need to integrate over the Normal distributions of <span class="math inline">\(h_m\)</span>. Let’s first build the function. We do it a bit different from before, because we have multiple observations for one tree (before we only had one). This also means we need to be careful with implementation: (i) the function <code>integrate</code> will pass a vector of <code>eps</code> values to <code>prodfun</code> and we have multiple values of <code>t</code> and <code>h</code>. Therefore, we must use sapply:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>prodfun <span class="ot">&lt;-</span> <span class="cf">function</span>(eps_hm, b, c, mu_hm, sigma, sigma_hm, t, h) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">sapply</span>(eps_hm, <span class="cf">function</span>(x) <span class="fu">exp</span>(<span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span>  sigma_hm, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="co"># Population level</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">sum</span>(<span class="fu">dnorm</span>(h, <span class="fu">logistic</span>(b, c, mu_hm <span class="sc">-</span> x, t), sigma, <span class="at">log =</span> <span class="cn">TRUE</span>)))) <span class="co"># Individual level</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate for first tree using as initial values what we obtain from the stepwise approach</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">prodfun</span>(<span class="at">eps_hm =</span> <span class="dv">0</span>, <span class="at">c =</span> <span class="fl">11.8</span>, <span class="at">b =</span> <span class="fl">0.23</span>, <span class="at">mu_hm =</span> <span class="dv">61</span>,  <span class="at">sigma_hm =</span> <span class="fl">2.3</span>, <span class="at">sigma =</span> <span class="dv">2</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">t =</span> Loblolly<span class="sc">$</span>age[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">h =</span> Loblolly<span class="sc">$</span>height[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The integration for one tree would be:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(<span class="at">f =</span> prodfun, <span class="at">lower =</span> <span class="sc">-</span><span class="dv">6</span><span class="sc">*</span><span class="fl">2.3</span>, <span class="at">upper =</span> <span class="dv">6</span><span class="sc">*</span><span class="fl">2.3</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">c =</span> <span class="fl">11.8</span>, <span class="at">b =</span> <span class="fl">0.23</span>, <span class="at">mu_hm =</span> <span class="dv">61</span>, <span class="at">sigma_hm =</span> <span class="fl">2.3</span>, <span class="at">sigma =</span> <span class="dv">2</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">t =</span> Loblolly<span class="sc">$</span>age[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="at">h =</span> Loblolly<span class="sc">$</span>height[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>],</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">rel.tol =</span> <span class="fl">1e-12</span>, <span class="at">abs.tol =</span> <span class="fl">1e-12</span>)<span class="sc">$</span>value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now define a function to compute the negative log marginal likelihood by solving the integral for each observation, log transforming and adding them up. Notice that now we are not applying the integration to each observation but to each group of observations that belongs to a tree:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>NLML <span class="ot">&lt;-</span> <span class="cf">function</span>(b, c, mu_hm, sigma_hm, sigma, t, h) { <span class="co"># data</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Every 6 observations is a tree</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  id <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(t), <span class="at">by =</span> <span class="dv">6</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  ML <span class="ot">=</span> <span class="fu">sapply</span>(id, <span class="cf">function</span>(id)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">integrate</span>(<span class="at">f =</span> prodfun,<span class="at">lower =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">upper =</span> <span class="cn">Inf</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">c =</span> c, <span class="at">b =</span> b, <span class="at">mu_hm =</span> mu_hm,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sigma =</span> sigma, <span class="at">sigma_hm =</span> sigma_hm,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">t =</span> t[id<span class="sc">:</span>(id <span class="sc">+</span> <span class="dv">5</span>)], <span class="at">h =</span> h[id<span class="sc">:</span>(id <span class="sc">+</span> <span class="dv">5</span>)],</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">rel.tol =</span> <span class="fl">1e-12</span>, <span class="at">abs.tol =</span> <span class="fl">1e-12</span>)<span class="sc">$</span>value)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  NLML <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(ML))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  NLML</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">NLML</span>(<span class="at">b =</span> <span class="fl">0.23</span>, <span class="at">c =</span> <span class="fl">11.8</span>, <span class="at">mu_hm =</span> <span class="dv">61</span>, <span class="at">sigma_hm =</span> <span class="fl">2.3</span>, <span class="at">sigma =</span> <span class="dv">2</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">t =</span> Loblolly<span class="sc">$</span>age, <span class="at">h =</span> Loblolly<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now we can pass this big boy to bbmle. As usual, I used constrained optimization to avoid negative values or getting too close to zero (and I check later if I hit the boundary):</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>par_0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">b =</span> <span class="fl">0.23</span>, <span class="at">c =</span> <span class="fl">11.8</span>, <span class="at">mu_hm =</span> <span class="dv">61</span>, <span class="at">sigma_hm =</span> <span class="fl">2.3</span>, <span class="at">sigma =</span> <span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> NLML, <span class="at">start =</span> <span class="fu">as.list</span>(par_0),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">list</span>(<span class="at">t =</span> Loblolly<span class="sc">$</span>age, <span class="at">h =</span> Loblolly<span class="sc">$</span>height),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>, <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">b =</span> <span class="fl">0.01</span>, <span class="at">c =</span> <span class="dv">1</span>, <span class="at">mu_hm =</span> <span class="dv">10</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="co"># error in lower sigma_hm = 0.01, sigma = 0.01),</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par_0)))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As usual we can extract the maximum likelihood estimates and the confidence intervals:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pars <span class="ot">=</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">=</span> <span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">"quad"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pars)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ci)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that the estimates are close to what we estimated before with the stepwise approach but not exactly the same</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(means, sds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="estimating-at-individual-level" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="estimating-at-individual-level"><span class="header-section-number">3.2.3</span> Estimating at individual level</h3>
+<p>The values of traits for each individual trait can be estimated in the same way that we estimated the true growth rate of trees, by maximizing the conditional likelihood for each tree separately. Let’s build the negative log conditional likelihood of the data of one tree conditional on knowing the population averages and variances:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>NCLL <span class="ot">&lt;-</span> <span class="cf">function</span>(eps_hm, b, c, mu_hm, sigma_hm, sigma, t, h) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>   <span class="sc">-</span><span class="fu">dnorm</span>(eps_hm, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span>  sigma_hm, <span class="at">log =</span> T) <span class="sc">-</span> <span class="co"># Population level</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">sum</span>(<span class="fu">dnorm</span>(h, <span class="fu">logistic</span>(b, c, mu_hm <span class="sc">-</span> eps_hm, t), sigma, <span class="at">log =</span> T)) <span class="co"># Individual level</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s the plot NCLL for the first tree</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tree1 <span class="ot">=</span> <span class="fu">subset</span>(Loblolly, Seed <span class="sc">==</span> seeds[<span class="dv">1</span>])</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> tree1<span class="sc">$</span>age</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>h <span class="ot">=</span> tree1<span class="sc">$</span>height</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>, <span class="at">by =</span> <span class="fl">0.01</span>)<span class="sc">*</span>pars[<span class="st">"sigma"</span>]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>NCLL1 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(eps, <span class="cf">function</span>(e)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">NCLL</span>(e, <span class="at">c =</span> pars[<span class="st">"c"</span>], <span class="at">b =</span> pars[<span class="st">"b"</span>],</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mu_hm =</span> pars[<span class="st">"mu_hm"</span>], <span class="at">sigma_hm =</span> pars[<span class="st">"sigma_hm"</span>],</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sigma =</span> pars[<span class="st">"sigma"</span>], <span class="at">t =</span> t, <span class="at">h =</span> h))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eps, NCLL1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then optimize this function to obtain the estimated deviation between the maximum height of the first tree and the average of the population and compare with the value estimated from the stepwise procedure:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>eps_1 <span class="ot">=</span> <span class="fu">optimize</span>(NCLL, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>)<span class="sc">*</span>pars[<span class="st">"sigma_hm"</span>],<span class="at">c =</span> pars[<span class="st">"c"</span>], <span class="at">b =</span> pars[<span class="st">"b"</span>],</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mu_hm =</span> pars[<span class="st">"mu_hm"</span>], <span class="at">sigma_hm =</span> pars[<span class="st">"sigma_hm"</span>],</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sigma =</span> pars[<span class="st">"sigma"</span>], <span class="at">t =</span> tree1<span class="sc">$</span>age, <span class="at">h =</span> tree1<span class="sc">$</span>height)<span class="sc">$</span>minimum</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>hm1 <span class="ot">=</span> pars[<span class="st">"mu_hm"</span>] <span class="sc">-</span> eps_1</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Multivelel: "</span>, hm1, <span class="st">"Stepwise: "</span>, traits[<span class="dv">1</span>,<span class="st">"h_m"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s do the estimation for all the trees:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(seeds))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(seeds)) {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  treei <span class="ot">=</span> <span class="fu">subset</span>(Loblolly, Seed <span class="sc">==</span> seeds[i])</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">=</span> treei<span class="sc">$</span>age</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  h <span class="ot">=</span> treei<span class="sc">$</span>height</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  eps[i] <span class="ot">=</span> <span class="fu">optimize</span>(NCLL, <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>)<span class="sc">*</span>pars[<span class="st">"sigma_hm"</span>], <span class="at">c =</span> pars[<span class="st">"c"</span>], <span class="at">b =</span> pars[<span class="st">"b"</span>],</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mu_hm =</span> pars[<span class="st">"mu_hm"</span>], <span class="at">sigma_hm =</span> pars[<span class="st">"sigma_hm"</span>],</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sigma =</span> pars[<span class="st">"sigma"</span>], <span class="at">t =</span> t, <span class="at">h =</span> h)<span class="sc">$</span>minimum</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>hm <span class="ot">=</span> pars[<span class="st">"mu_hm"</span>] <span class="sc">-</span> eps</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(traits[,<span class="st">"h_m"</span>], hm, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">52</span>,<span class="dv">66</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">52</span>,<span class="dv">66</span>))</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(hm<span class="sc">~</span><span class="fu">I</span>(traits[,<span class="st">"h_m"</span>])), <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the individual estimates of <code>hm</code> from the multilevel model and the stepwise approach as correlated (on average they are practically the same) but the multilevel model estimates higher values for the smaller trees and lower values for the higher trees. That is, the estimates for individual trees are <em>pulled</em> towards the population mean. This is a common effect of using multilevel models known as <em>shrinkage</em>. As long as your model for the variation of <code>hm</code> across individuals is reasonable, the estimates with shrinkages are actually better than in the stepwise approach (in the sense that they will be closer to the truth on average).</p>
+<p>Let’t calculate the predictions for each tree</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">hm2 =</span> <span class="fu">rep</span>(hm, <span class="at">each =</span> <span class="dv">6</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly, <span class="at">pred_height2 =</span> <span class="fu">logistic</span>(pars[<span class="st">"b"</span>], pars[<span class="st">"c"</span>], hm2, age))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare individual predictions for stepwise and multilevel model</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Loblolly, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> height, <span class="at">color =</span> Seed)) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> pred_height2))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Loblolly, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> height, <span class="at">color =</span> Seed)) <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> pred_height1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can visually see that the multilevel model makes predictions that vary less across trees. Part of it is because of the shrinkage effect, but also because we ignored the variation across trees of <code>a</code> and <code>b</code>. We could write the code to evaluate those two too, but then we have to use for advanced methods of integration and it gets very tedious.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Add an exercise with non-linear mixed model</strong></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="bayesian-approach" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Bayesian approach</h1>
+<p>In the Bayesian approach we can estimate all the parameters and latent random variables by applying Markov Chain Monte Carlo. In fact, no changes are needed to the estimation procedure at all, and a single pass of MCMC gives use all the information we need. If you use a probabilistic language (like Stan, JAGS or NIMBLE) it is also straightforward to add levels to the model. Given reasonable priors, it can be much easier to estimate non-linear multilevel models in a Bayesian way than the procedure describe in the first half. In fact, fitting multilevel models (and other models with latent random variables) is the most common reason why ecologist switch to Bayesian methods.</p>
+<section id="model-with-measurement-error-1" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="model-with-measurement-error-1"><span class="header-section-number">4.1</span> Model with measurement error</h2>
+<p>We can estimate this model using Stan as shown in previous tutorials. Remember that the stan model needs to be defined in its own file with the extension <code>.stan</code> or add your code in a Quarto document with the label <code>stan</code>. If you are getting lost in the code, please check the supplement on Stan (also compare with the BUGS code in the book).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> N; <span class="co"># Number of observations/true values</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] x_obs; <span class="co"># The observed growth rate</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp; <span class="co"># Hyperparameters of the prior distributiobs</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt;[N] x_true; <span class="co"># Estimated true growth rates</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; a; <span class="co"># Shape parameter of Gamma</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; s; <span class="co"># Scale parameter of Gamma</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; sigma; <span class="co"># Scale parameter of Normal</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Priors (different from Bolker)</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  a ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]); <span class="co"># Shape (95% &lt;  26), 10, 10</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  s ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]); <span class="co"># rate (95% &lt; 40), 15, 15</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]); <span class="co"># sigma (95% &lt; 40), 10, 10</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># True growth rate</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  x_true ~ gamma(a, <span class="dv">1</span>/s); <span class="co"># gamma(shape, rate = 1/scale)</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Observed growth rate with error</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  x_obs ~ normal(x_true, sigma);</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I made the following changes to the code with respect to Bolker:</p>
+<ul>
+<li><p>All parameters are given (truncated) Normal distributions as priors because it is easier to reason about prior means and standard deviations.</p></li>
+<li><p>I do not hard-code the hyperparameters, so that you can rerun sampling with different priors (for prior sensitivity analysis).</p></li>
+<li><p>The normal distribution is parameterized with the standard deviation rather than precision.</p></li>
+<li><p>There is no need to specify initial values for chains since the priors are not excessively wide (so random samples from them are good starting values).</p></li>
+</ul>
+<p>In all cases we are using Normal prior distribution that are <em>weakly informative</em> meaning that we only incorporate knowledge of the scale of the parameters. They will be automatically truncated as parameters are all positive. Note that the Bayesian approach will estimate a true value for each observation in addition to the three parameters of the model (so technically we will get 1003 estimates!): The details below are as usual (see Stan supplement). Notice that I increase <code>adapt_delta</code> to <code>0.95</code> because this was a harder fit and I want a total of 40 thousand samples:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ncores <span class="ot">=</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>nchains <span class="ot">=</span> <span class="fu">min</span>(<span class="dv">8</span>, ncores)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">=</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="fu">round</span>(<span class="fl">40e3</span><span class="sc">/</span>nchains, <span class="dv">0</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> ncores)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>bayesian_fit <span class="ot">&lt;-</span> <span class="fu">sampling</span>(error_growth_model,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">cores =</span> nchains, <span class="at">chains =</span> nchains,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">iter =</span> niter, <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">length</span>(x_obs), <span class="at">x_obs =</span> x_obs,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">10</span>)),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adapt_delta =</span> <span class="fl">0.95</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This ran in about a minute on my computer. Let’s look at the summaries for the population parameters (<code>a</code>, <code>s</code> and <code>sigma</code>):</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"s"</span>, <span class="st">"sigma"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We are getting perfect Rhat values (Gelman-Rubin diagnostics) and the effective sample size is in the thousands, which means that our estimations of the posterior distributions from these samples would be very accurate (in fact a bit overkill if you use my originally settings).</p>
+<p>Both the median and mean are quite similar suggesting a posterior distribution that is fairly symmetric (in fact with this sample size it should be fairly normal and the priors should have a very small effect). We can compare these estimates to the maximum likelihood estimates from before:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pars</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">"quad"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We are getting very similar values to the maximum likelihood approach, as expected from the large sample sizes (so again, the priors did not have much effect). If you check table 10.1 in the book (section 10.5.2) the intervals computed from the posterior distribution are very close to the confidence intervals from the likelihood profile.</p>
+<p>The Bayesian procedure also gives us the estimates <code>x_true</code> directly. We can convert the samples from the posterior into a matrix:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(bayesian_fit);</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(posterior)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>posterior[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can compare the different estimates of <code>x</code> for the first observation using a kernel density plot:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="dv">1</span>]), <span class="at">xlab =</span> <span class="st">"Growth rate"</span>, <span class="at">main =</span> <span class="st">""</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">c</span>(x_obs[<span class="dv">1</span>], x_true[<span class="dv">1</span>], x_obs[<span class="dv">1</span>] <span class="sc">-</span> est_eps[<span class="dv">1</span>]), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(posterior[,<span class="dv">1</span>], <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>)), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Obs"</span>, <span class="st">"True"</span>, <span class="st">"Max Lik"</span>, <span class="st">"CI 95%"</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty=</span> <span class="st">"n"</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the Bayesian estimate of the true growth rate for the first observation has a maximum around the same value as the point estimate we obtained using maximum likelihood (and therefore in between observed and true growth rates). However, we actually have quite a bit of uncertainty in this estimate as reflected by the 95% credible interval.</p>
+<p>Of course, given that we know the true values of x in this simulation, we can test how often these 95% intervals include the true values (for a perfect estimation we should cover the true value 95% of the times). Let’s compute the lower and upper bounds of the intervals for each observation:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lower_ci <span class="ot">=</span> <span class="fu">quantile</span>(posterior[,<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>], <span class="dv">2</span>, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>upper_ci <span class="ot">=</span> <span class="fu">quantile</span>(posterior[,<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>], <span class="dv">2</span>, <span class="at">prob =</span> <span class="fl">0.975</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>inside   <span class="ot">=</span> (x_true <span class="sc">&gt;=</span> lower_ci) <span class="sc">&amp;</span> (x_true <span class="sc">&lt;=</span> upper_ci)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>coverage <span class="ot">=</span> <span class="fu">sum</span>(inside)<span class="sc">/</span><span class="fl">1e3</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>coverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That is pretty much spot on! Getting exactly 95% is very difficult (especially with only 1000 values, we would need more for the coverage estimate to stabilize). The fact that it errors on the side of caution (i.e., simulated coverage is slightly higher than 95%) is also a good thing (we generally prefer to be pessimistic rather than optimistic). So even though our uncertainty about the true growth rate of individual trees remains high given how big the measurement error is, achieving a practically perfect coverage is the best we can do.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Add Bayesian version of mixed model exercise</strong></p>
+</div>
+</div>
+</div>
+</section>
+<section id="model-for-nested-data-1" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="model-for-nested-data-1"><span class="header-section-number">4.2</span> Model for nested data</h2>
+<p>Let’s implement the model in Stan. This time we are going to include all traits as varying across replicates but we will ignore correlations as that makes the model much more complex (but it would be possible). The predictions of heights is as before:</p>
+<p><span class="math display">\[
+h_{ij} \sim \text{Normal} \left(\frac{h_{mi}{1 + e^{-b_i\left(t_j - c_i \right)}, \sigma \right)
+\]</span> Where the suffix <span class="math inline">\(i\)</span> refers to the tree and <span class="math inline">\(j\)</span> to the time point. The variation in heights across the population is assumed to follow a normal distribution (note that this can technically produce negative values but we will ignore this for simplicity):</p>
+<p><span class="math display">\[
+\begin{align*}
+h_{mi} &amp;= \mu_{hm} + \sigma_{hm} z_{hmi} \\
+z_{hmi}  &amp;\sim \text{Normal}(0, 1) \\
+\end{align*}
+\]</span></p>
+<p>Notice that we have further decomposed the Normal distribution based on the fact that <span class="math inline">\(\text{Normal}(\mu, \sigma) = \mu + \sigma \text{Normal}(0,1)\)</span> which tends to make MCMC sampling much faster. We repeat the same decomposition for the rest of the trees:</p>
+<p><span class="math display">\[
+\begin{align*}
+b_{i} &amp;= \mu_{b} + \sigma_{b} z_{bi} \\
+z_{bi}  &amp;\sim \text{Normal}(0, 1) \\
+c_{i} &amp;= \mu_{c} + \sigma_{c} z_{ci} \\
+z_{ci}  &amp;\sim \text{Normal}(0, 1) \\
+\end{align*}
+\]</span></p>
+<p>The model in Stan would look at follows</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> N; <span class="co"># Number of observations</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> Ntree; <span class="co"># Number of trees</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] h; <span class="co"># The observed growth rate</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] t; <span class="co"># The age associated to each observation</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> tree[N]; <span class="co"># Id of the tree (not seed, but 1 - 14)</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">14</span>] hp; <span class="co"># Hyperparameters</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Population-level parameters</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; mu_hm; <span class="co"># Mean maximum height</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; mu_b;  <span class="co"># Mean parameter b</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; mu_c;  <span class="co"># Mean parameter c</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; sigma_hm; <span class="co"># Variation in maximum height</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; sigma_b;  <span class="co"># Variation in parameter b</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; sigma_c;  <span class="co"># Variation in parameter c</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span> = <span class="dv">0</span>&gt; sigma;    <span class="co"># Measurement/observation error</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] z_hm; <span class="co"># Standardized deviations of maximum height in population</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] z_b;  <span class="co"># Standardized deviations of b in population</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] z_c;  <span class="co"># Standardized deviations of c in population</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a><span class="co"># In this block we can do intermediate calculations (makes it run faster)</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span>{</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Individual-level parameters</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] hm; <span class="co"># Maximum height of each tree</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] b; <span class="co"># Trait b of each tree</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[Ntree] c; <span class="co"># Trait c of each tree</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Observations</span></span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[N] h_mod;</span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute the trait value of each tree</span></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>  hm = mu_hm + sigma_hm*z_hm;</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>  b  = mu_b  + sigma_b*z_b;</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>  c  = mu_c  + sigma_c*z_c;</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute the height of each tree at each timepoint</span></span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span>:N) {</span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> id = tree[i]; <span class="co"># Check which tree we are dealing with</span></span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>    h_mod[i] = hm[id]/(<span class="dv">1</span> + exp(-b[id]*(t[i] - c[id]))); <span class="co"># Logistic model</span></span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we only list the distributions since we already have done the calculations</span></span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a><span class="co"># of growth in the transformed parameters block</span></span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Population-level parameters (priors)</span></span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>  mu_hm ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a>  mu_b  ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a>  mu_c  ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a>  sigma_hm ~ normal(hp[<span class="dv">7</span>], hp[<span class="dv">8</span>]);</span>
+<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a>  sigma_b  ~ normal(hp[<span class="dv">9</span>], hp[<span class="dv">10</span>]);</span>
+<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a>  sigma_c  ~ normal(hp[<span class="dv">11</span>], hp[<span class="dv">12</span>]);</span>
+<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">13</span>], hp[<span class="dv">14</span>]);</span>
+<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Standardized deviations from population mean (actual tree-level traits above)</span></span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a>  z_hm ~ normal(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a>  z_b ~ normal(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a>  z_c ~ normal(<span class="dv">0</span>, <span class="dv">1</span>);</span>
+<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Observations within tree</span></span>
+<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a>  h ~ normal(h_mod, sigma);</span>
+<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For this example, I came up with more informative priors based on general I could find online on the growth of Loblolly pine. I put the whole reasoning to come up with the priors at the end of the lab as an example of how one could come up with reasonable priors and check that they produce sensible predictions. So please go there if you want to check it.</p>
+<p>Once we have chosen some prior distributions we can sample from the posterior distribution:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallelize</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>ncores <span class="ot">=</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>nchains <span class="ot">=</span> <span class="fu">min</span>(<span class="dv">8</span>, ncores)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>niter <span class="ot">=</span> <span class="dv">1000</span> <span class="sc">+</span> <span class="fu">round</span>(<span class="fl">40e3</span><span class="sc">/</span>nchains, <span class="dv">0</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> ncores)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># See section below on prior elicitation</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">10</span>,          <span class="co"># mean and sd of mu_hm</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>           <span class="fl">0.25</span>, <span class="fl">0.25</span><span class="sc">/</span><span class="dv">4</span>,    <span class="co"># mean and sd of mu_b</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>           <span class="dv">10</span>, <span class="dv">10</span><span class="sc">/</span><span class="dv">4</span>,        <span class="co"># mean and sd of mu_c</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>           <span class="dv">65</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">65</span><span class="sc">/</span><span class="dv">10</span>,     <span class="co"># mean and sd of sigma_hm</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>           <span class="fl">0.25</span><span class="sc">/</span><span class="dv">5</span>, <span class="fl">0.25</span><span class="sc">/</span><span class="dv">10</span>, <span class="co"># mean and sd of sigma_b</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>           <span class="dv">10</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">10</span><span class="sc">/</span><span class="dv">10</span>,     <span class="co"># mean and sd of sigma_c</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>           <span class="dv">1</span>, <span class="dv">1</span>)            <span class="co"># mean and sd of sigma</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>bayesian_fit <span class="ot">&lt;-</span> <span class="fu">sampling</span>(logistic_growth_model,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">cores =</span> nchains, <span class="at">chains =</span> nchains,</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>                         <span class="at">iter =</span> niter, <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(Loblolly),</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Ntree =</span> <span class="fu">length</span>(<span class="fu">unique</span>(Loblolly<span class="sc">$</span>Seed)),</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">h =</span> Loblolly<span class="sc">$</span>height,</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">t =</span> Loblolly<span class="sc">$</span>age,</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">tree =</span> <span class="fu">as.numeric</span>(Loblolly<span class="sc">$</span>Seed),</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">hp =</span> priors),</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>                         <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adapt_delta =</span> <span class="fl">0.95</span>))</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"mu_hm"</span>, <span class="st">"mu_b"</span>, <span class="st">"mu_c"</span>,</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"sigma_hm"</span>, <span class="st">"sigma_b"</span>, <span class="st">"sigma_c"</span>, <span class="st">"sigma"</span>),</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compare this to the estimates we obtained from the stepwise approach:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">=</span> <span class="fu">colMeans</span>(traits)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>sds   <span class="ot">=</span> <span class="fu">apply</span>(traits, <span class="dv">2</span>, sd)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(means, sds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The Bayesian estimate of the standard deviations are a bit smaller than the ones obtained in the stepwise approach, but they are in the right order of magnitude and the 95% credible interval includes the estimates from the stepwise approach. Let’s look at the posterior distributions of this standard deviations:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">=</span> <span class="fu">as.matrix</span>(bayesian_fit)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"sigma_hm"</span>], <span class="at">from =</span> <span class="dv">0</span>), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"sigma_hm"</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"sigma_b"</span>], <span class="at">from =</span> <span class="dv">0</span>), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"sigma_b"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"sigma_c"</span>], <span class="at">from =</span> <span class="dv">0</span>), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"sigma_c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note how the posterior distributions of standard deviations of b and c are quite small but also highly asymmetric. This is typical of constrained variables that are highly uncertain. Methods based on maximum marginal likelihood will struggle estimating optimal values <code>sigma_b</code> and <code>sigma_c</code>.</p>
+<p>The samples for <code>hm</code>, <code>b</code> and <code>c</code> of each can be retrieved directly from posterior. For example, for the first tree:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"hm[1]"</span>]), <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"hm"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"b[1]"</span>]), <span class="at">main =</span> <span class="st">""</span>,  <span class="at">xlab =</span> <span class="st">"b"</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(posterior[,<span class="st">"c[1]"</span>]), <span class="at">main =</span> <span class="st">""</span>,  <span class="at">xlab =</span> <span class="st">"c"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can also print the summary information directly from othe original fitted object:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"hm"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Similarly, we can also extract the predicted values for each observation of height (I only show it for one observation, otherwise it becomes too long):</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"h_mod[1]"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Add Bayesian version of mixed model exercise</strong></p>
+</div>
+</div>
+</div>
+</section>
+<section id="informative-prior-elicitation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="informative-prior-elicitation"><span class="header-section-number">4.3</span> Informative prior elicitation</h2>
+<p>Let’s define some reasonable priors. Let’s start with the priors for the means of the populations. The parameter <code>hm</code> is the maximum height of the trees. We are dealing with a pine tree that growth is humid warm areas of North America and typical has heights of 50 to 80 feet with record heights (https://edis.ifas.ufl.edu/publication/ST478). Since it is often between 50 and 80, we can specify our prior to have a mean of 65 feet and a standard deviation of 10:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(truncnorm)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>prior_mu_hm <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">65</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prior_mu_hm <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> prior_mu_hm <span class="sc">&lt;</span> <span class="dv">80</span>)<span class="sc">/</span><span class="fl">1e3</span> <span class="co"># 87% of heights within this range</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(prior_mu_hm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We know that parameter <code>b</code> is related to growth rates (it is 4 times the maximum growth rate normalized by maximum height, see Chapter 3 of the book). Searching the literature (actually using AI with sources…) tells use that average growth rate in this species is about 2 feet/year. How does <code>b</code> related to this? First let’s compute the derivative of the logistic (which would tell you the growth rate). I will let the computer compute the derivative for me…</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Deriv) <span class="co"># Package to compute symbolic derivatives</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>deriv_logistic <span class="ot">=</span> <span class="fu">Deriv</span>(logistic, <span class="st">"t"</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">deriv_logistic</span>(<span class="at">b =</span> <span class="fl">0.25</span>, <span class="at">c =</span> <span class="dv">12</span>, <span class="at">h_m =</span> <span class="dv">65</span>, <span class="at">t =</span> x), <span class="dv">0</span>, <span class="dv">35</span>, <span class="at">ylab =</span> <span class="st">"Growth rate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now calculate the average growth rate by averaging the first 30 years of growth (after that it does not seem to grow much):</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>avg_growth_rate <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">deriv_logistic</span>(<span class="at">b =</span> <span class="fl">0.25</span>, <span class="at">c =</span> <span class="dv">12</span>, <span class="at">h_m =</span> <span class="dv">65</span>, <span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ok, that is exactly the value we got from literature (I guess our data is very average, but you will not always be so lucky), meaning that an average growth rate of 2 feet/year corresponds to <code>b = 0.25</code>. We don’t have information on uncertainty, so we can take a conservative estimate of say, quarter of the mean:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>prior_mu_b <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">0.25</span>, <span class="at">sd =</span> <span class="fl">0.25</span><span class="sc">/</span><span class="dv">4</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(prior_mu_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This would lead to maximum growth rates of 0.5 - 7 feet/year. Finally the parameter <code>c</code> that tells us about the age at which half of maximum height is reached. Again, checking our AI-powered Google and some of the sources within, we see that most of the growth happens in the first 20 years and after that growth rate decrease significantly as the tree matures. Since the logistic curve is symmetric, this would imply a value of <code>c = 10</code> and we can assume again a standard deviation of a quarter of that:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>prior_mu_c <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">4</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(prior_mu_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To double check that our priors make sense, we can simulate 1000 growth curves based on the parameters we just obtained</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation prior population means</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> tree1<span class="sc">$</span>age</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>prior_mu <span class="ot">=</span> <span class="fu">sapply</span>(t, <span class="cf">function</span>(x)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">logistic</span>(<span class="at">b =</span> prior_mu_b, <span class="at">c =</span> prior_mu_c, <span class="at">h_m =</span> prior_mu_hm, x))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prior_mu) <span class="co"># Each column is a different age</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s summarise all these trajectories:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>mean_prior_mu <span class="ot">=</span> <span class="fu">colMeans</span>(prior_mu)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>med_prior_mu <span class="ot">=</span> <span class="fu">apply</span>(prior_mu, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>lower_prior_mu <span class="ot">=</span> <span class="fu">apply</span>(prior_mu, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>upper_prior_mu <span class="ot">=</span> <span class="fu">apply</span>(prior_mu, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.975</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, mean_prior_mu, <span class="at">ylim =</span> <span class="fu">range</span>(prior_mu), <span class="at">t =</span> <span class="st">"l"</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, med_prior_mu, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, lower_prior_mu, <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, upper_prior_mu, <span class="at">col =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that this covers a wide range of trajectories, but it looks very reasonable. Of course later we can test what happens if our priors are wider but if you have information do use it and come up with sensible priors rather than covering an unreasonable range “just to be sure”.</p>
+<p>More complicated is coming up with reasonable priors for the variances. The reason is that the variation across trees is going to depend on the context. Is this a wild population or a more artificial plantation? If it is a wild population, is it a mixed forest or a very homogeneous system? Unfortunately, most of the published research focuses on averages, so even if you are an expert, it can be hard to justify prior distributions for the variances. Given that we have 14 replicates we can allow to be rather vague and calculate these variances as a function of the better defined means above. For example, we could expect a standard deviation of 20% around the mean for each trait and half the value for our uncertainty of what the exact value should be:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>prior_sigma_hm <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">65</span><span class="sc">/</span><span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">65</span><span class="sc">/</span><span class="dv">10</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>prior_sigma_b <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">0.25</span><span class="sc">/</span><span class="dv">5</span>, <span class="at">sd =</span> <span class="fl">0.25</span><span class="sc">/</span><span class="dv">10</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>prior_sigma_c <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">10</span>, <span class="at">a =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now simulate individual trees by combining the priors for means and standard deviations.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>prior_hm <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> prior_mu_hm, <span class="at">sd =</span> prior_sigma_hm, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>prior_b  <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> prior_mu_b, <span class="at">sd =</span> prior_sigma_b, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>prior_c  <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> prior_mu_c, <span class="at">sd =</span> prior_sigma_c, <span class="at">a =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The resulting population should be more variable than the averages above:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>prior_h <span class="ot">=</span> <span class="fu">sapply</span>(t, <span class="cf">function</span>(x)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">logistic</span>(<span class="at">b =</span> prior_b, <span class="at">c =</span> prior_c, <span class="at">h_m =</span> prior_hm, x))</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>mean_prior_h <span class="ot">=</span> <span class="fu">colMeans</span>(prior_h)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>med_prior_h <span class="ot">=</span> <span class="fu">apply</span>(prior_h, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>lower_prior_h <span class="ot">=</span> <span class="fu">apply</span>(prior_h, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>upper_prior_h <span class="ot">=</span> <span class="fu">apply</span>(prior_h, <span class="dv">2</span>, quantile, <span class="at">prob =</span> <span class="fl">0.975</span>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, mean_prior_h, <span class="at">ylim =</span> <span class="fu">range</span>(prior_h), <span class="at">t =</span> <span class="st">"l"</span>, <span class="at">ylab =</span> <span class="st">"Tree height"</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, med_prior_h, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, lower_prior_h, <span class="at">col =</span> <span class="dv">3</span>)</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(t, upper_prior_h, <span class="at">col =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The last variable which prior we need to specify is the measurement error. The measurement errors that we should expect depend on how the measurements were taken which of course we do not know. Assuming a visual estimation using trigonometry, the reported errors seem to be 1 - 4% of the tree height. This means a prior we believe an error of 0.2 - 3 m based on the prior predicted heights. We can achieve this as follows:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>prior_sigma <span class="ot">=</span> <span class="fu">rtruncnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">a =</span> <span class="dv">0</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(prior_sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

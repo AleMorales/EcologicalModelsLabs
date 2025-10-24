@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="2005 Ben Bolker, modified at some places by Alejandro Morales &amp; Bob Douma">
-<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 4: Probability distributions (solutions)</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +143,9 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab4/solution.html">Lab 4 (solutions)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -245,13 +245,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
@@ -272,7 +272,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Lab4/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 4 (solutions)</span></a>
   </div>
 </li>
@@ -337,35 +337,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab4/solution.html">Lab 4 (solutions)</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Lab 4: Probability distributions (solutions)</h1>
-</div>
 
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>2005 Ben Bolker, modified at some places by Alejandro Morales &amp; Bob Douma </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2025</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="learning-goals" class="level1" data-number="1">
@@ -376,7 +348,7 @@ window.Quarto = {
 <h1 data-number="2"><span class="header-section-number">2</span> Choosing probability distributions</h1>
 <p>In this exercise we revisit exercise 2.1 of lab 3. In that exercise we had six different datasets each describing a biological phenomenon. The first step to model your data is to choose a deterministic function that describes the mean effect of the predictor variable (x) on the response variable (y). The second step involves the choice of the stochastic distribution which describes how the data varies around the mean.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -385,32 +357,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Reload the six datasets and choose for each dataset one or two candidate probability distributions. <em>hint</em>: ask yourself a number of questions: Do I have counts (integer) or continuous (real) values? Do I have positive values only or also negative values?</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>Dataset 1 y represents real numbers and both positive and negative numbers occur. This implies that we should choose a continuous probability distribution. In addition, the numbers seems unbound. Within the family of continuous probability distributions, the normal seems a good candidate distribution because this one runs from -<span class="math inline">\(\inf\)</span> to +<span class="math inline">\(\inf\)</span>. In contrast the Gamma and the Lognormal only can take positive numbers, so these distributions cannot handle the negative numbers. In addition, the beta distribution is not a good candidate because it runs from 0-1.</p></li>
-<li><p>dataset 2 y represents real numbers and only positive numbers occur. The data represents a functional response (intake rate of the predator), and it is likely that you can only measure positive numbers (number of prey items per unit of time). This implies that we should choose a continuous probability distribution. Within the family of continuous probability distributions, the Gamma and the Lognormal could be taken as candidate distributions because they can only take positive numbers (beware that the Gamma cannot take 0). However, you could try to use a normal as well.</p></li>
-<li><p>Dataset 3 y seems represents counts (this is the cone dataset that is introduced in ch.&nbsp;6.). Given that it contains counts we can pick a distribution from the family of discrete distributions. The Poisson and the Negative Binomial could be good candidates to describe this type of data.</p></li>
-<li><p>Dataset 4 y represents population size over time. From looking at the data, they seems to represent counts. Given that it contains counts we can pick a distribution from the family of discrete distributions. The Poisson and the Negative Binomial could be good candidates to describe this type of data.</p></li>
-<li><p>Dataset 5 No information is given on y. The data clearly seems to represent counts. Thus the same reasoning applies here as to the two previous datasets.</p></li>
-<li><p>Dataset 6 The data (y) represents species occurences (presence/absence). The binomial model would be a good model to predict the probability of presence.</p></li>
-</ol>
-</div>
-</div>
-</div>
+<p>Reload the six datasets and choose for each dataset one or two candidate probability distributions. <em>hint</em>: ask yourself a number of questions: Do I have counts (integer) or continuous (real) values? Do I have positive values only or also negative values?</p>
 </div>
 </div>
 </div>
@@ -439,7 +388,7 @@ Solution
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="material_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Results of <code>rbinom</code></figcaption>
 </figure>
 </div>
@@ -449,12 +398,99 @@ Solution
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="material_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption><code>R</code> functions for the Normal distribution, showing probability density function (<code>dnorm</code>), and cumulative distribution function (<code>pnorm</code>). Random samples are drawn proportionally to the probability density function with <code>rnorm</code> and quantiles are calculated with by inverting the cumulative distribution function with <code>qnorm</code>.</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For the binomial distribution with 10 trials and a success probability of 0.2:</p>
+<ol type="1">
+<li><p>Pick 8 random values and sort them into increasing order (if you <code>set.seed(1001)</code> beforehand, you should get <span class="math inline">\(X=0\)</span> (twice), <span class="math inline">\(X=2\)</span> (4 times), and <span class="math inline">\(X=4\)</span> and <span class="math inline">\(X=5\)</span> (once each)).</p></li>
+<li><p>Calculate the probabilities of getting 3, 4, or 5 successes first by hand (See Ch.4) and check it with the computer. Answer:</p></li>
+<li><p>Calculate the probability of getting 5 or more successes.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p>You can use the <code>R</code> functions to test your understanding of a distribution and make sure that random draws match up with the theoretical distributions as they should. This procedure is particularly valuable when you’re developing new probability distributions by combining simpler ones, e.g.&nbsp;by zero-inflating or compounding distributions.</p>
+<p>The results of a large number of random draws should have the correct moments (mean and variance), and a histogram of those random draws (with <code>freq=FALSE</code> or <code>prob=TRUE</code>) should match up with the theoretical distribution. For example, draws from a binomial distribution with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=20\)</span> should have a mean of approximately <span class="math inline">\(Np=4\)</span> and a variance of <span class="math inline">\(Np(1-p)=3.2\)</span>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">20</span>; p<span class="ot">=</span><span class="fl">0.2</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">var</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The mean is very close, the variance is a little bit farther off. Just for the heck of it, we can use the <code>replicate()</code> function to re-do this command many times and see how close we get:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>var_dist <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">var</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(this may take a little while; if it takes too long, lower the number of replicates to 100).</p>
+<p>Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the distribution of variances:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_dist)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(var_dist,<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(Try a histogram too.) Even though there’s some variation (of the variance) around the theoretical value, we seem to be doing the right thing since the 95% confidence limits include the theoretical value. (Lab 5 will go into more detail on running simulations to check the expected variation of different measurement as a function of parameters and sample size.)</p>
+<div class="cell" data-fig="true">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="material_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Checking random draws from a binomial distribution against theoretical values.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally, Figure 3 shows the entire simulated frequency distribution along with the theoretical values. The steps in <code>R</code> are:</p>
+<p><strong>1.</strong> pick 10,000 random deviates:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>2.</strong> Tabulate the values, and divide by the number of samples to get a probability distribution:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(The <code>levels</code> command is necessary in this case because the probability of <span class="math inline">\(x=12\)</span> with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=12\)</span> is actually so low (<span class="math inline">\(\approx 4\times 10^{-9}\)</span>) that it’s very unlikely that a sample of 10,000 won’t include any samples with 12 successes.)</p>
+<p><strong>3.</strong> Draw a barplot of the values, extending the <span class="math inline">\(y\)</span>-limits a bit to make room for the theoretical values and saving the <span class="math inline">\(x\)</span> locations at which the bars are drawn:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.23</span>),<span class="at">ylab=</span><span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>4.</strong> Add the theoretical values, plotting them at the same <span class="math inline">\(x\)</span>-locations as the centers of the bars:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N),<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(<code>barplot()</code> doesn’t put the bars at <span class="math inline">\(x\)</span> locations corresponding to their numerical values, so you have to save those values as <code>b1</code> and re-use them to make sure the theoretical values end up in the right place.)</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pick 10,000 negative binomial deviates with <span class="math inline">\(\mu=2\)</span>, <span class="math inline">\(k=0.5\)</span> (using <code>rnbinom()</code>). In <code>rbnbinom()</code> <span class="math inline">\(\mu\)</span> = <code>mu</code> and <span class="math inline">\(k\)</span> = <code>size</code>. Pick one of the ways above to draw the distribution. Check that the mean and variance agree reasonably well with the theoretical values. Add points representing the theoretical distribution to the plot.</p>
+</div>
+</div>
+</div>
+<p>Doing the equivalent plot for continuous distributions is actually somewhat easier, since you don’t have to deal with the complications of a discrete distribution: just use <code>hist(...,prob=TRUE)</code> to show the sampled distribution (possibly with <code>ylim</code> adjusted for the maximum of the theoretical density distribution) and <code>ddist(x,[parameters])</code> to add the theoretical curve (e.g.: <code>curve(dgamma(x,shape=2,scale=1),add=TRUE)</code>).</p>
+</section>
+<section id="averaging-distributions" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Averaging distributions</h1>
+<p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tabdat<span class="ot">=</span><span class="fu">table</span>(dat); tabdat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To get the (sample) probability distribution of the data, just scale by the total sample size:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prob<span class="ot">=</span>tabdat<span class="sc">/</span><span class="fu">length</span>(dat); prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(dividing by <code>sum(tabdat)</code> would be equivalent).</p>
+<p>In the long format, we can take the mean with <code>mean(dat)</code> or, replicating the formula <span class="math inline">\(\sum x_i/N\)</span> exactly, <code>sum(dat)/length(dat)</code>.</p>
+<p>In the tabular format, we can calculate the mean with the formula <span class="math inline">\(\sum P(x) x\)</span>, which in <code>R</code> would be <code>sum(prob*5:8)</code> or more generally</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(prob))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prob<span class="sc">*</span>vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>names</code> extracts the names of the vector and <code>as.numeric</code> transform characters to numbers. You could also get the values by <code>as.numeric(levels(prob))</code>, or by <code>sort(unique(dat))</code>.</p>
+<p>However, <code>mean(prob)</code> or <code>mean(tabdat)</code> is just plain wrong (at least, I can’t think of a situation where you would want to calculate this value).</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -467,182 +503,15 @@ Exercise
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>For the binomial distribution with 10 trials and a success probability of 0.2:</p>
-<ol type="1">
-<li><p>Pick 8 random values and sort them into increasing order (if you <code>set.seed(1001)</code> beforehand, you should get <span class="math inline">\(X=0\)</span> (twice), <span class="math inline">\(X=2\)</span> (4 times), and <span class="math inline">\(X=4\)</span> and <span class="math inline">\(X=5\)</span> (once each)).</p></li>
-<li><p>Calculate the probabilities of getting 3, 4, or 5 successes first by hand (See Ch.4) and check it with the computer. Answer:</p></li>
-<li><p>Calculate the probability of getting 5 or more successes.</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">prob=</span><span class="fl">0.2</span>,<span class="at">size=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="3" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">4</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.2</span>,<span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>You can use the <code>R</code> functions to test your understanding of a distribution and make sure that random draws match up with the theoretical distributions as they should. This procedure is particularly valuable when you’re developing new probability distributions by combining simpler ones, e.g.&nbsp;by zero-inflating or compounding distributions.</p>
-<p>The results of a large number of random draws should have the correct moments (mean and variance), and a histogram of those random draws (with <code>freq=FALSE</code> or <code>prob=TRUE</code>) should match up with the theoretical distribution. For example, draws from a binomial distribution with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=20\)</span> should have a mean of approximately <span class="math inline">\(Np=4\)</span> and a variance of <span class="math inline">\(Np(1-p)=3.2\)</span>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1001</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">=</span><span class="dv">20</span>; p<span class="ot">=</span><span class="fl">0.2</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(x),<span class="fu">var</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The mean is very close, the variance is a little bit farther off. Just for the heck of it, we can use the <code>replicate()</code> function to re-do this command many times and see how close we get:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>var_dist <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">var</span>(<span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(this may take a little while; if it takes too long, lower the number of replicates to 100).</p>
-<p>Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the distribution of variances:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_dist)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(var_dist,<span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(Try a histogram too.) Even though there’s some variation (of the variance) around the theoretical value, we seem to be doing the right thing since the 95% confidence limits include the theoretical value. (Lab 5 will go into more detail on running simulations to check the expected variation of different measurement as a function of parameters and sample size.)</p>
-<div class="cell" data-fig="true">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Checking random draws from a binomial distribution against theoretical values.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Finally, Figure 3 shows the entire simulated frequency distribution along with the theoretical values. The steps in <code>R</code> are:</p>
-<p><strong>1.</strong> pick 10,000 random deviates:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rbinom</span>(<span class="dv">10000</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>2.</strong> Tabulate the values, and divide by the number of samples to get a probability distribution:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>))<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(The <code>levels</code> command is necessary in this case because the probability of <span class="math inline">\(x=12\)</span> with <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(N=12\)</span> is actually so low (<span class="math inline">\(\approx 4\times 10^{-9}\)</span>) that it’s very unlikely that a sample of 10,000 won’t include any samples with 12 successes.)</p>
-<p><strong>3.</strong> Draw a barplot of the values, extending the <span class="math inline">\(y\)</span>-limits a bit to make room for the theoretical values and saving the <span class="math inline">\(x\)</span> locations at which the bars are drawn:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.23</span>),<span class="at">ylab=</span><span class="st">"Probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>4.</strong> Add the theoretical values, plotting them at the same <span class="math inline">\(x\)</span>-locations as the centers of the bars:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>,<span class="at">prob=</span>p,<span class="at">size=</span>N),<span class="at">pch=</span><span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(<code>barplot()</code> doesn’t put the bars at <span class="math inline">\(x\)</span> locations corresponding to their numerical values, so you have to save those values as <code>b1</code> and re-use them to make sure the theoretical values end up in the right place.)</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Pick 10,000 negative binomial deviates with <span class="math inline">\(\mu=2\)</span>, <span class="math inline">\(k=0.5\)</span> (using <code>rnbinom()</code>). In <code>rbnbinom()</code> <span class="math inline">\(\mu\)</span> = <code>mu</code> and <span class="math inline">\(k\)</span> = <code>size</code>. Pick one of the ways above to draw the distribution. Check that the mean and variance agree reasonably well with the theoretical values. Add points representing the theoretical distribution to the plot.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="dv">10000</span>, <span class="at">mu =</span> mu, <span class="at">size =</span> k)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">10000</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1, <span class="fu">dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x), <span class="at">mu =</span> mu, <span class="at">size =</span> k), <span class="at">pch =</span> <span class="dv">1</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>mu</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>mu <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> mu<span class="sc">/</span>k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The alternative parameterisation:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> mu<span class="sc">/</span>k)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> k</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx, <span class="at">ylab =</span> <span class="st">"Probability"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1, <span class="fu">dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x), <span class="at">mu =</span> mu, <span class="at">size =</span> k), <span class="at">pch =</span> <span class="dv">1</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1, <span class="fu">dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x), <span class="at">prob =</span> p, <span class="at">size =</span> k), <span class="at">pch =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>Doing the equivalent plot for continuous distributions is actually somewhat easier, since you don’t have to deal with the complications of a discrete distribution: just use <code>hist(...,prob=TRUE)</code> to show the sampled distribution (possibly with <code>ylim</code> adjusted for the maximum of the theoretical density distribution) and <code>ddist(x,[parameters])</code> to add the theoretical curve (e.g.: <code>curve(dgamma(x,shape=2,scale=1),add=TRUE)</code>).</p>
-</section>
-<section id="averaging-distributions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Averaging distributions</h1>
-<p>Suppose we have a (tiny) data set; we can organize it in two different ways, in standard long format or in tabular form:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>); dat</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tabdat<span class="ot">=</span><span class="fu">table</span>(dat); tabdat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To get the (sample) probability distribution of the data, just scale by the total sample size:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>prob<span class="ot">=</span>tabdat<span class="sc">/</span><span class="fu">length</span>(dat); prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(dividing by <code>sum(tabdat)</code> would be equivalent).</p>
-<p>In the long format, we can take the mean with <code>mean(dat)</code> or, replicating the formula <span class="math inline">\(\sum x_i/N\)</span> exactly, <code>sum(dat)/length(dat)</code>.</p>
-<p>In the tabular format, we can calculate the mean with the formula <span class="math inline">\(\sum P(x) x\)</span>, which in <code>R</code> would be <code>sum(prob*5:8)</code> or more generally</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(prob))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(prob<span class="sc">*</span>vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>names</code> extracts the names of the vector and <code>as.numeric</code> transform characters to numbers. You could also get the values by <code>as.numeric(levels(prob))</code>, or by <code>sort(unique(dat))</code>.</p>
-<p>However, <code>mean(prob)</code> or <code>mean(tabdat)</code> is just plain wrong (at least, I can’t think of a situation where you would want to calculate this value).</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p>Figure out what you do if you calculate <code>mean(tabdat)</code></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">8</span>);</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dat</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>tabdat<span class="ot">=</span><span class="fu">table</span>(dat)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>tabdat</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It is the mean of the frequencies, and so this is not what you want to know.</p>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <p>Going back the other way, from a table to raw values, we can use the <code>rep()</code> function to repeat values an appropriate number of times. In its simplest form, <code>rep(x,n)</code> just creates a vector repeats <code>x</code> (which may be either a single value or a vector) <code>n</code> times, but <strong>if n is a vector as well</strong> then each element of <code>x</code> is repeated the corresponding number of times: for example,</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>gives two copies of 1, one copy of 2, and five copies of 3.</p>
 <p>Therefore,</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(vals,tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(vals,tabdat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>will recover our original data (although not in the original order) by repeating each element of <code>vals</code> the correct number of times.</p>
 <section id="jensens-inequality" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="jensens-inequality"><span class="header-section-number">4.1</span> Jensen’s inequality</h2>
@@ -650,7 +519,7 @@ Solution
 <p>Jensen’s inequality can be important in a number of cases. The first one is mentioned in Ch. 4 (page 104) how variability can change the mean behaviour of a system (damselfish). Another example where Jensen’s inequality kicks in is when transforming your data. Data-transformations are commonly applied to get normally distributed errors.</p>
 <p>In statistical models, you often estimate the mean effect of a given treatment.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -659,53 +528,10 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Find out what the effect of Jensen’s inequality is on a series of log-tranformed datapoints with respect to the estimated mean.</p>
 <p>Use the following pseudo-code: 1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10). 2. Calculate the mean of those 10 deviates. 3. Plot the function <span class="math inline">\(\log(x)\)</span> with curve on the range from 0-10, and plot your numbers onto it 4. Calculate the mean of the log-transformed values and transform this mean back the normal scale, and compare to the mean calculated at 1. 5. Plot the means with <code>abline(h=...)</code> if you want to draw a horizontal line or <code>abline(v=...)</code> to draw a vertical line. 6. Explain differences between the two means.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rf <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">10</span>,<span class="at">min=</span><span class="dv">0</span>,<span class="at">max=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(rf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="3" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(rf)<span class="sc">~</span> rf)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">log</span>(x),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="4" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rf)))<span class="st">`</span><span class="at"> versus </span><span class="st">`</span><span class="fu">mean</span>(rf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="5" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0=</span><span class="dv">0</span>,<span class="at">y0=</span><span class="fu">log</span>(<span class="fu">mean</span>(rf)),<span class="at">x1=</span><span class="fu">mean</span>(rf), <span class="at">y1=</span><span class="fu">log</span>(<span class="fu">mean</span>(rf)),<span class="at">lty=</span><span class="dv">1</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0=</span><span class="fu">mean</span>(rf),<span class="at">y0=</span><span class="dv">0</span>,<span class="at">x1=</span><span class="fu">mean</span>(rf), <span class="at">y1=</span><span class="fu">log</span>(<span class="fu">mean</span>(rf)),<span class="at">lty=</span><span class="dv">1</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0=</span><span class="dv">0</span>,<span class="at">y0=</span><span class="fu">mean</span>(<span class="fu">log</span>(rf)),<span class="at">x1=</span><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rf))), <span class="at">y1=</span><span class="fu">mean</span>(<span class="fu">log</span>(rf)),<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A dotted line for the mean of the log transformed values</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(<span class="at">x0=</span><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rf))),<span class="at">y0=</span><span class="fu">mean</span>(<span class="fu">log</span>(rf)),</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">x1=</span><span class="fu">exp</span>(<span class="fu">mean</span>(<span class="fu">log</span>(rf))),</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">y1=</span><span class="fu">min</span>(<span class="fu">log</span>(rf)),<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>By doing a log transformation first, the higher values are “compressed” and weigh less into the mean.</p>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -717,29 +543,29 @@ Solution
 <p>In the chapter, I showed how to use the <em>method of moments</em> to estimate the parameters of a distribution by setting the sample mean and variance (<span class="math inline">\(\bar x\)</span>, <span class="math inline">\(s^2\)</span>) equal to the theoretical mean and variance of a distribution and solving for the parameters. For the negative binomial, in particular, I found <span class="math inline">\(\mu=\bar x\)</span> and <span class="math inline">\(k=(\bar x)/(s^2/\bar x -1)\)</span>.</p>
 <p>You can also define your own functions that use your own parameterizations: call them <code>my_function</code> rather than just replacing the standard <code>R</code> functions (which will lead to insanity in the long run).</p>
 <p>For example, defining</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>my_dnbinom <span class="ot">=</span> <span class="cf">function</span>(x,mean,var,...) {</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>my_rnbinom <span class="ot">=</span> <span class="cf">function</span>(n,mean,var,...) {</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>my_dnbinom <span class="ot">=</span> <span class="cf">function</span>(x,mean,var,...) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>my_rnbinom <span class="ot">=</span> <span class="cf">function</span>(n,mean,var,...) {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> mean</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">=</span> mean<span class="sc">/</span>(var<span class="sc">/</span>mean<span class="dv">-1</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>k,...)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(the <code>...</code> in the function takes any other arguments you give to <code>my_dnbinom</code> and just passes them through, unchanged, to <code>dnbinom</code>).</p>
 <p>Defining your own functions can be handy if you need to work on a regular basis with a distribution that uses a different parameterization than the one built into the standard <code>R</code> function.</p>
 <p>You can use the kinds of histograms shown above to test your results (remembering that the method of moments estimates may be slightly biased especially for small samples — but they shouldn’t cause errors as large as those caused by typical algebra mistakes).</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rnbinom</span>(<span class="dv">100000</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">100000</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylab=</span><span class="st">"Probability"</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">my_dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x),<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rnbinom</span>(<span class="dv">100000</span>,<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">=</span> <span class="fu">table</span>(<span class="fu">factor</span>(x,<span class="at">levels=</span><span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x)))<span class="sc">/</span><span class="dv">100000</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="fu">barplot</span>(tx,<span class="at">ylab=</span><span class="st">"Probability"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(b1,<span class="fu">my_dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x),<span class="at">mean=</span><span class="dv">1</span>,<span class="at">var=</span><span class="dv">4</span>),<span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -748,7 +574,7 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Morris (1997) gives a definition of the beta function that is different from the standard statistical parameterization. The standard parameterization is</p>
 <p><span class="math display">\[
@@ -764,41 +590,6 @@ Exercise
 <li>Define a new set of functions that generate random numbers from the beta distribution (<code>my_rbeta</code>) and calculate the density function (<code>my_dbeta</code>) in terms of <span class="math inline">\(P\)</span> and <span class="math inline">\(\theta\)</span>.</li>
 <li>Generate a histogram from this distribution and draw a vertical line showing the mean of the distribution. Vertical lines can be drawn by using <code>abline(v=...)</code></li>
 </ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>Based just on the expressions in the normalization constant <span class="math inline">\(\Gamma(a+b)/(\Gamma(a)\Gamma(b))\)</span> for the standard parameterization, <span class="math inline">\(\Gamma(\theta)/(\Gamma(\theta P)\Gamma(\theta(1-P))))\)</span> gives <span class="math inline">\(\theta=a+b\)</span>, <span class="math inline">\(P=a/(a+b)\)</span> or conversely <span class="math inline">\(a = \theta P\)</span>, <span class="math inline">\(b=\theta(1-P)\)</span>.</p></li>
-<li><p>In this parameterization, P is the mean proportion/ number of successes/etc. and <span class="math inline">\(\theta\)</span> governs the width of the distribution</p></li>
-<li></li>
-</ol>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>my_rbeta <span class="ot">=</span> <span class="cf">function</span>(n, theta, P) {</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbeta</span>(n, <span class="at">shape1 =</span> theta <span class="sc">*</span> P, <span class="at">shape2 =</span> theta <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> P))</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>my_dbeta <span class="ot">=</span> <span class="cf">function</span>(x, theta, P) {</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> theta <span class="sc">*</span> P, <span class="at">shape2 =</span> theta <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> P))</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="4" type="1">
-<li></li>
-</ol>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">my_rbeta</span>(<span class="dv">1000</span>, <span class="at">theta =</span> <span class="dv">10</span>, <span class="at">P =</span> <span class="fl">0.2</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">prob =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">my_dbeta</span>(x, <span class="at">theta =</span> <span class="dv">10</span>, <span class="at">P =</span> <span class="fl">0.2</span>), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(x), <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -815,22 +606,22 @@ Solution
 \end{eqnarray*}
 \]</span></p>
 <p>So, for example, we could define a probability distribution for a zero-inflated negative binomial as follows:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dzinbinom <span class="ot">=</span> <span class="cf">function</span>(x,mu,size,zprob) {</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">0</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         zprob<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(<span class="dv">0</span>,<span class="at">mu=</span>mu,<span class="at">size=</span>size),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>         (<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dzinbinom <span class="ot">=</span> <span class="cf">function</span>(x,mu,size,zprob) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">0</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         zprob<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(<span class="dv">0</span>,<span class="at">mu=</span>mu,<span class="at">size=</span>size),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         (<span class="dv">1</span><span class="sc">-</span>zprob)<span class="sc">*</span><span class="fu">dnbinom</span>(x,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(the name, <code>dzinbinom</code>, follows the <code>R</code> convention for a probability distribution function: a <code>d</code> followed by the abbreviated name of the distribution, in this case <code>zinbinom</code> for “<strong>z</strong>ero-<strong>i</strong>nflated <strong>n</strong>egative <strong>binom</strong>ial”).</p>
 <p>The <code>ifelse()</code> command checks every element of <code>x</code> to see whether it is zero or not and fills in the appropriate value depending on the answer.</p>
 <p>A random deviate generator would look like this:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="dv">0</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command <code>runif(n)</code> picks <code>n</code> random values between 0 and 1; the <code>ifelse</code> command compares them with the value of <code>zprob</code>. If an individual value is less than <code>zprob</code> (which happens with probability <code>zprob</code>=<span class="math inline">\(p_z\)</span>), then the corresponding random number is zero; otherwise it is a value picked out of the appropriate negative binomial distribution.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -839,36 +630,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Check graphically that these functions actually work. For instance, you could compare the results with a negative binomial function with the same mean and variance as the data.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>rzinbinom <span class="ot">=</span> <span class="cf">function</span>(n,mu,size,zprob) {</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(<span class="fu">runif</span>(n)<span class="sc">&lt;</span>zprob, <span class="dv">0</span>,<span class="fu">rnbinom</span>(n,<span class="at">mu=</span>mu,<span class="at">size=</span>size))</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">rzinbinom</span>(<span class="dv">1000</span>,<span class="at">mu=</span><span class="dv">4</span>,<span class="at">size=</span><span class="dv">1</span>,<span class="at">zprob=</span><span class="fl">0.2</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>mean.a <span class="ot">=</span> <span class="fu">mean</span>(a)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>var.a <span class="ot">=</span> <span class="fu">var</span>(a)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>size <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span>(((var.a <span class="sc">-</span> mean.a))<span class="sc">/</span>mean.a<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>a1 <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="dv">1000</span>,<span class="at">mu=</span>mean.a,<span class="at">size=</span>size)</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(a)))</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.numeric</span>(<span class="fu">table</span>(a))<span class="sc">~</span> x,<span class="at">type=</span><span class="st">"h"</span>)</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(<span class="fu">table</span>(a1)))</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">as.numeric</span>(<span class="fu">table</span>(a1))<span class="sc">~</span> x,<span class="at">type=</span><span class="st">"p"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -877,29 +641,29 @@ Solution
 <section id="compounding-distributions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
 <p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>but if you had a series of clutches of different sizes, you could still pick all the random values at the same time:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Taking this a step farther, the clutch size itself could be a random variable:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">8</span>,<span class="at">lambda=</span><span class="dv">10</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">8</span>,<span class="at">lambda=</span><span class="dv">10</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span>clutch_size,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We’ve just generated a Poisson-binomial random deviate…</p>
 <p>As a second example, I’ll follow Clark <em>et al.</em> in constructing a distribution that is a compounding of normal distributions, with 1/variance of each sample drawn from a gamma distribution.</p>
 <p>First pick the variances as the reciprocals of 10,000 values from a gamma distribution with shape 5 (setting the scale equal to 1/5 so the mean will be 1):</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>var_vals<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">rgamma</span>(<span class="dv">10000</span>,<span class="at">shape=</span><span class="dv">5</span>,<span class="at">scale=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>var_vals<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">rgamma</span>(<span class="dv">10000</span>,<span class="at">shape=</span><span class="dv">5</span>,<span class="at">scale=</span><span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Take the square root, since <code>dnorm</code> uses the standard deviation and not the variance as a parameter:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>sd_vals <span class="ot">=</span> <span class="fu">sqrt</span>(var_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sd_vals <span class="ot">=</span> <span class="fu">sqrt</span>(var_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Generate 10,000 normal deviates using this range of standard deviations:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span>sd_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span>sd_vals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Figure 4 shows a histogram of the following commands:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x,<span class="at">prob=</span><span class="cn">TRUE</span>,<span class="at">breaks=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">"gray"</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="at">df=</span><span class="dv">11</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x,<span class="at">prob=</span><span class="cn">TRUE</span>,<span class="at">breaks=</span><span class="dv">100</span>,<span class="at">col=</span><span class="st">"gray"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x,<span class="at">df=</span><span class="dv">11</span>),<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell" data-fig="true">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="solution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="material_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Clark model: inverse gamma compounded with normal, equivalent to the Student <span class="math inline">\(t\)</span> distribution</figcaption>
 </figure>
 </div>
@@ -907,7 +671,7 @@ Solution
 </div>
 <p>The superimposed curve is a <span class="math inline">\(t\)</span> distribution with 11 degrees of freedom; it turns out that if the underlying gamma distribution has shape parameter <span class="math inline">\(p\)</span>, the resulting <span class="math inline">\(t\)</span> distribution has <span class="math inline">\(df=2p+1\)</span>. (Figuring out the analytical form of the compounded probability distribution or density function, or its equivalence to some existing distribution, is the hard part; for the most part, though, you can find these answers in the ecological and statistical literature if you search hard enough.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -916,29 +680,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Generate 10,000 values from a gamma-Poisson compounded distribution with parameters shape=<span class="math inline">\(k=0.5\)</span>, scale=<span class="math inline">\(\mu/k=4/0.5=8\)</span> and demonstrate that it’s equivalent to a negative binomial with the appropriate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> parameters.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">4</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">10000</span>, <span class="fu">rgamma</span>(<span class="dv">10000</span>, <span class="at">shape =</span> k, <span class="at">scale =</span> mu<span class="sc">/</span>k))</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">table</span>(x)<span class="sc">/</span><span class="dv">10000</span>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x), <span class="fu">dnbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="fu">max</span>(x), <span class="at">mu =</span> mu, <span class="at">size =</span> k), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>

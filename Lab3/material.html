@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="2005 Ben Bolker, modified at some places by Alejandro Morales, Ioannis Baltzakis &amp; Bob Douma">
-<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 3: Analyzing functions (solutions)</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – material</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +143,9 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab3/solution.html">Lab 3 (solutions)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R
+      </li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -245,13 +245,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
@@ -266,7 +266,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Lab3/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 3 (solutions)</span></a>
   </div>
 </li>
@@ -338,35 +338,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab3/solution.html">Lab 3 (solutions)</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Lab 3: Analyzing functions (solutions)</h1>
-</div>
 
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>2005 Ben Bolker, modified at some places by Alejandro Morales, Ioannis Baltzakis &amp; Bob Douma </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 24, 2025</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="learning-goals" class="level1" data-number="1">
@@ -400,7 +372,7 @@ window.Quarto = {
 </ul>
 <p>The following exercise is a must; each written exam contains a question that is like it.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -409,7 +381,7 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Choose (at least) two appropriate functions based on the type of data or the shape of the data. If you have time please repeat this for all datasets.</p></li>
@@ -421,34 +393,6 @@ Exercise
 <li><p>What are the limits for <span class="math inline">\(x\to-\infty\)</span> for <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(f'(x)\)</span></p></li>
 <li><p>If <span class="math inline">\(f(x)\)</span> saturates at, say the value <span class="math inline">\(a\)</span>, for <span class="math inline">\(x\to\infty\)</span> then determine the <span class="math inline">\(x\)</span>-value <span class="math inline">\(x_1\)</span> at which <span class="math inline">\(f(x_1)=\frac{a}{2}\)</span>. If <span class="math inline">\(f(x)\)</span> obtains a maximum value, find the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinate of the maximum.</p></li>
 </ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Choosing appropriate deterministic functions</li>
-</ol>
-<p><strong>dataset 1</strong>: There are a number of options of functions to choose from, depending on the level of sophistication:</p>
-<p><span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(a(1-e^{(-bx)})\)</span>, <span class="math inline">\(\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})\)</span> see page 98 of Bolker.</p>
-<p><strong>dataset 2</strong>: Bolker mentions four functional responses of which the following would be appropiate <span class="math inline">\(min(ax,s)\)</span> <span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(\frac{ax^2}{(b^2+x^2)}\)</span>,<span class="math inline">\(\frac{ax^2}{(b+cx+x^2)}\)</span></p>
-<p><strong>dataset 3</strong>: Allometric relationships have the form <span class="math inline">\(ax^b\)</span></p>
-<p><strong>dataset 4</strong>: This could be logistic growth <span class="math inline">\(n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}\)</span> or the Gompertz function <span class="math inline">\(f(x)=e^{-ae^{-bx}}\)</span></p>
-<p><strong>dataset 5</strong>: What about a negative exponential? <span class="math inline">\(ae^{-bx}\)</span> or a power function <span class="math inline">\(ax^b\)</span></p>
-<p><strong>dataset 6</strong>: Species reponse curves are curves that describe the probability of presence as a function of an environmental variable. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g.&nbsp;<span class="math inline">\(a e^{\frac{-(x-\mu)^2}{2\sigma^2}}\)</span></p>
-<ol start="2" type="1">
-<li>Check chapter 3 from the book</li>
-</ol>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -482,6 +426,38 @@ Solution
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>exp2_vec <span class="ot">=</span> <span class="fu">sapply</span>(xvec,expfun,<span class="at">a=</span><span class="dv">2</span>,<span class="at">b=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The advantage of <code>curve()</code> is that you don’t have to define any vectors: the advantage of doing things the other way arises when you want to keep the vectors around to do other calculations with them.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span>, <span class="math inline">\(y=1\)</span>). Write the equation, draw the curve in <code>R</code>, and explain how you got there.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values. Plot the curves on top of the data using <code>curve</code>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -493,106 +469,7 @@ Exercise
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Construct a curve that has a maximum at (<span class="math inline">\(x=5\)</span>, <span class="math inline">\(y=1\)</span>). Write the equation, draw the curve in <code>R</code>, and explain how you got there.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For example: <span class="math inline">\(-(x-5)^2+1\)</span></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="sc">-</span>(x<span class="dv">-5</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>,<span class="at">from=</span><span class="sc">-</span><span class="dv">10</span>,<span class="at">to=</span><span class="dv">10</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">5</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Choose appropriate parameter values through eyeballing so that the chosen curves more or less match the data. Eyeballing means that you knowledge on the effect of parameter values on the shape of the function (see question 4). Later we will use likelihood methods to estimate the parameter values. Plot the curves on top of the data using <code>curve</code>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Check the plotted curve against the data to see how well the eye-balled parameters work</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
 <p>Time permitting repeat subquestions 3-5 for the other three datasets.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>First read in the data as shown at the start of this practical.</p></li>
-<li><p>After you have read in the data, you can make a plot, e.g.&nbsp;through <code>plot(shapes1$y~ shapes1$x)</code> or <code>plot(y~x,data=shapes1)</code> for dataset 1. Multiple plots can be made through specifying <code>par(mfrow=c(3,2))</code>. This will setup the grid, after using <code>plot</code> six times, the grid will be filled with plots. Note that all the datasets are different in their specification of the header (names). You can take account of the header name through <code>header=TRUE</code> inside the <code>read.csv</code> function. Check the datafiles to make sure whether or not there are column headings.</p></li>
-</ol>
-<p>Curves can be added to the plots through <code>curve</code>: e.g.&nbsp;<code>curve(2x+2x,from=0,to=20)</code></p>
-<p><strong>dataset 1</strong>: Reasonable values for the first dataset assuming a michaelis menten relationship are a=25 and b=60. For the non-rectangular parabola one could choose values of theta = 0.7; a = 0.25; pmax = 25.</p>
-<p><strong>dataset 2</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&gt;</span><span class="dv">27</span>,<span class="dv">18</span>,(<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)<span class="sc">*</span>x),<span class="at">add=</span>T)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">20</span><span class="sc">*</span>x<span class="sc">/</span>(<span class="dv">10</span><span class="sc">+</span>x),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>dataset 3</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fl">0.6</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>,<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>dataset 4</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>K <span class="ot">=</span> <span class="dv">200</span>; r <span class="ot">=</span> <span class="fl">0.2</span>; N0<span class="ot">=</span><span class="dv">2</span>; <span class="fu">curve</span>(K<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>(K<span class="sc">/</span>N0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>r<span class="sc">*</span>x)),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>dataset 5</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">8</span><span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.75</span><span class="sc">*</span>x)),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>dataset 6</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="dv">5</span>; b <span class="ot">=</span> <span class="dv">2</span>; <span class="fu">curve</span>(<span class="fu">exp</span>(<span class="sc">-</span>(mu<span class="sc">-</span>x)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>b)  ,<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -609,25 +486,25 @@ Solution
 <li><p>The body of the loop where you apply some code.</p></li>
 </ol>
 <p>Imagine that you want to calculate the factorial of 10. The factorial of a number is simply the product of all positive numbers smaller or equal than the number you specify (and it is denote with a “!” after the number). For example, the factorial of 3 is <span class="math inline">\(3! = 3 \times 2 \times 1\)</span>. A simple way of calculating the factorial of 10 by using a for loop is:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> result<span class="sc">*</span>i</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> result<span class="sc">*</span>i</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this for loop, the collection is <code>1:10</code>, the variable to keep track of the number is <code>i</code> and the body of the loop is <code>result = result*i</code>. This for loop shows a very typical pattern: we want to summarise some collection of numbers into a single number, in this case, <code>result</code>.</p>
 <p>Another typical pattern is when we want to calculate the elements of a collection. In this case, it is a good practice to “pre-allocate” your output collection before looping, so <code>R</code> knows how much memory to allocate for this vector. For example,</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">=</span> <span class="fu">exp</span>(x[i])</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">numeric</span>(<span class="dv">10</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  y[i] <span class="ot">=</span> <span class="fu">exp</span>(x[i])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this case, the result of the for loop (<code>y</code>) is a collection of 10 elements where each element is the exponential transformation of the element in x with the same position. Note that we specify before the loop that <code>y</code> will have 10 elements. Although this is not strictly required in this case, it is a good practice both to avoid errors and to make your code run faster.</p>
 <p>For loops are not that common in <code>R</code> as in other languages The reason is that many mathematical and statistical functions are already, implicitly, looping over your collections. For examples, when you take the exponential (<code>exp()</code>) of a collection of numbers, it will produce a new collection which is the result of looping over the original collection. That is:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">exp</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">exp</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>is equivalent to the previous loop described before. As you can see, this second option requires less code and it is easier to read, which is one of the reasons why <code>R</code> is such a greate language for working with data. In addition, if you rely on this implicit looping your code will run much faster.</p>
 <p>However, there may be situations where you really cannot avoid a for loop. For example, if you have collected multiple datasets and need to perform the same analysis on each dataset, you could store your datasets in a list and use a for loop to iterate over the different datasets.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -636,31 +513,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Calculate the logarithm of the sequence 1:10, using first a for loop and then without a for loop.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>With a for loop it looks like this:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(i)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">log</span>(i))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that the print statement was added to print to screen. Without a foor loop it would be:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -670,27 +525,27 @@ Solution
 <p>Missing values in data collection and analysis deserve special attention. You can get missing values during you data collection for various reasons, e.g.&nbsp;you missed the opportunity to take a measurement, you lose one of the replicates due to contamination, you wrote down a wrong value, or you even lost some of your data.</p>
 <p>The most important thing you need to understand, is that in almost all cases of a missing value, you should <strong>not represent a missing value with a zero (0)</strong>. This will throw your analysis out of balance and give erroneous results. A common way of representing missing data when you are performing data input, would be with a character like an asterisk (*) or a hyphen (-).</p>
 <p>Many of the functions that read data in <code>R</code> have an argument that allows you to select how you have represented a missing-value in your data. As an example the function <strong>read.csv</strong> (which reads a comma-delimited data file) would be used like this to read from a file named “your-data-file”:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"you-data-file"</span>, <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"-"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>myData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"you-data-file"</span>, <span class="at">na.strings=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"-"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this case we instructed <code>R</code>, with the argument <strong><code>na.strings=c("*","_")</code></strong> to read our file, and substitute any occurence of an asterisk (*) or a hyphen(-) with an <code>NA</code> symbol.</p>
 <p>The <code>R</code> languages has a special way of representing missing values in a dataset. A missing value is denoted with the symbol <code>NA</code> which stands for “<strong>N</strong>ot <strong>A</strong>vailable”. By default, missing values will “propagate” throughout the calculations. For example, given two vectors of data:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When you combine these vectors (e.g.&nbsp;add them or multiply them) you will see that the third component is always <code>NA</code></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When you calculate some statistical property of your data (e.g.&nbsp;mean, standard deviation) it will, by default, report <code>NA</code> if there is at least one missing value in your data</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Most statistical functions in <code>R</code> allow you to specify how to deal with missing values. Most often, you are given the option to ignore any missing values from the data when calculating an statistical property through an argument often called <code>na.rm</code>. For example, in order to get the mean of the non-missing values of <code>y</code> we need:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>which, of course, is the mean of 2 and 4. However, other functions not have an option to handle <code>NA</code> even though you still need to make a decision on how to deal with them. For example, when you calculate the length of a dataset (<code>length()</code>) do you want to consider the whole data or only the non-missing values? This is not a trivial question and the answer on the context where you will use the result. In any case, if you want to remove the <code>NA</code> when calculating the length you need to be more creative. Fortunately, <code>R</code> offers the function <code>is.na</code> which returns a vector of TRUE or FALSE values corresponding to the index of mssing or non-missing data values in the vector <code>y</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Next a vector without NA can be obtained through:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(y[<span class="sc">!</span><span class="fu">is.na</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(y[<span class="sc">!</span><span class="fu">is.na</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Which only gives 2 as the third element is missing. Remember that <code>!</code> is a negation operator, so <code>!is.na</code> actually means “is not NA”.</p>
 <p>By the way, you should not confuse <code>NA</code> with <code>NaN</code> which stands for “<strong>N</strong>ot <strong>a</strong> <strong>N</strong>umber”. An <code>NaN</code> is the result of either an expression with indeterminate form (e.g.&nbsp;<code>0/0</code> or <code>Inf/Inf</code>) or when a function is evaluated outside of its valid domain (e.g.&nbsp;<code>sqrt(-1)</code> or <code>log(-1)</code>).</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -699,26 +554,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Given some data created from the following code <code>c(25,1,10,89, NA, NA)</code>, calculate the mean value and the standard error of this mean (<span class="math inline">\(s.e.m. = \sigma/\sqrt{n}\)</span>, where <span class="math inline">\(\sigma\)</span> is the standard deviation and <span class="math inline">\(n\)</span> is the number of items) by ignoring missing values.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">89</span>, <span class="cn">NA</span>, <span class="cn">NA</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(data,<span class="at">na.rm=</span>T)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(<span class="fu">na.omit</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -733,23 +571,23 @@ Solution
 <li><p>The return value of the function. This is the result of applying the function on the arguments. By default, the result of the last line code in the body of the function is the return value of the function. You can also return from any point in the body with the function <code>return()</code> with the variable you want to return inside.</p></li>
 </ol>
 <p>The <code>R</code> language specifies a particular syntax on how to build a function. For example, a <code>naive_mean</code> could be defined as:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>naive_mean <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.remove =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">=</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> na.remove)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x)])</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> total<span class="sc">/</span>n</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>naive_mean <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.remove =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">=</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> na.remove)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">length</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x)])</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> total<span class="sc">/</span>n</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In this case, the function <code>naive_mean</code> has two arguments (<code>x</code> and <code>na.remove</code>) where the second argument has a default value of FALSE and the body consists of several lines of code. These are respectively the sum of the elements of <code>x</code> with the <code>na.rm</code> depending on whether you specified TRUE or FALSE in the <code>na.remove</code> argument; <code>n</code> that calculates the length of the vector x without NAs, and the calculation of the mean. The last statement returns the result. Notice that arguments are separated by commas and the body of the function is enclosed in curly braces <code>{}</code>. The name of the function is simply the name of the variable to which you assigned the function (i.e., <code>naive_mean</code>). You can see below that you can use this function in a similar manner to the built-in <code>mean</code></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice that we did not specify the value of <code>na.remove</code> as the default is ok in this case. However, if we had missing values, the NA would propagate to the output:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="cn">NA</span>,<span class="dv">4</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Specifying <code>na.remove=FALSE</code> can be used as a double check that there are no NAs in your vector. If they are present it forces us to make a decision about what to do with the NAs. Let’s say that, for the moment, we want to just remove the values that are NA from the calculation. In this case, we just change the value of the default parameter.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x, <span class="at">na.remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">naive_mean</span>(x, <span class="at">na.remove =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For convenience, default parameters are specified by name rather than position. However we could have also said <code>naive_mean(x,TRUE)</code> or even <code>naive_mean(x = x, na.remove = TRUE)</code>. All these forms of calling functions are OK, whether you choose one style or another is a matter of taste.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -758,36 +596,15 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Build a function to calculate the standard deviation (<span class="math inline">\(\sigma = \sqrt{\frac{\sum_{i = 1}^n\left(x_i - \bar x\right)^2}{n - 1}}\)</span>). Test your function with some data that includes missing values, and compare to the built in function for the standard deviation <code>sd</code>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sigma.self <span class="ot">=</span> <span class="cf">function</span>(x,<span class="at">na.rm=</span>F) {</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>        mean.x <span class="ot">=</span> <span class="fu">mean</span>(x,<span class="at">na.rm=</span>na.rm)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">=</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(x))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        sd <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span>mean.x)<span class="sc">^</span><span class="dv">2</span>,<span class="at">na.rm=</span>na.rm)<span class="sc">/</span>(n<span class="dv">-1</span>))</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(sd)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <p>Suprisingly the base <code>R</code> does not have a built in function for the standard error of the mean (s.e.m.). The sem is defined as <span class="math inline">\(\frac{\sigma}{\sqrt(n)}\)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -796,28 +613,9 @@ Exercise
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Make you own function for the sem and use your own home-made function of the standard deviation for that.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sem.self <span class="ot">&lt;-</span> <span class="cf">function</span>(x,<span class="at">na.rm=</span>F) {</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        length.x <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">na.omit</span>(x))</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sigma.self</span>(x,<span class="at">na.rm=</span>na.rm)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -827,32 +625,32 @@ Solution
 <section id="a-quick-digression-ifelse-for-piecewise-functions" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> A quick digression: <code>ifelse()</code> for piecewise functions</h1>
 <p>The <code>ifelse()</code> command in <code>R</code> is useful for constructing piecewise functions. Its basic syntax is <code>ifelse(condition,value_if_true,value_if_false)</code>, where <code>condition</code> is a logical vector (e.g.&nbsp;<code>x&gt;0</code>), <code>value_if_true</code> is a vector of alternatives to use if <code>condition</code> is <code>TRUE</code>, and <code>value_if_false</code> is a vector of alternatives to use if <code>condition</code> is <code>FALSE</code>. If you specify just one value, it will be expanded (<em>recycled</em> in <code>R</code> jargon) to be the right length. A simple example:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="sc">-</span><span class="dv">16</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">0</span>,<span class="dv">0</span>,x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>if you said <code>ifelse(x&lt;0,0,sqrt(x)))</code> you would get a warning: why)</p>
 <p>Here are some examples of using <code>ifelse()</code> to generate (1) a simple threshold; (2) a Holling type I or “hockey stick”; (3) a more complicated piecewise model that grows exponentially and then decreases linearly; (4) a double-threshold model. When plotting functions with abrubt changes with the function <code>curve</code>, beware that curve draws a line by evaluating a functions at several locations along the specified interval (<code>from</code>, <code>to</code>). You can increase these number of points by specifying <code>n</code>. The default value for <code>n</code> is 101.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>op<span class="ot">=</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">*</span>x,<span class="dv">4</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="fu">exp</span>(x),<span class="fu">exp</span>(<span class="dv">2</span>)<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>(x<span class="dv">-2</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>op<span class="ot">=</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">4.2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">*</span>x,<span class="dv">4</span>),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="fu">exp</span>(x),<span class="fu">exp</span>(<span class="dv">2</span>)<span class="sc">-</span><span class="dv">3</span><span class="sc">*</span>(x<span class="dv">-2</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(x<span class="sc">&lt;</span><span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)),<span class="at">from=</span><span class="dv">0</span>,<span class="at">to=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The double-threshold example (nested <code>ifelse()</code> commands) probably needs more explanation. In words, this command would go “if <span class="math inline">\(x\)</span> is less than 2, set <span class="math inline">\(y\)</span> to 1; otherwise (<span class="math inline">\(x \ge 2\)</span>), if <span class="math inline">\(x\)</span> is less than 4 (i.e.&nbsp;<span class="math inline">\(2 \le x&lt;4\)</span>), set <span class="math inline">\(y\)</span> to 3; otherwise (<span class="math inline">\(x \ge 4\)</span>), set <span class="math inline">\(y\)</span> to 5”.</p>
 </section>
 <section id="evaluating-derivatives-in-r" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Evaluating derivatives in <code>R</code></h1>
 <p><code>R</code> can evaluate derivatives, but it is not very good at simplifying them. There are different ways to do it, here we recommend the package <code>Deriv</code> because it allows to be easily extended and it can compute the derivatives of a function, string, expression or a formula. For example</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Deriv)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">Deriv</span>(<span class="st">"x^2"</span>,<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Deriv)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">Deriv</span>(<span class="st">"x^2"</span>,<span class="st">"x"</span>); d1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">=</span> <span class="fu">Deriv</span>(f, <span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">=</span> <span class="fu">Deriv</span>(f, <span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can just call the new function <code>f1</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f1</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f1</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can take the second derivative of <code>f</code> by applying <code>Deriv</code> to <code>f1</code></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">=</span> <span class="fu">Deriv</span>(f1, <span class="st">"x"</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f2</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">=</span> <span class="fu">Deriv</span>(f1, <span class="st">"x"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f2</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Fore more complex functions we would need to use a different approach called <em>Automatic Differentiation</em> (AD for short). There are no advanced AD packages in R (for several technical reasons) but there are extensions to the R language (based on C++) that allow implementing functions with AD support. The two most popular are the Template Model Builder (TMB for short) and Stan. These packages are used for more advanced models (the kind introduced in chapters 10 and 11 of the book).</p>
 
 

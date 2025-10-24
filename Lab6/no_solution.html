@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ben Bolker, modified at several places by Bob Douma and Alejandro Morales">
-<meta name="dcterms.date" content="2022-11-16">
+<meta name="dcterms.date" content="2025-10-24">
 
-<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R - Lab 6 Fitting models to data</title>
+<title>Practical Labs CSA-34306 Ecological Modelling and Data Analysis in R – Lab 5 &amp; 6 Fitting models to data + stochastic simulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,7 +75,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/quarto-contrib/foldbox/foldbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,18 +102,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>
-.Exercise {
-  --color1: #00ff00;
-  --color2: #d9d9d9;
-}
-.Solution {
-  --color1: #80bfff;
-  --color2: #d9d9d9;
-}
-</style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -144,7 +133,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar docked">
@@ -153,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab6/no_solution.html">Lab 6</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab6/no_solution.html">Lab 5 &amp; 6</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -196,7 +185,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab2/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../Lab2/no_solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 2</span></a>
   </div>
 </li>
@@ -214,14 +203,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/no_solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/no_solution.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Lab 6</span></a>
+ <span class="menu-text">Lab 5 &amp; 6</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -236,11 +219,35 @@ window.Quarto = {
  <span class="menu-text">Lab 9</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/optim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: mle2 vs optim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Canned methods</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -249,6 +256,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab1/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 1 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab2/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 2 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -265,14 +278,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Lab5/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 5 (solutions)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../Lab6/solution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab 6 (solutions)</span></a>
+ <span class="menu-text">Lab 5 &amp; 6 (solutions)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -285,6 +292,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../Lab9/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab 9 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Lab10/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab 10 (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -307,11 +326,21 @@ window.Quarto = {
   </ul></li>
   <li><a href="#maximum-likelihood-and-continuous-covariates" id="toc-maximum-likelihood-and-continuous-covariates" class="nav-link" data-scroll-target="#maximum-likelihood-and-continuous-covariates"><span class="header-section-number">4</span> Maximum likelihood and continuous covariates</a></li>
   <li><a href="#maximum-likelihood-with-continous-and-categorical-predictors" id="toc-maximum-likelihood-with-continous-and-categorical-predictors" class="nav-link" data-scroll-target="#maximum-likelihood-with-continous-and-categorical-predictors"><span class="header-section-number">5</span> Maximum likelihood with continous and categorical predictors</a></li>
-  <li><a href="#advanced-topics" id="toc-advanced-topics" class="nav-link" data-scroll-target="#advanced-topics"><span class="header-section-number">6</span> Advanced topics</a>
+  <li><a href="#stochastic-simulation" id="toc-stochastic-simulation" class="nav-link" data-scroll-target="#stochastic-simulation"><span class="header-section-number">6</span> Stochastic simulation</a>
   <ul class="collapse">
-  <li><a href="#likelihood-surface" id="toc-likelihood-surface" class="nav-link" data-scroll-target="#likelihood-surface"><span class="header-section-number">6.1</span> Likelihood surface</a></li>
+  <li><a href="#choosing-probability-distributions" id="toc-choosing-probability-distributions" class="nav-link" data-scroll-target="#choosing-probability-distributions"><span class="header-section-number">6.1</span> Choosing probability distributions</a></li>
   </ul></li>
-  <li><a href="#hints-for-choosing-deterministic-functions-and-stochastic-functions" id="toc-hints-for-choosing-deterministic-functions-and-stochastic-functions" class="nav-link" data-scroll-target="#hints-for-choosing-deterministic-functions-and-stochastic-functions"><span class="header-section-number">7</span> Hints for choosing deterministic functions and stochastic functions</a></li>
+  <li><a href="#advanced-topics" id="toc-advanced-topics" class="nav-link" data-scroll-target="#advanced-topics"><span class="header-section-number">7</span> Advanced topics</a>
+  <ul class="collapse">
+  <li><a href="#likelihood-surface" id="toc-likelihood-surface" class="nav-link" data-scroll-target="#likelihood-surface"><span class="header-section-number">7.1</span> Likelihood surface</a></li>
+  <li><a href="#bayesian-parameter-estimation-laplaces-approximation-optional" id="toc-bayesian-parameter-estimation-laplaces-approximation-optional" class="nav-link" data-scroll-target="#bayesian-parameter-estimation-laplaces-approximation-optional"><span class="header-section-number">7.2</span> Bayesian parameter estimation: Laplace’s approximation (OPTIONAL)</a>
+  <ul class="collapse">
+  <li><a href="#constructing-priors-for-the-shapes2-dataset" id="toc-constructing-priors-for-the-shapes2-dataset" class="nav-link" data-scroll-target="#constructing-priors-for-the-shapes2-dataset"><span class="header-section-number">7.2.1</span> Constructing priors for the shapes2 dataset</a></li>
+  <li><a href="#building-the-model-in-stan" id="toc-building-the-model-in-stan" class="nav-link" data-scroll-target="#building-the-model-in-stan"><span class="header-section-number">7.2.2</span> Building the model in Stan</a></li>
+  <li><a href="#loading-the-model-in-stan-and-running-laplaces-approximation" id="toc-loading-the-model-in-stan-and-running-laplaces-approximation" class="nav-link" data-scroll-target="#loading-the-model-in-stan-and-running-laplaces-approximation"><span class="header-section-number">7.2.3</span> Loading the model in Stan and running Laplace’s approximation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions" id="toc-supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions" class="nav-link" data-scroll-target="#supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions"><span class="header-section-number">8</span> Supplement: hints for choosing deterministic functions and stochastic functions</a></li>
   </ul>
 </nav>
     </div>
@@ -320,7 +349,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 6 Fitting models to data</h1>
+<h1 class="title">Lab 5 &amp; 6 Fitting models to data + stochastic simulation</h1>
 </div>
 
 
@@ -337,7 +366,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 16, 2022</p>
+      <p class="date">October 24, 2025</p>
     </div>
   </div>
   
@@ -356,9 +385,9 @@ window.Quarto = {
 <li><p>Program the likelihood function of a model.</p></li>
 <li><p>Estimate the parameters of a model through maximum likelihood, including models with continuous and categorical covariates.</p></li>
 <li><p>Estimate the confidence intervals of the model parameters through profiling and the quadratic approximation.</p></li>
-<li><p>Estimate parameters in a Bayesian framework and how parameter uncertainty can be assessed</p></li>
+<li><p>Perform stochastic simulations from the fitted models</p></li>
 </ol>
-<p>In case of time constraints, focus on sections 2-5. If you want something challenging do 6,7 and 8 as well.</p>
+<p>5 (Optionally) Estimate parameters and uncertainty using Laplace’s approximation to Bayes rule</p>
 </section>
 <section id="fitting-models-to-data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Fitting models to data</h1>
@@ -371,81 +400,67 @@ window.Quarto = {
 <li>Compare the likelihood of alternative models (change the deterministic function or the stochastic function) and compare with AIC(c) or BIC which model is most parsimonious.</li>
 </ol>
 <p>For example to calculate the NLL of a linear model and a normal distribution the following function works:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(par,y,x){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">=</span> par[<span class="dv">1</span>]</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">=</span> par[<span class="dv">2</span>]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">=</span> par[<span class="dv">3</span>]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the mean y for a given value of x:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the deterministic function</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">+</span>b<span class="sc">*</span>x</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the likelihood of the function given the probability</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># distribution, the data and mu and sd</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y,<span class="at">mean=</span>mu,<span class="at">sd=</span>sd,<span class="at">log=</span>T))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(nll)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Notice that the function takes three arguments: a vector with parameters, a vector with <code>y</code> values and a vector with <code>x</code> values. Inside the vector par, three values are stored: <code>a</code>,<code>b</code> and <code>sd</code>. Next, the mean given x is calculated with <code>mu=a+b*x</code>. The nll returns the Negative LogLikelihood of the data (<code>y</code>) given a normal distribution with mean <code>mu</code> (vector!) and a standard deviation <code>sd</code>. The <code>log=T</code> returns the log of the probability densities.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(a, b, sd, y, x){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the mean y for a given value of x:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the deterministic function</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a <span class="sc">+</span> b<span class="sc">*</span>x</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the likelihood of the function given the probability</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># distribution, the data and mu and sd</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(nll)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that the function takes three arguments: a vector with parameters, a vector with <code>y</code> values and a vector with <code>x</code> values. Inside the vector par, three values are stored: <code>a</code>,<code>b</code> and <code>sd</code>. Next, the mean given x is calculated with <code>mu=a+b*x</code>. The nll returns the Negative LogLikelihood of the data (<code>y</code>) given a normal distribution with mean <code>mu</code> (vector!) and a standard deviation <code>sd</code>. The <code>log=TRUE</code> returns the log of the probability densities.</p>
 <p>Next we call an optimisation function to find the maximum likelihood estimate</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>par<span class="ot">=</span><span class="fu">c</span>(<span class="at">a=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">c=</span><span class="dv">1</span>) <span class="co"># initial parameters</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y represents the data, x the independent variable</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>opt1 <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">par=</span>par,nll,<span class="at">x=</span>x,<span class="at">y=</span>y,<span class="at">hessian=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some fake data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.2</span><span class="sc">*</span>x</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guess of parameter values</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>par <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Always test the function first</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">nll</span>(<span class="at">a =</span> par<span class="sc">$</span>a, <span class="at">b =</span> par<span class="sc">$</span>b, <span class="at">sd =</span> par<span class="sc">$</span>sd, <span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># y represents the data, x the independent variable</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>opt1 <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">start =</span> par, <span class="at">minuslogl =</span> nll, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The optimization result is a list with elements:</p>
 <ul>
-<li><p>the best-fit parameters (<code>opt1$par</code>, with parameter names because we named the elements of the starting vector—see how useful this is?);}</p></li>
-<li><p>the minimum negative log-likelihood (<code>opt1$value</code>);</p></li>
-<li><p>information on the number of function evaluations (<code>opt1$counts</code>; the <code>gradient</code> part is <code>NA</code> because we didn’t specify a function to calculate the derivatives (and the Nelder-Mead algorithm wouldn’t have used them anyway)</p></li>
-<li><p>information on whether the algorithm thinks it found a good answer <code>opt1$convergence</code>, which is zero if <code>R</code> thinks everything worked and uses various numeric codes (see <code>?optim</code> for details) if something goes wrong;</p></li>
-<li><p><code>opt1$message</code> which may give further information about the when the fit converged or how it failed to converge;</p></li>
-<li><p>because we set <code>hessian=TRUE</code>, we also get <code>opt1$hessian</code>, which gives the (finite difference approximation of) the second derivatives evaluated at the MLE.</p></li>
+<li><p>The best-fit parameters (<code>coef(opt1)</code>, with parameter names because we named the elements of the starting vector—see how useful this is?);}</p></li>
+<li><p>The maximum log-likelihood and degrees of freedom of the model (<code>logLik(opt1)</code>);</p></li>
+<li><p>Details on the optimization (<code>opt1@details</code>) including number of function and gradient evaluations, the convergence flag (should be 0 unless there were issues, in which case a message will be included) and the Hessian matrix if it was calculated</p></li>
 </ul>
-<p>It can also be done through <code>mle2</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nll.mle <span class="ot">=</span> <span class="cf">function</span>(a,b,sd){</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the mean y for a given value of x: the deterministic function</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">+</span>b<span class="sc">*</span>x</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this calculates the likelihood of the function given the probability</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># distribution, the data and mu and sd</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y,<span class="at">mean=</span>mu,<span class="at">sd=</span>sd,<span class="at">log=</span>T))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(nll)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the data should be supplied through data and the parameters through list().</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mle2<span class="fl">.1</span> <span class="ot">=</span> <span class="fu">mle2</span>(nll.mle,<span class="at">start=</span><span class="fu">list</span>(<span class="at">a=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">1</span>,<span class="at">sd=</span><span class="dv">1</span>),<span class="at">data=</span><span class="fu">data.frame</span>(x,y))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mle2<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="fitting-parameters-of-made-up-data" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Fitting parameters of made-up data</h1>
 <p>The simplest thing to do to convince yourself that your attempts to estimate parameters are working is to simulate the ‘’data’’ yourself and see if you get close to the right answers back. Set the random seed to 1001 so we get identical answers across r sessions.</p>
 <section id="finding-the-maximum-likelihood-estimate-of-the-paramaters" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="finding-the-maximum-likelihood-estimate-of-the-paramaters"><span class="header-section-number">3.1</span> Finding the maximum likelihood estimate of the paramaters</h2>
-<div id="Exercise-3.1" class="Exercise">
-<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 6. 3.1</strong></summary><div>Take the steps below<p></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Take the steps below</p>
 <ol type="1">
 <li><p>Generate 50 values from a negative binomial (<code>rnbinom</code>) with <span class="math inline">\(\mu=1\)</span>, <span class="math inline">\(k=0.4\)</span>. Save the values in variables in case we want to use them again later.</p></li>
 <li><p>Plot the numbers in a frequency diagram</p></li>
-<li><p>Next, define the negative log-likelihood function for a simple draw from a negative binomial distribution: the first parameter, <code>par</code>, will be the vector of parameters, and the second parameter, <code>dat</code>, will be the vector with simulated values.</p></li>
-<li><p>Calculate the negative log-likelihood of the data for the parameter values with which you generated the numbers. Combine these parameter values into the vector <code>par</code> with <code>c()</code> to pass them to the negative log-likelihood function. Naming the elements in the parameter vector is optional but can help avoid mistakes if the number o fparameters is large (e.g.&nbsp;<code>par = c(mu = 1,k = 2)</code>).</p></li>
-<li><p>Calculate the NLL of parameter values that are far from the values that were used to generate the data (<span class="math inline">\(\mu=10\)</span>, <span class="math inline">\(k=10\)</span>)</p></li>
-<li><p>Calculate the maximum likelihood estimate (MLE)? Use <code>optim</code> with the default options (Nelder-Mead simplex method) and the method-of-moments estimates as the starting estimates (<code>par</code>): <code>opt1 = optim(fn=NLLfun1,par=c(mu=mu.mom,k=k.mom),hessian=TRUE)</code></p></li>
-<li><p>What is the difference in NLL between the MLE estimates and the NLL derived at 5?</p></li>
+<li><p>Next, define the negative log-likelihood function for a simple draw from a negative binomial distribution: first include the parameters of the model and then the variables in the data that are used in the model (see example above)</p></li>
+<li><p>Calculate the negative log-likelihood of the data for the parameter values with which you generated the numbers. Remember that combine these parameter values using a <code>list()</code> and to name them so you can recognize them later on.</p></li>
+<li><p>Calculate the NLL of parameter values that are far from the values that were used to generate the data (e.g.&nbsp;<span class="math inline">\(\mu=10\)</span>, <span class="math inline">\(k=10\)</span>)</p></li>
+<li><p>Calculate the maximum likelihood estimate (MLE)? Use <code>mle2</code> with the default options and use the method-of-moments estimates as the starting estimates (<code>par</code>): <code>opt1 = mle2(minuslogl = NLLfun1, start = list(mu = mu.mom, k = k.mom))</code></p></li>
+<li><p>What is the difference in NLL between the MLE estimates and the NLL derived at 5? Does it make sense?</p></li>
+<li><p>Perform a likelihood ratio test at 95% confidence compare the values obtained in 5 and 7.</p></li>
 </ol>
-<p>The Likelihood Ratio Test would say, however, that the difference in likelihoods would have to be greater than <span class="math inline">\(\chi^2_2(0.95)/2\)</span> (two degrees of freedom because we are allowing both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> to change). This can be done through <code>ldiff=nll.true-nll.mom</code> and <code>qchisq(0.95,df=2)/2</code>. So — better, but not significantly better at <span class="math inline">\(p=0.05\)</span>. <code>pchisq(2*ldiff,df=2,lower.tail=FALSE)</code> would tell us the exact <span class="math inline">\(p\)</span>-value if we wanted to know.)</p>
-</div></details>
-</div>
-<!-- The code below is a solution (to be hidden) but we need to execute the code as some of the variables created are used later on (maybe not all of it is needed, but I did not look into it in detail) -->
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="no_solution_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
 </div>
 </div>
@@ -454,18 +469,29 @@ window.Quarto = {
 <section id="maximum-likelihood-and-continuous-covariates" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Maximum likelihood and continuous covariates</h1>
 <p>The following exercise has the purpose to learn you how to fit a model to data when we have a single covariate.</p>
-<div id="Exercise-4.1" class="Exercise">
-<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 6. 4.1</strong></summary><div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Take the second dataset (shapes2.csv from shapes.xlsx), use a michaelis-menten as deterministic function, and a normal distribution as stochastic model. Tweak the function in the first three grey boxes (above) such that it accomodates the michaelise menten and the normal distribution.</p>
 <p><em>hint</em>: In a previous exercise you have eyeballed the parameter values of the functions, you can use these as starting values.</p>
 <p><em>hint</em>: In case you get convergence problems, further adapt your starting values, or choose a different optimizer. For example Nelder-Mead is a robust one, e.g.&nbsp;<code>method = "Nelder-Mead"</code>.</p></li>
 <li><p>Change the determinstic function for a possible alternative determinstic function, and fit this new model to the data. Remember that in Lab 3 you have proposed multiple deterministic functions for this dataset.</p></li>
-<li><p>Compare the likelihoods of the data given both models</p></li>
+<li><p>Compare the likelihoods of the data given both models.</p></li>
 <li><p>Apply model selection criteria and conclude which model fits that data best.</p></li>
 <li><p>Does the model makes sense from a biological perspective?</p></li>
 </ol>
-</div></details>
+</div>
+</div>
 </div>
 </section>
 <section id="maximum-likelihood-with-continous-and-categorical-predictors" class="level1" data-number="5">
@@ -473,22 +499,28 @@ window.Quarto = {
 <p>Sometimes you want to fit the same model to different groups (males/females, treatment/control etc.). The easiest way is to separately fit the model to the subsets, but this makes it very difficult to assess whether the fitted parameters for both groups are comparable. A more elegant method is explained below.</p>
 <p>We use the fifth dataset of the six datasets you have worked with earlier on (shapes5.csv or the fifth sheet from shapes.xlsx). Assume that the function was generated by a decreasing exponential function <span class="math inline">\(ae^{(-bx)}\)</span> and you want to the values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. The dataset has three columns that are relevant: the independent variable <span class="math inline">\(x\)</span>, the dependent variable <span class="math inline">\(y\)</span>, and a dummy variable <span class="math inline">\(group\)</span> indicating to which group the observation belongs to. We want to test whether we can justify a different <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> for the two groups.</p>
 <p>This is how the NLL function would look like assuming no grouping:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"shapes5.csv"</span>) <span class="co"># and select fifth dataset</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># test dataset five for differences between groups</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nll0 <span class="ot">=</span> <span class="cf">function</span>(par,dat){</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">=</span> par[<span class="dv">1</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">=</span> par[<span class="dv">2</span>]</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ymean <span class="ot">=</span> a<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>dat<span class="sc">$</span>x)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dpois</span>(dat<span class="sc">$</span>y,<span class="at">lambda=</span>ymean,<span class="at">log=</span>T))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(nll)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>par<span class="ot">=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="fl">0.2</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>opt1 <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">par=</span>par,<span class="at">fn=</span>nll0,<span class="at">dat=</span>dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"shapes5.csv"</span>) <span class="co"># and select fifth dataset</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># test dataset five for differences between groups</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nll0 <span class="ot">=</span> <span class="cf">function</span>(a, b, x, y){</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  ymean <span class="ot">=</span> a<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>b<span class="sc">*</span>x)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dpois</span>(y,<span class="at">lambda=</span>ymean,<span class="at">log=</span>T))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(nll)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>par <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="fl">0.2</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>opt1 <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">start =</span> par, <span class="at">minuslogl =</span> nll0, <span class="at">data =</span> dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div id="Exercise-5.1" class="Exercise">
-<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 6. 5.1</strong></summary><div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Fit the above model to the data without considering differences between groups in <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p></li>
 <li><p>Adjust the likelihood function such that it can accomodate for different values of <span class="math inline">\(b\)</span> depending on the group an observation belong to.</p></li>
@@ -498,22 +530,70 @@ window.Quarto = {
 <li><p>Estimate the parameters <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> when letting <span class="math inline">\(b\)</span> depend on the group. Compare the negative loglikelihood of this model with the model fitted in question 1. Which has a better fit?</p></li>
 <li><p>Apply model selection techniques (Likelihood ratio test, AIC or BIC) to select the most parsimonious model. Are the models nested? Which model is preferred?</p></li>
 </ol>
-</div></details>
 </div>
-<div id="Exercise-5.2" class="Exercise">
-<p></p><details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 6. 5.2</strong></summary><div>To practice model fitting a little bit more, you could repeat the above procedure for the other 4 datasets from shapes.xlsx.<p></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To practice model fitting a little bit more, you could repeat the above procedure for the other 4 datasets from shapes.xlsx.</p>
 <p>Pick a dataset, go back to the Lab 3 Question 2.1 and Lab 4 Question 2.1 and list the stochastic model and the deterministic function and the eyeballed parameters that you thought were appropriate for this dataset. Next write a negative loglikelihood function, and use mle2 or optim to obtain the maximum likelihood estimates for the parameters.</p>
 <p>If you have practised sufficiently, you can move on with the advanced topics below.</p>
-</div></details>
+</div>
+</div>
 </div>
 </section>
-<section id="advanced-topics" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Advanced topics</h1>
-<section id="likelihood-surface" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="likelihood-surface"><span class="header-section-number">6.1</span> Likelihood surface</h2>
-<p>To find the likelihood surface follow the steps below (background information can be found in Bolker Ch. 6). This exercise continues on exercise #3.1 (Lab 3) where you used the negative binomial to generate 50 numbers and fitted back the parameters.</p>
-<div id="Exercise-6.1" class="Exercise">
-<details class="Exercise fbx-simplebox fbx-default" open=""><summary><strong>Exercise 6. 6.1</strong></summary><div>
+<section id="stochastic-simulation" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Stochastic simulation</h1>
+<p>Stochastic simulation has a number of important goals. First, by using stochastic simulation and subsequently refitting a model to the simulated data, one can test if the parameters that were used to simulate the data can be retrieved, or whether the estimated parameters are biased. Secondly, one can use stochastic simulation as a form of model testing. By simulating from the model with the MLE parameters one can visually inspect whether the estimated model makes sense or whether it is biased in one form or another. For example, the model maybe well capable of describing the mean relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> but may not be able to capture the variation in <span class="math inline">\(y\)</span>.</p>
+<p>For stochastic simulation on needs a deterministic model (which in its simplest form is just a single number for the mean and a parameter related to the variance) and a stochastic model to describe the sample space (all possible outcomes) given the parameters.</p>
+<section id="choosing-probability-distributions" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="choosing-probability-distributions"><span class="header-section-number">6.1</span> Choosing probability distributions</h2>
+<p>In this exercise we revisit the first exercise from Lab 1. In that exercise we had six different datasets each describing a biological phenomenon. The first step was to choose a deterministic function that describes the mean effect of the predictor variable (x) on the response variable (y; Lab 3). The second step involved the choice of the stochastic distribution which describes how the data varies around the mean (Lab 4).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Reload the first dataset, revisit the choice of your deterministic function, the eyeballed parameters, and the stochastic distribution. Next simulate data using these three components. Compare the simulated values with the observed values in a plot.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="advanced-topics" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Advanced topics</h1>
+<section id="likelihood-surface" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="likelihood-surface"><span class="header-section-number">7.1</span> Likelihood surface</h2>
+<p>To find the likelihood surface follow the steps below (background information can be found in Bolker Ch. 6). This exercise continues from Lab 3 where you used the negative binomial to generate 50 numbers and fitted back the parameters.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>For the likelihood surface:</p>
 <ol type="1">
 <li><p>Set up vectors of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(k\)</span> values. Let’s try <span class="math inline">\(\mu\)</span> from 0.4 to 3 in steps of 0.05 and <span class="math inline">\(k\)</span> from 0.01 to 0.7 in steps of 0.01.</p></li>
@@ -522,31 +602,146 @@ window.Quarto = {
 <li><p>Drawing a contour using the function ‘contour’. Change the argument <code>nlevels</code> to 100 to get a better view of the likelihood surface</p></li>
 <li><p>Add the MLE estimates in the contour plot (use ‘points’). Additionally, add the parameter values that were used to generate the data, and the parameter values that were obtained with the method of moments.</p></li>
 </ol>
-</div></details>
+</div>
+</div>
+</div>
+</section>
+<section id="bayesian-parameter-estimation-laplaces-approximation-optional" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="bayesian-parameter-estimation-laplaces-approximation-optional"><span class="header-section-number">7.2</span> Bayesian parameter estimation: Laplace’s approximation (OPTIONAL)</h2>
+<p>We are going to analyze the <code>shapes2</code> dataset again, but this time using a Bayesian approach where we approximate the posterior distribution. Notice that When you use maximum likelihood, it makes sense to just generate some fake data and fit models to it (for practice), but without context we cannot come up with priors in a Bayesian setting. The <em>shapes</em> dataset is fake data so we need to come up with some <em>fake</em> context and derive priors from it.</p>
+<section id="constructing-priors-for-the-shapes2-dataset" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="constructing-priors-for-the-shapes2-dataset"><span class="header-section-number">7.2.1</span> Constructing priors for the shapes2 dataset</h3>
+<p>Let’s assume that these data represent the predation rate as a function of prey density, so it makes to try the functional responses we learnt in Chapter 3. Let’s assume that we know a prior that the prey density is in the order of 100 and that the predation rate is in the order of 50 With this information we can already come up with <em>Weakly Informative Priors</em> (WIPs for short) that only inform about the order of magnitude of a variable. A simple way to create WIPs might be:</p>
+<ol type="1">
+<li><p>Define the prior information with a Normal distribution for each parameter.</p></li>
+<li><p>Set the mean to the order of magnitude of the corresponding variable (or something related to it, depends on the role)</p></li>
+<li><p>Set the standard deviation equal to the mean.</p></li>
+<li><p>For scale parameters (e.g.&nbsp;the standard deviation) the prior distribution is often a truncated normal with mean of 0 and standard deviation dependend on the scale of the response variable.</p></li>
+</ol>
+<p>Let’s first start with the functional response Type II that has the form <code>a*x/(b + x)</code>. We will come up with reasonable prior distributions and generate a bunch of simulations (these are called prior predictions and the can be uses to check your priors are reasonable). Because all parameters should be positive, I use truncated normals (that only keep positive part):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(truncnorm) <span class="co"># to truncate parameters</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random samples of each parameter</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">rtruncnorm</span>(N, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">50</span>, <span class="at">a  =</span> <span class="dv">0</span>) <span class="co"># a scales with predation rate</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">rtruncnorm</span>(N, <span class="at">mean =</span> <span class="dv">100</span><span class="sc">/</span><span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">100</span>, <span class="at">a =</span> <span class="dv">0</span>) <span class="co"># b scales with half prey density</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="fu">rtruncnorm</span>(N, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">a =</span> <span class="dv">0</span>) <span class="co"># sigma scales with predation rate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For every prior sample, we can then generate a mean prediction:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xseq <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">200</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mu_y_prior <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="cf">function</span>(i) a[i]<span class="sc">*</span>xseq<span class="sc">/</span>(b[i] <span class="sc">+</span> xseq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This matrix has 1000 columns (one for each sample of the priors) and 201 rows for the seq of x values. We can summarize all these predictions into an average and qunatiles:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_mu_y_prior <span class="ot">=</span> <span class="fu">rowMeans</span>(mu_y_prior)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lower_mu_y_prior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_prior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>upper_mu_y_prior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_prior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now we can visualize it:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xseq, mean_mu_y_prior, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, lower_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, upper_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With WIPS you want to make sure that the range of predictions is much wider than the observed data.</p>
+</section>
+<section id="building-the-model-in-stan" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="building-the-model-in-stan"><span class="header-section-number">7.2.2</span> Building the model in Stan</h3>
+<p>Before continuing with this section you need to install RStan in your computer. Please go to https://github.com/stan-dev/rstan/wiki/Rstan-Getting-Started to install Stan in your computer and test that it works.</p>
+<p>Stan models need to be built in their own files and are made of different blocks. You have been given the Stan file for this first exercise but please try to understand how it is structured based on the description before as you will not be given the solutions for posterior exercises. This Youtube video may also help you: https://youtu.be/YZZSYIx1-mw?si=5nSuDzOV8lrMKyCv</p>
+<p>A Stan model is composed of different blocks. First, we need to specify the data that will be used:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] x;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] y;</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp;</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we specify the length of the data <code>N</code> as a positive integer <code>int&lt;lower=0&gt;</code>. The two variables in the model (<code>x</code> and <code>y</code>) are defined as vectors of positive (real) values (<code>vector&lt;lower=0&gt;</code>) and length <code>N</code>. Finally, there are six values passed along the vector <code>hp</code> which will be used to parameterize the prior distributions.</p>
+<p>The next block represents the parameters of the model that will be estimated:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a;</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b;</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are the three parameters of our likelihood function (<code>a</code> and <code>b</code> for the deterministic model and <code>sigma</code> for the error) which are all assumed to be positive.</p>
+<p>Finally we have the model block, that actually implements the priors and likelihood. There are two ways to implement thids in Stan, either using the probabilistic modelling approach (which resembles the BUGS code in the book) or by adding up log probability densities (which resembles the way we build the negative log-likelihood functions).</p>
+<p>The probabilistic approach looks as follows:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  a     ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  b     ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  y ~ normal(a*x./(b + x), sigma);</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first three lines indicate that the parameters <code>a</code>, <code>b</code> and <code>sigma</code> follow normal distributions with hyperparameters take from the vector <code>hp</code>. The last line indicates that the observations <code>y</code> follow a normal distribution which mean is given by the deterministic model <code>a*x./(b + x)</code> and the standard deviation is <code>sigma</code>.</p>
+<p>The alternative approach looks like this:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(a | hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(b | hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(sigma | hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(y | a*x./(b + x), sigma);  </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Where <code>target</code> is a special variable in Stan that accumulates the log-likelihood and log-prior, <code>normal_lpdf</code> stands for the log probability density of the normal distribution and <code>|</code> is the symbol for conditionality (on the left of <code>|</code> we indicate the random variable and on the right other parameters of the distribution).</p>
+</section>
+<section id="loading-the-model-in-stan-and-running-laplaces-approximation" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="loading-the-model-in-stan-and-running-laplaces-approximation"><span class="header-section-number">7.2.3</span> Loading the model in Stan and running Laplace’s approximation</h3>
+<p>We can compile and load the model as follows (here I assume the model is in a file called <code>mm.stan</code> inside the folder <code>Lab6</code>).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()) <span class="co"># To enable parallel chains</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>) <span class="co"># To avoid recompilation</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>mm_model <span class="ot">=</span> <span class="fu">stan_model</span>(<span class="at">file =</span> <span class="st">"./Lab6/mm.stan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This took a while because the Stan model needs to be compiled to machine code that can then be executed. C++ compilation can be quite slow so please be patient (it will pay off later, trust me).</p>
+<p>We are going to fit this model the data using Laplace’s approximation. This approximates the posterior distribution as a Normal distribution with a mean equal to the maximum posterior estimates and variance derived from the Hessian matrix. Mathematically this is equivalent to maximum likelihood + quadratic approximation (section 6.5 in the book) but with prior distributions. We can do this in Stan using <code>optimizing()</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(shapes2), <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">10</span>)) <span class="co"># see above for priors</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mm_fit <span class="ot">=</span> <span class="fu">optimizing</span>(mm_model, <span class="at">data =</span> data, <span class="at">init =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">50</span>, <span class="at">b =</span> <span class="dv">40</span>, <span class="at">sigma =</span> <span class="dv">1</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can retrieve the estimated mode of the posterior:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mm_fit<span class="sc">$</span>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And we can use the Hessian to compute a variance-covariance matrix:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">ginv</span>(<span class="sc">-</span>mm_fit<span class="sc">$</span>hessian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now our posterior is defined as a multivariate normal with <code>mu = mm_fit$par</code> and <code>Sigma = V</code>. We can generate samples using <code>mvrnorm</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="dv">1000</span>, <span class="at">mu =</span> mm_fit<span class="sc">$</span>par, <span class="at">Sigma =</span> V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can directly visualize the marginal distribution from this sample:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"a"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">prob =</span> T)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"b"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"b"</span>, <span class="at">prob =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>But also the correlation among these two parameters:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(posterior_samples[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">ylab =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Fit the model <code>a*x^2/(b + x^2)</code> to the same dataset as the model above using Laplace’s approximation and Stan.</p>
+</div>
+</div>
 </div>
 </section>
 </section>
-<section id="hints-for-choosing-deterministic-functions-and-stochastic-functions" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Hints for choosing deterministic functions and stochastic functions</h1>
+</section>
+<section id="supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Supplement: hints for choosing deterministic functions and stochastic functions</h1>
 <ol type="1">
 <li>Deterministic functions</li>
 </ol>
-<pre><code>- dataset 1
-
-light response curve. There are a number of options of functions to choose from, depending on the level of sophistication:</code></pre>
+<ul>
+<li>dataset 1</li>
+</ul>
+<p>light response curve. There are a number of options of functions to choose from, depending on the level of sophistication:</p>
 <p><span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(a(1-e^{(-bx)})\)</span>, <span class="math inline">\(\frac{1}{2\theta}(\alpha I+p_{max}-\sqrt(\alpha I+p_{max})^2-4\theta I p_{max})\)</span> see page 98. A parameter <code>d</code> can be added in all cases to shift the curve up or down. The y represents net photosynthesis <span class="math inline">\(\mu mol CO_{2}/m^2s\)</span></p>
-<pre><code>- dataset 2</code></pre>
+<ul>
+<li>dataset 2</li>
+</ul>
 <p>The dataset describes a functional responses. Bolker mentions four of those</p>
 <p><span class="math inline">\(\min(ax,s)\)</span> <span class="math inline">\(\frac{ax}{(b+x)}\)</span>, <span class="math inline">\(\frac{ax^2}{(b^2+x^2)}\)</span>,<span class="math inline">\(\frac{ax^2}{(b+cx+x^2)}\)</span></p>
 <p>The y is measured in grams prey eaten per unit time.</p>
-<pre><code>- dataset 3</code></pre>
-<p>Allometric relationships generally have the form <span class="math inline">\(ax^b\)</span>. The y represent the total number of cones produced.</p>
-<pre><code>- dataset 4</code></pre>
-<p>This could be logistic growth <span class="math inline">\(n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}\)</span> or the gompertz function <span class="math inline">\(f(x)=e^{-ae^{-bx}}\)</span>. The y represent the population size (numbers).</p>
-<pre><code>- dataset 5</code></pre>
-<p>What about a negative exponential? <span class="math inline">\(ae{-bx}\)</span> or a power function <span class="math inline">\(ax^b\)</span>. The y represent a number per unit area.</p>
-<pre><code>- dataset 6</code></pre>
-<p>Species reponse curves are curves that describe the probability of presence as a function of some factor. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g. <span class="math inline">\(a e^{\frac{-(x-\mu)^2}{2\sigma^2}}\)</span>. The y represent presence or absence of the species (no units).</p>
+<ul>
+<li><p>dataset 3 Allometric relationships generally have the form <span class="math inline">\(ax^b\)</span>. The y represent the total number of cones produced.</p></li>
+<li><p>dataset 4 This could be logistic growth <span class="math inline">\(n(t)=\frac{K}{1+(\frac{K}{n_0})e^{-rt}}\)</span> or the gompertz function <span class="math inline">\(f(x)=e^{-ae^{-bx}}\)</span>. The y represent the population size (numbers).</p></li>
+<li><p>dataset 5 What about a negative exponential? <span class="math inline">\(ae{-bx}\)</span> or a power function <span class="math inline">\(ax^b\)</span>. The y represent a number per unit area.</p></li>
+<li><p>dataset 6 Species reponse curves are curves that describe the probability of presence as a function of some factor. A good candidate good be a unimodel response curve. You could take the equation of the normal distribution without the scaling constant: e.g. <span class="math inline">\(a e^{\frac{-(x-\mu)^2}{2\sigma^2}}\)</span>. The y represent presence or absence of the species (no units).</p></li>
+</ul>
 <ol start="2" type="1">
 <li><p>Stochastic functions/Probability distributions</p>
 <ul>
@@ -598,18 +793,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -641,7 +825,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -649,7 +855,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
