@@ -1,0 +1,259 @@
+# Learning goals
+
+You will learn how to:
+
+1. Allow for variance to vary across groups
+
+2. Allow for variance to vary as a continuous function
+
+# Variance across groups
+
+In previous labs we have been modelling the mean of the population or process
+under study. In this lab we are going to look into models of the variance or
+parameters related to variance (called scale parameters). For many distributions, 
+the mean and variance are not independent and it might not be possible to specify 
+them directly with the usual parameterizations. When it doubt, check Chapter 4 
+of the book (I will give you some hints on possible ways to decouple mean and 
+scale parameters).
+
+In this first section we will work with allometry data relating the length and
+biomass (as ash-free dry weight or `AFD`) of clams on a beach in Argentina (this
+data was used in the book by Zuur et al. (2009)). I have given you the data
+in the file `Clams.txt`:
+
+```r
+library(ggplot2)
+clams = read.table("./Lab9/Clams.txt", header = TRUE)
+ggplot(clams, aes(x = LENGTH, y = AFD, color = as.factor(MONTH))) + geom_point()
+```
+
+This is an allometric relationship, so I will try a power law with a log-normal.
+I will also parameterize the log-normal distribution as a function of the actual
+mean $\mu$ and coefficient of variation $cv$. We can calculate the `meanlog` and
+`sdlog` from `mu` and `cv` as
+
+```r
+# Derived from the moments of log-normal (check Wikipedia)
+mu = 0.2
+cv = 1
+meanlog = log(mu/sqrt(1 + cv^2))
+sdlog   = sqrt(log(1 + cv^2))
+# Test it
+test = rlnorm(10000, meanlog = meanlog, sdlog = sdlog)
+(mean(test) - mu)/mu
+(mean(test)/sd(test) - cv)/cv
+```
+
+
+:::::: {.callout-important title="Exercise" collapse="true"}
+
+1. Fit a power law of the form $a x ^b$ to the clam data with a fixed `cv`. Make
+sure to use proper lower and upper bounds on all parameters. Make sure that `mu`
+remains positive or the code will crash. Also, since `a` is very small you 
+probably want to work with `log(a)` or something like that and undo the 
+transformation inside the `nll` function.
+
+2. The scatter seems to vary across months. Refit the model but vary `cv` per
+month. Interpret the result: is there evidence that `cv` would vary across months?
+Can we justify using this second model?
+
+
+::::: {.content-hidden unless-meta="show_solution"}
+
+:::: {.callout-tip title="Solution" collapse="true"}
+
+1. First eyeball possible parameter values:
+
+```r
+with(clams, plot(LENGTH, AFD))
+curve(5e-4*x^1.7, add = TRUE)
+```
+
+Calculate MLE
+
+```r
+library(bbmle)
+nll = function(la, b, cv) {
+  a = 10^la # Avoid scale issues
+  mu = a*clams$LENGTH^b
+  if(any(mu < 0)) browser()
+  meanlog = log(mu/sqrt(1 + cv^2))
+  sdlog   = sqrt(log(1 + cv^2))
+  -sum(dlnorm(clams$AFD, meanlog, sdlog, log = TRUE))
+}
+par0 = c(la = log10(5e-4), b = 1.7, cv = 0.1)
+fit = mle2(minuslogl = nll, start = as.list(par0), method = "L-BFGS-B",
+           lower = c(la = -6, b = 0, cv = 1e-2),
+           upper = c(la = 0, b = 10, cv = 1),
+           control = list(parscale = abs(par0), trace = TRUE))
+summary(fit)
+```
+
+Look at results 
+
+```r
+mle_a = 10^coef(fit)[1]
+with(clams, plot(LENGTH, AFD))
+curve(mle_a*x^coef(fit)[2], add = TRUE, col = 2)
+```
+
+2. New NLL where a different cv is computed per month
+
+```r
+library(bbmle)
+month_index = as.integer(as.factor(clams$MONTH))
+nll2 = function(la, b, cv1, cv2, cv3, cv4, cv5, cv6) {
+  # Avoid scale issues
+  a = 10^la
+  # Select the right cv
+  cv = c(cv1, cv2, cv3, cv4, cv5, cv6)[month_index]
+  mu = a*clams$LENGTH^b
+  if(any(mu < 0)) browser()
+  meanlog = log(mu/sqrt(1 + cv^2))
+  sdlog   = sqrt(log(1 + cv^2))
+  -sum(dlnorm(clams$AFD, meanlog, sdlog, log = TRUE))
+}
+par0 = c(la = log10(5e-4), b = 1.7, cv1 = 0.1, cv2 = 0.1, cv3 = 0.1,
+         cv4 = 0.1, cv5 = 0.1, cv6 = 0.1)
+fit2 = mle2(minuslogl = nll2, start = as.list(par0), method = "L-BFGS-B",
+           lower = c(la = -6, b = 0, cv1 = 0.01, cv2 = 0.01, cv3 = 0.01,
+                     cv4 = 0.01, cv5 = 0.01, cv6 = 0.01),
+           upper = c(la = 0, b = 10, cv1 = 1, cv2 = 1, cv3 = 1,
+                     cv4 = 1, cv5 = 1, cv6 = 1),
+           control = list(parscale = abs(par0), trace = TRUE))
+summary(fit2)
+```
+
+There is substantial variation in the estimated `cv`s that cannot be explain by
+uncertainty, suggesting that they might be different across months (at least 
+when we hold `a` and `b` constant).
+
+Because the models are nested and we have a lot of data, we could use a likelihood
+ratio test to compare them or AIC:
+
+```r
+anova(fit, fit2)
+AIC(fit, fit2)
+```
+
+Both indices confirm that the second model is much better.
+
+::::
+
+:::::
+
+::::::
+
+# Variance along continuous variables
+
+
+In the book, Bolker analyzes a dataset on cone production by fir trees as a
+function of their diameter:
+
+```r
+library(emdbook)
+with(cleanFIR, plot(TOTCONES~DBH))
+```
+
+We can see that the average cone production increases with the diameter but
+also the scatter in the data. Therefore, it might be a good idea to model how
+this scatter increases with diameter. 
+
+To helps us figure out a way to model this, we can try to visualize how the
+standard deviation varies across diameter but for that we need to bin the data.
+I show you below how to do this, and I also calculate the coefficient of 
+variation because in many distributions (like Gamma and Log-Normal) the standard
+deviation is not constant but the coefficient of variation is.
+
+```r
+# Remove missing data
+cleanFIR = FirDBHFec[!is.na(FirDBHFec$TOTCONES) & !is.na(FirDBHFec$DBH),]
+# Create bins
+DBHpoints = c(6,8,10,12,14,18)
+# Allocate vetor to store cvs and sd and calculate for first bin
+cvs = numeric(length(DBHpoints))
+sds = numeric(length(DBHpoints))
+temp = subset(cleanFIR, DBH <= DBHpoints[1])$TOTCONES
+cvs[1] = sd(temp)/mean(temp)
+sds[1] = sd(temp)
+# Repeat for all bins
+for(i in 2:length(DBHpoints)) {
+  temp = subset(cleanFIR, DBH <= DBHpoints[i] & DBH >= DBHpoints[i - 1])$TOTCONES
+  cvs[i] = sd(temp)/mean(temp)
+  sds[i] = sd(temp)
+}
+```
+
+We can now plot the results
+
+```r
+par(mfrow = c(1,2))
+plot(c(5,7,9,11,13,16), sds, xlab = "DBH", ylab = "sd TOTCONES")
+plot(c(5,7,9,11,13,16), cvs, xlab = "DBH", ylab = "cv TOTCONES")
+par(mfrow = c(1,1))
+```
+
+We can see that while the standard deviation increases with DBH, the coefficient
+of variation decreases. If I were to model these data with a normal distribution
+(which is not a good idea because it will predict a lot of negative cone
+production) I would need to add an increase in the standard deviation with 
+diameter. If I were to model with a log-normal parameterized with a coefficient
+of variation (like in the example with clams), I would need to model the 
+decrease in the coefficient of variation wit diameter.
+
+:::::: {.callout-important title="Exercise" collapse="true"}
+
+1. Fit a non-linear model with a log-normal error distribution to the relationship 
+between `TOTCONES` and `DBH` using the same parameterization as we used for the
+study on clams. Make sure to include a component to capture the decrease in 
+the coefficient of variation with diameter.
+
+Be careful that `TOTCONES` contains zeros so you will need to adjust those (the
+trick that Bolker uses is to just add 1).
+
+
+::::: {.content-hidden unless-meta="show_solution"}
+
+:::: {.callout-tip title="Solution" collapse="true"}
+
+I am going to fit a power law for the mean trend, just like for the clams. Let's 
+eyeball its coefficients from the raw data:
+
+```r
+with(cleanFIR, plot(TOTCONES~DBH))
+curve(0.5*x^2, add = TRUE)
+```
+
+And I am going to assume an exponential decrease in the coefficient of 
+variation with respect to diameter.
+
+```r
+with(cleanFIR, plot(cvs~c(5,7,9,11,13,16)))
+curve(3*exp(-0.15*x), add = TRUE)
+```
+
+We can now fit the model using these four starting values:
+
+```r
+nll = function(a, b, c, d) {
+  mu = a*cleanFIR$DBH^b
+  cv = c*exp(-d*cleanFIR$DBH)
+  meanlog = log(mu/sqrt(1 + cv^2))
+  sdlog   = sqrt(log(1 + cv^2))
+  NLL = -sum(dlnorm(cleanFIR$TOTCONES + 1, meanlog, sdlog, log = TRUE))
+  NLL
+}
+par0 = c(a = 0.5, b = 2, c = 3, d = 0.15)
+fit = mle2(minuslogl = nll, start = as.list(par0), method = "L-BFGS-B",
+           lower = c(a = 0.1, b = 1, c = 1, d = 0),
+           upper = c(a = 2, b = 4, c = 10, d = 1),
+           control = list(parscale = abs(par0), trace = TRUE))
+summary(fit)
+```
+
+::::
+
+:::::
+
+::::::
+

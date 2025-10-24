@@ -1,6 +1,6 @@
 ---
-title: 'Lab 3: Analyzing functions (solutions)'
-author: \copyright 2005 Ben Bolker, modified at some places by Alejandro Morales, Ioannis Baltzakis & Bob Douma
+title: "Lab 10"
+author: "Alejandro Morales"
 date: today
 visual: false
 ---

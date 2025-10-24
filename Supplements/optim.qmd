@@ -1,0 +1,8 @@
+---
+title: "Supplement: mle2 vs optim"
+author: "Alejandro Morales"
+date: today
+visual: false
+---
+
+*Work in progress*

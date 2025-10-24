@@ -1,0 +1,275 @@
+---
+title: "Supplement: Canned methods"
+author: "Bob Douma and Alejandro Morales"
+date: today
+visual: false
+cache: true
+---
+
+Here I exemplify several typical statistical models with three versions per model:
+
+- Canned version based on (restricted) maximum (marginal) likelihood using base R or the pacakge `nlme`
+- Bayesian version with `brms` and default (uninformative) priors (*work in progress*)
+- Explicit negative log likelihood with the package `bbmle`
+
+```r
+library(nlme)
+library(brms)
+library(bbmle)
+```
+
+# ANOVA (`lm`)
+
+A simple one way ANOVA with factor `groups`of 3 levels:
+
+```r
+set.seed(1234)
+sd  = 1
+mus = c(1, 4, 1.5)
+n   = 5
+groups = rep(1L:3L, each = n)
+y   = rnorm(3*n, rep(mus, each = n), sd = sd)
+data = data.frame(y = y, groups = groups)
+with(data, plot(y~groups))
+```
+
+The negative log-likelihood is a Normal with a different mean per group and a
+fixed standard deviation
+
+```r
+NLL <- function(mu1, mu2, mu3, sd, y, groups) {
+  mu_obs = c(mu1, mu2, mu3)[groups]
+  -sum(dnorm(y, mean = mu_obs, sd = sd, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(mu1 = 0, mu2 = 0, mu3 = 0, sd = 1),
+           data = data)
+summary(fit)
+```
+
+The canned (base R) version:
+
+```r
+data_lm = transform(data, groups = as.factor(groups))
+summary(lm(y~groups - 1, data = data_lm))
+```
+
+The Bayesian version (inspect file `anova` for Stan code):
+
+```r
+summary(brm(y~groups - 1, data = data_lm, silent = 2, refresh = 0, save_model = "anova"))
+```
+
+# Linear regression (`lm`)
+
+A simple linear regression with one predictor
+
+```r
+set.seed(1234)
+sd  = 1
+a   = 3
+b   = 0.5
+x   = 1:10
+y   = rnorm(10, mean = a + b*x, sd = sd)
+data = data.frame(y = y, x = x)
+with(data, plot(y~x))
+```
+
+The negative log-likelihood is a Normal with a mean increasingly linearly with 
+`x` and a fixed standard deviation
+
+```r
+NLL <- function(a, b, sd, y, x) {
+  ymod = a + b*x
+  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(a = 0, b = 0, sd = 1),
+           data = data)
+summary(fit)
+```
+
+The canned (base R) version:
+
+```r
+summary(lm(y~x))
+```
+
+The Bayesian version (inspect file `linear` for Stan code):
+
+```r
+summary(brm(y~x, silent = 2, refresh = 0, save_model = "linear"))
+```
+
+# Non linear regression (`nls`)
+
+A Michaelis-Menten model
+
+```r
+set.seed(1234)
+sd  = 1
+a   = 10
+b   = 3
+x   = 1:10
+y   = rnorm(10, mean = a*x/(b + x), sd = sd)
+data = data.frame(y = y, x = x)
+with(data, plot(y~x))
+```
+
+The negative log-likelihood is a Normal with a mean increasingly according to the
+Michaelis-Menten formula with respec to `x` and a fixed standard deviation
+
+```r
+NLL <- function(a, b, sd, y, x) {
+  ymod = a*x/(b + x)
+  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(a = 5, b = 2, sd = 1),
+           data = data)
+summary(fit)
+```
+
+The canned (base R) version:
+
+```r
+summary(nls(y~a*x/(b + x), start = list(a = 5, b = 2), data = data))
+```
+
+The Bayesian version (inspect file `non_linear` for Stan code):
+
+```r
+summary(brm(y~a*x/(b + x), data = data, silent = 2, refresh = 0, save_model = "non_linear"))
+```
+
+# Linear regression with heterogeneous variance (`gls`)
+
+A linear model with variance increasing exponential with predictor:
+
+```r
+a = 2
+b = 10
+c = 1
+x = seq(0.1,1, 0.1)
+y   = rnorm(10, mean = a + b*x, sd = sqrt(exp(c*x)))
+data = data.frame(y = y, x = x)
+with(data, plot(y~x))
+```
+
+The negative log-likelihood is a Normal with a mean increasingly linearly with 
+`x` and an exponential model for the standard deviation:
+
+```r
+NLL <- function(a, b, c, y, x) {
+  ymod = a + b*x
+  sd   = sqrt(exp(c*x))
+  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(a = 1, b = 5, c = 0),
+           data = data)
+summary(fit)
+```
+
+The canned (package `nlme`) version:
+
+```r
+summary(gls(y~x, weights = varExp(form = ~x), data = data, method = "ML"))
+```
+
+Same difference as for ANOVA but also note that `gls` has several pre-specified
+variance models and you cannot change them. `varExp` actually assumes the model
+`sd = sqrt(sigma^2*exp(2*c*x))`, so the estimate reported is half of `c` in NLL.
+
+`gls` allows using REML (see Supplement on Bias and Variance of Estimates).
+
+
+# Non-linear regression with heterogeneous variance (`gnls`)
+
+A Michaelis-Menten model with exponential error
+
+```r
+set.seed(1234)
+a   = 10
+b   = 3
+c   = 0.1
+x   = 1:10
+y   = rnorm(10, mean = a*x/(b + x), sd = sqrt(exp(c*x)))
+data = data.frame(y = y, x = x)
+with(data, plot(y~x))
+```
+
+The negative log-likelihood is a Normal with a mean increasingly according to the
+Michaelis-Menten formula with respect to `x` and an exponential model for the
+variance
+
+```r
+NLL <- function(a, b, c, y, x) {
+  ymod = a*x/(b + x)
+  sd   = sqrt(exp(c*x))
+  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(a = 5, b = 2, c = 0.5),
+           data = data)
+summary(fit)
+```
+
+The canned (package `nlme`) version:
+
+```r
+summary(gnls(y~a*x/(b + x), start = list(a = 5, b = 2), 
+             weights = varExp(form = ~x), data = data))
+```
+
+Same difference as for ANOVA but also note that `gls` has several pre-specified
+variance models and you cannot change them. `varExp` actually assumes the model
+`sd = sqrt(sigma^2*exp(2*c*x))`, so the estimate reported is half of `c` in NLL.
+
+`gnls` does not allow using REML.
+
+# Generalized linear models (GLM)
+
+An exponential Poisson model
+
+```r
+a = 0
+b = 0.2
+x = rep(1:10, 2)
+mus = exp(a + b*x)
+y   = rpois(20, mus)
+data = data.frame(x = x, y = y)
+plot(y~x)
+```
+
+The negative log-likelihood is a Poisson with a mean growing exponentially
+
+
+```r
+NLL <- function(a, b, y, x) {
+  mus = exp(a + b*x)
+  -sum(dpois(y, lambda = mus, log = TRUE))
+}
+library(bbmle)
+fit = mle2(minuslogl = NLL, start = list(a = 0, b = 0.2),
+           data = data)
+summary(fit)
+```
+
+The canned (base R) version:
+
+```r
+summary(glm(y~x, family = poisson(link = "log"), data = data))
+```
+
+# Linear mixed model
+
+*Work in progress*
+
+# Generalized linear mixed model
+
+*Work in progress*
+
+# Non-linear mixed model
+
+*Work in progress*

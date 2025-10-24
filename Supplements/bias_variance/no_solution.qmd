@@ -1,5 +1,5 @@
 ---
-title: "Lab 9: Canned functions and modeling variance"
+title: "Supplement: Variance and bias of estimates (solutions)"
 author: "Alejandro Morales"
 date: today
 visual: false

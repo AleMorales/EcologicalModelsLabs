@@ -2,31 +2,17 @@
 title: "Lab 1: An introduction to `R` for ecological modeling (solutions)"
 author:
 - Stephen Ellner, modified by Ben Bolker & Bob Douma.
-- Adapted to R Markdown by Alejandro Morales.
-date: "October 25, 2023"
-cache: true
+- Adapted by Alejandro Morales.
+date: today
 visual: false
-params:
-  solution: true
-filters:
-  - custom-numbered-blocks
-custom-numbered-blocks:
-  groups:
-    question:
-      collapse: false
-      colors: [00ff00, d9d9d9]
-      label: "Exercise 1."
-      boxstyle: foldbox.simple
-    answer:
-      collapse: false
-      colors: [80bfff, d9d9d9]
-      label: "Solution"
-      boxstyle: foldbox.simple
-  classes:
-    Exercise: 
-      group: question
-    Solution:
-      group: answer  
 ---
 
-{{< include no_solution.qmd >}}
+```{r, echo = FALSE}
+#| label: metadata-block
+#| output: asis
+quarto::write_yaml_metadata_block(
+  show_solution = TRUE
+)
+```
+
+{{< include material.qmd >}}

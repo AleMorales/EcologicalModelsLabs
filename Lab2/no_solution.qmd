@@ -1,6 +1,6 @@
 ---
-title: "Lab 9: Canned functions and modeling variance"
-author: "Alejandro Morales"
+title: "Lab 2: Exploratory data analysis and visualization"
+author: \copyright 2005 Ben Bolker, modified at several places by Bob Douma & Alejandro Morales
 date: today
 visual: false
 ---
