@@ -1,109 +1,385 @@
 ---
-title: "Supplement: Canned methods"
-author: "Bob Douma and Alejandro Morales"
+title: "Supplement: Formula-based methods"
+author: "Alejandro Morales"
 date: today
 visual: false
 cache: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-Here I exemplify several typical statistical models with three versions per model:
+# Introduction
 
-- Canned version based on (restricted) maximum (marginal) likelihood using base R or the pacakge `nlme`
-- Bayesian version with `brms` and default (uninformative) priors (*work in progress*)
-- Explicit negative log likelihood with the package `bbmle`
+Here I exemplify several typical statistical models with an example of
+each. For each type of model I provide:
 
-```r
-library(nlme)
-library(brms)
-library(bbmle)
-```
+1.  Mathematical description
+2.  Function implementing negative log likelihood
+3.  Canned method that relies on *formula*
 
-# ANOVA (`lm`)
+There are functions that allow specifying different types of models with
+formulae and exist for both Maximum Likelihood and Bayesian methods. In the
+case of maximum likelihood methods, they often implement methods of estimation
+that are specialized to a given class of model and are therefore more efficient
+than using non-linear optimization.
 
-A simple one way ANOVA with factor `groups`of 3 levels:
+The formulae that are used to specify models can be slightly different for
+each package, but there are some common elements that are useful to know and I
+described in the section below. For possible extensions, read the documentation
+of each individual package or function.
+
+I list different possible options below, for each type of model, starting with
+the simplest (linear models) up to the most general (non-linear mixed models with
+non-Normal responses).
+
+# The *formula* interface
+
+*Work in progress*
+
+# Linear responses
+
+Models with linear are those where parameters are linear with respect to
+the response variables. This does not mean that the response is linear,
+it can also be a polynomial (by taking powers of covariates) but the
+coefficients are always linear with respect to the response variables.
+Historically the analysis of linear models has split into two
+approaches:
+
+-   Linear regression: When predictors are continuous, focuses on
+    estimating parameter values.
+
+-   Analysis of variance: When predictors are discrete, focuses on
+    comparing nested models via F-test.
+
+And there were several sub-types such as multiple linear regression,
+analysis of covariance (with both discrete and continuous predictors),
+etc. In the examples below I only show how to estimate parameters of
+linear models.
+
+## Linear model
+
+Stochastic model: A single level assumed Normal.
+Mean response: Linear function of covariates.
+Variance response: Assumed constant.
+
+| Paradigm    | Package   | Function  |
+|-------------|-----------|-----------|
+| Likelihood  | `Base`    | `lm`      |
+| Likelihood  | `bbmle`   | `lme2`    |
+| Both        | `glmmTMB` | `glmmTMB` |
+| Bayesian    | `rstanarm`| `stan_lm` |
+| Bayesian    | `brms`    | `brm`     |
+
+**Example withe categorical predictor**
+
+A linear model with a categorical predictor with 3 levels.
+
+Data simulation:
 
 ```r
 set.seed(1234)
 sd  = 1
-mus = c(1, 4, 1.5)
+mu0 = 1
+deltas = c(4, 1.5)
+mus = c(mu0, mu0 + deltas)
 n   = 5
 groups = rep(1L:3L, each = n)
 y   = rnorm(3*n, rep(mus, each = n), sd = sd)
-data = data.frame(y = y, groups = groups)
-with(data, plot(y~groups))
+data = data.frame(y = y, groups = groups, fgroups = as.factor(groups))
 ```
 
-The negative log-likelihood is a Normal with a different mean per group and a
-fixed standard deviation
+Explicit maximum likelihood:
 
 ```r
-NLL <- function(mu1, mu2, mu3, sd, y, groups) {
-  mu_obs = c(mu1, mu2, mu3)[groups]
-  -sum(dnorm(y, mean = mu_obs, sd = sd, log = TRUE))
-}
 library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(mu1 = 0, mu2 = 0, mu3 = 0, sd = 1),
-           data = data)
-summary(fit)
+NLL = function(mu0, delta1, delta2, lsd, groups, y) {
+  mus = c(mu0, mu0 + delta1, mu0 + delta2)[groups]
+  -sum(dnorm(y, mean = mus, sd = exp(lsd), log = TRUE))
+}
+mle2(minuslogl = NLL, start = list(mu0 = 1, delta1 = 0, delta2 = 0, lsd = log(1)),
+     data = data)
+
 ```
 
-The canned (base R) version:
+With `lm`:
 
 ```r
-data_lm = transform(data, groups = as.factor(groups))
-summary(lm(y~groups - 1, data = data_lm))
+lm(y~fgroups, data = data)
 ```
 
-The Bayesian version (inspect file `anova` for Stan code):
+With `mle2`:
 
 ```r
-summary(brm(y~groups - 1, data = data_lm, silent = 2, refresh = 0, save_model = "anova"))
+library(bbmle)
+mle2(y~dnorm(mean = mu, sd = exp(lsd)), parameters = list(mu ~ fgroups),
+           start = list(mu = 1, lsd = log(1)), data = data)
 ```
 
-# Linear regression (`lm`)
+With `glmmTMB`:
 
-A simple linear regression with one predictor
+```r
+library(glmmTMB)
+glmmTMB(y~fgroups, family = gaussian(), data = data)
+```
+
+With `rstanarm`:
+
+```r
+library(rstanarm)
+stan_lm(y~fgroups, data = data, prior = NULL)
+```
+
+With `brm`
+
+```r
+library(brms)
+brm(y~fgroups, data = data, family = gaussian())
+```
+
+**Example with continuous predictor**
+
+A simple linear regression.
+
+Data simulation:
 
 ```r
 set.seed(1234)
+a   = 0
+b   = 1
 sd  = 1
-a   = 3
-b   = 0.5
-x   = 1:10
-y   = rnorm(10, mean = a + b*x, sd = sd)
+n   = 5
+x   = rep(1:10, each = 5)
+y   = rnorm(50, a + b*x, sd = sd)
 data = data.frame(y = y, x = x)
-with(data, plot(y~x))
 ```
 
-The negative log-likelihood is a Normal with a mean increasingly linearly with 
-`x` and a fixed standard deviation
+Negative log-likelihood:
 
 ```r
-NLL <- function(a, b, sd, y, x) {
-  ymod = a + b*x
-  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
+NLL = function(mu1, mu2, mu3, sd, groups, y) {
+  mus = c(mu1, mu2, mu3)[groups]
+  -sum(dnorm(y, mean = mus, sd = sd, log = TRUE))
 }
+```
+
+With `lm`:
+
+```r
+lm(y~fgroups, data = data)
+```
+
+With `mle2`:
+
+```r
 library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(a = 0, b = 0, sd = 1),
-           data = data)
-summary(fit)
+mle2(y~dnorm(mean = mu, sd = sd), parameters = list(mu ~ fgroups),
+           start = list(mu = 3, sd = 1), data = data)
 ```
 
-The canned (base R) version:
+With `glmmTMB`:
 
 ```r
-summary(lm(y~x))
+library(glmmTMB)
+glmmTMB(y~fgroups, family = gaussian(), data = data)
 ```
 
-The Bayesian version (inspect file `linear` for Stan code):
+With `rstanarm`:
 
 ```r
-summary(brm(y~x, silent = 2, refresh = 0, save_model = "linear"))
+library(rstanarm)
+stan_lm(y~fgroups, data = data, prior = NULL)
 ```
 
-# Non linear regression (`nls`)
+With `brm`
 
-A Michaelis-Menten model
+```r
+library(brms)
+brm(y~fgroups, data = data, family = gaussian())
+```
+
+## Generalized least squares
+
+Stochastic model: A single level assumed Normal.
+Mean response: Linear function of covariates.
+Variance response: Non-linear function of covariates and/or correlation structure.
+
+| Paradigm    | Package   | Function  |
+|-------------|-----------|-----------|
+| Likelihood  | `nlme`    | `gls`     |
+| Likelihood  | `bbmme`   | `mle2`    |
+| Bayesian    | `brms`    | `brm`     |
+
+**Examples**
+
+A linear model with variance increasing exponentially with covariate.
+
+Data simulation:
+
+```r
+set.seed(1234)
+a   = 0
+b   = 1
+c   = 0.05
+n   = 5
+x   = rep(1:10, each = 5)
+y   = rnorm(50, a + b*x, sd = sqrt(exp(2*c*x)))
+data = data.frame(y = y, x = x)
+```
+
+Negative log-likelihood:
+
+```r
+NLL = function(a, b, c, x, y) {
+  mus = a + b*x
+  sd  = sqrt(exp(2*c*x))
+  -sum(dnorm(y, mean = mus, sd = sd, log = TRUE))
+}
+```
+
+With `gls`:
+
+``` r
+summary(gls(y~x, weights = varExp(form = ~x), data = data, method = "ML"))
+```
+With `mle2`:
+
+```r
+
+```
+
+With `brm`:
+
+```r
+brm(bf(y~x, sigma~exp(x)), data = data, family = gaussian())
+```
+
+Notes: The function `gls` allows only specific functions
+
+## Linear mixed model
+
+Stochastic model: Multiple levels assumed Normal.
+Mean response: Linear function of covariates.
+Variance response: Non-linear function of covariates and/or correlation structure.
+
+| Paradigm    | Package   | Function    |
+|-------------|-----------|-------------|
+| Likelihood  | `nlme`    | `lme`       |
+| Likelihood  | `lme4`    | `lmer`      | 
+| Both        | `glmmTMB` | `glmmTMB`   |
+| Bayesian    | `stanarm` | `stan_lmer` |
+| Bayesian    | `brms`    | `brm`       |
+
+Note that `lmer` and `stan_lmer` allow for some correlation structure in 
+residuals but do not allow modelling the variance itself. For that you need to
+use `lme` or `brm`.
+
+**Examples**
+
+# Generalized linear responses
+
+Models where the response variable is assumed different from Normal. The mean is 
+modeled by a non-linear function (link) and a linear
+model of covariates. In other words, these models are non-linear but the
+parameters reported are linear with respect to a transformation of the mean.
+
+Canned methods generally support a number of pre-specified distributions and link
+functions. For more diversity you will have to write you own model.
+
+## Generalized linear models
+
+Stochastic model: A single level of one of the pre-specified distributions.
+Mean response: Linear function of covariates after link transformation.
+Variance response: Scale parameter (if present) assumed constant (but see note).
+
+| Paradigm    | Package      | Function    |
+|-------------|--------------|-------------|
+| Likelihood  | `Base`       | `glm`       |
+| Both        | `glmmTMB`^1^ | `glmmTMB`|
+| Bayesian    | `stanarm`    | `stan_glm ` |
+| Bayesian    | `brms`^1,2^  | `brm`    |
+
+^1^ Correlation structure for residuals
+^2^ Scale parameter can be modeled as non-linear function of covariates.
+
+**Example**
+
+An Poisson model with an log link function
+
+With `glm`
+
+``` r
+fit = glm(y~x, family = poisson(link = "log"), data = data)
+```
+
+## Generalized linear mixed models
+
+Stochastic model: Multiple levels. The latent ones must be Normal.
+Mean response: Linear function of covariates after link transformation.
+Variance response: In some cases in can be modeled as a function of covariates.
+
+| Paradigm    | Package      | Function    |
+|-------------|--------------|-------------|
+| Likelihood  | `lme4`       | `glmer`     |
+| Both        | `glmmTMB`^1^ | `glmmTMB`   |
+| Bayesian    | `stanarm`    | `stan_glmer`|
+| Bayesian    | `brms`^1,2^  | `brm`       |
+
+^1^ Correlation structure for residuals
+^2^ Scale parameter can be modeled as non-linear function of covariates.
+
+# Non-linear responses
+
+Models where the mean is modeled by a non-linear function of covariates.
+
+Canned only support non-linear models that can be expressed as a formula so
+they must be quite simple. In Likelihood  versions, it is important to choose 
+good initial values as  otherwise the algorithms will not converge. For that 
+reason it is common to use self-starting functions that already specify a model 
+and an internal algorithm to come up with good starting values (these are
+compatible with `nls` and `gnls`.
+
+## On self-starting functions
+
+For non-linear models it is very important to have good initial
+estimates of parameters. R has the concept of *self-starting* models. A
+self-starting model implements a particular model and a procedure to
+"eye-ball" the initial values:
+
+-   Base R provides `SSasymp`, `SSasympOff`, `SSasympOrig`, `SSbiexp`,
+    `SSfol`, `SSfpl`, `SSgompertz`, `SSlogis`, `SSmicmen`, `SSweibull`
+
+-   The package `nlraa` provides 28 new self-starting functions that are
+    used in agricultural research but could be useful in more general
+    ecological applications.
+
+-   The package `vega` provides 4 new self-starting functions to model
+    the relationship between species richness and area
+
+See this blog post on how to write your own self-starting functions:
+https://www.statforbiology.com/2020/stat_nls_selfstarting/
+
+## Non-linear Normal responses
+
+### Non-linear model
+
+Stochastic model: A single level, assumed Normal.
+Mean response: Non-linear function of covariates.
+Variance response: Assumed constant (but see note).
+
+| Paradigm    | Package     | Function  |
+|-------------|-------------|-----------|
+| Likelihood  | `Base`      | `nls`     |
+| Likelihood  | `nlme`^1,2^ | `gnls`    |
+| Likelihood  | `bbmle`^2^  | `mle2`    |
+| Bayesian    | `brms`^1,2^ | `brm`     |
+
+^1^ Correlation structure for residuals
+^2^ Variance can be modeled as a non-linear function of covariates. 
+
+**Example with constant variance**
+
+A Michaelis-Menten model:
 
 ```r
 set.seed(1234)
@@ -113,163 +389,69 @@ b   = 3
 x   = 1:10
 y   = rnorm(10, mean = a*x/(b + x), sd = sd)
 data = data.frame(y = y, x = x)
-with(data, plot(y~x))
 ```
 
-The negative log-likelihood is a Normal with a mean increasingly according to the
-Michaelis-Menten formula with respec to `x` and a fixed standard deviation
+With `nls`
+
+``` r
+fit = nls(y~a*x/(b + x), start = list(a = 5, b = 2), data = data)
+```
+
+With `mle2`
+
+``` r
+fit = mle2(y~dnorm(mean = a*x/(b + x), sd = sd), start = list(a = 5, b = 2, sd = 1), data = data)
+```
+
+With `brm` 
+
+``` r
+summary(brm(y~a*x/(b + x), data = data))
+```
+
+**Example with increasing variance**
+
+A Michaelis-Menten model with error increasing exponential with predictor
 
 ```r
-NLL <- function(a, b, sd, y, x) {
-  ymod = a*x/(b + x)
-  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
-}
-library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(a = 5, b = 2, sd = 1),
-           data = data)
-summary(fit)
+fit = gnls(y~a*x/(b + x), start = list(a = 5, b = 2), 
+             weights = varExp(form = ~x), data = data)
 ```
 
-The canned (base R) version:
+### Non-linear mixed models
 
-```r
-summary(nls(y~a*x/(b + x), start = list(a = 5, b = 2), data = data))
-```
+Stochastic model: Multiple levels assumed Normal.
+Mean response: Linear function of covariates after link transformation.
+Variance response: Correlation structure for residuals and variance can be 
+modeled as non-linear function of covariates.
 
-The Bayesian version (inspect file `non_linear` for Stan code):
+| Paradigm    | Package   | Function  |
+|-------------|-----------|-----------|
+| Likelihood  | `nlme`    | `nlme`    |
+| Bayesian    | `brms`    | `brm`     |
 
-```r
-summary(brm(y~a*x/(b + x), data = data, silent = 2, refresh = 0, save_model = "non_linear"))
-```
+## Non-linear non-Normal responses
 
-# Linear regression with heterogeneous variance (`gls`)
+### Non-linear non-Normal model
 
-A linear model with variance increasing exponential with predictor:
+Stochastic model: A single level of one of the pre-specified distributions.
+Mean response: Non-linear function of covariates.
+Variance response: Variance can be modeled as non-linear function of covariates.
 
-```r
-a = 2
-b = 10
-c = 1
-x = seq(0.1,1, 0.1)
-y   = rnorm(10, mean = a + b*x, sd = sqrt(exp(c*x)))
-data = data.frame(y = y, x = x)
-with(data, plot(y~x))
-```
+| Paradigm    | Package   | Function  |
+|-------------|-----------|-----------|
+| Likelihood  | `bbmle`   | `mle2`    |
+| Bayesian    | `brms`^1^ | `brm`     |
 
-The negative log-likelihood is a Normal with a mean increasingly linearly with 
-`x` and an exponential model for the standard deviation:
+^1^ Also allows correlation structures
 
-```r
-NLL <- function(a, b, c, y, x) {
-  ymod = a + b*x
-  sd   = sqrt(exp(c*x))
-  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
-}
-library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(a = 1, b = 5, c = 0),
-           data = data)
-summary(fit)
-```
+### Non-linear non-Normal mixed model
 
-The canned (package `nlme`) version:
+Stochastic model: Multiple levels. The latent ones must be Normal.
+Mean response: Non-linear function of covariates.
+Variance response: Correlation structure for residuals and variance can be 
+modeled as non-linear function of covariates.
 
-```r
-summary(gls(y~x, weights = varExp(form = ~x), data = data, method = "ML"))
-```
-
-Same difference as for ANOVA but also note that `gls` has several pre-specified
-variance models and you cannot change them. `varExp` actually assumes the model
-`sd = sqrt(sigma^2*exp(2*c*x))`, so the estimate reported is half of `c` in NLL.
-
-`gls` allows using REML (see Supplement on Bias and Variance of Estimates).
-
-
-# Non-linear regression with heterogeneous variance (`gnls`)
-
-A Michaelis-Menten model with exponential error
-
-```r
-set.seed(1234)
-a   = 10
-b   = 3
-c   = 0.1
-x   = 1:10
-y   = rnorm(10, mean = a*x/(b + x), sd = sqrt(exp(c*x)))
-data = data.frame(y = y, x = x)
-with(data, plot(y~x))
-```
-
-The negative log-likelihood is a Normal with a mean increasingly according to the
-Michaelis-Menten formula with respect to `x` and an exponential model for the
-variance
-
-```r
-NLL <- function(a, b, c, y, x) {
-  ymod = a*x/(b + x)
-  sd   = sqrt(exp(c*x))
-  -sum(dnorm(y, mean = ymod, sd = sd, log = TRUE))
-}
-library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(a = 5, b = 2, c = 0.5),
-           data = data)
-summary(fit)
-```
-
-The canned (package `nlme`) version:
-
-```r
-summary(gnls(y~a*x/(b + x), start = list(a = 5, b = 2), 
-             weights = varExp(form = ~x), data = data))
-```
-
-Same difference as for ANOVA but also note that `gls` has several pre-specified
-variance models and you cannot change them. `varExp` actually assumes the model
-`sd = sqrt(sigma^2*exp(2*c*x))`, so the estimate reported is half of `c` in NLL.
-
-`gnls` does not allow using REML.
-
-# Generalized linear models (GLM)
-
-An exponential Poisson model
-
-```r
-a = 0
-b = 0.2
-x = rep(1:10, 2)
-mus = exp(a + b*x)
-y   = rpois(20, mus)
-data = data.frame(x = x, y = y)
-plot(y~x)
-```
-
-The negative log-likelihood is a Poisson with a mean growing exponentially
-
-
-```r
-NLL <- function(a, b, y, x) {
-  mus = exp(a + b*x)
-  -sum(dpois(y, lambda = mus, log = TRUE))
-}
-library(bbmle)
-fit = mle2(minuslogl = NLL, start = list(a = 0, b = 0.2),
-           data = data)
-summary(fit)
-```
-
-The canned (base R) version:
-
-```r
-summary(glm(y~x, family = poisson(link = "log"), data = data))
-```
-
-# Linear mixed model
-
-*Work in progress*
-
-# Generalized linear mixed model
-
-*Work in progress*
-
-# Non-linear mixed model
-
-*Work in progress*
+| Paradigm    | Package   | Function  |
+|-------------|-----------|-----------|
+| Bayesian    | `brms`    | `brm`     |
