@@ -8,7 +8,7 @@
 
 <meta name="author" content="Stephen Ellner, modified by Ben Bolker &amp; Bob Douma.">
 <meta name="author" content="Adapted by Alejandro Morales.">
-<meta name="dcterms.date" content="2025-10-27">
+<meta name="dcterms.date" content="2025-10-28">
 
 <title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Lab 1: An introduction to R for ecological modeling</title>
 <style>
@@ -352,7 +352,6 @@ window.Quarto = {
   <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="header-section-number">4.3</span> Lists</a></li>
   <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="header-section-number">4.4</span> Data frames</a></li>
   </ul></li>
-  <li><a href="#references-acknowlegdements" id="toc-references-acknowlegdements" class="nav-link" data-scroll-target="#references-acknowlegdements"><span class="header-section-number">5</span> References &amp; Acknowlegdements</a></li>
   </ul>
 </nav>
     </div>
@@ -379,7 +378,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 27, 2025</p>
+      <p class="date">October 28, 2025</p>
     </div>
   </div>
   
@@ -408,8 +407,8 @@ window.Quarto = {
 <section id="how-to-use-this-tutorial" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="how-to-use-this-tutorial"><span class="header-section-number">2.1</span> How to use this tutorial</h2>
 <ul>
-<li><p>This tutorial contains many sample calculations. It is important to do these yourself—<strong>type them in at your keyboard and see what happens on your screen</strong>—to get the feel of working in <code>R</code>.</p></li>
-<li><p><strong>Exercises</strong> in the middle of a section should be done inmediately, and make sure you have them rightly solved before moving on. Some other, more challenging, exercises appear at the end of some sections, and these can be left until later.</p></li>
+<li><p>This tutorial contains many sample calculations. It is important to do these yourself—<strong>type them in at your keyboard and see what happens on your screen</strong> —to get the feel of working in <code>R</code>.</p></li>
+<li><p><strong>Exercises</strong> in the middle of a section should be done immediately, and make sure you have them rightly solved before moving on. Some other, more challenging, exercises appear at the end of some sections, and these can be left until later.</p></li>
 </ul>
 </section>
 <section id="what-is-r" class="level2" data-number="2.2">
@@ -419,7 +418,6 @@ window.Quarto = {
 <li><p>can be used for numerical simulation of deterministic and stochastic dynamic models.</p></li>
 <li><p>has an extensive set of functions for classical and modern statistical data analysis and modeling.</p></li>
 <li><p>has graphics functions for visualizing data and model output</p></li>
-<li><p>a user interface with a few basic menus and extensive help facilities</p></li>
 </ul>
 <p><code>R</code> is an open source project, available for free download via the Web. Originally a research project in statistical computing it is now managed by a development team that includes a number of well-regarded statisticians. It is widely used by statistical researchers and a growing number of theoretical ecologists and ecological modelers as a platform for making new methods available to users.</p>
 </section>
@@ -429,14 +427,14 @@ window.Quarto = {
 <p>The main source for <code>R</code> is the CRAN home page <code>http://cran.r-project.org</code>. You can get the source code, but most users will prefer a precompiled version. To get one of these from CRAN:</p>
 <ul>
 <li><p>go to <code>http://cran.r-project.org/mirrors.html</code> and find a mirror site that is geographically somewhat near you.</p></li>
-<li><p>Find the appropriate page for your operating system — when you get to the download section, go to <code>base</code> rather than <code>contrib</code>. Download the binary file (e.g.&nbsp;<code>base/R-x.y.z-win32.exe</code> for Windows, <code>R-x.y.z.dmg</code> for MacOS, where <code>x.y.z</code> is the version number). The binary files are large (30–60 megabytes) — you will need to find a fast internet connection.</p></li>
+<li><p>Find the appropriate page for your operating system — when you get to the download section, go to <code>base</code> rather than <code>contrib</code>. Download the binary file (e.g.&nbsp;<code>base/R-x.y.z-win32.exe</code> for Windows, <code>R-x.y.z.dmg</code> for MacOS, where <code>x.y.z</code> is the version number).</p></li>
 <li><p>Read and follow the instructions (which are pretty much “click on the icon”).</p></li>
 </ul>
 </section>
 <section id="installing-and-using-rstudio" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="installing-and-using-rstudio"><span class="header-section-number">2.4</span> Installing and using Rstudio</h2>
-<p>Nowadays programs are available that integrate <code>R</code> in a sophisticated way by combining a console, a <em>syntax highlighting</em> editor (giving colors to <code>R</code> commands and allowing you to identify missing parentheses, quotation marks etc.), tools for plotting, debugging, workspace management and connections to versioning systems into one program. Rstudio is currently the most advanced wrapper around R and is highly recommended if <code>R</code> is the core of your work. Rstudio can be found and downloaded at https://www.rstudio.com.</p>
-<p>If a new <code>R</code> version is launched after you installed Rstudio, you can change the <code>R</code> version that is used in Rstudio by clicking on <code>Tools</code> and <code>Global Options</code>, choose <code>R general</code> and select the location of the most recent <code>R</code> version.</p>
+<p>Nowadays, programs are available that integrate <code>R</code> in a sophisticated way by combining a console, a <em>syntax highlighting</em> editor (giving colors to <code>R</code> commands and allowing you to identify missing parentheses, quotation marks etc.), tools for plotting, debugging, workspace management and connections to versioning systems into one program. Rstudio is currently the most common program around R and is highly recommended if <code>R</code> is the core of your work. Rstudio can be found and downloaded at https://www.rstudio.com.</p>
+<p>If the wrong <code>R</code> version is launched after you installed Rstudio, you can change the <code>R</code> version that is used in Rstudio by clicking on <code>Tools</code> and <code>Global Options</code>, choose <code>R general</code> and select the location of the <code>R</code> version you want.</p>
 <p>Rstudio usually displays four panels. The default setting is a script editor at the top-left of the screen, the console at the bottom-left, the global environment (which shows what is stored in the memory) at the top-right, and a plotting region at bottom-right. As you see some panel have multiple tabs that include other useful features such as the help (bottom-right), the (available and loaded) packages (bottom-right) etc.</p>
 </section>
 <section id="the-r-package-system" class="level2" data-number="2.5">
@@ -457,12 +455,12 @@ window.Quarto = {
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">2</span><span class="sc">+</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>R</code> automatically creates the variable <code>a</code> and stores the result (4) in it, but it doesn’t print anything. This may seem strange, but you’ll often be creating and manipulating huge sets of data that would fill many screens, so the default is to skip printing the results. To ask <code>R</code> to print the value, just type the variable name by itself at the command prompt:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>(the <code>[1]</code> at the beginning of the line is just <code>R</code> printing an index of element numbers; if you print a result that displays on multiple lines, <code>R</code> will put an index at the beginning of each line. <code>print(a)</code> also works to print the value of a variable.) By default, a variable created this way is a <em>vector</em>, and it is <em>numeric</em> because we gave <code>R</code> a number rather than some other type of data (e.g.&nbsp;a character string like <code>"pxqr"</code>). In this case <code>a</code> is a numeric vector of length 1, which acts just like a number.</p>
+<p>(the <code>[1]</code> at the beginning of the line is just <code>R</code> printing an index of element numbers; if you print a result that displays on multiple lines, <code>R</code> will put an index at the beginning of each line. <code>print(a)</code> also works to print the value of a variable.) By default, a variable created this way is a <em>vector</em>, and it is <em>numeric</em> because we gave <code>R</code> a number rather than some other type of data (e.g.&nbsp; a character string like <code>"pxqr"</code>). In this case <code>a</code> is a numeric vector of length 1, which acts just like a number.</p>
 <p>You could also type <code>a=2+2; a</code>, using a semicolon to put two or more commands on a single line. Conversely, you can break lines <em>anywhere that <code>R</code> can tell you haven’t finished your command</em> and <code>R</code> will give you a “continuation” prompt (<code>+</code>) to let you know that it doesn’t think you’re finished yet: try typing</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">3</span><span class="sc">*</span>(<span class="dv">4</span> <span class="sc">+</span> [Enter]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>to see what happens. You will sometimes see the continuation prompt when you don’t expect it, e.g.&nbsp;if you forget to close parentheses.If you get stuck continuing a command you don’t want—e.g.&nbsp;you opened the wrong parentheses—just hit the <code>Escape</code> key or the stop icon in the menu bar to get out.</p>
-<p>Variable names in <code>R</code> must begin with a letter, followed by letters or numbers. You can break up long names with a period, as in <code>very.long.variable.number.3</code>, or an underscore (<code>_</code>), but you can’t use blank spaces in variable names (or at least it’s not worth the trouble). Variable names in <code>R</code> are case sensitive, so <code>Abc</code> and <code>abc</code> are different variables. Make variable names long enough to remember, short enough to type.<code>N.per.ha</code> or <code>pop.density</code> are better than <code>x</code> and <code>y</code> (too short) or <code>available.nitrogen.per.hectare</code> (too long). Avoid <code>c</code>, <code>l</code>, <code>q</code>, <code>t</code>, <code>C</code>, <code>D</code>, <code>F</code>, <code>I</code>, and <code>T</code>, which are either built-in <code>R</code> functions or hard to tell apart.</p>
+<p>Variable names in <code>R</code> must begin with a letter, followed by letters or digits You can break up long names with a period, as in <code>very.long.variable.number.3</code>, or an underscore (<code>_</code>), but you can’t use blank spaces in variable names (or at least it’s not worth the trouble). Variable names in <code>R</code> are case sensitive, so <code>Abc</code> and <code>abc</code> are different variables. Make variable names long enough to remember, short enough to type.<code>N.per.ha</code> or <code>pop.density</code> are better than <code>x</code> and <code>y</code> (too short) or <code>available.nitrogen.per.hectare</code> (too long). Avoid <code>c</code>, <code>l</code>, <code>q</code>, <code>t</code>, <code>C</code>, <code>D</code>, <code>F</code>, <code>I</code>, and <code>T</code>, which are either built-in <code>R</code> functions or hard to tell apart.</p>
 <p><code>R</code> does calculations with variables as if they were numbers. It uses <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>^</code> for addition, subtraction, multiplication, division and exponentiation, respectively. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">5</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span></span>
@@ -482,11 +480,22 @@ window.Quarto = {
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">=</span> A <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sqrt</span>(A)<span class="sc">/</span>A <span class="sc">+</span> <span class="dv">5</span><span class="sc">*</span><span class="fu">sqrt</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>is not the same as the one above; rather, it is equivalent to <code>C=A + 2*(sqrt(A)/A) + 5*sqrt(A)</code>.</p>
 <p>The default order of operations is: (1) parentheses; (2) exponentiation, or powers, (3) multiplication and division, (4) addition and subtraction.</p>
-<p>b = 12-4/2^3 gives 12 - 4/8 = 12 - 0.5 = 11.5</p>
-<p>b = (12-4)/2^3 gives 8/8 = 1</p>
-<p>b = -1^2 gives -(1^2) = -1</p>
-<p>b = (-1)^2 gives 1</p>
-<p>In complicated expressions you might start off by <em>using parentheses to specify explicitly what you want</em>, such as b = 12 - (4/(2^3)) or at least b = 12 - 4/(2^3); a few extra sets of parentheses never hurt, although when you get confused it’s better to think through the order of operations rather than flailing around adding parentheses at random. <code>R</code> also has many <em>built-in mathematical functions</em> that operate on variables (Table 1 shows a few).</p>
+<p><code>b = 12-4/2^3</code> gives <code>12 - 4/8 = 12 - 0.5 = 11.5</code></p>
+<p><code>b = (12-4)/2^3</code> gives <code>8/8 = 1</code></p>
+<p><code>b = -1^2</code> gives <code>-(1^2) = -1</code></p>
+<p><code>b = (-1)^2</code> gives <code>1</code></p>
+<p>In complicated expressions you might start off by <em>using parentheses to specify explicitly what you want</em>, such as <code>b = 12 - (4/(2^3))</code> or at least <code>b = 12 - 4/(2^3)</code>; a few extra sets of parentheses never hurt, although when you get confused it’s better to think through the order of operations rather than flailing around adding parentheses at random. <code>R</code> also has many <em>built-in mathematical functions</em> that operate on variables such as:</p>
+<ul>
+<li><code>abs</code>: Absolute values.<br>
+</li>
+<li><code>cos</code>, <code>sin</code> and <code>tan</code>: For trigonometry (arguments always in radians).<br>
+</li>
+<li><code>exp</code>: Exponential function.<br>
+</li>
+<li><code>log</code>, <code>log10</code>: Natural logarithm and logarithm base 10.<br>
+</li>
+<li><code>sqrt</code>: Square root.</li>
+</ul>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -508,7 +517,7 @@ Exercise
 <li><span class="math inline">\(\log(1)\)</span></li>
 <li><span class="math inline">\(\exp(0.2)\)</span></li>
 </ul></li>
-<li><p>The standard normal probability density, <span class="math inline">\(\frac{1}{\sqrt(2\pi)}\exp(-x^2/2)\)</span>, for values of <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span> (<code>R</code> knows <span class="math inline">\(\pi\)</span> as <code>pi</code>). You can check your answers against the built-in function for the normal distribution; <code>dnorm(1)</code> and <code>dnorm(2)</code> should give you the values for the standard normal for <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span>.</p></li>
+<li><p>The standard normal probability density, <span class="math inline">\(\frac{1}{\sqrt{2\pi}}\exp^{-x^2/2}\)</span>, for values of <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span> (<code>R</code> knows <span class="math inline">\(\pi\)</span> as <code>pi</code>). You can check your answers against the built-in function for the normal distribution; <code>dnorm(1)</code> and <code>dnorm(2)</code> should give you the values for the standard normal for <span class="math inline">\(x=1\)</span> and <span class="math inline">\(x=2\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -524,7 +533,8 @@ Exercise
 <p>Where <code>foo</code> is the name of the function you are interested in (e.g., try <code>?sin</code>).</p>
 <ul>
 <li><p><code>??topic</code> or <code>help.search("topic")</code> (with quotes) will list information related to <code>topic</code> available in the base system or in any extra installed packages: then use <code>?topic</code> to see the information, perhaps using <code>library(pkg)</code> to load the appropriate package first. <code>help.search</code> uses “fuzzy matching” — for example, <code>help.search("log")</code> finds 528 entries (on my particular system) including lots of functions with “plot”, which includes the letters “lot”, which are <em>almost</em> like “log”. If you can’t stand it, you can turn this behavior off by specifying the incantation <code>help.search("log",agrep=FALSE)</code> (81 results which still include matches for “logistic”, “myelogenous”, and “phylogeny” …)</p></li>
-<li><p>On-line help resources - just google it. In our experience, the help provided by <code>R</code> requires some experience in the <code>R</code> language to be able to understand it. Therefore, a general, but practical advice is to google your problem. In 99.9% of the cases someone else had a similar question in the past which were solved by the <code>R</code> community. Start you search string with “R-help” helps to filter relevant webpages. Place were you likely will find answers are https://stackoverflow.com or https://stat.ethz.ch.</p></li>
+<li><p>On-line help resources - just google it. In our experience, the help provided by <code>R</code> requires some experience in the <code>R</code> language to be able to understand it. Therefore, a general, but practical advice is to Google your problem. In 99.9% of the cases someone else had a similar question in the past which were solved by the <code>R</code> community, often in https://stackoverflow.com.</p></li>
+<li><p>Large language models can often help with basic R operations and recent models may handle more advanced modeling functions. However, you should always be aware that (i) the quality of the responses you get depend on how often a particular error or function has been discussed online and (ii) these generative AI can “say” things are factually incorrect because they do not “understand” what they are saying and it can be very hard to distinguish proper answers from these “hallucinations”. Best case scenario the answer is so wrong that when you try it, it just doesn’t run in R. Worst case, the answer “runs” but it does not do what you actually wanted to do. For that reason (and many others) it is better to use these AI tools to help you learn rather than as a virtual slave coder.</p></li>
 </ul>
 </section>
 </section>
@@ -532,7 +542,7 @@ Exercise
 <h1 data-number="3"><span class="header-section-number">3</span> Scripts and Reading Data</h1>
 <section id="using-scripts-and-data-files" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="using-scripts-and-data-files"><span class="header-section-number">3.1</span> Using scripts and data files</h2>
-<p>Modeling and complicated data analysis are often much easier if you use <em>scripts</em>, which are a series of commands stored in a text file. Scripting has a number of advantages and should be standard practice when doing statstics for reasons of transparency (you can see what you have done), repeatability (tomorrow you will get the same result as today) and transferability (a colleague can easily check what you have done and redo your analysis). Even for relatively simple tasks, script files are useful for building up a calculation step-by-step, making sure that each part works before adding on to it. We recommend you making a habit typing all commands in a script editor before sending it the console, otherwise important parts of your analysis may get lost because you did not store them.</p>
+<p>Modeling and complicated data analysis are often much easier if you use <em>scripts</em>, which are a series of commands stored in a text file. Scripting has a number of advantages and should be standard practice when doing statistics for reasons of transparency (you can see what you have done), repeatability (tomorrow you will get the same result as today) and transferability (a colleague can easily check what you have done and redo your analysis). Even for relatively simple tasks, script files are useful for building up a calculation step-by-step, making sure that each part works before adding on to it. We recommend you making a habit typing all commands in a script editor before sending it the console, otherwise important parts of your analysis may get lost because you did not store them.</p>
 <p>Rstudio has an advanced script editor that recognizes <code>R</code> syntax by giving different colors to different <code>R</code> commands and by automatic completion of parentheses. You can also use Windows Notepad or Wordpad but you <strong>should not</strong> use MS Word.</p>
 <p>Most programs for working with models or analyzing data follow a simple pattern of program parts:</p>
 <ol type="1">
@@ -543,8 +553,9 @@ Exercise
 </ol>
 <p>To tell <code>R</code> where data and script files are located, you can do any one of the following:</p>
 <ul>
-<li><p>spell out the <em>path</em>, or file location, explicitly. (Use a single forward slash to separate folders (e.g.&nbsp;<code>"c:/My Documents/R/script.R"</code>): this works on all platforms.)</p></li>
-<li><p>change your working directory to wherever the file(s) are located using the <code>setwd</code> (<strong>set</strong> <strong>w</strong>orking <strong>d</strong>irectory) function, e.g.&nbsp;<code>setwd("c:/temp")</code> or through clicking on ‘Session’ and ‘set working directory’. Changing your working directory is more efficient in the long run, if you save all the script and data files for a particular project in the same directory and switch to that directory when you start work.</p></li>
+<li><p>Spell out the <em>path</em>, or file location, explicitly. (Use a single forward slash to separate folders (e.g.&nbsp;<code>"c:/My Documents/R/script.R"</code>): this works on all platforms.)</p></li>
+<li><p>Change your working directory to wherever the file(s) are located using the <code>setwd</code> (<strong>set</strong> <strong>w</strong>orking <strong>d</strong>irectory) function, e.g.&nbsp;<code>setwd("c:/temp")</code> or through clicking on ‘Session’ and ‘set working directory’. Changing your working directory is more efficient in the long run, if you save all the script and data files for a particular project in the same directory and switch to that directory when you start work.</p></li>
+<li><p>Associate an RStudio project to your folder. This means that every time you open this project in RStudio, the working directory will be set to that folder, you can easily refer to all the data and scripts within the folder without having to worry about the absolute location in your computer. It also means that you can share this project with a colleague and they can run your code without having to change</p></li>
 </ul>
 </section>
 <section id="typical-workflow-in-r-an-example-using-linear-regression" class="level2" data-number="3.2">
@@ -563,17 +574,17 @@ Exercise
 <p>To see a histogram of the growth rates enter <code>hist(rmax)</code>, which opens a graphics window and displays the histogram. There are <em>many</em> other built-in statistics functions: for example <code>mean(rmax)</code> computes you the mean, and <code>sd(rmax)</code> and <code>var(rmax)</code> compute the standard deviation and variance, respectively. Play around with these functions, and any others you can think of.</p>
 <p>To see how light intensity affects algal rate of increase, type</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rmax <span class="sc">~</span> Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>in the script (and send it the console) to plot <code>rmax</code> (<span class="math inline">\(y\)</span>) against <code>Light</code> (<span class="math inline">\(x\)</span>). The <code>~</code> sign implies “as a function of”. Alternatively, type <code>plot(Light,rmax)</code>. A linear regression would seem like a reasonable model for these data. We’ll soon be adding to it.</p>
+<p>in the script (and send it the console) to plot <code>rmax</code> (<span class="math inline">\(y\)</span>) against <code>Light</code> (<span class="math inline">\(x\)</span>). The <code>~</code> sign implies “as a function of”. Alternatively, type <code>plot(Light,rmax)</code>. A linear regression would seem like a reasonable model for these data. We’ll soon be adding to it. The figure below shows several more ways to adjust the appearance of lines and points in <code>R</code>.</p>
 <div class="cell" data-fig="true" height="2">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="no_solution_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="576"></p>
+<p><img src="no_solution_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><code>R</code>’s default plotting character is an open circle. Open symbols are generally better than closed symbols for plotting because it is easier to see where they overlap, but you could include <code>pch=16</code> in the <code>plot</code> command if you wanted closed circles instead. Figure 1 shows several more ways to adjust the appearance of lines and points in <code>R</code>.</p>
+<p><code>R</code>’s default plotting character is an open circle. Open symbols are generally better than closed symbols for plotting because it is easier to see where they overlap, but you could include <code>pch=16</code> in the <code>plot</code> command if you wanted closed circles instead.</p>
 <p>To perform linear regression we create a linear model using the <code>lm</code> (<strong>l</strong>inear <strong>m</strong>odel) function:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">lm</span>(rmax<span class="sc">~</span>Light)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(Note that linear model is read as “model <span class="math inline">\(r_{max}\)</span> as a function of light”.)</p>
@@ -591,7 +602,7 @@ Exercise
 <p>For more information (perhaps more than you want) about <code>fit</code>, use <code>str(fit)</code> (for <strong>str</strong>ucture). You can get the regression coefficients this way:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It’s good to be able to look inside <code>R</code> objects when necessary, but all other things being equal you should prefer (e.g.) <code>coef(x)</code> to <code>x$coefficients</code>.</p>
-<p>Usually data is loaded from a file. To illustrate this, grab <code>Intro2.R</code> and <code>ChlorellaGrowth.txt</code> from brighspace to see how this is done. In <code>ChlorellaGrowth.txt</code> the two variables are entered as columns of a data matrix. Then instead of typing these in by hand, the command</p>
+<p>Usually data is loaded from a file. To illustrate this, the file <code>ChlorellaGrowth.txt</code> from the course files (Brightspace or Teams). In <code>ChlorellaGrowth.txt</code> the two variables are entered as columns of a data matrix. Then instead of typing these in by hand, the command</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"ChlorellaGrowth.txt"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>reads the file (<strong>from the current directory</strong>) and puts the data values into the variable <code>X</code>; <code>header=TRUE</code> specifies that the file includes column names. <strong>Note</strong> that as specified above you need to make sure that <code>R</code> is looking for the data file in the right place … either move the data file to your current working directory, or change the line so that it points to the actual location of the data file.</p>
 <p>Extract the variables from <code>X</code> with the commands</p>
@@ -610,7 +621,7 @@ Exercise
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Make a copy of <code>Intro2.R</code> under a new name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately.</p>
+<p>Grab the file <code>Intro2.R</code> from the course files. Make a copy with a different name, and modify the copy so that it does linear regression of algal growth rate on the natural log of light intensity, <code>LogLight=log(Light)</code>, and plots the data appropriately.</p>
 </div>
 </div>
 </div>
@@ -631,8 +642,7 @@ Exercise
 </div>
 </div>
 <p>R produced a series of diagnostic plots exploring whether or not the fitted linear model is a suitable fit to the data. In each of the plots, the 3 most extreme points (the most likely candidates for “outliers”) have been identified according to their sequence in the data set.</p>
-<p>The axes in plots are scaled automatically, but the outcome is not always ideal (e.g.&nbsp;if you want several graphs with exactly the same axis limits). You can use the <code>xlim</code> and <code>ylim</code> arguments in <code>plot</code> to control the limits: <code>plot(x,y,xlim=c(x1,x2), [other stuff])</code></p>
-<p>will draw the graph with the <span class="math inline">\(x\)</span>-axis running from <code>x1</code> to <code>x2</code>, and using <code>ylim=c(y1,y2)</code> within the <code>plot</code> command will do the same for the <span class="math inline">\(y\)</span>-axis.</p>
+<p>The axes in plots are scaled automatically, but the outcome is not always ideal (e.g.&nbsp;if you want several graphs with exactly the same axis limits). You can use the <code>xlim</code> and <code>ylim</code> arguments in <code>plot</code> to control the limits: <code>plot(x,y,xlim=c(x1,x2), [other stuff])</code> will draw the graph with the <span class="math inline">\(x\)</span>-axis running from <code>x1</code> to <code>x2</code>, and using <code>ylim=c(y1,y2)</code> within the <code>plot</code> command will do the same for the <span class="math inline">\(y\)</span>-axis.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -680,7 +690,7 @@ Exercise
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Use <code>?plot</code> and <code>?par</code> to read about other plot control parameters. The function <code>plot</code> takes a number of arguments such as <code>type</code> that allows you to draw a line through a series of points instead of plotting separate points. With <code>par</code> you can change anything you want to change. For example, you can choose the coloor of the points, or the shape of the points. You should definitely skim read this help as this is one of the longest help files in the whole R system!).</p>
+<p>Use <code>?plot</code> and <code>?par</code> to read about other plot control parameters. The function <code>plot</code> takes a number of arguments such as <code>type</code> that allows you to draw a line through a series of points instead of plotting separate points. With <code>par</code> you can change anything you want to change. For example, you can choose the color of the points, or the shape of the points. You should definitely skim read this help as this is one of the longest help files in the whole R system!).</p>
 <p>Then draw a <span class="math inline">\(2 \times 2\)</span> set of plots, each showing the line <span class="math inline">\(y=5x + 3\)</span> with <span class="math inline">\(x\)</span> running from 3 to 8, but with 4 different line styles and 4 different line colors.</p>
 </div>
 </div>
@@ -746,7 +756,7 @@ Exercise
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>newsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice that <code>R</code> applied each operation to every element in the vector. Similarly, commands like <code>initialsize-5, 2*initialsize, initialsize/10</code> apply subtraction, multiplication, and division to each element of the vector. The same is true for</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>initialsize<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In <code>R</code> the default is to apply functions and operations to vectors in an <em>element by element</em> (or “vectorized”) manner. This is an extremely useful propery in <code>R</code>.</p>
+<p>In <code>R</code> the default is to apply functions and operations to vectors in an <em>element by element</em> (or “vectorized”) manner. This is an extremely useful property in <code>R</code>.</p>
 <section id="functions-for-creating-vectors" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="functions-for-creating-vectors"><span class="header-section-number">4.1.1</span> Functions for creating vectors</h3>
 <p>You can use the <code>seq</code> function to create a set of regularly spaced values. <code>seq</code>’s syntax is <code>x=seq(from,to,by)</code> or <code>x=seq(from,to)</code> or <code>x=seq(from,to,length.out)</code>. The first form generates a vector starting with <code>from</code> with the last entry not extending further than than <code>to</code> in steps of <code>by</code>. In the second form the value of <code>by</code> is assumed to be 1 or -1, depending on whether <code>from</code> or <code>to</code> is larger. The third form creates a vector with the desired endpoints and length. The syntax <code>from:to</code> is a shortcut for <code>seq(from,to)</code>:</p>
@@ -781,7 +791,6 @@ Exercise
 </div>
 </div>
 <p>The value 3 was repeated 2 times, followed by the value 4 repeated 5 times. <code>rep</code> can be a little bit mind-blowing as you get started, but it will turn out to be useful.</p>
-<p>Table 3 lists some of the main functions for creating and working with vectors.</p>
 </section>
 <section id="vector-indexing" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="vector-indexing"><span class="header-section-number">4.1.2</span> Vector indexing</h3>
@@ -868,10 +877,24 @@ Exercise
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>d</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>e</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The parentheses around (<code>a&gt;b</code>) are optional but make the code easier to read. One special case where you <em>do</em> need parentheses (or spaces) is when you make comparisons with negative values; <code>a&lt;-1</code> will surprise you by setting <code>a=1</code>, because <code>&lt;-</code> (representing a left-pointing arrow) is equivalent to <code>=</code> in <code>R</code>. Use <code>a&lt; -1</code>, or more safely <code>a&lt;(-1)</code>, to make this comparison.</p>
+<p>Some comparison operators in R:</p>
+<ul>
+<li><code>x &lt; y</code>: x is smaller than y.<br>
+</li>
+<li><code>x &lt; y</code>: x is greater than y.<br>
+</li>
+<li><code>x &lt;= y</code>: x is smaller or equal than y.<br>
+</li>
+<li><code>x &gt;= y</code>: x is greater or equal than y.<br>
+</li>
+<li><code>x == y</code>: x is equal to y.<br>
+</li>
+<li><code>x != y</code>: x is not equal to y.</li>
+</ul>
 <p>When we compare two vectors or matrices of the same size, or compare a number with a vector or matrix, comparisons are done element-by-element. For example,</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>(x<span class="sc">&lt;=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>So if <code>x</code> and <code>y</code> are vectors, then <code>(x==y)</code> will return a vector of values giving the element-by-element comparisons. If you want to know whether <code>x</code> and <code>y</code> are identical vectors, use <code>identical(x,y)</code> which returns a single value: <code>TRUE</code> if each entry in <code>x</code> equals the corresponding entry in <code>y</code>, otherwise <code>FALSE</code>. You can use <code>?Logical</code> to read more about logical operators. Note the difference between = and ==</p>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> (x <span class="sc">&lt;=</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So if <code>x</code> and <code>y</code> are vectors, then <code>(x == y)</code> will return a vector of values giving the element-by-element comparisons. If you want to know whether <code>x</code> and <code>y</code> are identical vectors, use <code>identical(x,y)</code> which returns a single value: <code>TRUE</code> if each entry in <code>x</code> equals the corresponding entry in <code>y</code>, otherwise <code>FALSE</code>. You can use <code>?Logical</code> to read more about logical operators. Note the difference between <code>=</code> and <code>==</code></p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -885,11 +908,11 @@ Exercise
 <div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Run the code block below. Can you figure out why <code>a==b</code> gives different results the first and second time you execute them?</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>b</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>a<span class="sc">==</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span>  <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span>  <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> b</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span>  b</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1050,11 +1073,6 @@ Exercise
 <div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">4</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.entry</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>will create <code>A</code> as a <span class="math inline">\(3 \times 4\)</span> matrix, and then call up a spreadsheet-like interface in which you can change the values to whatever you need.</p>
-<div class="cell" data-result="asis">
-<div class="cell-output-display">
-
-</div>
-</div>
 </section>
 <section id="cbind-and-rbind" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="cbind-and-rbind"><span class="header-section-number">4.2.2</span> <code>cbind</code> and <code>rbind</code></h3>
@@ -1086,7 +1104,7 @@ Exercise
 <p>Matrix indexing is like vector indexing except that you have to specify both the row and column, or range of rows and columns. For example <code>z=A[2,3]</code> sets <code>z</code> equal to 6, which is the (2nd row, 3rd column) entry of the matrix <strong>A</strong> that you recently created, and</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">B=</span>A[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>There is an easy shortcut to extract entire rows or columns: leave out the limits, leaving a blank before or after the comma.</p>
+<p>There is an easy shortcut to extract entire rows or columns: leave out the l imits, leaving a blank before or after the comma.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">first.row=</span>A[<span class="dv">1</span>,])</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">second.column=</span>A[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(What does <code>A[,]</code> do?)</p>
@@ -1108,17 +1126,9 @@ Exercise
 <section id="data-frames" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">4.4</span> Data frames</h2>
 <p>Data frames are the solution to the problem that most data sets have several different kinds of variables observed for each sample (e.g.&nbsp;categorical site location and continuous rainfall), but matrices can only contain a single type of data. Data frames are a hybrid of lists and vectors; internally, they are a list of vectors that may be of different types but must all be the same length, but you can do most of the same things with them (e.g., extracting a subset of rows) that you can do with matrices. You can index them either the way you would index a list, using <code>[[ ]]</code> or <code>$</code> — where each variable is a different item in the list — or the way you would index a matrix. Use <code>as.matrix</code> if you have a data frame (where all variables are the same type) that you really want to be a matrix, e.g.&nbsp;if you need to transpose it (use <code>as.data.frame</code> to go the other way).</p>
-</section>
-</section>
-<section id="references-acknowlegdements" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> References &amp; Acknowlegdements</h1>
-<p>These notes are based in part on course materials by former TAs Colleen Webb, Jonathan Rowell and Daniel Fink at Cornell, Professors Lou Gross (University of Tennessee) and Paul Fackler (NC State University), and on the book <em>Getting Started with Matlab</em> by Rudra Pratap (Oxford University Press). They also draw on the documentation supplied with <code>R</code>. They parallel, but go into more depth than, the chapter supplement for the book <em>Ecological Models and Data in <code>R</code></em>.</p>
-<p>You can find many other similar introductions scattered around the web, or in the “contributed documentation” section on the <code>R</code> web site (http://cran.r-project.org/other-docs.html). This particular version is limited (it has similar coverage to Sections 1 and 2 of the <em>Introduction to <code>R</code></em> that comes with <code>R</code>) and targets biologists who are neither programmers nor statisticians.</p>
-<p>Fussmann, G., S. P. Ellner, K. W. Shertzer and J. N. G. Hairston. 2000. Crossing the Hopf bifurcation in a live predator-prey system. Science <strong>290</strong>:1358-1360.</p>
-<p>Ihaka, <code>R</code>. and <code>R</code>. Gentleman. 1996. <code>R</code>: A language for data analysis and graphics. Journal of Computational and Graphical Statistics <strong>5</strong>:299-314.</p>
-<p>Venables and Ripley. 2002. Modern Applied Statistics with S. Springer, New York. 4th edition.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
