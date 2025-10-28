@@ -563,7 +563,7 @@ integration and it gets very tedious.
 
 ::::::
 
-# Bayesian approach
+# (OPTIONAL) Bayesian approach
 
 In the Bayesian approach we can estimate all the parameters and latent random
 variables by applying Markov Chain Monte Carlo. In fact, no changes are needed

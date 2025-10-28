@@ -192,7 +192,7 @@ abline(v=c(0.007177,0.0107589),col="blue")
 ::::::
 
 
-## Bayesian parameter estimation: Hamiltonian Monte Carlo
+## (OPTIONAL) Bayesian parameter estimation: Hamiltonian Monte Carlo
 
 In this section we will revisit the examples we did in Lab 6 but using a 
 Markov Chain Monte Carlo approach to generate samples from the posterior

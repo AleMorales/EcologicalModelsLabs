@@ -462,7 +462,7 @@ contour(muvec,kvec,resmat,nlevels=100,lty=2,add=TRUE)
 
 ::::::
 
-## Bayesian parameter estimation: Laplace's approximation (OPTIONAL)
+## (OPTIONAL) Bayesian parameter estimation: Laplace's approximation
 
 
 
