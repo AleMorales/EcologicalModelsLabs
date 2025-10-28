@@ -636,7 +636,9 @@ do this with `ggplot2` or through the base `plot` function.
 
 ```r
 t1.species = table(data$available,data$remaining,data$species)
-t1.species = melt(t1.species,varnames=c("Seeds available","Seeds taken","species"),value.name="val")
+t1.species = as.data.frame(t1.species) %>%
+               rename(`Seeds available` = "Var1", `Seeds taken` = "Var2",
+                      species = "Var3", val = "Freq")
 ggplot(data=t1.species[t1.species$`Seeds available` == 5,]) +
   geom_bar(aes(x=`Seeds taken`,y=val,),stat="identity",
            position=position_dodge())+
@@ -729,7 +731,6 @@ To illustrate how to make a multiline plot, we will read a different dataset
 
 ```r
 data.meas = read.table("ewcitmeas.dat", header = TRUE, na.strings = "*")
-
 ```
 
 `year`, `mon`, and `day` were read in as integers: I'll create a date variable as described
@@ -740,14 +741,13 @@ date = as.Date(paste(data.meas$year + 1900, data.meas$mon, data.meas$day, sep = 
 city_names = colnames(data.meas)[4:10]
 ```
 
-Later on it will be useful to have the data in long format. It's easiest to do use `melt`
-for this purpose. Note that only need to select the appropriate columns to melt (i.e. 4-11).
+Later on it will be useful to have the data in long format. As in previous examples we will
+use the function `pivot_longer()`.
 
 ```r
-library(reshape2)
 data.meas= cbind(data.meas,date)
-data_long = melt(data.meas[,4:11],id.vars=8,variable.name = "city",
-                 value.name="incidence")
+data_long = pivot_longer(select(data.meas, -day, -mon, -year), London:Sheffield,
+                         names_to = "city", values_to = "incidence")
 ```
 
 We can make a plot with multiple lines as follows. We first setup the plotting region using
