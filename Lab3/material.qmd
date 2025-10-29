@@ -47,8 +47,9 @@ reasonable fit between the data and the choosen function.
 
   + Dataset 1 describes a light response curve of ten individual plants
   + Dataset 2 describes the intake rate of a predator as a function of prey density
-  + Dataset 3 the data describe an allometric relationship
+  + Dataset 3 the data describe an allometric relationship (pine cone production as a function of diameter)
   + Dataset 4 contains measurements of population size over time
+  + Dataset 5 (this one we keep secret)
   + Dataset 6 describes a species response curve (presence/absence).
 
 The following exercise is a must; **each written exam contains a question that is 
