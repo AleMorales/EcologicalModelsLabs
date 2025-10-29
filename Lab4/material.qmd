@@ -1,35 +1,35 @@
 # Learning goals
 
-This lab has two goals: 
+This lab has two goals:
 
-- Practice with probability distributions on different types of data.  
+- Practice with probability distributions on different types of data.
 
-- Make you familiar with the technicalities of stochastic distributions in `R`. 
+- Make you familiar with the technicalities of stochastic distributions in `R`.
 
-In particular, how to generate values from probability distributions and how to make 
-your own probability distribution. Under time constraints, make sure that you make 
+In particular, how to generate values from probability distributions and how to make
+your own probability distribution. Under time constraints, make sure that you make
 at least the exercises in the first three sections.
 
 
 # Choosing probability distributions
 
 In this exercise we revisit the *shapes* dataset from the previous lab. Remember that
-we had six different datasets each describing different ecological phenomenon. The 
-first step to model your data was to choose a deterministic function that describes the 
-mean effect of the predictor variable (`x`) on the response variable (`y`). The second step 
-involves the choice of the stochastic distribution which describes how the data varies 
+we had six different datasets each describing different ecological phenomenon. The
+first step to model your data was to choose a deterministic function that describes the
+mean effect of the predictor variable (`x`) on the response variable (`y`). The second step
+involves the choice of the stochastic distribution which describes how the data varies
 around the mean and that is what we will focus on today.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Reload the six datasets and choose for each dataset one or two candidate probability 
-distributions. To guide you in making the choice consider whether you have counts 
+Reload the six datasets and choose for each dataset one or two candidate probability
+distributions. To guide you in making the choice consider whether you have counts
 (integer) or continuous (real) values. Also, if you have continuous values, are they
 constraint? (e.g., only positive, or only between zero and one).
 
 For simplicity, you may work with the distributions in table 4.1 in the book. But
 if you are curious, you can check this Wikipedia page that lists a large number
-of distributions: https://en.wikipedia.org/wiki/List_of_probability_distributions 
+of distributions: https://en.wikipedia.org/wiki/List_of_probability_distributions
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
@@ -37,24 +37,24 @@ of distributions: https://en.wikipedia.org/wiki/List_of_probability_distribution
 
 1. Dataset 1
 
-`y` represents real numbers and both positive and negative numbers occur. This 
-implies that we should choose a continuous probability distribution with support 
-over all real numbers. The normal seems a good candidate distribution because this 
+`y` represents real numbers and both positive and negative numbers occur. This
+implies that we should choose a continuous probability distribution with support
+over all real numbers. The normal seems a good candidate distribution because this
 one runs from -$\inf$ to +$\inf$. The other continuous distributions in the book
 (Table 4.1) would not be such good candidates because they do not allow negative
-values. If we expect many extreme values we may choose distributions with *thicker* 
-tails. The book does not offer any examples for unbounded continuous variables but 
+values. If we expect many extreme values we may choose distributions with *thicker*
+tails. The book does not offer any examples for unbounded continuous variables but
 from Wikipedia we may choose the [Laplace distribution](https://en.wikipedia.org/wiki/Laplace_distribution)
 or the [noncentral t-distribution](https://en.wikipedia.org/wiki/Noncentral_t-distribution)
 
 
 2. Dataset 2
 
-`y` represents real positive numbers. Indeed, the data represents a functional response 
-(predation rate), and that cannot be negative. From Table 4.1, possible distributions would 
+`y` represents real positive numbers. Indeed, the data represents a functional response
+(predation rate), and that cannot be negative. From Table 4.1, possible distributions would
 be Gamma, Lognormal or Exponential. The Exponential is less flexible (mode always at zero)
 and the Gamma distribution is not defined for `y = 0`, so the Lognormal is probably
-a better choice. In addition, if you assume a Lognormal, that is equivalent to 
+a better choice. In addition, if you assume a Lognormal, that is equivalent to
 assuming `log(y)` follows a Normal distribution (this is one reason why people often
 log transform).
 
@@ -66,28 +66,30 @@ them for modeling).
 
 3. Dataset 3
 
-`y` seems represents counts of pine cones. Given that it contains counts we can 
-pick a distribution from the family of discrete distributions. The Poisson and the 
+`y` seems represents counts of pine cones. Given that it contains counts we can
+pick a distribution from the family of discrete distributions. The Poisson and the
 Negative Binomial could be good candidates to describe this type of data. Alternatives
-from online sources would include Beta-Binomial. Sometimes we may also use continuous 
-distributions (for positive reals) for count data when the count values get very large 
+from online sources would include Beta-Binomial. Sometimes we may also use continuous
+distributions (for positive reals) for count data when the count values get very large
 and it those cases you may get similar results.
 
 4. Dataset 4
 
-`y` represents population size over time and from looking at the data, they seems to 
-indeed represent counts. Given that it contains counts we can pick a distribution from 
-the family of discrete distributions. The Poisson and the Negative Binomial could also 
+`y` represents population size over time and from looking at the data, they seems to
+indeed represent counts. Given that it contains counts we can pick a distribution from
+the family of discrete distributions. The Poisson and the Negative Binomial could also
 be good candidates to describe this type of data.
 
 5. Dataset 5
-No information is given on y. The data clearly seems to represent counts. Thus, 
+
+No information is given on y. The data clearly seems to represent counts. Thus,
 the same reasoning applies here as to the two previous datasets.
 
 6. Dataset 6
-The data (`y`) represents species occurrences at different coordinates (presence/absence). 
+
+The data (`y`) represents species occurrences at different coordinates (presence/absence).
 For binary processes we use the Bernoulli distribution (as in coin flipping exercises). But
-we can also count the number of presences in a particular range and in that case we would 
+we can also count the number of presences in a particular range and in that case we would
 use the Binomial distribution.
 
 ::::
@@ -104,25 +106,25 @@ additional distributions). For each distribution, it defines four functions that
 do different things related to the distribution. Taken the Binomial distribution
 for random variable `x` as example it can:
 
-- Generate random numbers drawn from the distribution. For example `rbinom(n,size,prob)`   
-gives `n` values of `x` with parameters `size` (total number of draws) and `p` (probability 
-of success on each draw). Every distribution will have an equivalent function (`rnorm` for 
+- Generate random numbers drawn from the distribution. For example `rbinom(n,size,prob)`
+gives `n` values of `x` with parameters `size` (total number of draws) and `p` (probability
+of success on each draw). Every distribution will have an equivalent function (`rnorm` for
 the Normal, `rpois` for the Poisson, etc.).
 
 - Compute the probability (density or mass) function. For example `dbinom(n, size prob)`
 will give the probability mass that $x = n$.
 
 - Compute the cumulative probability function. For example `pbinom(q, size prob)`
-will give the cumulative probability that $x \leq q$, that is $$\int_0^q P(x)dx$$. 
+will give the cumulative probability that $x \leq q$, that is $\int_0^q P(x)dx$.
 
 - Compute the quantile function. For example, `qbinom(p, size, prob)` gives the
 $x$ value such as that $\int_0^q P(x)dx = p$.
 
 Notice that the quantile and cumulative functions are related. In one case, I fix
-a cumulative probability value and I calculate a value of $x$ (quantile) and in the 
+a cumulative probability value and I calculate a value of $x$ (quantile) and in the
 other case I fix the value of $x$ and I calculate the cumulative probability.
 
-We can generate random draws with the same or different parameter values. For 
+We can generate random draws with the same or different parameter values. For
 example:
 
 ```r
@@ -133,8 +135,8 @@ In the first case I generate 10 random values from the same distribution. In the
 second case I generate three random values from three different distributions (they
 different in the argument `prob`).
 
-The code below shows the result of drawing a large number of values from a binomial 
-distribution with $N=12$ (i.e., `size = 12`) and $p=0.5$ (i.e., `prob = 0.5`) and 
+The code below shows the result of drawing a large number of values from a binomial
+distribution with $N=12$ (i.e., `size = 12`) and $p=0.5$ (i.e., `prob = 0.5`) and
 plotting the results as a `factor` in order to create bars (**never use histograms on discrete variables**):
 
 ```r
@@ -143,13 +145,13 @@ plot(factor(rbinom(5000,size=12,prob=0.5)), xlab="# of successes",
      ylab="# of trials out of 5000")
 ```
 
-The four functions described above exist for each of the distributions `R` has 
-built-in: e.g. for the normal distribution they're `rnorm()`, `pnorm()`, `dnorm()`, `qnorm()`. 
-Each distribution has its own set of parameters (so e.g. `pnorm()` is `pnorm(x,mean=0,sd=1)`). 
+The four functions described above exist for each of the distributions `R` has
+built-in: e.g. for the normal distribution they're `rnorm()`, `pnorm()`, `dnorm()`, `qnorm()`.
+Each distribution has its own set of parameters (so e.g. `pnorm()` is `pnorm(x,mean=0,sd=1)`).
 To see which distributions are available in the `base` package; check `?distributions`.
 For additional distributions check the packages listed in https://cran.r-project.org/web/views/Distributions.html
 
-The code below plots the four functions for the Normal distribution. We generate some 
+The code below plots the four functions for the Normal distribution. We generate some
 arrows to indicate what is an input to the function and what is an output.
 
 ```r
@@ -235,14 +237,14 @@ pbinom(4,size=10,prob=0.2, lower.tail = FALSE)
 ::::::
 
 
-You can use the `R` functions to test your understanding of a distribution and make 
+You can use the `R` functions to test your understanding of a distribution and make
 sure that random draws match up with the theoretical distributions as they should.
-This procedure is particularly valuable when you're developing new probability distributions 
+This procedure is particularly valuable when you're developing new probability distributions
 by combining simpler ones, e.g. by zero-inflating or compounding distributions.
 
-The results of a large number of random draws should have the correct moments (mean 
+The results of a large number of random draws should have the correct moments (mean
 and variance), and a histogram of those random draws (with `freq=FALSE` or `prob=TRUE`)
-should match up with the theoretical distribution. For example, draws from a binomial 
+should match up with the theoretical distribution. For example, draws from a binomial
 distribution with $p=0.2$ and $N=20$ should have a mean of approximately $Np=4$
 and a variance of $Np(1-p)=3.2$:
 
@@ -253,14 +255,14 @@ x = rbinom(10000,prob=p,size=N)
 c(mean(x),var(x))
 ```
 
-The mean is very close, the variance is a little bit farther off. Just for the heck 
+The mean is very close, the variance is a little bit farther off. Just for the heck
 of it, we can use the `replicate()` function to re-do this command many times and see how close we get:
 
 ```r
 var_dist = replicate(1000,var(rbinom(10000,prob=p,size=N)))
 ```
 
-Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the 
+Looking at the summary statistics and at the 2.5% and 97.5% quantiles of the
 distribution of variances:
 
 ```r
@@ -273,7 +275,7 @@ Even though there's some variation (of the variance) around the theoretical valu
 we seem to be doing the right thing since the 95% confidence limits include the theoretical
 value (and the average of this sampling distribution is very close to the true value).
 Chapter 5 and the last exercise in Lab 6 go deeper into how we can use simulations
-to check estimates. 
+to check estimates.
 
 I the figure below I show the barplot of 10000 draws along with the theoretical values.
 
@@ -300,8 +302,8 @@ x = rbinom(10000,prob=p,size=N)
 tx = table(factor(x,levels=0:12))/10000
 ```
 
-Note that the `levels` command is necessary in this case because the probability of $x=12$ 
-with $p=0.2$ and $N=12$ is actually so low ($\approx 4\times 10^{-9}$) that it's very 
+Note that the `levels` command is necessary in this case because the probability of $x=12$
+with $p=0.2$ and $N=12$ is actually so low ($\approx 4\times 10^{-9}$) that it's very
 unlikely that a sample of 10,000 won't include any samples with 12 successes.
 
 **3.** Draw a barplot of the values, extending the $y$-limits a bit to make room for
@@ -318,7 +320,7 @@ of the bars (these were stored inside `b1`):
 points(b1,dbinom(0:12,prob=p,size=N),pch=16)
 ```
 
-Note that `barplot()` doesn't put the bars at $x$ locations (because the x 
+Note that `barplot()` doesn't put the bars at $x$ locations (because the x
 axis is assume discrete, there is no concept of coordinates, imagine if these
 data were countries or species). For that reason, we need to store the actual
 coordinates where each bar was drawn by storing these in the variable `b1` to
@@ -326,9 +328,9 @@ make sure that the theoretical values end up in the right place.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Pick 10,000 negative binomial deviates with $\mu=2$, $k=0.5$ (using `rnbinom()`). In 
+Pick 10,000 negative binomial deviates with $\mu=2$, $k=0.5$ (using `rnbinom()`). In
 `rbnbinom()` $\mu$ = `mu` and $k$ = `size`. Pick one of the ways above to draw
-the distribution. Check that the mean and variance agree reasonably well with the 
+the distribution. Check that the mean and variance agree reasonably well with the
 theoretical values. Add points representing the theoretical distribution to the plot.
 
 ::::: {.content-hidden unless-meta="show_solution"}
@@ -365,16 +367,16 @@ points(b1, dnbinom(0:max(x), prob = p, size = k), pch = 2)
 
 ::::::
 
-Doing the equivalent plot for continuous distributions is actually somewhat easier, 
+Doing the equivalent plot for continuous distributions is actually somewhat easier,
 since you don't have to deal with the complications of a discrete distribution: the
 histogram method will automatically create bins for the data and tabulate the
 frequency and derive estimates of probability from that (`hist(...,prob=TRUE)`).
-You could then add the theoretical density function on top (e.g.: 
+You could then add the theoretical density function on top (e.g.:
 `curve(dgamma(x, shape = 2, scale = 1), add = TRUE)`).
 
 # Averaging distributions
 
-Suppose we have a (tiny) data set; we can organize it in two different ways, in 
+Suppose we have a (tiny) data set; we can organize it in two different ways, in
 standard long format or in tabular form:
 
 ```r
@@ -389,7 +391,7 @@ calculated frequency by the total sample size:
 prob=tabdat/sum(tabdat); prob
 ```
 
-In the long format, we can take the mean with `mean(dat)` or, replicating the 
+In the long format, we can take the mean with `mean(dat)` or, replicating the
 formula $\sum x_i/N$ exactly, `sum(dat)/length(dat)`.
 
 In the tabular format, we can calculate the mean with the formula $\sum P(x) x$,
@@ -406,7 +408,7 @@ You could also get the values by `as.numeric(levels(prob))`, or by `sort(unique(
 Going back the other way, from a table to raw values, we can use
 the `rep()` function to repeat values an appropriate number of times.
 In its simplest form, `rep(x,n)` just creates a vector repeats `x` (which
-may be either a single value or a vector) `n` times, but **if n is a vector as well** 
+may be either a single value or a vector) `n` times, but **if n is a vector as well**
 then each element of `x` is repeated the corresponding number of times: for example,
 
 ```r
@@ -421,20 +423,20 @@ Therefore,
 rep(vals,tabdat)
 ```
 
-will recover our original data (although not in the original order) by repeating each 
+will recover our original data (although not in the original order) by repeating each
 element of `vals` the correct number of times.
 
 ## Jensen's inequality
 
-Jensen's inequality states the following: Suppose you have a number of values, $x$, 
-with a mean $\bar{x}$, and a non-linear function $f(x)$. Then the mean of $f(x)$ is 
+Jensen's inequality states the following: Suppose you have a number of values, $x$,
+with a mean $\bar{x}$, and a non-linear function $f(x)$. Then the mean of $f(x)$ is
 not equal to $f(\bar{x})$.
 
-Jensen's inequality can be important in a number of cases. The first one is mentioned in 
-Chapter 4 (page 104) on how variability can change the mean behaviour of a system (damselfish). 
+Jensen's inequality can be important in a number of cases. The first one is mentioned in
+Chapter 4 (page 104) on how variability can change the mean behaviour of a system (damselfish).
 
-Another example where Jensen's inequality kicks in is when transforming your data. Data 
-transformations are commonly applied to get normally distributed errors. Because in 
+Another example where Jensen's inequality kicks in is when transforming your data. Data
+transformations are commonly applied to get normally distributed errors. Because in
 statistical models you are often interested in the mean effect of a given treatment.
 
 Note that quantiles are not afffected by Jensen's inequality as long as the transformation
@@ -443,24 +445,24 @@ could back transform that.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Find out what the effect of Jensen's inequality is on a series of log-tranformed 
+Find out what the effect of Jensen's inequality is on a series of log-tranformed
 datapoints with respect to the estimated mean.
 
 Use the following pseudo-code:
 
-1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10).  
+1. Generate 10 random deviates from a uniform distribution (choose the range of 0 to 10).
 
-2. Calculate the mean of those 10 deviates.  
+2. Calculate the mean of those 10 deviates.
 
-3. Plot the function $\log(x)$ with `curve()` on the range from 0-10, and plot random sample onto it.  
+3. Plot the function $\log(x)$ with `curve()` on the range from 0-10, and plot random sample onto it.
 
-4. Calculate the mean of the log-transformed values and transform this mean back the 
-normal scale, and compare to the mean calculated at 1.  
+4. Calculate the mean of the log-transformed values and transform this mean back the
+normal scale, and compare to the mean calculated at 1.
 
-5. Plot the means with `abline(h=...)` if you want to draw a horizontal line or `abline(v=...)` 
-to draw a vertical line.  
+5. Plot the means with `abline(h=...)` if you want to draw a horizontal line or `abline(v=...)`
+to draw a vertical line.
 
-6. Explain differences between the two means.  
+6. Explain differences between the two means.
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
@@ -501,7 +503,7 @@ segments(x0=exp(mean(log(rf))),y0=mean(log(rf)),
             y1=min(log(rf)),lty=2)
 ```
 
-By doing a log transformation first, the higher values are "compressed" and weigh 
+By doing a log transformation first, the higher values are "compressed" and weigh
 less into the mean.
 
 ::::
@@ -511,13 +513,13 @@ less into the mean.
 ::::::
 
 
-This exercise shows that it is usually a good idea to leave variables untransformed 
+This exercise shows that it is usually a good idea to leave variables untransformed
 when estimating the properties from this data.
 
 # The method of moments: reparameterizing distributions
 
-In the chapter, I showed how to use the *method of moments* to estimate the parameters 
-of a distribution by setting the sample mean and variance ($\bar x$, $s^2$) equal to 
+In the chapter, I showed how to use the *method of moments* to estimate the parameters
+of a distribution by setting the sample mean and variance ($\bar x$, $s^2$) equal to
 the theoretical mean and variance of a distribution and solving for the parameters.
 For the negative binomial, in particular, I found $\mu=\bar x$ and $k=(\bar x)/(s^2/\bar x -1)$.
 
@@ -540,15 +542,15 @@ my_rnbinom = function(n,mean,var,...) {
 }
 ```
 
-(the `...` in the function takes any other arguments you give to `my_dnbinom` and 
+(the `...` in the function takes any other arguments you give to `my_dnbinom` and
 just passes them through, unchanged, to `dnbinom`).
 
-Defining your own functions can be handy if you need to work on a regular basis with 
-a distribution that uses a different parameterization than the one built into the 
+Defining your own functions can be handy if you need to work on a regular basis with
+a distribution that uses a different parameterization than the one built into the
 standard `R` function.
 
-You can use the kinds of histograms shown above to test your results (remembering 
-that the method of moments estimates may be slightly biased especially for small samples 
+You can use the kinds of histograms shown above to test your results (remembering
+that the method of moments estimates may be slightly biased especially for small samples
 --- but they shouldn't cause errors as large as those caused by typos in code or
 mistakes in the formulae).
 
@@ -567,7 +569,7 @@ abline(v=1)
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Morris (1997) gives a definition of the beta function that is different from the 
+Morris (1997) gives a definition of the beta function that is different from the
 standard statistical parameterization. The standard parameterization is
 
 $$
@@ -583,22 +585,22 @@ $$
 1. Find expressions for $P$ and $\theta$ in terms of $a$ and $b$ and viceversa (use pen and paper).
 
 2. Explain why you might prefer Morris's parameterization.
- 
-3. Define a new set of functions that generate random numbers from the beta distribution 
+
+3. Define a new set of functions that generate random numbers from the beta distribution
 (`my_rbeta`) and calculate the density function (`my_dbeta`) in terms of $P$ and $\theta$.
 
-4. Generate a histogram from this distribution and draw a vertical line showing the 
+4. Generate a histogram from this distribution and draw a vertical line showing the
 mean of the distribution. Vertical lines can be drawn by using `abline(v=...)`
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
 :::: {.callout-tip title="Solution" collapse="true"}
 
-1. Based just on the expressions in the normalization constant $\Gamma(a+b)/(\Gamma(a)\Gamma(b))$ 
-for the standard parameterization, $\Gamma(\theta)/(\Gamma(\theta P)\Gamma(\theta(1-P))))$ gives 
+1. Based just on the expressions in the normalization constant $\Gamma(a+b)/(\Gamma(a)\Gamma(b))$
+for the standard parameterization, $\Gamma(\theta)/(\Gamma(\theta P)\Gamma(\theta(1-P))))$ gives
 $\theta=a+b$, $P=a/(a+b)$ or conversely $a = \theta P$, $b=\theta(1-P)$.
 
-2. In this parameterization, P is the mean proportion/number of successes/etc. and  
+2. In this parameterization, P is the mean proportion/number of successes/etc. and
 $\theta$ governs the width of the distribution
 
 3.
@@ -633,7 +635,7 @@ abline(v = mean(x), lty = 2)
 
 ## Zero-inflated distributions
 
-The general formula for the probability distribution of a zero-inflated distribution, 
+The general formula for the probability distribution of a zero-inflated distribution,
 with an underlying distribution $P(x)$ and a zero-inflation probability of $p_z$, is:
 
 $$
@@ -643,7 +645,7 @@ $$
 \end{eqnarray*}
 $$
 
-So, for example, we could define a probability distribution for a zero-inflated 
+So, for example, we could define a probability distribution for a zero-inflated
 negative binomial as follows:
 
 ```r
@@ -654,11 +656,11 @@ dzinbinom = function(x,mu,size,zprob) {
 }
 ```
 
-The name, `dzinbinom`, follows the `R` convention for a probability distribution 
-function: a `d` followed by the abbreviated name of the distribution, in this case 
+The name, `dzinbinom`, follows the `R` convention for a probability distribution
+function: a `d` followed by the abbreviated name of the distribution, in this case
 `zinbinom` for "**z**ero-**i**nflated **n**egative **binom**ial").
 
-The `ifelse()` command checks every element of `x` to see whether it is zero or not 
+The `ifelse()` command checks every element of `x` to see whether it is zero or not
 and fills in the appropriate value depending on the answer.
 
 The sampling function for our zero-inflated distribution would look like this:
@@ -671,16 +673,16 @@ rzinbinom = function(n,mu,size,zprob) {
 }
 ```
 
-The command `runif(n)` picks `n` random values between 0 and 1; the `ifelse` command 
-compares them with the value of `zprob`.  If an individual value is less than `zprob` 
-(which happens with probability `zprob`=$p_z$), then the corresponding random number 
-is zero; otherwise it is a value picked out of the appropriate negative binomial 
+The command `runif(n)` picks `n` random values between 0 and 1; the `ifelse` command
+compares them with the value of `zprob`.  If an individual value is less than `zprob`
+(which happens with probability `zprob`=$p_z$), then the corresponding random number
+is zero; otherwise it is a value picked out of the appropriate negative binomial
 distribution.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Check graphically that these functions actually work. For instance, you could compare 
-the results with a negative binomial function with the same mean and variance as the 
+Check graphically that these functions actually work. For instance, you could compare
+the results with a negative binomial function with the same mean and variance as the
 data.
 
 ::::: {.content-hidden unless-meta="show_solution"}
@@ -709,16 +711,16 @@ points(as.numeric(table(a1))~ x,type="p")
 
 # Compounding distributions
 
-The key to compounding distributions in `R` is that the functions that generate random 
-deviates can all take a vector of different parameters rather than a single parameter.  
-For example, if you were simulating the number of hatchlings surviving (with individual 
+The key to compounding distributions in `R` is that the functions that generate random
+deviates can all take a vector of different parameters rather than a single parameter.
+For example, if you were simulating the number of hatchlings surviving (with individual
 probability 0.8) from a series of 8 clutches, all of size 10, you would say
 
 ```r
 rbinom(8,size=10,prob=0.8)
 ```
 
-but if you had a series of clutches of different sizes, you could still pick all the 
+but if you had a series of clutches of different sizes, you could still pick all the
 random values at the same time:
 
 ```r
@@ -735,11 +737,11 @@ rbinom(8,size=clutch_size,prob=0.8)
 
 We've just generated a Poisson-binomial random deviate...
 
-As a second example, I'll follow Clark *et al.* in constructing a distribution that 
+As a second example, I'll follow Clark *et al.* in constructing a distribution that
 is a compounding of normal distributions, with 1/variance of each sample drawn from
 a amma distribution.
 
-First pick the variances as the reciprocals of 10,000 values from a gamma distribution 
+First pick the variances as the reciprocals of 10,000 values from a gamma distribution
 with shape 5 (setting the scale equal to 1/5 so the mean will be 1):
 
 ```r
@@ -776,14 +778,14 @@ curve(dt(x,df=11),add=TRUE,lwd=2)
 
 The superimposed curve is a $t$ distribution with 11 degrees of freedom; it turns out that
 if the underlying gamma distribution has shape parameter $p$, the resulting $t$ distribution
-has $df=2p+1$. Figuring out the analytical form of the compounded probability distribution 
-or density function, or its equivalence to some existing distribution, is the hard part; 
-for the most part, though, you can find these answers in the ecological and statistical 
+has $df=2p+1$. Figuring out the analytical form of the compounded probability distribution
+or density function, or its equivalence to some existing distribution, is the hard part;
+for the most part, though, you can find these answers in the ecological and statistical
 literature if you search hard enough.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-Generate 10,000 values from a gamma-Poisson compounded distribution with parameters 
+Generate 10,000 values from a gamma-Poisson compounded distribution with parameters
 `shape = 0.5`, `scale = 4/0.5 = 8` and demonstrate that it's equivalent to a
 negative binomial with the appropriate `mean` and `shape` parameters.
 
