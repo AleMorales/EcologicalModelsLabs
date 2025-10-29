@@ -402,10 +402,9 @@ Exercise
 <h1 data-number="3"><span class="header-section-number">3</span> Random distributions in <code>R</code></h1>
 <p><code>R</code> knows about lots of probability distributions (and there are packages that define additional distributions). For each distribution, it defines four functions that can do different things related to the distribution. Taken the Binomial distribution for random variable <code>x</code> as example it can:</p>
 <ul>
-<li><p>Generate random numbers drawn from the distribution. For example <code>rbinom(n,size,prob)</code><br>
-gives <code>n</code> values of <code>x</code> with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw). Every distribution will have an equivalent function (<code>rnorm</code> for the Normal, <code>rpois</code> for the Poisson, etc.).</p></li>
+<li><p>Generate random numbers drawn from the distribution. For example <code>rbinom(n,size,prob)</code> gives <code>n</code> values of <code>x</code> with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw). Every distribution will have an equivalent function (<code>rnorm</code> for the Normal, <code>rpois</code> for the Poisson, etc.).</p></li>
 <li><p>Compute the probability (density or mass) function. For example <code>dbinom(n, size prob)</code> will give the probability mass that <span class="math inline">\(x = n\)</span>.</p></li>
-<li><p>Compute the cumulative probability function. For example <code>pbinom(q, size prob)</code> will give the cumulative probability that <span class="math inline">\(x \leq q\)</span>, that is <span class="math display">\[\int_0^q P(x)dx\]</span>.</p></li>
+<li><p>Compute the cumulative probability function. For example <code>pbinom(q, size prob)</code> will give the cumulative probability that <span class="math inline">\(x \leq q\)</span>, that is <span class="math inline">\(\int_0^q P(x)dx\)</span>.</p></li>
 <li><p>Compute the quantile function. For example, <code>qbinom(p, size, prob)</code> gives the <span class="math inline">\(x\)</span> value such as that <span class="math inline">\(\int_0^q P(x)dx = p\)</span>.</p></li>
 </ul>
 <p>Notice that the quantile and cumulative functions are related. In one case, I fix a cumulative probability value and I calculate a value of <span class="math inline">\(x\)</span> (quantile) and in the other case I fix the value of <span class="math inline">\(x\)</span> and I calculate the cumulative probability.</p>
@@ -676,8 +675,7 @@ Exercise
 </section>
 <section id="compounding-distributions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
-<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter.<br>
-For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
+<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>but if you had a series of clutches of different sizes, you could still pick all the random values at the same time:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>

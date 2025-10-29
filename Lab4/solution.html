@@ -424,9 +424,13 @@ Solution
 </ol>
 <p><code>y</code> represents population size over time and from looking at the data, they seems to indeed represent counts. Given that it contains counts we can pick a distribution from the family of discrete distributions. The Poisson and the Negative Binomial could also be good candidates to describe this type of data.</p>
 <ol start="5" type="1">
-<li><p>Dataset 5 No information is given on y. The data clearly seems to represent counts. Thus, the same reasoning applies here as to the two previous datasets.</p></li>
-<li><p>Dataset 6 The data (<code>y</code>) represents species occurrences at different coordinates (presence/absence). For binary processes we use the Bernoulli distribution (as in coin flipping exercises). But we can also count the number of presences in a particular range and in that case we would use the Binomial distribution.</p></li>
+<li>Dataset 5</li>
 </ol>
+<p>No information is given on y. The data clearly seems to represent counts. Thus, the same reasoning applies here as to the two previous datasets.</p>
+<ol start="6" type="1">
+<li>Dataset 6</li>
+</ol>
+<p>The data (<code>y</code>) represents species occurrences at different coordinates (presence/absence). For binary processes we use the Bernoulli distribution (as in coin flipping exercises). But we can also count the number of presences in a particular range and in that case we would use the Binomial distribution.</p>
 </div>
 </div>
 </div>
@@ -438,10 +442,9 @@ Solution
 <h1 data-number="3"><span class="header-section-number">3</span> Random distributions in <code>R</code></h1>
 <p><code>R</code> knows about lots of probability distributions (and there are packages that define additional distributions). For each distribution, it defines four functions that can do different things related to the distribution. Taken the Binomial distribution for random variable <code>x</code> as example it can:</p>
 <ul>
-<li><p>Generate random numbers drawn from the distribution. For example <code>rbinom(n,size,prob)</code><br>
-gives <code>n</code> values of <code>x</code> with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw). Every distribution will have an equivalent function (<code>rnorm</code> for the Normal, <code>rpois</code> for the Poisson, etc.).</p></li>
+<li><p>Generate random numbers drawn from the distribution. For example <code>rbinom(n,size,prob)</code> gives <code>n</code> values of <code>x</code> with parameters <code>size</code> (total number of draws) and <code>p</code> (probability of success on each draw). Every distribution will have an equivalent function (<code>rnorm</code> for the Normal, <code>rpois</code> for the Poisson, etc.).</p></li>
 <li><p>Compute the probability (density or mass) function. For example <code>dbinom(n, size prob)</code> will give the probability mass that <span class="math inline">\(x = n\)</span>.</p></li>
-<li><p>Compute the cumulative probability function. For example <code>pbinom(q, size prob)</code> will give the cumulative probability that <span class="math inline">\(x \leq q\)</span>, that is <span class="math display">\[\int_0^q P(x)dx\]</span>.</p></li>
+<li><p>Compute the cumulative probability function. For example <code>pbinom(q, size prob)</code> will give the cumulative probability that <span class="math inline">\(x \leq q\)</span>, that is <span class="math inline">\(\int_0^q P(x)dx\)</span>.</p></li>
 <li><p>Compute the quantile function. For example, <code>qbinom(p, size, prob)</code> gives the <span class="math inline">\(x\)</span> value such as that <span class="math inline">\(\int_0^q P(x)dx = p\)</span>.</p></li>
 </ul>
 <p>Notice that the quantile and cumulative functions are related. In one case, I fix a cumulative probability value and I calculate a value of <span class="math inline">\(x\)</span> (quantile) and in the other case I fix the value of <span class="math inline">\(x\)</span> and I calculate the cumulative probability.</p>
@@ -782,8 +785,7 @@ Solution
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Based just on the expressions in the normalization constant <span class="math inline">\(\Gamma(a+b)/(\Gamma(a)\Gamma(b))\)</span> for the standard parameterization, <span class="math inline">\(\Gamma(\theta)/(\Gamma(\theta P)\Gamma(\theta(1-P))))\)</span> gives <span class="math inline">\(\theta=a+b\)</span>, <span class="math inline">\(P=a/(a+b)\)</span> or conversely <span class="math inline">\(a = \theta P\)</span>, <span class="math inline">\(b=\theta(1-P)\)</span>.</p></li>
-<li><p>In this parameterization, P is the mean proportion/number of successes/etc. and<br>
-<span class="math inline">\(\theta\)</span> governs the width of the distribution</p></li>
+<li><p>In this parameterization, P is the mean proportion/number of successes/etc. and <span class="math inline">\(\theta\)</span> governs the width of the distribution</p></li>
 <li></li>
 </ol>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>my_rbeta <span class="ot">=</span> <span class="cf">function</span>(n, theta, P) {</span>
@@ -881,8 +883,7 @@ Solution
 </section>
 <section id="compounding-distributions" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Compounding distributions</h1>
-<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter.<br>
-For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
+<p>The key to compounding distributions in <code>R</code> is that the functions that generate random deviates can all take a vector of different parameters rather than a single parameter. For example, if you were simulating the number of hatchlings surviving (with individual probability 0.8) from a series of 8 clutches, all of size 10, you would say</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">8</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">prob=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>but if you had a series of clutches of different sizes, you could still pick all the random values at the same time:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>clutch_size <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">9</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">8</span>,<span class="dv">11</span>)</span>
