@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-10-28">
+<meta name="dcterms.date" content="2025-10-29">
 
 <title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Lab 9: Canned functions and modeling variance</title>
 <style>
@@ -346,7 +346,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 28, 2025</p>
+      <p class="date">October 29, 2025</p>
     </div>
   </div>
   
@@ -405,6 +405,7 @@ Exercise
 </section>
 <section id="variance-along-continuous-variables" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Variance along continuous variables</h1>
+<p><strong>This is count data so we should change the model to a discrete distribution!!</strong></p>
 <p>In the book, Bolker analyzes a dataset on cone production by fir trees as a function of their diameter:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
