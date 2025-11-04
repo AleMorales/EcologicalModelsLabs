@@ -146,6 +146,7 @@ Both indices confirm that the second model is much better.
 
 # Variance along continuous variables
 
+**This is count data so we should change the model to a discrete distribution!!**
 
 In the book, Bolker analyzes a dataset on cone production by fir trees as a
 function of their diameter:
