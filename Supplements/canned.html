@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-10-29">
+<meta name="dcterms.date" content="2025-11-04">
 
-<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Supplement: Formula-based methods</title>
+<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Supplement: Formula-based methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Supplements/canned.html">Supplement: Canned methods</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -216,9 +216,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -291,30 +291,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
   <li><a href="#the-formula-interface" id="toc-the-formula-interface" class="nav-link" data-scroll-target="#the-formula-interface"><span class="header-section-number">2</span> The <em>formula</em> interface</a></li>
-  <li><a href="#linear-responses" id="toc-linear-responses" class="nav-link" data-scroll-target="#linear-responses"><span class="header-section-number">3</span> Linear responses</a>
+  <li><a href="#overview-of-packages" id="toc-overview-of-packages" class="nav-link" data-scroll-target="#overview-of-packages"><span class="header-section-number">3</span> Overview of packages:</a>
   <ul class="collapse">
-  <li><a href="#linear-model" id="toc-linear-model" class="nav-link" data-scroll-target="#linear-model"><span class="header-section-number">3.1</span> Linear model</a></li>
-  <li><a href="#generalized-least-squares" id="toc-generalized-least-squares" class="nav-link" data-scroll-target="#generalized-least-squares"><span class="header-section-number">3.2</span> Generalized least squares</a></li>
-  <li><a href="#linear-mixed-model" id="toc-linear-mixed-model" class="nav-link" data-scroll-target="#linear-mixed-model"><span class="header-section-number">3.3</span> Linear mixed model</a></li>
+  <li><a href="#stats" id="toc-stats" class="nav-link" data-scroll-target="#stats"><span class="header-section-number">3.1</span> <code>stats</code></a></li>
+  <li><a href="#stats4" id="toc-stats4" class="nav-link" data-scroll-target="#stats4"><span class="header-section-number">3.2</span> <code>stats4</code></a></li>
+  <li><a href="#bbmle" id="toc-bbmle" class="nav-link" data-scroll-target="#bbmle"><span class="header-section-number">3.3</span> <code>bbmle</code></a></li>
+  <li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.4</span> <code>nlme</code></a></li>
+  <li><a href="#lme4" id="toc-lme4" class="nav-link" data-scroll-target="#lme4"><span class="header-section-number">3.5</span> <code>lme4</code></a></li>
+  <li><a href="#glmmtmb" id="toc-glmmtmb" class="nav-link" data-scroll-target="#glmmtmb"><span class="header-section-number">3.6</span> <code>glmmTMB</code></a></li>
+  <li><a href="#rstanarm" id="toc-rstanarm" class="nav-link" data-scroll-target="#rstanarm"><span class="header-section-number">3.7</span> <code>rstanarm</code></a></li>
+  <li><a href="#brms" id="toc-brms" class="nav-link" data-scroll-target="#brms"><span class="header-section-number">3.8</span> <code>brms</code></a></li>
   </ul></li>
-  <li><a href="#generalized-linear-responses" id="toc-generalized-linear-responses" class="nav-link" data-scroll-target="#generalized-linear-responses"><span class="header-section-number">4</span> Generalized linear responses</a>
+  <li><a href="#linear-responses" id="toc-linear-responses" class="nav-link" data-scroll-target="#linear-responses"><span class="header-section-number">4</span> Linear responses</a>
   <ul class="collapse">
-  <li><a href="#generalized-linear-models" id="toc-generalized-linear-models" class="nav-link" data-scroll-target="#generalized-linear-models"><span class="header-section-number">4.1</span> Generalized linear models</a></li>
-  <li><a href="#generalized-linear-mixed-models" id="toc-generalized-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-linear-mixed-models"><span class="header-section-number">4.2</span> Generalized linear mixed models</a></li>
+  <li><a href="#linear-model" id="toc-linear-model" class="nav-link" data-scroll-target="#linear-model"><span class="header-section-number">4.1</span> Linear model</a></li>
+  <li><a href="#generalized-least-squares" id="toc-generalized-least-squares" class="nav-link" data-scroll-target="#generalized-least-squares"><span class="header-section-number">4.2</span> Generalized least squares</a></li>
+  <li><a href="#linear-mixed-model" id="toc-linear-mixed-model" class="nav-link" data-scroll-target="#linear-mixed-model"><span class="header-section-number">4.3</span> Linear mixed model</a></li>
+  <li><a href="#on-self-starting-functions" id="toc-on-self-starting-functions" class="nav-link" data-scroll-target="#on-self-starting-functions"><span class="header-section-number">4.4</span> On self-starting functions</a></li>
+  <li><a href="#non-linear-model" id="toc-non-linear-model" class="nav-link" data-scroll-target="#non-linear-model"><span class="header-section-number">4.5</span> Non-linear model</a></li>
+  <li><a href="#non-linear-mixed-models" id="toc-non-linear-mixed-models" class="nav-link" data-scroll-target="#non-linear-mixed-models"><span class="header-section-number">4.6</span> Non-linear mixed models</a></li>
   </ul></li>
-  <li><a href="#non-linear-responses" id="toc-non-linear-responses" class="nav-link" data-scroll-target="#non-linear-responses"><span class="header-section-number">5</span> Non-linear responses</a>
+  <li><a href="#generalized-linear-responses" id="toc-generalized-linear-responses" class="nav-link" data-scroll-target="#generalized-linear-responses"><span class="header-section-number">5</span> Generalized linear responses</a>
   <ul class="collapse">
-  <li><a href="#on-self-starting-functions" id="toc-on-self-starting-functions" class="nav-link" data-scroll-target="#on-self-starting-functions"><span class="header-section-number">5.1</span> On self-starting functions</a></li>
-  <li><a href="#non-linear-normal-responses" id="toc-non-linear-normal-responses" class="nav-link" data-scroll-target="#non-linear-normal-responses"><span class="header-section-number">5.2</span> Non-linear Normal responses</a>
-  <ul class="collapse">
-  <li><a href="#non-linear-model" id="toc-non-linear-model" class="nav-link" data-scroll-target="#non-linear-model"><span class="header-section-number">5.2.1</span> Non-linear model</a></li>
-  <li><a href="#non-linear-mixed-models" id="toc-non-linear-mixed-models" class="nav-link" data-scroll-target="#non-linear-mixed-models"><span class="header-section-number">5.2.2</span> Non-linear mixed models</a></li>
+  <li><a href="#generalized-linear-models" id="toc-generalized-linear-models" class="nav-link" data-scroll-target="#generalized-linear-models"><span class="header-section-number">5.1</span> Generalized linear models</a></li>
+  <li><a href="#generalized-linear-mixed-models" id="toc-generalized-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-linear-mixed-models"><span class="header-section-number">5.2</span> Generalized linear mixed models</a></li>
   </ul></li>
-  <li><a href="#non-linear-non-normal-responses" id="toc-non-linear-non-normal-responses" class="nav-link" data-scroll-target="#non-linear-non-normal-responses"><span class="header-section-number">5.3</span> Non-linear non-Normal responses</a>
+  <li><a href="#generalized-non-linear-responses" id="toc-generalized-non-linear-responses" class="nav-link" data-scroll-target="#generalized-non-linear-responses"><span class="header-section-number">6</span> Generalized non-linear responses</a>
   <ul class="collapse">
-  <li><a href="#non-linear-non-normal-model" id="toc-non-linear-non-normal-model" class="nav-link" data-scroll-target="#non-linear-non-normal-model"><span class="header-section-number">5.3.1</span> Non-linear non-Normal model</a></li>
-  <li><a href="#non-linear-non-normal-mixed-model" id="toc-non-linear-non-normal-mixed-model" class="nav-link" data-scroll-target="#non-linear-non-normal-mixed-model"><span class="header-section-number">5.3.2</span> Non-linear non-Normal mixed model</a></li>
-  </ul></li>
+  <li><a href="#generalized-non-linear-models" id="toc-generalized-non-linear-models" class="nav-link" data-scroll-target="#generalized-non-linear-models"><span class="header-section-number">6.1</span> Generalized non-linear models</a></li>
+  <li><a href="#generalized-non-linear-mixed-models" id="toc-generalized-non-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-non-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized non-linear mixed models</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -341,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 29, 2025</p>
+      <p class="date">November 4, 2025</p>
     </div>
   </div>
   
@@ -369,18 +374,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="2"><span class="header-section-number">2</span> The <em>formula</em> interface</h1>
 <p><em>Work in progress</em></p>
 </section>
-<section id="linear-responses" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Linear responses</h1>
+<section id="overview-of-packages" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Overview of packages:</h1>
+<section id="stats" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="stats"><span class="header-section-number">3.1</span> <code>stats</code></h2>
+<p>One of the packages hat comes with R pre-installed, allows building models with only one stochastic component. The functions in introduces are:</p>
+<ul>
+<li><code>lm</code>: Linear models.<br>
+</li>
+<li><code>glm</code>: Generalized linear models.<br>
+</li>
+<li><code>nls</code>: Non-linear models.</li>
+</ul>
+</section>
+<section id="stats4" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="stats4"><span class="header-section-number">3.2</span> <code>stats4</code></h2>
+<p>Allows for general maximum likelihood, using both formulae and user-defined functions for the negative log-likelihood. It introduces the <code>mle</code> function. This allows specifying all the models in the package <code>stats</code> plus all other forms of non-linear and generalized non-linear models.</p>
+<p>Note: Here we focus on the formula version of this function. If you implement your own negative log-likelihood function you can fit any more in this document as shown in the course.</p>
+</section>
+<section id="bbmle" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="bbmle"><span class="header-section-number">3.3</span> <code>bbmle</code></h2>
+<p>The MLE package by Benjamin Bolker, developed in parallel with the book. This package propposes the function <code>mle2</code> that replaces the <code>mle</code> function in <code>stats4</code> with similar functionality.</p>
+<p>Note: Here we focus on the formula version of this function. If you implement your own negative log-likelihood function you can fit any more in this document as shown in the course.</p>
+</section>
+<section id="nlme" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="nlme"><span class="header-section-number">3.4</span> <code>nlme</code></h2>
+<p>Package for linear and non-linear mixed effect models and generalized least squares. This is the original package developed by Pinheiro and Bates and associated to their mixed model book and has been one of the most popular packages for mixed effects models in R for a long time. The functions it introduces are:</p>
+<ul>
+<li><code>gls</code>: Linear models with generalized least squares.<br>
+</li>
+<li><code>gnls</code>: Non-linear models with generalized least squares.<br>
+</li>
+<li><code>mle</code>: Linear mixed effect models.<br>
+</li>
+<li><code>nlme</code>: Non-linear mixed effect models.</li>
+</ul>
+<p>The package also contains many functions for modeling the variance of the response as a function of groups and covariates (see <code>?varClasses</code>) and also the correlation structure of residuals (see <code>?corClasses</code>).</p>
+</section>
+<section id="lme4" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="lme4"><span class="header-section-number">3.5</span> <code>lme4</code></h2>
+<p>Package for linear, generalized linear and non-linear mixed effect models (the second big package by Bates, currently maintained by Benjamin Bolker). The functions it introduces are:</p>
+<ul>
+<li><code>lmer</code>: Linear mixed effect models.<br>
+</li>
+<li><code>glmer</code>: Generalized linear mixed effect models.<br>
+</li>
+<li><code>nlmer</code>: Non-linear mixed effect models.</li>
+</ul>
+<p>Unlike <code>nlme</code>, the package <code>lme4</code> does not allow modelling the varaince in the response or correlation structure of residuals.</p>
+</section>
+<section id="glmmtmb" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="glmmtmb"><span class="header-section-number">3.6</span> <code>glmmTMB</code></h2>
+<p>Package for linear, generalized and non-linear (mixed) models. Unlike previous package, this one allows random effects as optional. Developed and maintaned by Mollie Brooks, also with contributions by Bolker. This package builds on top of TMB (a package for defining models in C++). It offers a single but very versatile <code>glmmTMB</code> function that will automatically detect the correct type of model from the formula. Like <code>nlme</code> it allows modelling the correlation structure of the residuals, but not the variance or scale parameter.</p>
+<p>Recently, they added the possibility of defining priors. This allows performing Maximum a Posterior Estimation (see example in Chapter 6) but also to run the model in Stan that implements Hamiltonian Monte Carlo for Bayesian inference. The system for specifying priors has been take from the package <code>brms</code> (see below).</p>
+</section>
+<section id="rstanarm" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="rstanarm"><span class="header-section-number">3.7</span> <code>rstanarm</code></h2>
+<p>Package for Bayesian estimation of linear and generalized (mixed) models. It is built on top of Stan but all the C++ code is precompiled and heavily optimized, so it is a very efficient tool for quick Bayesian modeling. The functions it offers are:</p>
+<ul>
+<li><code>stan_lm</code>: Linear models.<br>
+</li>
+<li><code>stan_glm</code>: Generalized linear models.<br>
+</li>
+<li><code>stan_lmer</code>: Linear mixed models as in <code>lmer</code>.<br>
+</li>
+<li><code>stan_glmer</code>: Generalized linear mixed models as in <code>glmer</code>.<br>
+</li>
+<li><code>stan_nlmer</code>: Non-linear mixed models as in <code>nlmer</code> but only works with the basic self-starting functions (see below for relevant section).</li>
+</ul>
+</section>
+<section id="brms" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="brms"><span class="header-section-number">3.8</span> <code>brms</code></h2>
+<p>Package for Bayesian estimate that covers all the types of models described in this document. It is built on top of Stan but unlike <code>rstanarm</code>, it will generate ad-hoc Stan code based on the model formulated by the user. This means that the user will have to pay the cost of compiling the model (which can often exceed the time it takes to generate the samples) but this brings an enormous flexibility to the user. The only limitation (like all other packages in this document) is that random effects must be described with Normal distribution, even though it is technically possible to fit models in Stan with non-Normal random effects. The generated code may also not be the most optimal.</p>
+<p>The package offers a single function <code>brm</code> with a very flexible formula system (it is also useful to know the function <code>bf</code> to specify more complex formula).</p>
+</section>
+</section>
+<section id="linear-responses" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Linear responses</h1>
 <p>Models with linear are those where parameters are linear with respect to the response variables. This does not mean that the response is linear, it can also be a polynomial (by taking powers of covariates) but the coefficients are always linear with respect to the response variables. Historically the analysis of linear models has split into two approaches:</p>
 <ul>
 <li><p>Linear regression: When predictors are continuous, focuses on estimating parameter values.</p></li>
 <li><p>Analysis of variance: When predictors are discrete, focuses on comparing nested models via F-test.</p></li>
 </ul>
 <p>And there were several sub-types such as multiple linear regression, analysis of covariance (with both discrete and continuous predictors), etc. In the examples below I only show how to estimate parameters of linear models.</p>
-<section id="linear-model" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="linear-model"><span class="header-section-number">3.1</span> Linear model</h2>
+<section id="linear-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="linear-model"><span class="header-section-number">4.1</span> Linear model</h2>
 <p>Stochastic model: A single level assumed Normal. Mean response: Linear function of covariates. Variance response: Assumed constant.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -396,20 +476,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Likelihood</td>
-<td><code>bbmle</code></td>
-<td><code>lme2</code></td>
+<td><code>stats4</code></td>
+<td><code>mle</code></td>
 </tr>
 <tr class="odd">
+<td>Likelihood</td>
+<td><code>bbmle</code></td>
+<td><code>mle2</code></td>
+</tr>
+<tr class="even">
 <td>Both</td>
 <td><code>glmmTMB</code></td>
 <td><code>glmmTMB</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Bayesian</td>
 <td><code>rstanarm</code></td>
 <td><code>stan_lm</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Bayesian</td>
 <td><code>brms</code></td>
 <td><code>brm</code></td>
@@ -483,10 +568,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="generalized-least-squares" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">3.2</span> Generalized least squares</h2>
+<section id="generalized-least-squares" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">4.2</span> Generalized least squares</h2>
 <p>Stochastic model: A single level assumed Normal. Mean response: Linear function of covariates. Variance response: Non-linear function of covariates and/or correlation structure.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -502,10 +587,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Likelihood</td>
+<td><code>stats4</code></td>
+<td><code>mle</code></td>
+</tr>
+<tr class="odd">
+<td>Likelihood</td>
 <td><code>bbmme</code></td>
 <td><code>mle2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Bayesian</td>
 <td><code>brms</code></td>
 <td><code>brm</code></td>
@@ -537,10 +627,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>x, sigma<span class="sc">~</span><span class="fu">exp</span>(x)), <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notes: The function <code>gls</code> allows only specific functions</p>
 </section>
-<section id="linear-mixed-model" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="linear-mixed-model"><span class="header-section-number">3.3</span> Linear mixed model</h2>
+<section id="linear-mixed-model" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="linear-mixed-model"><span class="header-section-number">4.3</span> Linear mixed model</h2>
 <p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates. Variance response: Non-linear function of covariates and/or correlation structure.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -566,7 +656,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Bayesian</td>
-<td><code>stanarm</code></td>
+<td><code>rstanarm</code></td>
 <td><code>stan_lmer</code></td>
 </tr>
 <tr class="odd">
@@ -577,17 +667,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Note that <code>lmer</code> and <code>stan_lmer</code> allow for some correlation structure in residuals but do not allow modelling the variance itself. For that you need to use <code>lme</code> or <code>brm</code>.</p>
-<p><strong>Examples</strong></p>
+<p><strong>Examples</strong> # Non-linear responses</p>
+<p>Models where the mean is modeled by a non-linear function of covariates.</p>
+<p>Canned only support non-linear models that can be expressed as a formula so they must be quite simple. In Likelihood versions, it is important to choose good initial values as otherwise the algorithms will not converge. For that reason it is common to use self-starting functions that already specify a model and an internal algorithm to come up with good starting values (these are compatible with <code>nls</code> and <code>gnls</code>.</p>
+</section>
+<section id="on-self-starting-functions" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="on-self-starting-functions"><span class="header-section-number">4.4</span> On self-starting functions</h2>
+<p>For non-linear models it is very important to have good initial estimates of parameters. R has the concept of <em>self-starting</em> models. A self-starting model implements a particular model and a procedure to “eye-ball” the initial values:</p>
+<ul>
+<li><p>Package <code>stats</code> provides <code>SSasymp</code>, <code>SSasympOff</code>, <code>SSasympOrig</code>, <code>SSbiexp</code>, <code>SSfol</code>, <code>SSfpl</code>, <code>SSgompertz</code>, <code>SSlogis</code>, <code>SSmicmen</code>, <code>SSweibull</code></p></li>
+<li><p>The package <code>nlraa</code> provides 28 new self-starting functions that are used in agricultural research but could be useful in more general ecological applications.</p></li>
+<li><p>The package <code>vega</code> provides 4 new self-starting functions to model the relationship between species richness and area</p></li>
+</ul>
+<p>See this blog post on how to write your own self-starting functions: https://www.statforbiology.com/2020/stat_nls_selfstarting/</p>
+</section>
+<section id="non-linear-model" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="non-linear-model"><span class="header-section-number">4.5</span> Non-linear model</h2>
+<p>Stochastic model: A single level, assumed Normal. Mean response: Non-linear function of covariates. Variance response: Assumed constant (but see note).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Paradigm</th>
+<th>Package</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Likelihood</td>
+<td><code>Base</code></td>
+<td><code>nls</code></td>
+</tr>
+<tr class="even">
+<td>Likelihood</td>
+<td><code>nlme</code><sup>1,2</sup></td>
+<td><code>gnls</code></td>
+</tr>
+<tr class="odd">
+<td>Likelihood</td>
+<td><code>stats4</code></td>
+<td><code>mle</code></td>
+</tr>
+<tr class="even">
+<td>Likelihood</td>
+<td><code>bbmle</code><sup>2</sup></td>
+<td><code>mle2</code></td>
+</tr>
+<tr class="odd">
+<td>Bayesian</td>
+<td><code>brms</code><sup>1,2</sup></td>
+<td><code>brm</code></td>
+</tr>
+</tbody>
+</table>
+<p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Variance can be modeled as a non-linear function of covariates.</p>
+<p><strong>Example with constant variance</strong></p>
+<p>A Michaelis-Menten model:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>nls</code></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">nls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>mle2</code></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brm</code></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">brm</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Example with increasing variance</strong></p>
+<p>A Michaelis-Menten model with error increasing exponential with predictor</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">gnls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span>x), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="non-linear-mixed-models" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="non-linear-mixed-models"><span class="header-section-number">4.6</span> Non-linear mixed models</h2>
+<p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates after link transformation. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Paradigm</th>
+<th>Package</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Likelihood</td>
+<td><code>nlme</code></td>
+<td><code>nlme</code></td>
+</tr>
+<tr class="even">
+<td>Bayesian</td>
+<td><code>brms</code></td>
+<td><code>brm</code></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
-<section id="generalized-linear-responses" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Generalized linear responses</h1>
+<section id="generalized-linear-responses" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Generalized linear responses</h1>
 <p>Models where the response variable is assumed different from Normal. The mean is modeled by a non-linear function (link) and a linear model of covariates. In other words, these models are non-linear but the parameters reported are linear with respect to a transformation of the mean.</p>
 <p>Canned methods generally support a number of pre-specified distributions and link functions. For more diversity you will have to write you own model.</p>
-<section id="generalized-linear-models" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="generalized-linear-models"><span class="header-section-number">4.1</span> Generalized linear models</h2>
+<section id="generalized-linear-models" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="generalized-linear-models"><span class="header-section-number">5.1</span> Generalized linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Linear function of covariates after link transformation. Variance response: Scale parameter (if present) assumed constant (but see note).</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -622,12 +809,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Example</strong></p>
 <p>An Poisson model with an log link function</p>
 <p>With <code>glm</code></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="generalized-linear-mixed-models" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="generalized-linear-mixed-models"><span class="header-section-number">4.2</span> Generalized linear mixed models</h2>
+<section id="generalized-linear-mixed-models" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="generalized-linear-mixed-models"><span class="header-section-number">5.2</span> Generalized linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Linear function of covariates after link transformation. Variance response: In some cases in can be modeled as a function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -661,109 +848,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Scale parameter can be modeled as non-linear function of covariates.</p>
 </section>
 </section>
-<section id="non-linear-responses" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Non-linear responses</h1>
-<p>Models where the mean is modeled by a non-linear function of covariates.</p>
-<p>Canned only support non-linear models that can be expressed as a formula so they must be quite simple. In Likelihood versions, it is important to choose good initial values as otherwise the algorithms will not converge. For that reason it is common to use self-starting functions that already specify a model and an internal algorithm to come up with good starting values (these are compatible with <code>nls</code> and <code>gnls</code>.</p>
-<section id="on-self-starting-functions" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="on-self-starting-functions"><span class="header-section-number">5.1</span> On self-starting functions</h2>
-<p>For non-linear models it is very important to have good initial estimates of parameters. R has the concept of <em>self-starting</em> models. A self-starting model implements a particular model and a procedure to “eye-ball” the initial values:</p>
-<ul>
-<li><p>Base R provides <code>SSasymp</code>, <code>SSasympOff</code>, <code>SSasympOrig</code>, <code>SSbiexp</code>, <code>SSfol</code>, <code>SSfpl</code>, <code>SSgompertz</code>, <code>SSlogis</code>, <code>SSmicmen</code>, <code>SSweibull</code></p></li>
-<li><p>The package <code>nlraa</code> provides 28 new self-starting functions that are used in agricultural research but could be useful in more general ecological applications.</p></li>
-<li><p>The package <code>vega</code> provides 4 new self-starting functions to model the relationship between species richness and area</p></li>
-</ul>
-<p>See this blog post on how to write your own self-starting functions: https://www.statforbiology.com/2020/stat_nls_selfstarting/</p>
-</section>
-<section id="non-linear-normal-responses" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="non-linear-normal-responses"><span class="header-section-number">5.2</span> Non-linear Normal responses</h2>
-<section id="non-linear-model" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="non-linear-model"><span class="header-section-number">5.2.1</span> Non-linear model</h3>
-<p>Stochastic model: A single level, assumed Normal. Mean response: Non-linear function of covariates. Variance response: Assumed constant (but see note).</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Paradigm</th>
-<th>Package</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Likelihood</td>
-<td><code>Base</code></td>
-<td><code>nls</code></td>
-</tr>
-<tr class="even">
-<td>Likelihood</td>
-<td><code>nlme</code><sup>1,2</sup></td>
-<td><code>gnls</code></td>
-</tr>
-<tr class="odd">
-<td>Likelihood</td>
-<td><code>bbmle</code><sup>2</sup></td>
-<td><code>mle2</code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td><code>brms</code><sup>1,2</sup></td>
-<td><code>brm</code></td>
-</tr>
-</tbody>
-</table>
-<p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Variance can be modeled as a non-linear function of covariates.</p>
-<p><strong>Example with constant variance</strong></p>
-<p>A Michaelis-Menten model:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With <code>nls</code></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">nls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With <code>mle2</code></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With <code>brm</code></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">brm</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Example with increasing variance</strong></p>
-<p>A Michaelis-Menten model with error increasing exponential with predictor</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">gnls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span>x), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="non-linear-mixed-models" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="non-linear-mixed-models"><span class="header-section-number">5.2.2</span> Non-linear mixed models</h3>
-<p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates after link transformation. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Paradigm</th>
-<th>Package</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Likelihood</td>
-<td><code>nlme</code></td>
-<td><code>nlme</code></td>
-</tr>
-<tr class="even">
-<td>Bayesian</td>
-<td><code>brms</code></td>
-<td><code>brm</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="non-linear-non-normal-responses" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="non-linear-non-normal-responses"><span class="header-section-number">5.3</span> Non-linear non-Normal responses</h2>
-<section id="non-linear-non-normal-model" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="non-linear-non-normal-model"><span class="header-section-number">5.3.1</span> Non-linear non-Normal model</h3>
+<section id="generalized-non-linear-responses" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Generalized non-linear responses</h1>
+<section id="generalized-non-linear-models" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="generalized-non-linear-models"><span class="header-section-number">6.1</span> Generalized non-linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Non-linear function of covariates. Variance response: Variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -773,11 +863,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
+<td>Likelihood</td>
+<td><code>stats4</code></td>
+<td><code>mle</code></td>
+</tr>
+<tr class="even">
 <td>Likelihood</td>
 <td><code>bbmle</code></td>
 <td><code>mle2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Bayesian</td>
 <td><code>brms</code><sup>1</sup></td>
 <td><code>brm</code></td>
@@ -786,10 +881,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p><sup>1</sup> Also allows correlation structures</p>
 </section>
-<section id="non-linear-non-normal-mixed-model" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="non-linear-non-normal-mixed-model"><span class="header-section-number">5.3.2</span> Non-linear non-Normal mixed model</h3>
+<section id="generalized-non-linear-mixed-models" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="generalized-non-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized non-linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Non-linear function of covariates. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -807,7 +902,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 
 
-</section>
 </section>
 </section>
 
@@ -847,18 +941,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -890,7 +973,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -898,7 +1003,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

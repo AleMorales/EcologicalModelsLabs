@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ben Bolker, modified at several places by Bob Douma and Alejandro Morales">
-<meta name="dcterms.date" content="2025-10-29">
+<meta name="dcterms.date" content="2025-11-04">
 
-<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Lab 5 &amp; 6 Fitting models to data + stochastic simulation</title>
+<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Lab 5 &amp; 6 Fitting models to data + stochastic simulation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -142,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab6/no_solution.html">Lab 5 &amp; 6</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -245,9 +245,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -335,9 +335,10 @@ window.Quarto = {
   <li><a href="#likelihood-surface" id="toc-likelihood-surface" class="nav-link" data-scroll-target="#likelihood-surface"><span class="header-section-number">7.1</span> Likelihood surface</a></li>
   <li><a href="#optional-bayesian-parameter-estimation-laplaces-approximation" id="toc-optional-bayesian-parameter-estimation-laplaces-approximation" class="nav-link" data-scroll-target="#optional-bayesian-parameter-estimation-laplaces-approximation"><span class="header-section-number">7.2</span> (OPTIONAL) Bayesian parameter estimation: Laplace’s approximation</a>
   <ul class="collapse">
-  <li><a href="#constructing-priors-for-the-shapes2-dataset" id="toc-constructing-priors-for-the-shapes2-dataset" class="nav-link" data-scroll-target="#constructing-priors-for-the-shapes2-dataset"><span class="header-section-number">7.2.1</span> Constructing priors for the shapes2 dataset</a></li>
-  <li><a href="#building-the-model-in-stan" id="toc-building-the-model-in-stan" class="nav-link" data-scroll-target="#building-the-model-in-stan"><span class="header-section-number">7.2.2</span> Building the model in Stan</a></li>
-  <li><a href="#loading-the-model-in-stan-and-running-laplaces-approximation" id="toc-loading-the-model-in-stan-and-running-laplaces-approximation" class="nav-link" data-scroll-target="#loading-the-model-in-stan-and-running-laplaces-approximation"><span class="header-section-number">7.2.3</span> Loading the model in Stan and running Laplace’s approximation</a></li>
+  <li><a href="#constructing-priors" id="toc-constructing-priors" class="nav-link" data-scroll-target="#constructing-priors"><span class="header-section-number">7.2.1</span> Constructing priors</a></li>
+  <li><a href="#laplaces-approximation-how-bayes-rule-was-solved-originally" id="toc-laplaces-approximation-how-bayes-rule-was-solved-originally" class="nav-link" data-scroll-target="#laplaces-approximation-how-bayes-rule-was-solved-originally"><span class="header-section-number">7.2.2</span> Laplace’s approximation: How Bayes rule was solved originally</a></li>
+  <li><a href="#implementing-laplaces-approximation" id="toc-implementing-laplaces-approximation" class="nav-link" data-scroll-target="#implementing-laplaces-approximation"><span class="header-section-number">7.2.3</span> Implementing Laplace’s approximation</a></li>
+  <li><a href="#computing-dic" id="toc-computing-dic" class="nav-link" data-scroll-target="#computing-dic"><span class="header-section-number">7.2.4</span> Computing DIC</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions" id="toc-supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions" class="nav-link" data-scroll-target="#supplement-hints-for-choosing-deterministic-functions-and-stochastic-functions"><span class="header-section-number">8</span> Supplement: hints for choosing deterministic functions and stochastic functions</a></li>
@@ -366,7 +367,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 29, 2025</p>
+      <p class="date">November 4, 2025</p>
     </div>
   </div>
   
@@ -608,17 +609,18 @@ Exercise
 </section>
 <section id="optional-bayesian-parameter-estimation-laplaces-approximation" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="optional-bayesian-parameter-estimation-laplaces-approximation"><span class="header-section-number">7.2</span> (OPTIONAL) Bayesian parameter estimation: Laplace’s approximation</h2>
-<p>We are going to analyze the <code>shapes2</code> dataset again, but this time using a Bayesian approach where we approximate the posterior distribution. Notice that When you use maximum likelihood, it makes sense to just generate some fake data and fit models to it (for practice), but without context we cannot come up with priors in a Bayesian setting. The <em>shapes</em> dataset is fake data so we need to come up with some <em>fake</em> context and derive priors from it.</p>
-<section id="constructing-priors-for-the-shapes2-dataset" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="constructing-priors-for-the-shapes2-dataset"><span class="header-section-number">7.2.1</span> Constructing priors for the shapes2 dataset</h3>
-<p>Let’s assume that these data represent the predation rate as a function of prey density, so it makes to try the functional responses we learnt in Chapter 3. Let’s assume that we know a prior that the prey density is in the order of 100 and that the predation rate is in the order of 50 With this information we can already come up with <em>Weakly Informative Priors</em> (WIPs for short) that only inform about the order of magnitude of a variable. A simple way to create WIPs might be:</p>
+<p>We are going to analyze the <code>shapes2</code> dataset again, but this time using a Bayesian approach where we approximate the posterior distribution. This approximation is sometimes called Laplace’s approximation, but that name is also reserved for a related technique that we will use in Chapter 10, so here we will call it <em>quadratic approximation</em> because it uses the same mathematical tools as the quadratic approximation in maximum likelihood (in fact, the two are equivalent if you assume uniform priors).</p>
+<p>We will work with the second of the shapes datasets and we will construct a type of prior know as <em>Weakly Informative Priors</em> (WIPs). These are used when you do not have clear prior information (or don’t want to use it) except for knowing what the order of magnitude of the parameters should be. WIPs are very popular in modern Bayesian statistics because they have a small effect on the posterior distribution while addressing many of the complicated numerical issues that we encounter in maximum likelihood. Use quadratic approximation with WIPs is basically an enhanced version of maximum likelihood.</p>
+<section id="constructing-priors" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="constructing-priors"><span class="header-section-number">7.2.1</span> Constructing priors</h3>
+<p>Let’s assume that these data represent the predation rate as a function of prey density, so it makes to try the functional responses we learnt in Chapter 3. Let’s assume that we can build a prior that the prey density is in the order of 100 and that the predation rate is in the order of 50 With this information we can already come up with <em>Weakly Informative Priors</em> (WIPs for short) that only informs about the order of magnitude of a variable. A simple way to create WIPs might be:</p>
 <ol type="1">
 <li><p>Define the prior information with a Normal distribution for each parameter.</p></li>
 <li><p>Set the mean to the order of magnitude of the corresponding variable (or something related to it, depends on the role)</p></li>
 <li><p>Set the standard deviation equal to the mean.</p></li>
 <li><p>For scale parameters (e.g.&nbsp;the standard deviation) the prior distribution is often a truncated normal with mean of 0 and standard deviation dependend on the scale of the response variable.</p></li>
 </ol>
-<p>Let’s first start with the functional response Type II that has the form <code>a*x/(b + x)</code>. We will come up with reasonable prior distributions and generate a bunch of simulations (these are called prior predictions and the can be uses to check your priors are reasonable). Because all parameters should be positive, I use truncated normals (that only keep positive part):</p>
+<p>Let’s first start with the functional response Type II that has the form <code>a*x/(b + x)</code>. We will come up with reasonable prior distributions and generate a bunch of simulations (these are called prior predictions and the can be used to check your priors are reasonable). Because all parameters should be positive, I use truncated normals (that only keep positive part):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(truncnorm) <span class="co"># to truncate parameters</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate random samples of each parameter</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">1000</span></span>
@@ -628,79 +630,124 @@ Exercise
 <p>For every prior sample, we can then generate a mean prediction:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xseq <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">200</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mu_y_prior <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="cf">function</span>(i) a[i]<span class="sc">*</span>xseq<span class="sc">/</span>(b[i] <span class="sc">+</span> xseq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This matrix has 1000 columns (one for each sample of the priors) and 201 rows for the seq of x values. We can summarize all these predictions into an average and qunatiles:</p>
+<p>This matrix has 1000 columns (one for each sample of the priors) and 201 rows for the seq of x values. We can summarize all these predictions into an average and quantiles:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_mu_y_prior <span class="ot">=</span> <span class="fu">rowMeans</span>(mu_y_prior)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lower_mu_y_prior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_prior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>upper_mu_y_prior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_prior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>And now we can visualize it:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xseq, mean_mu_y_prior, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, lower_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, upper_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With WIPS you want to make sure that the range of predictions is much wider than the observed data.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xseq, mean_mu_y_prior, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="ot">=</span> <span class="st">"Prey density"</span>, <span class="at">ylab =</span> <span class="st">"Predation rate"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, lower_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, upper_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With WIPS you want to make sure that the range of predictions is much wider than the observed data, while avoiding nonsensical predictions (e.g., negative values or values that are way too high).</p>
 </section>
-<section id="building-the-model-in-stan" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="building-the-model-in-stan"><span class="header-section-number">7.2.2</span> Building the model in Stan</h3>
-<p>Before continuing with this section you need to install RStan in your computer. Please go to https://github.com/stan-dev/rstan/wiki/Rstan-Getting-Started to install Stan in your computer and test that it works.</p>
-<p>Stan models need to be built in their own files and are made of different blocks. You have been given the Stan file for this first exercise but please try to understand how it is structured based on the description before as you will not be given the solutions for posterior exercises. This Youtube video may also help you: https://youtu.be/YZZSYIx1-mw?si=5nSuDzOV8lrMKyCv</p>
-<p>A Stan model is composed of different blocks. First, we need to specify the data that will be used:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] x;</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt;[N] y;</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[<span class="dv">6</span>] hp;</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Here we specify the length of the data <code>N</code> as a positive integer <code>int&lt;lower=0&gt;</code>. The two variables in the model (<code>x</code> and <code>y</code>) are defined as vectors of positive (real) values (<code>vector&lt;lower=0&gt;</code>) and length <code>N</code>. Finally, there are six values passed along the vector <code>hp</code> which will be used to parameterize the prior distributions.</p>
-<p>The next block represents the parameters of the model that will be estimated:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; a;</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; b;</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma;</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These are the three parameters of our likelihood function (<code>a</code> and <code>b</code> for the deterministic model and <code>sigma</code> for the error) which are all assumed to be positive.</p>
-<p>Finally we have the model block, that actually implements the priors and likelihood. There are two ways to implement thids in Stan, either using the probabilistic modelling approach (which resembles the BUGS code in the book) or by adding up log probability densities (which resembles the way we build the negative log-likelihood functions).</p>
-<p>The probabilistic approach looks as follows:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  a     ~ normal(hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  b     ~ normal(hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  sigma ~ normal(hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  y ~ normal(a*x./(b + x), sigma);</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The first three lines indicate that the parameters <code>a</code>, <code>b</code> and <code>sigma</code> follow normal distributions with hyperparameters take from the vector <code>hp</code>. The last line indicates that the observations <code>y</code> follow a normal distribution which mean is given by the deterministic model <code>a*x./(b + x)</code> and the standard deviation is <code>sigma</code>.</p>
-<p>The alternative approach looks like this:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(a | hp[<span class="dv">1</span>], hp[<span class="dv">2</span>]);</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(b | hp[<span class="dv">3</span>], hp[<span class="dv">4</span>]);</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(sigma | hp[<span class="dv">5</span>], hp[<span class="dv">6</span>]);</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">target +=</span> normal_lpdf(y | a*x./(b + x), sigma);  </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Where <code>target</code> is a special variable in Stan that accumulates the log-likelihood and log-prior, <code>normal_lpdf</code> stands for the log probability density of the normal distribution and <code>|</code> is the symbol for conditionality (on the left of <code>|</code> we indicate the random variable and on the right other parameters of the distribution).</p>
+<section id="laplaces-approximation-how-bayes-rule-was-solved-originally" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="laplaces-approximation-how-bayes-rule-was-solved-originally"><span class="header-section-number">7.2.2</span> Laplace’s approximation: How Bayes rule was solved originally</h3>
+<p>Remember that Bayes rule was</p>
+<p><span class="math display">\[
+P(\theta | D) = \frac{P(D|\theta)P(\theta)}{P(D)},
+\]</span> where <span class="math inline">\(P(D|\theta)\)</span> is equivalent to the likelihood function, <span class="math inline">\(P(\theta)\)</span> is the prior probability of parameter values, <span class="math inline">\(P(\theta | D)\)</span> is the posterior probability and <span class="math inline">\(P(D)\)</span> is the probability of seeing thee particular data under the assumed mode.</p>
+<p>Note that <span class="math inline">\(P(D|\theta)\)</span> and <span class="math inline">\(P(\theta)\)</span> are built by you (they are functions of <span class="math inline">\(\theta\)</span>) and therefore you know them, but you do not know <span class="math inline">\(P(D)\)</span> (this is an unknown value). If you knew it, then Bayesian statistics would be “straightforward” in the sense that you just need to multiple two functions and divide by a constant. In practice you would need to do some extra work as this only gives you a probability density function, you would then need to figure out the cumulative density function, how to generate random samples from the posterior, etc.</p>
+<p>The first person to solve Bayes rule was called Laplace and he realized you could calculate <span class="math inline">\(P(D)\)</span> as:</p>
+<p><span class="math display">\[
+P(D) = \int{P(D|\theta)P(\theta)d\theta}
+\]</span></p>
+<p>This seemingly innocent integral can be quite hard (or in practice impossible) to solve beyond the simplest of models (the calculus of probability of functions can be too nasty). He developed a mathematical approximation that consists of:</p>
+<ol type="1">
+<li><p>Take the log of <span class="math inline">\(P(D|\theta)P(\theta\)</span> (let’s call it the <em>log probability density</em> or <em>lpd</em>).</p></li>
+<li><p>Find its maximum.</p></li>
+<li><p>Approximate the lpd with a 2nd Order Taylor approximation around the maximum.</p></li>
+</ol>
+<p>From that he derived what the integral should be if the approximation was exact, based on the Normal distribution. This procedure for approximating integrals will come back in Chapter 10.</p>
+<p>After Laplace published his method it was shown (not sure when or by whom) that his method of approximating <span class="math inline">\(P(D)\)</span> was equivalent to the following:</p>
+<ol type="1">
+<li><p>Find the value of <span class="math inline">\(\theta\)</span> that maximizes lpd (we call it <strong>M</strong>aximum <strong>a</strong> <strong>P</strong>osteriori, or MAP).</p></li>
+<li><p>Approximate the posterior distribution <span class="math inline">\(P(\theta | D)\)</span> by a normal distribution with mean equal to MAP and covariance matrix derive from the Hessian matrix of second order derivatives.</p></li>
+</ol>
+<p>That is, Laplace’s approximation to <span class="math inline">\(P(D)\)</span> is equivalent to approximating the posterior distribution by a Normal distribution centered around its mode.</p>
+<p>Does this procedure sound familiar? If we assume uniform priors, Laplace’s approximation is exactly the same as maximum likelihood with quadratic approximation (section 6.5 in the book) which is the original maximum likelihood method published by Fisher in 1922. Indeed, Laplace invented this method 150 years before Fisher, but in a Bayesian rather than Frequentist context. The only difference is that in the Bayesian context you take into account prior distributions rather than just the likelihood.</p>
+<p>As discussed in the book, this approximation becomes better as the amount of data increases (i.e., it is only exact asymptotically) and this remains true in the Bayesian context too. Some authors seem to think that the only correct way to do Bayesian statistics is to run complex algorithms such as Markov Chain Monte Carlo (we cover that in the next chapter) but using Laplace’s approximation is as valid as using the quadratic approximation for maximum likelihood. Thus, we will learn how to use this approach first and leave the more complex MCMC approaches for later.</p>
 </section>
-<section id="loading-the-model-in-stan-and-running-laplaces-approximation" class="level3" data-number="7.2.3">
-<h3 data-number="7.2.3" class="anchored" data-anchor-id="loading-the-model-in-stan-and-running-laplaces-approximation"><span class="header-section-number">7.2.3</span> Loading the model in Stan and running Laplace’s approximation</h3>
-<p>We can compile and load the model as follows (here I assume the model is in a file called <code>mm.stan</code> inside the folder <code>Lab6</code>).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()) <span class="co"># To enable parallel chains</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rstan_options</span>(<span class="at">auto_write =</span> <span class="cn">TRUE</span>) <span class="co"># To avoid recompilation</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>mm_model <span class="ot">=</span> <span class="fu">stan_model</span>(<span class="at">file =</span> <span class="st">"./Lab6/mm.stan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This took a while because the Stan model needs to be compiled to machine code that can then be executed. C++ compilation can be quite slow so please be patient (it will pay off later, trust me).</p>
-<p>We are going to fit this model the data using Laplace’s approximation. This approximates the posterior distribution as a Normal distribution with a mean equal to the maximum posterior estimates and variance derived from the Hessian matrix. Mathematically this is equivalent to maximum likelihood + quadratic approximation (section 6.5 in the book) but with prior distributions. We can do this in Stan using <code>optimizing()</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="fu">nrow</span>(shapes2), <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y, </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">hp =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">10</span>)) <span class="co"># see above for priors</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mm_fit <span class="ot">=</span> <span class="fu">optimizing</span>(mm_model, <span class="at">data =</span> data, <span class="at">init =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">50</span>, <span class="at">b =</span> <span class="dv">40</span>, <span class="at">sigma =</span> <span class="dv">1</span>),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can retrieve the estimated mode of the posterior:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mm_fit<span class="sc">$</span>par</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>And we can use the Hessian to compute a variance-covariance matrix:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">ginv</span>(<span class="sc">-</span>mm_fit<span class="sc">$</span>hessian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>And now our posterior is defined as a multivariate normal with <code>mu = mm_fit$par</code> and <code>Sigma = V</code>. We can generate samples using <code>mvrnorm</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>posterior_samples <span class="ot">=</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="dv">1000</span>, <span class="at">mu =</span> mm_fit<span class="sc">$</span>par, <span class="at">Sigma =</span> V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can directly visualize the marginal distribution from this sample:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"a"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">prob =</span> T)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(posterior_samples[,<span class="st">"b"</span>], <span class="at">main =</span> <span class="st">""</span>, <span class="at">xlab =</span> <span class="st">"b"</span>, <span class="at">prob =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>But also the correlation among these two parameters:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(posterior_samples[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">xlab =</span> <span class="st">"a"</span>, <span class="at">ylab =</span> <span class="st">"b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="implementing-laplaces-approximation" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="implementing-laplaces-approximation"><span class="header-section-number">7.2.3</span> Implementing Laplace’s approximation</h3>
+<p>We can implement Laplace’s approximation in a similar way to how we implemented the method of maximum likelihood. First, we build a function to compute the log posterior density (for consistency, we will use the negative, as in the maximum likelihood theory):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First the negative log likelihood</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(a, b, sd, x, y) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> (a<span class="sc">*</span>x)<span class="sc">/</span>(b<span class="sc">+</span>x)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  nll <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu,<span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we add the prior</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>nlpd <span class="ot">=</span> <span class="cf">function</span>(a, b, sd, x, y){</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    nlpd <span class="ot">=</span> <span class="fu">nll</span>(a, b, sd, x, y) <span class="sc">-</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">dnorm</span>(a, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">50</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">-</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>           <span class="fu">dnorm</span>(b, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">100</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">-</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">dnorm</span>(sd, <span class="at">mean =</span> <span class="dv">0</span>,  <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(nlpd)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">nlpd</span>(<span class="at">a =</span> <span class="dv">50</span>, <span class="at">b =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now run the optimizer as usual</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>MAP <span class="ot">=</span> <span class="fu">mle2</span>(nlpd, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">20</span>, <span class="at">b =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">1</span>), </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> shapes2, <span class="at">method=</span><span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s look at the results:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(MAP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Of course these results assume we were doing maximum likelihood, so much of the information is not relevant. But the first two columns of the <code>Coefficients</code> sector are now giving us the mode of the posterior distribution and the standard deviation of each of the posterior marginal distributions.</p>
+<p>In good Bayesian fashion we may want to generate a sample of values from the posterior distribution and use to make other calculations (e.g., predictions). We first need to extract the variance-covariance matrix</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>V <span class="ot">=</span> <span class="fu">vcov</span>(MAP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then we use a multivariate normal with mean equal to the MAP estimate and using the variance-covariance matrix we just extracted:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="at">n =</span> <span class="fl">1e4</span>, <span class="at">mean =</span> <span class="fu">coef</span>(MAP), <span class="at">sigma =</span> V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s visualize it (I only choose 1000 values because otherwise it is too slow):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(posterior[<span class="dv">1</span><span class="sc">:</span><span class="fl">1e3</span>,], <span class="at">pch =</span> <span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can also look at the marginal distributions and compare the posterior and prior:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">=</span> <span class="fu">cbind</span>(<span class="at">a =</span> a, <span class="at">b =</span> b, <span class="at">sd =</span> sigma)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">density</span>(posterior[,i]), <span class="at">xlab =</span> <span class="fu">colnames</span>(posterior)[i], <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">density</span>(prior[,i]), <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that in the region where the posterior samples where generated (basically where most of the probability is located), the prior distributions are practically flat. This is what makes a prior weakly informative. It has practically no effect on the posterior but it can help the algorithm find the solution much faster. This will lead to Bayesian results that are very similar to Maximum Likelihood results.</p>
+<p>We can also make predictions and compare it to the prior predictions we did before.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="fu">nrow</span>(posterior)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>xseq <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">200</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mu_y_posterior <span class="ot">=</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="cf">function</span>(i) posterior[i,<span class="st">"a"</span>]<span class="sc">*</span>xseq<span class="sc">/</span>(posterior[i,<span class="st">"b"</span>] <span class="sc">+</span> xseq))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This matrix has 1000 columns (one for each sample of the priors) and 201 rows for the seq of x values. We can summarize all these predictions into an average and quantiles:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mean_mu_y_posterior <span class="ot">=</span> <span class="fu">rowMeans</span>(mu_y_posterior)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>lower_mu_y_posterior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_posterior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.025</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>upper_mu_y_posterior <span class="ot">=</span> <span class="fu">apply</span>(mu_y_posterior, <span class="dv">1</span>, quantile, <span class="at">prob =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And now we can visualize it:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xseq, mean_mu_y_posterior, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Prey density"</span>, <span class="at">ylab =</span> <span class="st">"Predation rate"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, lower_mu_y_posterior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, upper_mu_y_posterior, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, mean_mu_y_prior, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, lower_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(xseq, upper_mu_y_prior, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(shapes2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you look hard you will see that the black lines are now plotted through the cloud of points and the uncertainty is quite small. Remember that this represents our uncertainty about the average predation rate and not individual values (that would require including the parameter <code>sd</code> too). The fact that our prior distribution was a bit off is not a problem as we made our prior uncertainty big enough to accommodate a wide range of possible responses.</p>
+</section>
+<section id="computing-dic" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="computing-dic"><span class="header-section-number">7.2.4</span> Computing DIC</h3>
+<p>We can compute DIC. Remember that this requires two calculations:</p>
+<ol type="1">
+<li><p>Twice the negative log likelihood at the mean posterior estimate.</p></li>
+<li><p>The same quantity but averaged over the posterior distribution.</p></li>
+</ol>
+<p>Let’s do the first one:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mean_posterior <span class="ot">=</span> <span class="fu">colMeans</span>(posterior)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>term1 <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">nll</span>(<span class="at">a =</span> mean_posterior[<span class="dv">1</span>], <span class="at">b =</span> mean_posterior[<span class="dv">2</span>], <span class="at">sd =</span> mean_posterior[<span class="dv">3</span>], </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>             shapes2<span class="sc">$</span>x, shapes2<span class="sc">$</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The second one is more involved but since we already have a sample of values from the posterior we can use them directly to estimate the mean deviance (this is essentially the Monte Carlo method to calculate averages):</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>all_nlls <span class="ot">=</span> <span class="fu">apply</span>(posterior, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="dv">2</span><span class="sc">*</span><span class="fu">nll</span>(<span class="at">a =</span> x[<span class="dv">1</span>], <span class="at">b =</span> x[<span class="dv">2</span>], <span class="at">sd =</span> x[<span class="dv">3</span>],</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">x =</span> shapes2<span class="sc">$</span>x, <span class="at">y =</span> shapes2<span class="sc">$</span>y))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>term2 <span class="ot">=</span> <span class="fu">mean</span>(all_nlls)                                                 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The effective number of parameters is the difference of <code>term2</code> and <code>term1</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pDIC <span class="ot">=</span> term2 <span class="sc">-</span> term1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that this is slightly larger than 3. The Deviance Information Criterion then becomes:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>DIC <span class="ot">=</span> term1 <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>pDIC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the next chapter (where we will use Markov Chain Monte Carlo) we will also learn more modern information criteria that are are meant to replace DIC.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -713,7 +760,10 @@ Exercise
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Fit the model <code>a*x^2/(b + x^2)</code> to the same dataset as the model above using Laplace’s approximation and Stan.</p>
+<ol type="1">
+<li><p>Fit the model <code>a*x^2/(b + x^2)</code> to the same dataset as the model above using Laplace’s approximation.</p></li>
+<li><p>Compare this model and the previous model using DIC</p></li>
+</ol>
 </div>
 </div>
 </div>
@@ -793,18 +843,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -836,7 +875,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -844,7 +905,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
