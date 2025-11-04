@@ -37,6 +37,113 @@ non-Normal responses).
 
 *Work in progress*
 
+# Overview of packages:
+
+## `stats` 
+
+One of the packages hat comes with R pre-installed, allows building models with
+only one stochastic component. The functions in introduces are:
+
+- `lm`: Linear models.  
+- `glm`: Generalized linear models.  
+- `nls`: Non-linear models. 
+
+## `stats4`
+
+Allows for general maximum likelihood, using both formulae and user-defined
+functions for the negative log-likelihood. It introduces the `mle` function.
+This allows specifying all the models in the package `stats` plus all other 
+forms of non-linear and generalized non-linear models.
+
+Note: Here we focus on the formula version of this function. If you implement
+your own negative log-likelihood function you can fit any more in this document
+as shown in the course.
+
+## `bbmle`
+
+The MLE package by Benjamin Bolker, developed in parallel with the book. This
+package propposes the function `mle2` that replaces the `mle` function in `stats4` 
+with similar functionality.
+
+Note: Here we focus on the formula version of this function. If you implement
+your own negative log-likelihood function you can fit any more in this document
+as shown in the course.
+
+## `nlme`
+
+Package for linear and non-linear mixed effect models and generalized least 
+squares. This is the original package developed by Pinheiro and Bates and 
+associated to their mixed model book and has been one of the most popular packages
+for mixed effects models in R for a long time. The functions it introduces are:
+
+- `gls`: Linear models with generalized least squares.  
+- `gnls`: Non-linear models with generalized least squares.  
+- `mle`: Linear mixed effect models.  
+- `nlme`: Non-linear mixed effect models.  
+
+The package also contains many functions for modeling the variance of the
+response as a function of groups and covariates (see `?varClasses`) and also
+the correlation structure of residuals (see `?corClasses`).
+
+## `lme4`
+
+Package for linear, generalized linear and non-linear mixed effect models (the
+second big package by Bates, currently maintained by Benjamin Bolker). The 
+functions it introduces are:
+
+- `lmer`: Linear mixed effect models.  
+- `glmer`: Generalized linear mixed effect models.  
+- `nlmer`: Non-linear mixed effect models.  
+
+Unlike `nlme`, the package `lme4` does not allow modelling the varaince in the
+response or correlation structure of residuals.
+
+## `glmmTMB`
+
+Package for linear,  generalized and non-linear (mixed) models. Unlike previous 
+package, this
+one allows random effects as optional. Developed and maintaned by Mollie Brooks,
+also with contributions by Bolker. This 
+package builds on top of TMB (a package for defining models in C++). It offers
+a single but very versatile `glmmTMB` function that will automatically detect
+the correct type of model from the formula. Like `nlme` it allows modelling the
+correlation structure of the residuals, but not the variance or scale parameter.
+
+Recently, they added the possibility of defining priors. This allows performing
+Maximum a Posterior Estimation (see example in Chapter 6) but also to run the
+model in Stan that implements Hamiltonian Monte Carlo for Bayesian inference. The
+system for specifying priors has been take from the package `brms` (see below).
+
+
+## `rstanarm`
+
+Package for Bayesian estimation of linear and generalized (mixed) models. It is
+built on top of Stan but all the C++ code is precompiled and heavily optimized,
+so it is a very efficient tool for quick Bayesian modeling. The functions it 
+offers are:
+
+- `stan_lm`: Linear models.  
+- `stan_glm`: Generalized linear models.  
+- `stan_lmer`: Linear mixed models as in `lmer`.  
+- `stan_glmer`: Generalized linear mixed models as in `glmer`.  
+- `stan_nlmer`: Non-linear mixed models as in `nlmer` but only works with the
+basic self-starting functions (see below for relevant section).
+
+## `brms`
+
+Package for Bayesian estimate that covers all the types of models described in
+this document. It is built on top of Stan but unlike `rstanarm`, it will generate
+ad-hoc Stan code based on the model formulated by the user. This means that the
+user will have to pay the cost of compiling the model (which can often exceed
+the time it takes to generate the samples) but this brings an enormous 
+flexibility to the user. The only limitation (like all other packages in this
+document) is that random effects must be described with Normal distribution, 
+even though it is technically possible to fit models in Stan with non-Normal
+random effects. The generated code may also not be the most optimal.
+
+The package offers a single function `brm` with a very flexible formula system
+(it is also useful to know the function `bf` to specify more complex formula).
+
 # Linear responses
 
 Models with linear are those where parameters are linear with respect to
@@ -66,7 +173,8 @@ Variance response: Assumed constant.
 | Paradigm    | Package   | Function  |
 |-------------|-----------|-----------|
 | Likelihood  | `Base`    | `lm`      |
-| Likelihood  | `bbmle`   | `lme2`    |
+| Likelihood  | `stats4`  | `mle`     |
+| Likelihood  | `bbmle`   | `mle2`    |
 | Both        | `glmmTMB` | `glmmTMB` |
 | Bayesian    | `rstanarm`| `stan_lm` |
 | Bayesian    | `brms`    | `brm`     |
@@ -207,6 +315,7 @@ Variance response: Non-linear function of covariates and/or correlation structur
 | Paradigm    | Package   | Function  |
 |-------------|-----------|-----------|
 | Likelihood  | `nlme`    | `gls`     |
+| Likelihood  | `stats4`  | `mle`     |
 | Likelihood  | `bbmme`   | `mle2`    |
 | Bayesian    | `brms`    | `brm`     |
 
@@ -267,7 +376,7 @@ Variance response: Non-linear function of covariates and/or correlation structur
 | Likelihood  | `nlme`    | `lme`       |
 | Likelihood  | `lme4`    | `lmer`      | 
 | Both        | `glmmTMB` | `glmmTMB`   |
-| Bayesian    | `stanarm` | `stan_lmer` |
+| Bayesian    | `rstanarm`| `stan_lmer` |
 | Bayesian    | `brms`    | `brm`       |
 
 Note that `lmer` and `stan_lmer` allow for some correlation structure in 
@@ -275,59 +384,6 @@ residuals but do not allow modelling the variance itself. For that you need to
 use `lme` or `brm`.
 
 **Examples**
-
-# Generalized linear responses
-
-Models where the response variable is assumed different from Normal. The mean is 
-modeled by a non-linear function (link) and a linear
-model of covariates. In other words, these models are non-linear but the
-parameters reported are linear with respect to a transformation of the mean.
-
-Canned methods generally support a number of pre-specified distributions and link
-functions. For more diversity you will have to write you own model.
-
-## Generalized linear models
-
-Stochastic model: A single level of one of the pre-specified distributions.
-Mean response: Linear function of covariates after link transformation.
-Variance response: Scale parameter (if present) assumed constant (but see note).
-
-| Paradigm    | Package      | Function    |
-|-------------|--------------|-------------|
-| Likelihood  | `Base`       | `glm`       |
-| Both        | `glmmTMB`^1^ | `glmmTMB`|
-| Bayesian    | `stanarm`    | `stan_glm ` |
-| Bayesian    | `brms`^1,2^  | `brm`    |
-
-^1^ Correlation structure for residuals
-^2^ Scale parameter can be modeled as non-linear function of covariates.
-
-**Example**
-
-An Poisson model with an log link function
-
-With `glm`
-
-``` r
-fit = glm(y~x, family = poisson(link = "log"), data = data)
-```
-
-## Generalized linear mixed models
-
-Stochastic model: Multiple levels. The latent ones must be Normal.
-Mean response: Linear function of covariates after link transformation.
-Variance response: In some cases in can be modeled as a function of covariates.
-
-| Paradigm    | Package      | Function    |
-|-------------|--------------|-------------|
-| Likelihood  | `lme4`       | `glmer`     |
-| Both        | `glmmTMB`^1^ | `glmmTMB`   |
-| Bayesian    | `stanarm`    | `stan_glmer`|
-| Bayesian    | `brms`^1,2^  | `brm`       |
-
-^1^ Correlation structure for residuals
-^2^ Scale parameter can be modeled as non-linear function of covariates.
-
 # Non-linear responses
 
 Models where the mean is modeled by a non-linear function of covariates.
@@ -346,7 +402,7 @@ estimates of parameters. R has the concept of *self-starting* models. A
 self-starting model implements a particular model and a procedure to
 "eye-ball" the initial values:
 
--   Base R provides `SSasymp`, `SSasympOff`, `SSasympOrig`, `SSbiexp`,
+-   Package `stats` provides `SSasymp`, `SSasympOff`, `SSasympOrig`, `SSbiexp`,
     `SSfol`, `SSfpl`, `SSgompertz`, `SSlogis`, `SSmicmen`, `SSweibull`
 
 -   The package `nlraa` provides 28 new self-starting functions that are
@@ -359,9 +415,7 @@ self-starting model implements a particular model and a procedure to
 See this blog post on how to write your own self-starting functions:
 https://www.statforbiology.com/2020/stat_nls_selfstarting/
 
-## Non-linear Normal responses
-
-### Non-linear model
+## Non-linear model
 
 Stochastic model: A single level, assumed Normal.
 Mean response: Non-linear function of covariates.
@@ -371,6 +425,7 @@ Variance response: Assumed constant (but see note).
 |-------------|-------------|-----------|
 | Likelihood  | `Base`      | `nls`     |
 | Likelihood  | `nlme`^1,2^ | `gnls`    |
+| Likelihood  | `stats4`    | `mle`     |
 | Likelihood  | `bbmle`^2^  | `mle2`    |
 | Bayesian    | `brms`^1,2^ | `brm`     |
 
@@ -418,7 +473,7 @@ fit = gnls(y~a*x/(b + x), start = list(a = 5, b = 2),
              weights = varExp(form = ~x), data = data)
 ```
 
-### Non-linear mixed models
+## Non-linear mixed models
 
 Stochastic model: Multiple levels assumed Normal.
 Mean response: Linear function of covariates after link transformation.
@@ -430,9 +485,62 @@ modeled as non-linear function of covariates.
 | Likelihood  | `nlme`    | `nlme`    |
 | Bayesian    | `brms`    | `brm`     |
 
-## Non-linear non-Normal responses
+# Generalized linear responses
 
-### Non-linear non-Normal model
+Models where the response variable is assumed different from Normal. The mean is 
+modeled by a non-linear function (link) and a linear
+model of covariates. In other words, these models are non-linear but the
+parameters reported are linear with respect to a transformation of the mean.
+
+Canned methods generally support a number of pre-specified distributions and link
+functions. For more diversity you will have to write you own model.
+
+## Generalized linear models
+
+Stochastic model: A single level of one of the pre-specified distributions.
+Mean response: Linear function of covariates after link transformation.
+Variance response: Scale parameter (if present) assumed constant (but see note).
+
+| Paradigm    | Package      | Function    |
+|-------------|--------------|-------------|
+| Likelihood  | `Base`       | `glm`       |
+| Both        | `glmmTMB`^1^ | `glmmTMB`   |
+| Bayesian    | `stanarm`    | `stan_glm ` |
+| Bayesian    | `brms`^1,2^  | `brm`       |
+
+^1^ Correlation structure for residuals
+^2^ Scale parameter can be modeled as non-linear function of covariates.
+
+**Example**
+
+An Poisson model with an log link function
+
+With `glm`
+
+``` r
+fit = glm(y~x, family = poisson(link = "log"), data = data)
+```
+
+## Generalized linear mixed models
+
+Stochastic model: Multiple levels. The latent ones must be Normal.
+Mean response: Linear function of covariates after link transformation.
+Variance response: In some cases in can be modeled as a function of covariates.
+
+| Paradigm    | Package      | Function    |
+|-------------|--------------|-------------|
+| Likelihood  | `lme4`       | `glmer`     |
+| Both        | `glmmTMB`^1^ | `glmmTMB`   |
+| Bayesian    | `stanarm`    | `stan_glmer`|
+| Bayesian    | `brms`^1,2^  | `brm`       |
+
+^1^ Correlation structure for residuals
+^2^ Scale parameter can be modeled as non-linear function of covariates.
+
+
+# Generalized non-linear responses
+
+## Generalized non-linear models
 
 Stochastic model: A single level of one of the pre-specified distributions.
 Mean response: Non-linear function of covariates.
@@ -440,12 +548,13 @@ Variance response: Variance can be modeled as non-linear function of covariates.
 
 | Paradigm    | Package   | Function  |
 |-------------|-----------|-----------|
+| Likelihood  | `stats4`  | `mle`     |
 | Likelihood  | `bbmle`   | `mle2`    |
 | Bayesian    | `brms`^1^ | `brm`     |
 
 ^1^ Also allows correlation structures
 
-### Non-linear non-Normal mixed model
+## Generalized non-linear mixed models
 
 Stochastic model: Multiple levels. The latent ones must be Normal.
 Mean response: Non-linear function of covariates.
