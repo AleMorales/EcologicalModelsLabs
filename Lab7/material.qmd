@@ -4,7 +4,7 @@ You will learn how to:
 
 1. Deal with optimization problems and assess confidence limits
 
-2. Otimally, estimate parameters in a Bayesian way using Stan
+2. Optionally, estimate parameters in a Bayesian way using Stan
 
 
 ## Optimisation problems and assessing the confidence limits of parameter estimates
@@ -206,7 +206,7 @@ adaptation, etc). We will not learn the details of the algorithm (is much more
 complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM), 
 instead we will focus on how to assess the results.
 
-Remember that in lab 6 we created a model for the prediation data (`shapes2`). 
+Remember that in lab 6 we created a model for the predation data (`shapes2`). 
 We will modify that model to keep track of the log-likelihood for the different
 parameter combinations (we need it for model comparison later). The original code
 was as follows
