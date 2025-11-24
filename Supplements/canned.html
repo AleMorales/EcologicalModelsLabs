@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-17">
+<meta name="dcterms.date" content="2025-11-24">
 
-<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Supplement: Formula-based methods</title>
+<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Supplement: Formula-based methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -113,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Supplements/canned.html">Supplement: Canned methods</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Supplements/canned.html">Supplement: Formula-based methods</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -205,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Supplement: Canned methods</span></a>
+ <span class="menu-text">Supplement: Formula-based methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -214,11 +214,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -275,6 +281,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../Supplements/bias_variance/solution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan (solutions)</span></a>
   </div>
 </li>
       </ul>
@@ -346,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 17, 2025</p>
+      <p class="date">November 24, 2025</p>
     </div>
   </div>
   
@@ -460,7 +472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="linear-model" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="linear-model"><span class="header-section-number">4.1</span> Linear model</h2>
 <p>Stochastic model: A single level assumed Normal. Mean response: Linear function of covariates. Variance response: Assumed constant.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -571,7 +583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generalized-least-squares" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">4.2</span> Generalized least squares</h2>
 <p>Stochastic model: A single level assumed Normal. Mean response: Linear function of covariates. Variance response: Non-linear function of covariates and/or correlation structure.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -630,7 +642,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="linear-mixed-model" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="linear-mixed-model"><span class="header-section-number">4.3</span> Linear mixed model</h2>
 <p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates. Variance response: Non-linear function of covariates and/or correlation structure.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -684,7 +696,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="non-linear-model" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="non-linear-model"><span class="header-section-number">4.5</span> Non-linear model</h2>
 <p>Stochastic model: A single level, assumed Normal. Mean response: Non-linear function of covariates. Variance response: Assumed constant (but see note).</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -744,7 +756,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="non-linear-mixed-models" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="non-linear-mixed-models"><span class="header-section-number">4.6</span> Non-linear mixed models</h2>
 <p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates after link transformation. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -774,7 +786,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generalized-linear-models" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="generalized-linear-models"><span class="header-section-number">5.1</span> Generalized linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Linear function of covariates after link transformation. Variance response: Scale parameter (if present) assumed constant (but see note).</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -814,7 +826,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generalized-linear-mixed-models" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="generalized-linear-mixed-models"><span class="header-section-number">5.2</span> Generalized linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Linear function of covariates after link transformation. Variance response: In some cases in can be modeled as a function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -853,7 +865,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generalized-non-linear-models" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="generalized-non-linear-models"><span class="header-section-number">6.1</span> Generalized non-linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Non-linear function of covariates. Variance response: Variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -884,7 +896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="generalized-non-linear-mixed-models" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="generalized-non-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized non-linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Non-linear function of covariates. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Paradigm</th>
@@ -941,18 +953,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -984,7 +985,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -992,7 +1015,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-17">
+<meta name="dcterms.date" content="2025-11-24">
 
-<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Supplement: mle2 vs optim</title>
+<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Supplement: mle2 vs optim</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -79,13 +113,13 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Supplements/optim.html">Supplement: mle2 vs optim</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -171,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplement: Canned methods</span></a>
+ <span class="menu-text">Supplement: Formula-based methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -180,11 +214,17 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -243,6 +283,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan (solutions)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -251,7 +297,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">1</span> </a></li>
+  <li><a href="#introduction-to-the-example" id="toc-introduction-to-the-example" class="nav-link" data-scroll-target="#introduction-to-the-example"><span class="header-section-number">2</span> Introduction to the example</a></li>
+  <li><a href="#using-optim" id="toc-using-optim" class="nav-link" data-scroll-target="#using-optim"><span class="header-section-number">3</span> Using <code>optim()</code></a></li>
+  <li><a href="#using-mle2" id="toc-using-mle2" class="nav-link" data-scroll-target="#using-mle2"><span class="header-section-number">4</span> Using <code>mle2()</code></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -275,7 +330,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 17, 2025</p>
+      <p class="date">November 24, 2025</p>
     </div>
   </div>
   
@@ -287,9 +342,102 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><em>Work in progress</em></p>
+<section id="section" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> </h1>
+<p>Introduction In the course, two functions are introduced to perform parameter estimation via maximum likelihood, the function <code>optim()</code> from the stats package (loaded by default) and the function <code>mle2()</code> from the bbmle package. Internally, <code>mle2()</code> will call <code>optim()</code> by default, so there should not be any difference in the parameter estimates themselves (assuming the same initial values and optimizer). However, there are some advantages to using <code>mle2()</code>:</p>
+<ul>
+<li><p>The objects created by <code>mle2()</code> can be used in additional methods defined by the <code>bbmle</code> package. This methods allow automatic computation of confidence intervals via likelihood profiling (via <code>confint()</code>) or computation of AIC and BIC (via <code>AIC()</code> and <code>BIC()</code>, respectively).</p></li>
+<li><p>It is possible to use alternative optimization algorithms to those contained in <code>optim()</code>. This includes optimizers offered by <code>optimx()</code>, <code>constrOptim()</code> and <code>nlminb()</code> (additional packages will be required to use these).</p></li>
+<li><p>The variance-covariance matrix can be approximated using a generalized inverse algorithm (<code>ginv()</code> from the package <code>MASS</code>) that is more robust against numerical instability than the built-in <code>solve()</code> (this makes the Hessian approximation more reliable on highly non-linear models with “difficult” parameterizations).</p></li>
+</ul>
+<p>This would suggest that one should always use <code>mle2()</code> instead of <code>optim()</code> and this is indeed what we do in the course. But the fact that <code>mle2()</code> does most calculations automatically is both a blessing and a curse. Sometimes those calculations will fail (most notably, the likelihood profiling). Using <code>optim()</code> will force users to perform many of the calculations themselves, which is useful for learning purposes and gives more control when calculations fail. For that reason, it may be useful to learn how to use both functions.</p>
+<p>The main issue with learning both <code>optim()</code> and <code>mle2()</code> is that the function used to compute the negative log-likelihood (which the user needs to defined in both cases) should use a different syntax. This means that switching from <code>optim()</code> to <code>mle2()</code> can be tedious and error prone. In this document, these differences are illustrated with the use of a simple example.</p>
+</section>
+<section id="introduction-to-the-example" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Introduction to the example</h1>
+<p>In order to compare <code>optim()</code> and <code>mle2()</code>, we will fit a monomolecular model to the first dataset provided in Lab 3:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">"shapes1.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This dataset represents a response curve to light intensity (response curves are very common in plant ecophysiology). The response variable (y) is continuous and includes negative values so it makes to use a normal distribution. The relationship between average y and x is non-linear linear and can be approximated with a monomolecular model (values are eyeballed):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> data)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ymin <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>deltay <span class="ot">=</span> <span class="dv">25</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="fl">0.01</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(ymin <span class="sc">+</span> deltay<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k<span class="sc">*</span>x)), <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In order to obtain the maximum likelihood estimates of <code>ymin</code>, <code>deltay</code> and <code>k</code> we need to write a function to compute the negative log-likelihood as a function of the data and parameter values. The core of that function will look like this (the part that is not commented out):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#NLLfun = function(pars, data) {</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  ymin   = pars[1]</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  deltay = pars[2]</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  k      = pars[3]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  sd     = pars[4]</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  y      = data$y</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  x      = data$x</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ymodel <span class="ot">=</span> ymin <span class="sc">+</span> deltay<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k<span class="sc">*</span>x))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  NLL <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> ymodel, <span class="at">sd =</span> sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>However, the question is how to pass the data (i.e., y and x, or data) as well as the parameters <code>ymin</code>, <code>deltay</code> and <code>k</code> to the function computing NLL. The mechanism that is used by default by <code>optim()</code> and <code>mle2()</code> to pass the parameters is different, so we cannot reuse the same negative log-likelihood function with both. They also have different approaches to pass the data although here the user has more flexibility. Also, note that <code>mle2()</code> allows specifying the model as a formula (<code>optim()</code> does not) but we will ignore this approach as it is limited to very simple models. Two ways to solve the example, using <code>optim()</code> and <code>mle2()</code>, are presented below.</p>
+</section>
+<section id="using-optim" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Using <code>optim()</code></h1>
+<p>The function <code>optim()</code> will pass the parameters packed into a vector as the first argument to the user-defined function. Hence, the user will have to unpack this vector prior to using them within the function. Any addition input to the function (i.e., <code>y</code> and <code>x</code>, or data) can also be passed along by <code>optim()</code> provided that we use the correct name. The user can decided whether to pass <code>x</code> and <code>y</code> separately, or use data and extract them inside the function (the latter is recommended to avoid cluttering the R workspace).</p>
+<p>Thus a canonical way of implementing the function calculating NLL would be as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NLLfun <span class="ot">=</span> <span class="cf">function</span>(pars, data) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unpack the parameters</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  ymin   <span class="ot">=</span> pars[<span class="dv">1</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  deltay <span class="ot">=</span> pars[<span class="dv">2</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  k      <span class="ot">=</span> pars[<span class="dv">3</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  sd     <span class="ot">=</span> pars[<span class="dv">4</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unpack the data (assumes data is a data.frame)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  y      <span class="ot">=</span> data<span class="sc">$</span>y</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">=</span> data<span class="sc">$</span>x</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute the negative log-likelihood</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ymodel <span class="ot">=</span> ymin <span class="sc">+</span> deltay<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k<span class="sc">*</span>x))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  NLL    <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> ymodel, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a side note: the user can also choose to not pass the data to the function as data that are in the R environment are accessible to R functions anyhow, but it is better coding practice to do so.</p>
+<p>Note that parameter values must be passed as they are defined in a calling function, and such parameters are not available in the R environment as values defined in functions are only available within that function.</p>
+<p>After you have created the function, you should always test it with the initial parameter values to make sure it runs without problems at the initial negative, i.e.&nbsp;to test if the log-likelihood is a finite number. The inital estimates for the parameter values should be stored in a vector in the same order in which they are unpacked inside NLLfun (you may use names for future reference but it is not compulsory):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pars0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">ymin =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">deltay =</span> <span class="dv">25</span>, <span class="at">k =</span> <span class="fl">0.005</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>NLL0  <span class="ot">=</span> <span class="fu">NLLfun</span>(pars0, data)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>NLL0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That looks good. Now we can run the optimization with <code>optim()</code>. If we want to rely on default settings, the following function call suffices. Note that <code>data = data</code> is a way to indicate to <code>optim()</code> that there is an argument called data in <code>NLLfun()</code> and that it needs to pass along the object we give it. If you need to use the Hessian matrix you must also specify <code>hessian = TRUE</code> (if you do not need, you can omit that part):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">optim</span>(<span class="at">par =</span> pars0, <span class="at">fn =</span> NLLfun, <span class="at">data =</span> data, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The object returned by <code>optim()</code> includes the optimal parameter values (with the names!), the value of the negative log-likelihood (<code>value</code>) and the convergence flag (it should be 0, if not, the algorithm ran into trouble and you should help of <code>optim()</code>). The Hessian matrix is also included in the returned object.</p>
+<p>From here onwards, if you want to compute AIC, BIC, likelihood profile or other quantities of interest you will need to write the code yourself, as <code>optim()</code> knows nothing about these concepts (it is a general purpose optimization function that can be used for many things besides maximum likelihood estimation).</p>
+</section>
+<section id="using-mle2" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Using <code>mle2()</code></h1>
+<p>If you wan to use <code>mle2()</code> instead, you will need to write a different function to compute the negative log-likelihood. Now, the function will take as argument the different parameters (rather than a vector of parameter values). Although you can ommit the data as argment (and <code>mle2()</code> will use some advanced R dark magic to somehow pass the data to the function), this is not recommended as you will not be able to call the function on your own. There are different ways to solve this problem, the easiest one is to use data directly inside the function which will simply look for the right variable in the workspace (or environment as Rstudio calls it). It would then look like this:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bbNLLfun <span class="ot">=</span> <span class="cf">function</span>(ymin, deltay, k, sd) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Unpack the data (assumes data is a data.frame)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  y      <span class="ot">=</span> data<span class="sc">$</span>y <span class="co"># just the variable data in your R workspace</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">=</span> data<span class="sc">$</span>x</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute the negative log-likelihood</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  ymodel <span class="ot">=</span> ymin <span class="sc">+</span> deltay<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>k<span class="sc">*</span>x))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  NLL    <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> ymodel, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that this will make the <code>bbNLLfun()</code> function less generic. If you want to use it with different datasets, you will need to either overwrite the variable data before calling the function each time, or change the name of the variable used inside the function. This strategy is known as using data as a global variable and it is frown upon by programmers (it can lead to many bugs) but it is easiest way to use <code>mle2()</code> as a beginner (later you can learn more sophisticated ways of doing it).</p>
+<p>A further difference is that the initial values of the parameters need to be stored in a list rather than a vector (i.e.&nbsp;use <code>list()</code> instead of <code>c()</code>). In this case the order of the parameters does not parameter but you must use the exact same names as in <code>bbNLLfun()</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bbpars0 <span class="ot">=</span> <span class="fu">list</span>(<span class="at">ymin =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">deltay =</span> <span class="dv">25</span>, <span class="at">k =</span> <span class="fl">0.005</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now call the <code>bbNLLfun()</code> as before. A trick to avoid repeating <code>bbpars0$</code> for every parameter is to use the <code>with()</code> function which will unpack the list of parameters and make then available to any piece of R code you pass along:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bbNLL0 <span class="ot">=</span> <span class="fu">with</span>(bbpars0, <span class="fu">bbNLLfun</span>(ymin, deltay, k, sd))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bbNLL0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The call to <code>mle2()</code> itself is similar to <code>optim()</code>. The negative log-likelihood function is now assigned to <code>minuslogl</code> and the initial values of the parameters are assigned to <code>start</code>. We do not need to pass the data as the function <code>bbNLLfun()</code> is already retrieving the data as a global variable (see above):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bbfit <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">start =</span> bbpars0, <span class="at">minuslogl =</span> bbNLLfun, <span class="at">method =</span> <span class="st">"Nelder-Mead"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>bbfit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can verify that <code>bbfit</code> and fit contain the same solution. Note that the default algorithm in <code>mle2()</code> is BFGS whereas the default algorithm for <code>optim()</code> is Nelder-Mead. If I had not specified <code>method = "Nelder-Mead"</code> in the above, I may have gotten slightly different results as I would be comparing two different optimization algorithms (remember that we are performing a numerical optimization, so results are not 100% accurate and will differ across algorithms).</p>
+<p>If we now want to compute the confidence intervals from the likelihood profiles it is as easy as:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bbconf <span class="ot">=</span> <span class="fu">confint</span>(bbfit)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bbconf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>AIC is easy retrieve:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(bbfit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you want to compute BIC just change the penalty term per parameter (by default 2) to the correct one (i.e.&nbsp;log(n)):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(bbfit, <span class="at">k =</span> <span class="fu">log</span>(<span class="fu">nrow</span>(data)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -327,18 +475,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -370,7 +507,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -378,7 +537,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

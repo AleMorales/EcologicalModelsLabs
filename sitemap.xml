@@ -1,127 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/Stan/solution.html</loc>
+    <lastmod>2025-11-24T05:49:55.092Z</lastmod>
+  </url>
+  <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/Stan/material.html</loc>
-    <lastmod>2025-11-09T07:21:38.000Z</lastmod>
+    <lastmod>2025-11-24T05:52:03.758Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/canned.html</loc>
-    <lastmod>2025-11-01T06:28:45.000Z</lastmod>
+    <lastmod>2025-11-01T06:28:45.761Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/bias_variance/no_solution.html</loc>
-    <lastmod>2025-10-24T09:13:44.000Z</lastmod>
+    <lastmod>2025-10-24T09:13:44.349Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab9/solution.html</loc>
-    <lastmod>2025-11-09T07:13:34.000Z</lastmod>
+    <lastmod>2025-11-09T07:13:34.074Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab9/material.html</loc>
-    <lastmod>2025-10-29T07:59:07.741Z</lastmod>
+    <lastmod>2025-11-24T05:42:10.483Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab7/no_solution.html</loc>
-    <lastmod>2025-10-22T14:31:02.000Z</lastmod>
+    <lastmod>2025-10-22T14:31:02.882Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab6/solution.html</loc>
-    <lastmod>2025-10-22T14:30:24.000Z</lastmod>
+    <lastmod>2025-10-22T14:30:24.147Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab6/material.html</loc>
-    <lastmod>2025-11-04T12:14:15.000Z</lastmod>
+    <lastmod>2025-11-04T12:14:15.236Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab4/no_solution.html</loc>
-    <lastmod>2025-10-21T11:18:54.303Z</lastmod>
+    <lastmod>2025-10-21T11:18:54.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab3/solution.html</loc>
-    <lastmod>2025-10-22T14:30:06.000Z</lastmod>
+    <lastmod>2025-10-22T14:30:06.821Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab3/material.html</loc>
-    <lastmod>2025-10-29T08:54:36.598Z</lastmod>
+    <lastmod>2025-10-29T08:54:36.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab2/no_solution.html</loc>
-    <lastmod>2025-10-21T09:21:24.019Z</lastmod>
+    <lastmod>2025-10-21T09:21:24.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab10/solution.html</loc>
-    <lastmod>2025-10-21T12:23:00.754Z</lastmod>
+    <lastmod>2025-10-21T06:09:03.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab10/material.html</loc>
-    <lastmod>2025-10-27T10:43:45.360Z</lastmod>
+    <lastmod>2025-11-24T04:35:02.921Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab1/no_solution.html</loc>
-    <lastmod>2025-10-22T14:30:51.000Z</lastmod>
+    <lastmod>2025-10-22T14:30:51.173Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/index.html</loc>
-    <lastmod>2025-10-27T10:41:58.541Z</lastmod>
+    <lastmod>2025-10-27T10:41:58.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab1/material.html</loc>
-    <lastmod>2025-10-28T08:18:17.650Z</lastmod>
+    <lastmod>2025-10-28T08:18:17.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab1/solution.html</loc>
-    <lastmod>2025-10-21T09:07:30.031Z</lastmod>
+    <lastmod>2025-10-21T06:32:37.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab10/no_solution.html</loc>
-    <lastmod>2025-10-21T12:23:13.315Z</lastmod>
+    <lastmod>2025-10-21T06:08:51.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab2/material.html</loc>
-    <lastmod>2025-10-28T13:45:02.323Z</lastmod>
+    <lastmod>2025-10-28T13:45:02.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab2/solution.html</loc>
-    <lastmod>2025-10-22T14:30:39.000Z</lastmod>
+    <lastmod>2025-10-22T14:30:39.498Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab3/no_solution.html</loc>
-    <lastmod>2025-10-21T10:12:24.551Z</lastmod>
+    <lastmod>2025-10-21T10:12:24.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab4/material.html</loc>
-    <lastmod>2025-10-29T12:24:22.635Z</lastmod>
+    <lastmod>2025-10-29T12:24:22.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab4/solution.html</loc>
-    <lastmod>2025-10-21T11:19:27.394Z</lastmod>
+    <lastmod>2025-10-21T11:19:27.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab6/no_solution.html</loc>
-    <lastmod>2025-10-21T11:45:44.941Z</lastmod>
+    <lastmod>2025-10-21T11:45:44.000Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab7/material.html</loc>
-    <lastmod>2025-11-09T06:46:35.000Z</lastmod>
+    <lastmod>2025-11-09T06:46:35.724Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab7/solution.html</loc>
-    <lastmod>2025-10-22T14:31:12.000Z</lastmod>
+    <lastmod>2025-10-22T14:31:12.556Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Lab9/no_solution.html</loc>
-    <lastmod>2025-11-09T07:13:45.000Z</lastmod>
+    <lastmod>2025-11-09T07:13:45.109Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/bias_variance/material.html</loc>
-    <lastmod>2025-10-24T09:24:34.000Z</lastmod>
+    <lastmod>2025-11-24T05:55:52.236Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/bias_variance/solution.html</loc>
-    <lastmod>2025-10-24T09:13:37.000Z</lastmod>
+    <lastmod>2025-10-24T09:13:37.647Z</lastmod>
   </url>
   <url>
     <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/optim.html</loc>
-    <lastmod>2025-10-24T13:40:40.000Z</lastmod>
+    <lastmod>2025-11-24T04:58:35.723Z</lastmod>
+  </url>
+  <url>
+    <loc>https://AleMorales.github.io/EcologicalModelsLabs/Supplements/Stan/no_solution.html</loc>
+    <lastmod>2025-11-24T05:49:45.903Z</lastmod>
   </url>
 </urlset>

@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-17">
+<meta name="dcterms.date" content="2025-11-24">
 
-<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R - Lab 9: Modeling variance and dispersion (solutions)</title>
+<title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Lab 9: Modeling variance and dispersion (solutions)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -142,13 +142,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Lab1/solution.html">Solutions</a></li><li class="breadcrumb-item"><a href="../Lab9/solution.html">Lab 9 (solutions)</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -234,7 +234,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Supplements/canned.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supplement: Canned methods</span></a>
+ <span class="menu-text">Supplement: Formula-based methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -243,11 +243,17 @@ window.Quarto = {
  <span class="menu-text">Supplement: Variance and bias of estimates</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/no_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Solutions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -306,6 +312,12 @@ window.Quarto = {
  <span class="menu-text">Variance and bias of estimates (solutions)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Supplements/Stan/solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supplement: Bayesian inference with Stan (solutions)</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -346,7 +358,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 17, 2025</p>
+      <p class="date">November 24, 2025</p>
     </div>
   </div>
   
@@ -475,34 +487,35 @@ Solution
 </section>
 <section id="variance-along-continuous-variables" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Variance along continuous variables</h1>
-<p><strong>This is count data so we should change the model to a discrete distribution!!</strong></p>
 <p>In the book, Bolker analyzes a dataset on cone production by fir trees as a function of their diameter:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emdbook)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can see that the average cone production increases with the diameter but also the scatter in the data. Therefore, it might be a good idea to model how this scatter increases with diameter.</p>
-<p>To helps us figure out a way to model this, we can try to visualize how the standard deviation varies across diameter but for that we need to bin the data. I show you below how to do this, and I also calculate the coefficient of variation because in many distributions (like Gamma and Log-Normal) the standard deviation is not constant but the coefficient of variation is.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cleanFIR <span class="ot">=</span> FirDBHFec[<span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>TOTCONES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>DBH),]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>DBHpoints <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">18</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate vetor to store cvs and sd and calculate for first bin</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>cvs <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[<span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>cvs[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>sds[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for all bins</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(DBHpoints)) {</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[i] <span class="sc">&amp;</span> DBH <span class="sc">&gt;=</span> DBHpoints[i <span class="sc">-</span> <span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  cvs[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)<span class="sc">/</span><span class="fu">mean</span>(temp)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  sds[i] <span class="ot">=</span> <span class="fu">sd</span>(temp)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cleanFIR <span class="ot">=</span> FirDBHFec[<span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>TOTCONES) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(FirDBHFec<span class="sc">$</span>DBH),]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We are dealing with count data. We can first assess whether there is over- dispersion in these counts. We can assess this by comparing the variances to the mean cone production. For this we need to bin the data into intervals of diameter at breast height:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bins</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>DBHpoints <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">14</span>,<span class="dv">18</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Allocate vetor to store vars calculate for first bin</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>means <span class="ot">=</span> <span class="fu">numeric</span>(<span class="fu">length</span>(DBHpoints))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[<span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>vars[<span class="dv">1</span>]  <span class="ot">=</span> <span class="fu">var</span>(temp)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>means[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">mean</span>(temp)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for all bins</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(DBHpoints)) {</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">=</span> <span class="fu">subset</span>(cleanFIR, DBH <span class="sc">&lt;=</span> DBHpoints[i] <span class="sc">&amp;</span> DBH <span class="sc">&gt;=</span> DBHpoints[i <span class="sc">-</span> <span class="dv">1</span>])<span class="sc">$</span>TOTCONES</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  vars[i] <span class="ot">=</span> <span class="fu">var</span>(temp)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  means[i] <span class="ot">=</span> <span class="fu">mean</span>(temp)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can now plot the results</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), sds, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"sd TOTCONES"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>), cvs, <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"cv TOTCONES"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can see that while the standard deviation increases with DBH, the coefficient of variation decreases. If I were to model these data with a normal distribution (which is not a good idea because it will predict a lot of negative cone production) I would need to add an increase in the standard deviation with diameter. If I were to model with a log-normal parameterized with a coefficient of variation (like in the example with clams), I would need to model the decrease in the coefficient of variation wit diameter.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(means, vars, <span class="at">xlab =</span> <span class="st">"means TOTCONES"</span>, <span class="at">ylab =</span> <span class="st">"vars TOTCONES"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(means, vars), <span class="at">xlim =</span> <span class="fu">range</span>(means, vars))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can clearly see that the variance is much larger than the mean cone production so we might want to use a negative binomial defined by a mean (<code>mu</code>) and a dispersion parameter <code>size</code>. The question is whether assuming a constant <code>size</code> is good enough to capture the overdispersion or whether we want <code>size</code> to vary as a function of DBH. A method of moments estimate of <code>size</code> is <code>size = mu^2/(var - mu)</code>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DBHpoints, means<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(vars <span class="sc">-</span> means), <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"size TOTCONES"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can see that the <code>size</code> parameter is increasing with diameter, indicating that as the number of cone production increases, the overdispersion actually decreases, so we may want to try modelling this increase. The data suggest that a non-linear increase appears to be most adequate. For example, a scaled and shifted logistic seems to fit quite well:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DBHpoints, means<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(vars <span class="sc">-</span> means), <span class="at">xlab =</span> <span class="st">"DBH"</span>, <span class="at">ylab =</span> <span class="st">"size TOTCONES"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fl">5.5</span><span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.7</span><span class="sc">*</span>(x  <span class="sc">-</span> <span class="dv">12</span>))), <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-important callout-titled" title="Exercise">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -516,9 +529,9 @@ Exercise
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Fit a non-linear model with a log-normal error distribution to the relationship between <code>TOTCONES</code> and <code>DBH</code> using the same parameterization as we used for the study on clams. Make sure to include a component to capture the decrease in the coefficient of variation with diameter.</li>
+<li><p>Fit a non-linear model to the relationship between <code>TOTCONES</code> and <code>DBH</code> with a negative binomial error distribution where the <code>size</code> parameter increases with diameter at breast height following a shifted and scaled logistic function.</p></li>
+<li><p>Simulate some observations from the fitted model and compare to original data visually</p></li>
 </ol>
-<p>Be careful that <code>TOTCONES</code> contains zeros so you will need to adjust those (the trick that Bolker uses is to just add 1).</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -531,27 +544,34 @@ Solution
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>I am going to fit a power law for the mean trend, just like for the clams. Let’s eyeball its coefficients from the raw data:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>And I am going to assume an exponential decrease in the coefficient of variation with respect to diameter.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(cvs<span class="sc">~</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">16</span>)))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="dv">3</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.15</span><span class="sc">*</span>x), <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can now fit the model using these four starting values:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(a, b, c, d) {</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH<span class="sc">^</span>b</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">=</span> c<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>d<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  meanlog <span class="ot">=</span> <span class="fu">log</span>(mu<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  sdlog   <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> cv<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  NLL <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dlnorm</span>(cleanFIR<span class="sc">$</span>TOTCONES <span class="sc">+</span> <span class="dv">1</span>, meanlog, sdlog, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  NLL</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>par0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">3</span>, <span class="at">d =</span> <span class="fl">0.15</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> nll, <span class="at">start =</span> <span class="fu">as.list</span>(par0), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.1</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">c =</span> <span class="dv">1</span>, <span class="at">d =</span> <span class="dv">0</span>),</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="dv">10</span>, <span class="at">d =</span> <span class="dv">1</span>),</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par0), <span class="at">trace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I am going to fit a power law for the mean trend. Let’s eyeball its coefficients from the raw data:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(cleanFIR, <span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fl">0.5</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can now fit the model using the power law for <code>mean</code> and logistic for <code>size</code> using the eye-balled parameters from above:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>nll <span class="ot">=</span> <span class="cf">function</span>(a, b, c, d, e, f) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH<span class="sc">^</span>b</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  size <span class="ot">=</span> c <span class="sc">+</span> d<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>e<span class="sc">*</span>(cleanFIR<span class="sc">$</span>DBH <span class="sc">-</span> f)))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  NLL <span class="ot">=</span> <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnbinom</span>(<span class="fu">as.integer</span>(cleanFIR<span class="sc">$</span>TOTCONES), <span class="at">mu =</span> mu, <span class="at">size =</span> size, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  NLL</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>par0 <span class="ot">=</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">1</span>, <span class="at">d =</span> <span class="fl">5.5</span>, <span class="at">e =</span> <span class="fl">0.7</span>, <span class="at">f  =</span> <span class="dv">12</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">nll</span>(<span class="at">a =</span> <span class="fl">0.5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">1</span>, <span class="at">d =</span> <span class="fl">5.5</span>, <span class="at">e =</span> <span class="fl">0.7</span>, <span class="at">f  =</span> <span class="dv">12</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(<span class="at">minuslogl =</span> nll, <span class="at">start =</span> <span class="fu">as.list</span>(par0), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.1</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">c =</span> <span class="fl">0.1</span>, <span class="at">d =</span> <span class="dv">2</span>, <span class="at">e =</span> <span class="fl">0.2</span>, <span class="at">f =</span> <span class="dv">2</span>),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">upper =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">2</span>,   <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="fl">1.5</span>, <span class="at">d =</span> <span class="dv">8</span>, <span class="at">e =</span> <span class="fl">5.0</span>, <span class="at">f =</span> <span class="dv">20</span>),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">control =</span> <span class="fu">list</span>(<span class="at">parscale =</span> <span class="fu">abs</span>(par0)))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>We can simulate results using fitted model by computing the <code>mean</code> and <code>size</code> and sampling from NBinom rather than computing the density of observations:</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seedd</span>(<span class="dv">101</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> p[<span class="dv">1</span>]<span class="sc">*</span>cleanFIR<span class="sc">$</span>DBH<span class="sc">^</span>p[<span class="dv">2</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>size <span class="ot">=</span> p[<span class="dv">3</span>] <span class="sc">+</span> p[<span class="dv">4</span>]<span class="sc">/</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>p[<span class="dv">5</span>]<span class="sc">*</span>(cleanFIR<span class="sc">$</span>DBH <span class="sc">-</span> p[<span class="dv">6</span>])))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="fu">nrow</span>(cleanFIR), <span class="at">mu =</span> mu, <span class="at">size =</span> size)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(TOTCONES<span class="sc">~</span>DBH, <span class="at">data =</span> cleanFIR)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(cleanFIR<span class="sc">$</span>DBH, sample, <span class="at">col =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That looks quite reasonable!</p>
 </div>
 </div>
 </div>
@@ -598,18 +618,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -641,7 +650,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/AleMorales\.github\.io\/EcologicalModelsLabs\/");
@@ -649,7 +680,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
