@@ -301,7 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"><span class="header-section-number">1</span> </a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
   <li><a href="#introduction-to-the-example" id="toc-introduction-to-the-example" class="nav-link" data-scroll-target="#introduction-to-the-example"><span class="header-section-number">2</span> Introduction to the example</a></li>
   <li><a href="#using-optim" id="toc-using-optim" class="nav-link" data-scroll-target="#using-optim"><span class="header-section-number">3</span> Using <code>optim()</code></a></li>
   <li><a href="#using-mle2" id="toc-using-mle2" class="nav-link" data-scroll-target="#using-mle2"><span class="header-section-number">4</span> Using <code>mle2()</code></a></li>
@@ -342,9 +342,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="section" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> </h1>
-<p>Introduction In the course, two functions are introduced to perform parameter estimation via maximum likelihood, the function <code>optim()</code> from the stats package (loaded by default) and the function <code>mle2()</code> from the bbmle package. Internally, <code>mle2()</code> will call <code>optim()</code> by default, so there should not be any difference in the parameter estimates themselves (assuming the same initial values and optimizer). However, there are some advantages to using <code>mle2()</code>:</p>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>In the course, two functions are introduced to perform parameter estimation via maximum likelihood, the function <code>optim()</code> from the stats package (loaded by default) and the function <code>mle2()</code> from the bbmle package. Internally, <code>mle2()</code> will call <code>optim()</code> by default, so there should not be any difference in the parameter estimates themselves (assuming the same initial values and optimizer). However, there are some advantages to using <code>mle2()</code>:</p>
 <ul>
 <li><p>The objects created by <code>mle2()</code> can be used in additional methods defined by the <code>bbmle</code> package. This methods allow automatic computation of confidence intervals via likelihood profiling (via <code>confint()</code>) or computation of AIC and BIC (via <code>AIC()</code> and <code>BIC()</code>, respectively).</p></li>
 <li><p>It is possible to use alternative optimization algorithms to those contained in <code>optim()</code>. This includes optimizers offered by <code>optimx()</code>, <code>constrOptim()</code> and <code>nlminb()</code> (additional packages will be required to use these).</p></li>
