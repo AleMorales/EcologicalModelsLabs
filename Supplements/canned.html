@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-24">
+<meta name="dcterms.date" content="2025-11-25">
 
 <title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Supplement: Formula-based methods</title>
 <style>
@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -302,36 +331,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#the-formula-interface" id="toc-the-formula-interface" class="nav-link" data-scroll-target="#the-formula-interface"><span class="header-section-number">2</span> The <em>formula</em> interface</a></li>
-  <li><a href="#overview-of-packages" id="toc-overview-of-packages" class="nav-link" data-scroll-target="#overview-of-packages"><span class="header-section-number">3</span> Overview of packages:</a>
+  <li><a href="#the-formula-interface" id="toc-the-formula-interface" class="nav-link" data-scroll-target="#the-formula-interface"><span class="header-section-number">2</span> The <em>formula</em> interface</a>
+  <ul class="collapse">
+  <li><a href="#basic-linear-formula" id="toc-basic-linear-formula" class="nav-link" data-scroll-target="#basic-linear-formula"><span class="header-section-number">2.1</span> Basic linear formula</a></li>
+  <li><a href="#random-effects" id="toc-random-effects" class="nav-link" data-scroll-target="#random-effects"><span class="header-section-number">2.2</span> Random effects</a></li>
+  <li><a href="#non-linear-formulae" id="toc-non-linear-formulae" class="nav-link" data-scroll-target="#non-linear-formulae"><span class="header-section-number">2.3</span> Non-linear formulae</a></li>
+  </ul></li>
+  <li><a href="#overview-of-packages" id="toc-overview-of-packages" class="nav-link" data-scroll-target="#overview-of-packages"><span class="header-section-number">3</span> Overview of packages</a>
   <ul class="collapse">
   <li><a href="#stats" id="toc-stats" class="nav-link" data-scroll-target="#stats"><span class="header-section-number">3.1</span> <code>stats</code></a></li>
-  <li><a href="#stats4" id="toc-stats4" class="nav-link" data-scroll-target="#stats4"><span class="header-section-number">3.2</span> <code>stats4</code></a></li>
-  <li><a href="#bbmle" id="toc-bbmle" class="nav-link" data-scroll-target="#bbmle"><span class="header-section-number">3.3</span> <code>bbmle</code></a></li>
-  <li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.4</span> <code>nlme</code></a></li>
-  <li><a href="#lme4" id="toc-lme4" class="nav-link" data-scroll-target="#lme4"><span class="header-section-number">3.5</span> <code>lme4</code></a></li>
-  <li><a href="#glmmtmb" id="toc-glmmtmb" class="nav-link" data-scroll-target="#glmmtmb"><span class="header-section-number">3.6</span> <code>glmmTMB</code></a></li>
-  <li><a href="#rstanarm" id="toc-rstanarm" class="nav-link" data-scroll-target="#rstanarm"><span class="header-section-number">3.7</span> <code>rstanarm</code></a></li>
-  <li><a href="#brms" id="toc-brms" class="nav-link" data-scroll-target="#brms"><span class="header-section-number">3.8</span> <code>brms</code></a></li>
+  <li><a href="#bbmle" id="toc-bbmle" class="nav-link" data-scroll-target="#bbmle"><span class="header-section-number">3.2</span> <code>bbmle</code></a></li>
+  <li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.3</span> <code>nlme</code></a></li>
+  <li><a href="#lme4" id="toc-lme4" class="nav-link" data-scroll-target="#lme4"><span class="header-section-number">3.4</span> <code>lme4</code></a></li>
+  <li><a href="#glmmtmb" id="toc-glmmtmb" class="nav-link" data-scroll-target="#glmmtmb"><span class="header-section-number">3.5</span> <code>glmmTMB</code></a></li>
+  <li><a href="#rstanarm" id="toc-rstanarm" class="nav-link" data-scroll-target="#rstanarm"><span class="header-section-number">3.6</span> <code>rstanarm</code></a></li>
+  <li><a href="#brms" id="toc-brms" class="nav-link" data-scroll-target="#brms"><span class="header-section-number">3.7</span> <code>brms</code></a></li>
   </ul></li>
   <li><a href="#linear-responses" id="toc-linear-responses" class="nav-link" data-scroll-target="#linear-responses"><span class="header-section-number">4</span> Linear responses</a>
   <ul class="collapse">
   <li><a href="#linear-model" id="toc-linear-model" class="nav-link" data-scroll-target="#linear-model"><span class="header-section-number">4.1</span> Linear model</a></li>
   <li><a href="#generalized-least-squares" id="toc-generalized-least-squares" class="nav-link" data-scroll-target="#generalized-least-squares"><span class="header-section-number">4.2</span> Generalized least squares</a></li>
   <li><a href="#linear-mixed-model" id="toc-linear-mixed-model" class="nav-link" data-scroll-target="#linear-mixed-model"><span class="header-section-number">4.3</span> Linear mixed model</a></li>
-  <li><a href="#on-self-starting-functions" id="toc-on-self-starting-functions" class="nav-link" data-scroll-target="#on-self-starting-functions"><span class="header-section-number">4.4</span> On self-starting functions</a></li>
-  <li><a href="#non-linear-model" id="toc-non-linear-model" class="nav-link" data-scroll-target="#non-linear-model"><span class="header-section-number">4.5</span> Non-linear model</a></li>
-  <li><a href="#non-linear-mixed-models" id="toc-non-linear-mixed-models" class="nav-link" data-scroll-target="#non-linear-mixed-models"><span class="header-section-number">4.6</span> Non-linear mixed models</a></li>
   </ul></li>
-  <li><a href="#generalized-linear-responses" id="toc-generalized-linear-responses" class="nav-link" data-scroll-target="#generalized-linear-responses"><span class="header-section-number">5</span> Generalized linear responses</a>
+  <li><a href="#non-linear-responses" id="toc-non-linear-responses" class="nav-link" data-scroll-target="#non-linear-responses"><span class="header-section-number">5</span> Non-linear responses</a>
   <ul class="collapse">
-  <li><a href="#generalized-linear-models" id="toc-generalized-linear-models" class="nav-link" data-scroll-target="#generalized-linear-models"><span class="header-section-number">5.1</span> Generalized linear models</a></li>
-  <li><a href="#generalized-linear-mixed-models" id="toc-generalized-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-linear-mixed-models"><span class="header-section-number">5.2</span> Generalized linear mixed models</a></li>
+  <li><a href="#on-self-starting-functions" id="toc-on-self-starting-functions" class="nav-link" data-scroll-target="#on-self-starting-functions"><span class="header-section-number">5.1</span> On self-starting functions</a></li>
+  <li><a href="#non-linear-model" id="toc-non-linear-model" class="nav-link" data-scroll-target="#non-linear-model"><span class="header-section-number">5.2</span> Non-linear model</a></li>
+  <li><a href="#non-linear-mixed-models" id="toc-non-linear-mixed-models" class="nav-link" data-scroll-target="#non-linear-mixed-models"><span class="header-section-number">5.3</span> Non-linear mixed models</a></li>
   </ul></li>
-  <li><a href="#generalized-non-linear-responses" id="toc-generalized-non-linear-responses" class="nav-link" data-scroll-target="#generalized-non-linear-responses"><span class="header-section-number">6</span> Generalized non-linear responses</a>
+  <li><a href="#generalized-linear-responses" id="toc-generalized-linear-responses" class="nav-link" data-scroll-target="#generalized-linear-responses"><span class="header-section-number">6</span> Generalized linear responses</a>
   <ul class="collapse">
-  <li><a href="#generalized-non-linear-models" id="toc-generalized-non-linear-models" class="nav-link" data-scroll-target="#generalized-non-linear-models"><span class="header-section-number">6.1</span> Generalized non-linear models</a></li>
-  <li><a href="#generalized-non-linear-mixed-models" id="toc-generalized-non-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-non-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized non-linear mixed models</a></li>
+  <li><a href="#generalized-linear-models" id="toc-generalized-linear-models" class="nav-link" data-scroll-target="#generalized-linear-models"><span class="header-section-number">6.1</span> Generalized linear models</a></li>
+  <li><a href="#generalized-linear-mixed-models" id="toc-generalized-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized linear mixed models</a></li>
+  </ul></li>
+  <li><a href="#generalized-non-linear-responses" id="toc-generalized-non-linear-responses" class="nav-link" data-scroll-target="#generalized-non-linear-responses"><span class="header-section-number">7</span> Generalized non-linear responses</a>
+  <ul class="collapse">
+  <li><a href="#generalized-non-linear-models" id="toc-generalized-non-linear-models" class="nav-link" data-scroll-target="#generalized-non-linear-models"><span class="header-section-number">7.1</span> Generalized non-linear models</a></li>
+  <li><a href="#generalized-non-linear-mixed-models" id="toc-generalized-non-linear-mixed-models" class="nav-link" data-scroll-target="#generalized-non-linear-mixed-models"><span class="header-section-number">7.2</span> Generalized non-linear mixed models</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -358,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 24, 2025</p>
+      <p class="date">November 25, 2025</p>
     </div>
   </div>
   
@@ -384,86 +420,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-formula-interface" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> The <em>formula</em> interface</h1>
-<p><em>Work in progress</em></p>
+<p>Most statistical models in R are implemented with formulae describing the relationship between the response variable of interest and the predictors (i.e., groups, covariates). These formulae are actually describing the deterministic component of the likelihood function. The stochastic component is implicit or indicated somewhere else in the modelling function.</p>
+<section id="basic-linear-formula" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="basic-linear-formula"><span class="header-section-number">2.1</span> Basic linear formula</h2>
+<p>The basic formulae was originally developed for linear and generalized linear models. In these models, predictors are related linearly with the mean response (in the case of linear models) or a non-linear transformation of the mean (in the case of generalized linear models). An example of a linear formula is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> a <span class="sc">+</span> b<span class="sc">*</span>c <span class="sc">+</span> <span class="fu">I</span>(c<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response variable (that we want to explain or predict) is <code>y</code> and is always written on the left-side of <code>~</code>. The variables that we are using to predict or explain <code>y</code> are <code>a</code>, <code>b</code> and <code>c</code>. Each variable has a different effect:</p>
+<ul>
+<li><p><code>a</code> has a linear effect on <code>y</code>. If <code>a</code> is a continuous variable (in R, <code>numeric</code>) then <code>a</code> is related to <code>y</code> by a slope. If <code>a</code> is a categorical variable then each possible level of <code>a</code> will result in a different fixed increment (or decrease) in <code>y</code>.</p></li>
+<li><p><code>b</code> and <code>c</code> has similar effects as <code>a</code> but they are also assume to be interacting. Interactions between two variables can be specified with <code>:</code> and the <code>*</code> is a shortcut for both direct effects and interactions, that is, <code>b*c = b + c + b:c</code>. An interaction means that the effect of one variable (<code>b</code>) depends on the value of another variable (<code>c</code>) and viceversa.</p></li>
+<li><p>The identity function <code>I()</code> can be used to include a function of variable in the model, in this case, the square of <code>c</code>. We could also have calculated this square value as an additional column in the dataset and refer to it in the formula, so this is just a convenience.</p></li>
+<li><p>In most cases, there will be an implicit intercept added to the linear model unless we add <code>0</code> or <code>-1</code> to the formula, in which case the intercept will not be included.</p></li>
+<li><p>If there is an intercept present in the model, the effect of categorical variables will be encoded as follows: (i) the first level (determined by alphanumeric order or if you have a <code>factor</code> variable by the order of its <code>levels</code>) will be included in the intercept and (ii) the effect of any other level of that variable will be encoded as a difference with respect to the intercept.</p></li>
+</ul>
+</section>
+<section id="random-effects" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="random-effects"><span class="header-section-number">2.2</span> Random effects</h2>
+<p>Random effects refer to the distribution of latent variables in a hierarchical model as implemented in mixed model packaged (<code>nlme</code>, <code>mle4</code>, <code>glmmTMB</code>, <code>brms</code>). Most packages use an additive procedure as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> a <span class="sc">+</span> b<span class="sc">*</span>c <span class="sc">+</span> <span class="fu">I</span>(c<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">|</span> Location<span class="sc">/</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The random effects are defined in brackets. Inside the brackets we write a special formula separated by a vertical bar (<code>|</code>). On the left side we specify the parameters in the model that are going to be modelled as latent random variables. Note that we refer to these parameters by the name of the predictor to which they are associated (with <code>1</code> being the special symbol for intercept). In the example above, the intercept is assume to vary randomly across different <code>Location</code> and <code>Year</code>, but also the effects of each level (or slopes) of <code>a</code>. The effects or slopes associated to <code>b</code>, <code>c</code>, <code>b:c</code> and <code>I(c^2)</code> are assumed fixed, that is, they do not vary across different <code>Location</code> and <code>Year</code>.</p>
+<p>The right hand side of the <code>|</code> indicate the variables that define the groups across which the random effects are defined, in this case <code>Location</code> and <code>Year</code>. The symbol <code>/</code> indicates that these groups are nested. This refers to the fact that we vary the parameters across locations (so each location gets a random effect for the intercept and a different random effect for each level of <code>a</code>) and then, within each location, there is a second random distribution across years for each parameter. This is equivalent to having two random effects where the second refers to each combination of <code>Location</code> and <code>Year</code>. So a nested random effects is equivalent to the sum of two random effects where the second is computed for the interactions of the effects.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">|</span> Location<span class="sc">/</span>Year) <span class="ot">=</span> (<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">|</span> Location) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">|</span> Location<span class="sc">:</span>Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this case, the intercept of a particular <code>Location:Year</code> combination (<span class="math inline">\(\alpha_{i,j}\)</span>) would be computed as the sum of three components:</p>
+<p><span class="math display">\[
+\alpha_{i,j} = \alpha_p + \Delta \alpha_i + \Delta \alpha_{i,j}
+\]</span></p>
+<p>Where <span class="math inline">\(\alpha_p\)</span> is average intercept across all years and locations (often call a <em>population parameter</em>), <span class="math inline">\(\Delta \alpha_i\)</span> is the random effect on the intercept of a particular location and <span class="math inline">\(\Delta \alpha_{i,j}\)</span> is the random effect on the intercept of a particular year:location combination.</p>
+<p>Note that implict in these formulae is that the random effects for a particular parameter and grouping variable follows a normal distribution with mean zero. As far as I known, there are no formula-based methods for mixed models where the variation of parameters across groups is non-Normal.</p>
+</section>
+<section id="non-linear-formulae" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="non-linear-formulae"><span class="header-section-number">2.3</span> Non-linear formulae</h2>
+<p>For non-linear models, a formula may be used. In this context, the formula will be interpreted in a different way. Non-linear formula are just a description of the deterministic model that relates predictors to the mean of the response variable. To distinguish which symbols refer to parameters and which symbols refer to variables, the modelling function will use the list of initial parameter values (usually called <code>start</code>) and the data (usually called <code>data</code>) that the user provides. For example, a Michaelis-Menten relationship can be specified as:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note however that there are many variants of this paradigm across different packages. For example, the <code>mle2</code> function allows specifying different distributions for non-linear models and to model all parameters. Thus, the distribution needs to be specified as part of the formula, as in:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sigma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the <code>brms</code> package you can also specify different distributions for non-linear models but the first approach is used to model the mean and the models for other parameters are specified by separate formulae. In fact, <code>brms</code> allows implementing arbitrarily complex models by combining multiple formulae so it is the less restrictive formula-based method.</p>
+</section>
 </section>
 <section id="overview-of-packages" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Overview of packages:</h1>
+<h1 data-number="3"><span class="header-section-number">3</span> Overview of packages</h1>
 <section id="stats" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="stats"><span class="header-section-number">3.1</span> <code>stats</code></h2>
-<p>One of the packages hat comes with R pre-installed, allows building models with only one stochastic component. The functions in introduces are:</p>
+<p>One of the packages that comes with R pre-installed, allows building models with only one stochastic component. The functions in introduces are:</p>
 <ul>
-<li><code>lm</code>: Linear models.<br>
-</li>
-<li><code>glm</code>: Generalized linear models.<br>
-</li>
+<li><code>lm</code>: Linear models.</li>
+<li><code>glm</code>: Generalized linear models.</li>
 <li><code>nls</code>: Non-linear models.</li>
 </ul>
 </section>
-<section id="stats4" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="stats4"><span class="header-section-number">3.2</span> <code>stats4</code></h2>
-<p>Allows for general maximum likelihood, using both formulae and user-defined functions for the negative log-likelihood. It introduces the <code>mle</code> function. This allows specifying all the models in the package <code>stats</code> plus all other forms of non-linear and generalized non-linear models.</p>
-<p>Note: Here we focus on the formula version of this function. If you implement your own negative log-likelihood function you can fit any more in this document as shown in the course.</p>
-</section>
-<section id="bbmle" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="bbmle"><span class="header-section-number">3.3</span> <code>bbmle</code></h2>
+<section id="bbmle" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="bbmle"><span class="header-section-number">3.2</span> <code>bbmle</code></h2>
 <p>The MLE package by Benjamin Bolker, developed in parallel with the book. This package propposes the function <code>mle2</code> that replaces the <code>mle</code> function in <code>stats4</code> with similar functionality.</p>
 <p>Note: Here we focus on the formula version of this function. If you implement your own negative log-likelihood function you can fit any more in this document as shown in the course.</p>
 </section>
-<section id="nlme" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="nlme"><span class="header-section-number">3.4</span> <code>nlme</code></h2>
+<section id="nlme" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="nlme"><span class="header-section-number">3.3</span> <code>nlme</code></h2>
 <p>Package for linear and non-linear mixed effect models and generalized least squares. This is the original package developed by Pinheiro and Bates and associated to their mixed model book and has been one of the most popular packages for mixed effects models in R for a long time. The functions it introduces are:</p>
 <ul>
-<li><code>gls</code>: Linear models with generalized least squares.<br>
-</li>
-<li><code>gnls</code>: Non-linear models with generalized least squares.<br>
-</li>
-<li><code>mle</code>: Linear mixed effect models.<br>
-</li>
+<li><code>gls</code>: Linear models with generalized least squares.</li>
+<li><code>gnls</code>: Non-linear models with generalized least squares.</li>
+<li><code>mle</code>: Linear mixed effect models.</li>
 <li><code>nlme</code>: Non-linear mixed effect models.</li>
 </ul>
 <p>The package also contains many functions for modeling the variance of the response as a function of groups and covariates (see <code>?varClasses</code>) and also the correlation structure of residuals (see <code>?corClasses</code>).</p>
 </section>
-<section id="lme4" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="lme4"><span class="header-section-number">3.5</span> <code>lme4</code></h2>
-<p>Package for linear, generalized linear and non-linear mixed effect models (the second big package by Bates, currently maintained by Benjamin Bolker). The functions it introduces are:</p>
+<section id="lme4" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="lme4"><span class="header-section-number">3.4</span> <code>lme4</code></h2>
+<p>Package for linear, generalized linear and non-linear mixed effect models. The functions it introduces are:</p>
 <ul>
-<li><code>lmer</code>: Linear mixed effect models.<br>
-</li>
-<li><code>glmer</code>: Generalized linear mixed effect models.<br>
-</li>
+<li><code>lmer</code>: Linear mixed effect models.</li>
+<li><code>glmer</code>: Generalized linear mixed effect models.</li>
 <li><code>nlmer</code>: Non-linear mixed effect models.</li>
 </ul>
 <p>Unlike <code>nlme</code>, the package <code>lme4</code> does not allow modelling the varaince in the response or correlation structure of residuals.</p>
 </section>
-<section id="glmmtmb" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="glmmtmb"><span class="header-section-number">3.6</span> <code>glmmTMB</code></h2>
-<p>Package for linear, generalized and non-linear (mixed) models. Unlike previous package, this one allows random effects as optional. Developed and maintaned by Mollie Brooks, also with contributions by Bolker. This package builds on top of TMB (a package for defining models in C++). It offers a single but very versatile <code>glmmTMB</code> function that will automatically detect the correct type of model from the formula. Like <code>nlme</code> it allows modelling the correlation structure of the residuals, but not the variance or scale parameter.</p>
-<p>Recently, they added the possibility of defining priors. This allows performing Maximum a Posterior Estimation (see example in Chapter 6) but also to run the model in Stan that implements Hamiltonian Monte Carlo for Bayesian inference. The system for specifying priors has been take from the package <code>brms</code> (see below).</p>
+<section id="glmmtmb" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="glmmtmb"><span class="header-section-number">3.5</span> <code>glmmTMB</code></h2>
+<p>Package for linear, generalized and non-linear (mixed) models. Unlike previous package, this one allows random effects as optional. This package builds on top of TMB (a package for defining likelihoods in C++). It offers a single but very versatile <code>glmmTMB</code> function that will automatically detect the correct type of model from the formula. Like <code>nlme</code> it allows modelling the correlation structure of the residuals, but not the variance or scale parameter.</p>
+<p>Recently, they added the possibility of defining priors. This allows performing Maximum a Posterior Estimation (see example in Chapter 6) but also to run the model in Stan that implements Hamiltonian Monte Carlo for Bayesian inference. The system for specifying priors has been taken from the package <code>brms</code> (see below).</p>
 </section>
-<section id="rstanarm" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="rstanarm"><span class="header-section-number">3.7</span> <code>rstanarm</code></h2>
-<p>Package for Bayesian estimation of linear and generalized (mixed) models. It is built on top of Stan but all the C++ code is precompiled and heavily optimized, so it is a very efficient tool for quick Bayesian modeling. The functions it offers are:</p>
+<section id="rstanarm" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="rstanarm"><span class="header-section-number">3.6</span> <code>rstanarm</code></h2>
+<p>Package for Bayesian estimation of linear and generalized linear (mixed) models. It is built on top of Stan but all the C++ code is precompiled and heavily optimized, so it is a very efficient tool for quick Bayesian modeling. The functions it offers are:</p>
 <ul>
-<li><code>stan_lm</code>: Linear models.<br>
-</li>
-<li><code>stan_glm</code>: Generalized linear models.<br>
-</li>
-<li><code>stan_lmer</code>: Linear mixed models as in <code>lmer</code>.<br>
-</li>
-<li><code>stan_glmer</code>: Generalized linear mixed models as in <code>glmer</code>.<br>
-</li>
+<li><code>stan_lm</code>: Linear models.</li>
+<li><code>stan_glm</code>: Generalized linear models.</li>
+<li><code>stan_lmer</code>: Linear mixed models as in <code>lmer</code>.</li>
+<li><code>stan_glmer</code>: Generalized linear mixed models as in <code>glmer</code>.</li>
 <li><code>stan_nlmer</code>: Non-linear mixed models as in <code>nlmer</code> but only works with the basic self-starting functions (see below for relevant section).</li>
 </ul>
 </section>
-<section id="brms" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="brms"><span class="header-section-number">3.8</span> <code>brms</code></h2>
+<section id="brms" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="brms"><span class="header-section-number">3.7</span> <code>brms</code></h2>
 <p>Package for Bayesian estimate that covers all the types of models described in this document. It is built on top of Stan but unlike <code>rstanarm</code>, it will generate ad-hoc Stan code based on the model formulated by the user. This means that the user will have to pay the cost of compiling the model (which can often exceed the time it takes to generate the samples) but this brings an enormous flexibility to the user. The only limitation (like all other packages in this document) is that random effects must be described with Normal distribution, even though it is technically possible to fit models in Stan with non-Normal random effects. The generated code may also not be the most optimal.</p>
 <p>The package offers a single function <code>brm</code> with a very flexible formula system (it is also useful to know the function <code>bf</code> to specify more complex formula).</p>
 </section>
 </section>
 <section id="linear-responses" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Linear responses</h1>
-<p>Models with linear are those where parameters are linear with respect to the response variables. This does not mean that the response is linear, it can also be a polynomial (by taking powers of covariates) but the coefficients are always linear with respect to the response variables. Historically the analysis of linear models has split into two approaches:</p>
+<p>Models with linear responses are those where parameters are linear with respect to the response variables. This does not mean that the response is linear, it can also be a polynomial (by taking integer powers of covariates) but the parameters are always linear with respect to the response variables. Historically the analysis of linear models has split into two approaches:</p>
 <ul>
 <li><p>Linear regression: When predictors are continuous, focuses on estimating parameter values.</p></li>
 <li><p>Analysis of variance: When predictors are discrete, focuses on comparing nested models via F-test.</p></li>
@@ -488,25 +543,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Likelihood</td>
-<td><code>stats4</code></td>
-<td><code>mle</code></td>
-</tr>
-<tr class="odd">
-<td>Likelihood</td>
 <td><code>bbmle</code></td>
 <td><code>mle2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Both</td>
 <td><code>glmmTMB</code></td>
 <td><code>glmmTMB</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Bayesian</td>
 <td><code>rstanarm</code></td>
 <td><code>stan_lm</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Bayesian</td>
 <td><code>brms</code></td>
 <td><code>brm</code></td>
@@ -516,69 +566,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Example withe categorical predictor</strong></p>
 <p>A linear model with a categorical predictor with 3 levels.</p>
 <p>Data simulation:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">1.5</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mus <span class="ot">=</span> <span class="fu">c</span>(mu0, mu0 <span class="sc">+</span> deltas)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>L<span class="sc">:</span><span class="dv">3</span>L, <span class="at">each =</span> n)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">3</span><span class="sc">*</span>n, <span class="fu">rep</span>(mus, <span class="at">each =</span> n), <span class="at">sd =</span> sd)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">groups =</span> groups, <span class="at">fgroups =</span> <span class="fu">as.factor</span>(groups))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">1.5</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>mus <span class="ot">=</span> <span class="fu">c</span>(mu0, mu0 <span class="sc">+</span> deltas)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>L<span class="sc">:</span><span class="dv">3</span>L, <span class="at">each =</span> n)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">3</span><span class="sc">*</span>n, <span class="fu">rep</span>(mus, <span class="at">each =</span> n), <span class="at">sd =</span> sd)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">groups =</span> groups, <span class="at">fgroups =</span> <span class="fu">as.factor</span>(groups))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Explicit maximum likelihood:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(mu0, delta1, delta2, lsd, groups, y) {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> <span class="fu">c</span>(mu0, mu0 <span class="sc">+</span> delta1, mu0 <span class="sc">+</span> delta2)[groups]</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> <span class="fu">exp</span>(lsd), <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(<span class="at">minuslogl =</span> NLL, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu0 =</span> <span class="dv">1</span>, <span class="at">delta1 =</span> <span class="dv">0</span>, <span class="at">delta2 =</span> <span class="dv">0</span>, <span class="at">lsd =</span> <span class="fu">log</span>(<span class="dv">1</span>)),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(mu0, delta1, delta2, lsd, groups, y) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> <span class="fu">c</span>(mu0, mu0 <span class="sc">+</span> delta1, mu0 <span class="sc">+</span> delta2)[groups]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> <span class="fu">exp</span>(lsd), <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(<span class="at">minuslogl =</span> NLL, <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu0 =</span> <span class="dv">1</span>, <span class="at">delta1 =</span> <span class="dv">0</span>, <span class="at">delta2 =</span> <span class="dv">0</span>, <span class="at">lsd =</span> <span class="fu">log</span>(<span class="dv">1</span>)),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>lm</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>mle</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mle</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>mle2</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> mu, <span class="at">sd =</span> <span class="fu">exp</span>(lsd)), <span class="at">parameters =</span> <span class="fu">list</span>(mu <span class="sc">~</span> fgroups),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu =</span> <span class="dv">1</span>, <span class="at">lsd =</span> <span class="fu">log</span>(<span class="dv">1</span>)), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> mu, <span class="at">sd =</span> sd), <span class="at">parameters =</span> <span class="fu">list</span>(mu <span class="sc">~</span> fgroups),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>glmmTMB</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>fgroups, <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>fgroups, <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>rstanarm</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">prior =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">prior =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>brm</code></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Example with continuous predictor</strong></p>
 <p>A simple linear regression.</p>
 <p>Data simulation:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, a <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> sd)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, a <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> sd)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Negative log-likelihood:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(mu1, mu2, mu3, sd, groups, y) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> <span class="fu">c</span>(mu1, mu2, mu3)[groups]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(mu1, mu2, mu3, sd, groups, y) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> <span class="fu">c</span>(mu1, mu2, mu3)[groups]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>lm</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>mle2</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> mu, <span class="at">sd =</span> sd), <span class="at">parameters =</span> <span class="fu">list</span>(mu <span class="sc">~</span> fgroups),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> mu, <span class="at">sd =</span> sd), <span class="at">parameters =</span> <span class="fu">list</span>(mu <span class="sc">~</span> fgroups),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">list</span>(<span class="at">mu =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>glmmTMB</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>fgroups, <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>fgroups, <span class="at">family =</span> <span class="fu">gaussian</span>(), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>rstanarm</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">prior =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_lm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">prior =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>brm</code></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>fgroups, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="generalized-least-squares" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">4.2</span> Generalized least squares</h2>
@@ -599,15 +651,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>Likelihood</td>
-<td><code>stats4</code></td>
-<td><code>mle</code></td>
-</tr>
-<tr class="odd">
-<td>Likelihood</td>
 <td><code>bbmme</code></td>
 <td><code>mle2</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Bayesian</td>
 <td><code>brms</code></td>
 <td><code>brm</code></td>
@@ -617,27 +664,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Examples</strong></p>
 <p>A linear model with variance increasing exponentially with covariate.</p>
 <p>Data simulation:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">0</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>c   <span class="ot">=</span> <span class="fl">0.05</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, a <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x)))</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>c   <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, a <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x)))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Negative log-likelihood:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, c, x, y) {</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> a <span class="sc">+</span> b<span class="sc">*</span>x</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  sd  <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, c, x, y) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  mus <span class="ot">=</span> a <span class="sc">+</span> b<span class="sc">*</span>x</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  sd  <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mus, <span class="at">sd =</span> sd, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>gls</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span>x), <span class="at">data =</span> data, <span class="at">method =</span> <span class="st">"ML"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">gls</span>(y<span class="sc">~</span>x, <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span>x), <span class="at">data =</span> data, <span class="at">method =</span> <span class="st">"ML"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>mle2</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With <code>brm</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>x, sigma<span class="sc">~</span><span class="fu">exp</span>(x)), <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Notes: The function <code>gls</code> allows only specific functions</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> a <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x))),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">c =</span> <span class="fl">0.05</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brm</code>. Note that we have two switch to a non-linear because we are using an exponential function for <code>sigma</code>. This also means we should specify some priors as <code>brms</code> will not provide reasonable priors for non-linear models:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>a <span class="sc">+</span> b<span class="sc">*</span>x,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">nlf</span>(sigma<span class="sc">~</span><span class="fu">sqrt</span>(<span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>c<span class="sc">*</span>x))),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>       a <span class="sc">+</span> b <span class="sc">+</span> c <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">nl =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="st">"normal(0,1)"</span>, <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"normal(0,1)"</span>, <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">nlpar =</span> <span class="st">"b"</span>),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"normal(0,1)"</span>, <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">nlpar =</span> <span class="st">"c"</span>)),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">gaussian</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="linear-mixed-model" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="linear-mixed-model"><span class="header-section-number">4.3</span> Linear mixed model</h2>
@@ -679,12 +736,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Note that <code>lmer</code> and <code>stan_lmer</code> allow for some correlation structure in residuals but do not allow modelling the variance itself. For that you need to use <code>lme</code> or <code>brm</code>.</p>
-<p><strong>Examples</strong> # Non-linear responses</p>
+<p><strong>Examples</strong></p>
+<p>A linear model with with random intercepts.</p>
+<p>Data simulation:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Int <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>ranef <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>Int_group <span class="ot">=</span> Int <span class="sc">+</span> ranef</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>), <span class="at">times =</span> <span class="dv">10</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>Int_group_ex <span class="ot">=</span> <span class="fu">rep</span>(Int_group, <span class="at">each =</span> <span class="dv">50</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, Int_group_ex <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> sigma)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x, <span class="at">group =</span> <span class="fu">rep</span>(groups, <span class="at">each =</span> <span class="dv">50</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">col =</span> <span class="fu">as.factor</span>(group), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The joint Negative log-likelihood:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, sigma, sigma_group, ranef, x, y, group) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>   as <span class="ot">=</span> (a <span class="sc">+</span> ranef)[group]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> as <span class="sc">+</span> b<span class="sc">*</span>x, <span class="at">sd =</span> sigma, <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum</span>(<span class="fu">dnorm</span>(ranef, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma_group, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we treat <code>ranef</code> as latent random varaibles this joint NLL cannot be solved directly by maximum likelihood but instead we would need to marginalize over the distribution of <code>ranef</code> (as in chapter 10).</p>
+<p>With <code>lme</code></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lme</span>(y<span class="sc">~</span>x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> group, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>lmer</code></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lmer</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>glmmTMB</code></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>stan_lmer</code></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_lmer</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brm</code></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="non-linear-responses" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Non-linear responses</h1>
 <p>Models where the mean is modeled by a non-linear function of covariates.</p>
 <p>Canned only support non-linear models that can be expressed as a formula so they must be quite simple. In Likelihood versions, it is important to choose good initial values as otherwise the algorithms will not converge. For that reason it is common to use self-starting functions that already specify a model and an internal algorithm to come up with good starting values (these are compatible with <code>nls</code> and <code>gnls</code>.</p>
-</section>
-<section id="on-self-starting-functions" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="on-self-starting-functions"><span class="header-section-number">4.4</span> On self-starting functions</h2>
+<section id="on-self-starting-functions" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="on-self-starting-functions"><span class="header-section-number">5.1</span> On self-starting functions</h2>
 <p>For non-linear models it is very important to have good initial estimates of parameters. R has the concept of <em>self-starting</em> models. A self-starting model implements a particular model and a procedure to “eye-ball” the initial values:</p>
 <ul>
 <li><p>Package <code>stats</code> provides <code>SSasymp</code>, <code>SSasympOff</code>, <code>SSasympOrig</code>, <code>SSbiexp</code>, <code>SSfol</code>, <code>SSfpl</code>, <code>SSgompertz</code>, <code>SSlogis</code>, <code>SSmicmen</code>, <code>SSweibull</code></p></li>
@@ -693,8 +790,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>See this blog post on how to write your own self-starting functions: https://www.statforbiology.com/2020/stat_nls_selfstarting/</p>
 </section>
-<section id="non-linear-model" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="non-linear-model"><span class="header-section-number">4.5</span> Non-linear model</h2>
+<section id="non-linear-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="non-linear-model"><span class="header-section-number">5.2</span> Non-linear model</h2>
 <p>Stochastic model: A single level, assumed Normal. Mean response: Non-linear function of covariates. Variance response: Assumed constant (but see note).</p>
 <table class="caption-top table">
 <thead>
@@ -733,28 +830,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Variance can be modeled as a non-linear function of covariates.</p>
-<p><strong>Example with constant variance</strong></p>
+<p><strong>Example</strong></p>
 <p>A Michaelis-Menten model:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">10</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The negative log-likelihood would be:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, sigma, y, x) {</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>nls</code></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">nls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">nls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>mle2</code></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With <code>brm</code></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">brm</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">data =</span> data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Example with increasing variance</strong></p>
-<p>A Michaelis-Menten model with error increasing exponential with predictor</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">gnls</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>), </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span>x), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnorm</span>(<span class="at">mean =</span> a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brm</code> (for non linear models we should always give priors and bounds):</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), a <span class="sc">~</span> <span class="dv">1</span>, b <span class="sc">~</span> <span class="dv">1</span>, <span class="at">nl =</span> <span class="cn">TRUE</span>), <span class="at">data =</span> data,</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">set_prior</span>(<span class="st">"normal(10,10)"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">set_prior</span>(<span class="st">"normal(3,3)"</span>,  <span class="at">nlpar =</span> <span class="st">"b"</span>, <span class="at">lb =</span> <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="non-linear-mixed-models" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="non-linear-mixed-models"><span class="header-section-number">4.6</span> Non-linear mixed models</h2>
+<section id="non-linear-mixed-models" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="non-linear-mixed-models"><span class="header-section-number">5.3</span> Non-linear mixed models</h2>
 <p>Stochastic model: Multiple levels assumed Normal. Mean response: Linear function of covariates after link transformation. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
 <table class="caption-top table">
 <thead>
@@ -777,14 +878,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p><strong>Example</strong></p>
+<p>A Michaelis-Menten model:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sd  <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>ranef <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>as <span class="ot">=</span> a <span class="sc">+</span> <span class="fu">rep</span>(ranef, <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">times =</span> <span class="dv">10</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">*</span><span class="dv">10</span>, <span class="at">mean =</span> as<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), <span class="at">sd =</span> sd)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x, <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(groups, <span class="at">each =</span> <span class="dv">10</span>)))</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">col =</span> group, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The joint negative log-likelihood would be:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, sigma, sigma_group, ranef, y, x) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  as <span class="ot">=</span> (a <span class="sc">+</span> ranef)[group]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> as<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum</span>(<span class="fu">dnorm</span>(ranef, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma_group, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>nlme</code> using self-starting function <code>micmen</code>:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nlme</span>(y<span class="sc">~</span><span class="fu">SSmicmen</span>(x, a, b),</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">fixed =</span> a <span class="sc">+</span> b <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">random =</span> a <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> group,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">10</span>, <span class="at">b =</span> <span class="dv">1</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>with <code>nlmer</code> (notice that we do not add the random effect on <code>a</code> but rather use a second <code>~</code>)</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nlmer</span>(y<span class="sc">~</span><span class="fu">SSmicmen</span>(x, a, b) <span class="sc">~</span> a<span class="sc">|</span>group,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data, <span class="at">start =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">10</span>, <span class="at">b =</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>stan_nlmer</code>:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_nlmer</span>(y<span class="sc">~</span><span class="fu">SSmicmen</span>(x, a, b) <span class="sc">~</span> a<span class="sc">|</span>group, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brms</code> (it is very important to set the bounds on parameters):</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x), b <span class="sc">~</span> <span class="dv">1</span>, a <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> group, <span class="at">nl =</span> <span class="cn">TRUE</span>), <span class="at">data =</span> data,</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adapt_delta =</span> <span class="fl">0.95</span>),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">set_prior</span>(<span class="st">"normal(10,2)"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">set_prior</span>(<span class="st">"normal(1,1)"</span>,  <span class="at">nlpar =</span> <span class="st">"b"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">set_prior</span>(<span class="st">"normal(0,2)"</span>, <span class="at">class =</span> <span class="st">"sd"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">set_prior</span>(<span class="st">"normal(0,1)"</span>, <span class="at">class =</span> <span class="st">"sigma"</span>, <span class="at">lb =</span> <span class="dv">0</span>)))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="generalized-linear-responses" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Generalized linear responses</h1>
+<section id="generalized-linear-responses" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Generalized linear responses</h1>
 <p>Models where the response variable is assumed different from Normal. The mean is modeled by a non-linear function (link) and a linear model of covariates. In other words, these models are non-linear but the parameters reported are linear with respect to a transformation of the mean.</p>
 <p>Canned methods generally support a number of pre-specified distributions and link functions. For more diversity you will have to write you own model.</p>
-<section id="generalized-linear-models" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="generalized-linear-models"><span class="header-section-number">5.1</span> Generalized linear models</h2>
+<section id="generalized-linear-models" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="generalized-linear-models"><span class="header-section-number">6.1</span> Generalized linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Linear function of covariates after link transformation. Variance response: Scale parameter (if present) assumed constant (but see note).</p>
 <table class="caption-top table">
 <thead>
@@ -819,12 +959,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Scale parameter can be modeled as non-linear function of covariates.</p>
 <p><strong>Example</strong></p>
-<p>An Poisson model with an log link function</p>
+<p>A Poisson model with an log link function</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">times =</span> <span class="dv">5</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">50</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(a <span class="sc">+</span> b<span class="sc">*</span>x))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The negative log-likelihood:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, y, x) {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  log_mu <span class="ot">=</span> a <span class="sc">+</span> b<span class="sc">*</span>x</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dpois</span>(y, <span class="at">lambda =</span> <span class="fu">exp</span>(log_mu), <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With <code>glm</code></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">glm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>glmmTMB</code></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>stanarm</code></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_glm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brms</code></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>x, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="generalized-linear-mixed-models" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="generalized-linear-mixed-models"><span class="header-section-number">5.2</span> Generalized linear mixed models</h2>
+<section id="generalized-linear-mixed-models" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="generalized-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Linear function of covariates after link transformation. Variance response: In some cases in can be modeled as a function of covariates.</p>
 <table class="caption-top table">
 <thead>
@@ -858,12 +1019,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p><sup>1</sup> Correlation structure for residuals <sup>2</sup> Scale parameter can be modeled as non-linear function of covariates.</p>
+<p><strong>Example</strong></p>
+<p>A Poisson model with a log link function</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>a   <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>ranef <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>group <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>as  <span class="ot">=</span> <span class="fu">rep</span>(a <span class="sc">+</span> ranef, <span class="at">each =</span> <span class="dv">50</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>b   <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">times =</span> <span class="dv">50</span>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>y   <span class="ot">=</span> <span class="fu">rpois</span>(<span class="dv">500</span>, <span class="at">lambda =</span> <span class="fu">exp</span>(as <span class="sc">+</span> b<span class="sc">*</span>x))</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> y, <span class="at">x =</span> x, <span class="at">group =</span> <span class="fu">rep</span>(group, <span class="at">each =</span> <span class="dv">50</span>))</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">col =</span> group, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The joint negative log-likelihood:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, sigma_group, ranef, group, y, x) {</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  as <span class="ot">=</span> (a <span class="sc">+</span> ranef)[group]</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  log_mu <span class="ot">=</span> as<span class="sc">*</span>x<span class="sc">/</span>(b <span class="sc">+</span> x)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dpois</span>(y, <span class="at">lambda =</span> <span class="fu">exp</span>(log_mu), <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum</span>(<span class="fu">dnorm</span>(ranef, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma_group, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>glmer</code></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmer</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>glmmTMB</code></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmTMB</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>stan_glmer</code></p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stan_glmer</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brm</code></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(y<span class="sc">~</span>x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>), <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="generalized-non-linear-responses" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Generalized non-linear responses</h1>
-<section id="generalized-non-linear-models" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="generalized-non-linear-models"><span class="header-section-number">6.1</span> Generalized non-linear models</h2>
+<section id="generalized-non-linear-responses" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Generalized non-linear responses</h1>
+<section id="generalized-non-linear-models" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="generalized-non-linear-models"><span class="header-section-number">7.1</span> Generalized non-linear models</h2>
 <p>Stochastic model: A single level of one of the pre-specified distributions. Mean response: Non-linear function of covariates. Variance response: Variance can be modeled as non-linear function of covariates.</p>
 <table class="caption-top table">
 <thead>
@@ -876,15 +1068,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td>Likelihood</td>
-<td><code>stats4</code></td>
-<td><code>mle</code></td>
-</tr>
-<tr class="even">
-<td>Likelihood</td>
 <td><code>bbmle</code></td>
 <td><code>mle2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Bayesian</td>
 <td><code>brms</code><sup>1</sup></td>
 <td><code>brm</code></td>
@@ -892,9 +1079,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p><sup>1</sup> Also allows correlation structures</p>
+<p><strong>Example</strong></p>
+<p>A power law with a negative binomial (like the cone production example in the book).</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="dv">50</span>, <span class="at">mu =</span> a<span class="sc">*</span>x<span class="sc">^</span>b, <span class="at">size =</span> k)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The negative log-likelihood would be:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, b, k, y, x) {</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>x<span class="sc">^</span>b</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnbinom</span>(y, <span class="at">mu =</span> mu, <span class="at">size =</span> k, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>mle2</code>:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbmle)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mle2</span>(y<span class="sc">~</span><span class="fu">dnbinom</span>(<span class="at">mu =</span> a<span class="sc">*</span>x<span class="sc">^</span>b, <span class="at">size =</span> k), <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="fl">0.5</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">k =</span> <span class="dv">10</span>),</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">0.01</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">k =</span> <span class="dv">1</span>), <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brms</code>:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">^</span>b, a<span class="sc">~</span><span class="dv">1</span>, b <span class="sc">~</span> <span class="dv">1</span>, <span class="at">nl =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">family =</span> <span class="fu">negbinomial</span>(<span class="at">link =</span> <span class="st">"identity"</span>, <span class="at">link_shape =</span> <span class="st">"identity"</span>),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="st">"normal(2,2)"</span>, <span class="at">nlpar =</span> <span class="st">"b"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"normal(2,2)"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">prior</span>(<span class="st">"normal(10,10)"</span>, <span class="at">class =</span> <span class="st">"shape"</span>, <span class="at">lb =</span> <span class="dv">0</span>)),</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="generalized-non-linear-mixed-models" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="generalized-non-linear-mixed-models"><span class="header-section-number">6.2</span> Generalized non-linear mixed models</h2>
+<section id="generalized-non-linear-mixed-models" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="generalized-non-linear-mixed-models"><span class="header-section-number">7.2</span> Generalized non-linear mixed models</h2>
 <p>Stochastic model: Multiple levels. The latent ones must be Normal. Mean response: Non-linear function of covariates. Variance response: Correlation structure for residuals and variance can be modeled as non-linear function of covariates.</p>
 <table class="caption-top table">
 <thead>
@@ -912,6 +1125,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>A power law with a negative binomial where the power coefficient varies across groups (we use link function to enforce positivity as brms only accepts Gaussian random effects).</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>lb <span class="ot">=</span> <span class="fu">log</span>(<span class="dv">2</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>ranef <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="fl">0.3</span>)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>group <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>bs <span class="ot">=</span> <span class="fu">exp</span>(lb <span class="sc">+</span> ranef)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">each =</span> <span class="dv">5</span>), <span class="at">times =</span> <span class="dv">10</span>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>bs_ext <span class="ot">=</span> <span class="fu">rep</span>(bs, <span class="at">each =</span> <span class="dv">50</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnbinom</span>(<span class="dv">500</span>, <span class="at">mu =</span> a<span class="sc">*</span>x<span class="sc">^</span>bs_ext, <span class="at">size =</span> k)</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">group =</span> <span class="fu">rep</span>(group, <span class="at">each =</span> <span class="dv">50</span>))</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> data, <span class="at">col =</span> <span class="fu">as.factor</span>(group))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The joint negative log-likelihood would be:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>NLL <span class="ot">=</span> <span class="cf">function</span>(a, lb, k, sigma_group, ranef, group, y, x) {</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  bs <span class="ot">=</span> <span class="fu">exp</span>((lb <span class="sc">+</span> ranef)[group])</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">=</span> a<span class="sc">*</span>x<span class="sc">^</span>bs</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">sum</span>(<span class="fu">dnbinom</span>(y, <span class="at">mu =</span> mu, <span class="at">k =</span> k, <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum</span>(<span class="fu">dnorm</span>(ranef, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sigma_group, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With <code>brms</code> (this will take a while to run):</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">brm</span>(<span class="fu">bf</span>(y<span class="sc">~</span>a<span class="sc">*</span>x<span class="sc">^</span><span class="fu">exp</span>(lb), a <span class="sc">~</span> <span class="dv">1</span>, lb <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">nl =</span> <span class="cn">TRUE</span>), <span class="at">data =</span> data,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">negbinomial</span>(<span class="at">link =</span> <span class="st">"identity"</span>, <span class="at">link_shape =</span> <span class="st">"identity"</span>),</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="st">"normal(1,1)"</span>, <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">nlpar =</span> <span class="st">"lb"</span>),</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="st">"normal(1,1)"</span>, <span class="at">nlpar =</span> <span class="st">"a"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="st">"normal(1,1)"</span>, <span class="at">class =</span> <span class="st">"sd"</span>, <span class="at">nlpar =</span> <span class="st">"lb"</span>, <span class="at">lb =</span> <span class="dv">0</span>),</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">prior</span>(<span class="st">"normal(10,10)"</span>, <span class="at">class =</span> <span class="st">"shape"</span>, <span class="at">lb =</span> <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

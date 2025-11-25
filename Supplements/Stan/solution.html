@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-24">
+<meta name="dcterms.date" content="2025-11-25">
 
 <title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Supplement: Bayesian inference with Stan (solutions)</title>
 <style>
@@ -369,7 +369,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 24, 2025</p>
+      <p class="date">November 25, 2025</p>
     </div>
   </div>
   
@@ -784,44 +784,12 @@ Solution
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>coverage <span class="ot">=</span> <span class="fu">sum</span>(inside)<span class="sc">/</span><span class="fl">1e3</span></span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>coverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>That is pretty much spot on! Getting exactly 95% is very difficult (especially with only 1000 values, we would need more for the coverage estimate to stabilize). The fact that it errors on the side of caution (i.e., simulated coverage is slightly higher than 95%) is also a good thing (we generally prefer to be pessimistic rather than optimistic). So even though our uncertainty about the true growth rate of individual trees remains high given how big the measurement error is, achieving a practically perfect coverage is the best we can do.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add Bayesian version of mixed model exercise</strong></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add Bayesian version of mixed model exercise</strong></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </section>
 <section id="model-for-nested-data" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="model-for-nested-data"><span class="header-section-number">6.2</span> Model for nested data</h2>
 <p>Let’s implement the model in Stan. This time we are going to include all traits as varying across replicates but we will ignore correlations as that makes the model much more complex (but it would be possible). The predictions of heights is as before:</p>
 <p><span class="math display">\[
-h_{ij} \sim \text{Normal} \left(\frac{h_{mi}{1 + e^{-b_i\left(t_j - c_i \right)}, \sigma \right)
+h_{ij} \sim \text{Normal} \left(\frac{h_{mi}}{1 + e^{-b_i\left(t_j - c_i \right)}}, \sigma \right)
 \]</span> Where the suffix <span class="math inline">\(i\)</span> refers to the tree and <span class="math inline">\(j\)</span> to the time point. The variation in heights across the population is assumed to follow a normal distribution (note that this can technically produce negative values but we will ignore this for simplicity):</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -952,38 +920,6 @@ z_{ci}  &amp;\sim \text{Normal}(0, 1) \\
 <div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"hm"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Similarly, we can also extract the predicted values for each observation of height (I only show it for one observation, otherwise it becomes too long):</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(bayesian_fit, <span class="at">pars=</span><span class="fu">c</span>(<span class="st">"h_mod[1]"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">025</span>,.<span class="dv">5</span>,.<span class="dv">975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add Bayesian version of mixed model exercise</strong></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add Bayesian version of mixed model exercise</strong></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </section>
 <section id="informative-prior-elicitation" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="informative-prior-elicitation"><span class="header-section-number">6.3</span> Informative prior elicitation</h2>

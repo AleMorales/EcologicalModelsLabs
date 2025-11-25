@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Morales">
-<meta name="dcterms.date" content="2025-11-24">
+<meta name="dcterms.date" content="2025-11-25">
 
 <title>Practical Labs CSA-40306 Ecological Modelling and Data Analysis in R – Lab 10</title>
 <style>
@@ -345,7 +345,6 @@ window.Quarto = {
   <li><a href="#estimating-at-individual-level" id="toc-estimating-at-individual-level" class="nav-link" data-scroll-target="#estimating-at-individual-level"><span class="header-section-number">3.2.3</span> Estimating at individual level</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#optional-bayesian-approach" id="toc-optional-bayesian-approach" class="nav-link" data-scroll-target="#optional-bayesian-approach"><span class="header-section-number">4</span> (OPTIONAL) Bayesian approach</a></li>
   </ul>
 </nav>
     </div>
@@ -371,7 +370,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 24, 2025</p>
+      <p class="date">November 25, 2025</p>
     </div>
   </div>
   
@@ -487,38 +486,6 @@ L_m \left(X_{obs,i} | a, s , \sigma \right) = \prod_{i=1}^{n} \int{\text{Gamma}\
 <p>We can quickly estimate the confidence intervals using the quadratic approximation:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">"quad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice that the true values (<code>a = 3</code>, <code>s = 10</code> and <code>sigma = 10</code>) are within the confidence intervals, so the estimation has worked. We could also try building the likelihood profiles but that would take quite a while since this would require many more optimizations so we will skip this part.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add an exercise with measurement errors</strong></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add an exercise with measurement errors</strong></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </section>
 </section>
 <section id="model-for-nested-data" class="level2" data-number="3.2">
@@ -693,7 +660,7 @@ h_{mi} &amp;= \mu_{hm} - \epsilon_{hmi} \\
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(hm<span class="sc">~</span><span class="fu">I</span>(traits[,<span class="st">"h_m"</span>])), <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can see that the individual estimates of <code>hm</code> from the multilevel model and the stepwise approach as correlated (on average they are practically the same) but the multilevel model estimates higher values for the smaller trees and lower values for the higher trees. That is, the estimates for individual trees are <em>pulled</em> towards the population mean. This is a common effect of using multilevel models known as <em>shrinkage</em>. As long as your model for the variation of <code>hm</code> across individuals is reasonable, the estimates with shrinkages are actually better than in the stepwise approach (in the sense that they will be closer to the truth on average).</p>
-<p>Let’t calculate the predictions for each tree</p>
+<p>Let’s calculate the predictions for each tree:s</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly,</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">hm2 =</span> <span class="fu">rep</span>(hm, <span class="at">each =</span> <span class="dv">6</span>))</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>Loblolly <span class="ot">=</span> <span class="fu">transform</span>(Loblolly, <span class="at">pred_height2 =</span> <span class="fu">logistic</span>(pars[<span class="st">"b"</span>], pars[<span class="st">"c"</span>], hm2, age))</span>
@@ -706,46 +673,10 @@ h_{mi} &amp;= \mu_{hm} - \epsilon_{hmi} \\
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> pred_height1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can visually see that the multilevel model makes predictions that vary less across trees. Part of it is because of the shrinkage effect, but also because we ignored the variation across trees of <code>a</code> and <code>b</code>. We could write the code to evaluate those two too, but then we have to use for advanced methods of integration and it gets very tedious.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exercise">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add an exercise with non-linear mixed model</strong></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Add an exercise with non-linear mixed model</strong></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section id="optional-bayesian-approach" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> (OPTIONAL) Bayesian approach</h1>
-<p><em>Work in progress</em></p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
