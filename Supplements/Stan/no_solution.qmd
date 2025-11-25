@@ -1,5 +1,5 @@
 ---
-title: "Lab 9: Modeling variance and dispersion (solutions)"
+title: "Supplement: Bayesian inference with Stan"
 author: "Alejandro Morales"
 date: today
 visual: false
@@ -9,7 +9,7 @@ visual: false
 #| label: metadata-block
 #| output: asis
 quarto::write_yaml_metadata_block(
-  show_solution = TRUE
+  show_solution = FALSE
 )
 ```
 

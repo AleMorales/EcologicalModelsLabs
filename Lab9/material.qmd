@@ -146,110 +146,124 @@ Both indices confirm that the second model is much better.
 
 # Variance along continuous variables
 
-
 In the book, Bolker analyzes a dataset on cone production by fir trees as a
 function of their diameter:
 
 ```r
 library(emdbook)
+# Remove missing data
+cleanFIR = FirDBHFec[!is.na(FirDBHFec$TOTCONES) & !is.na(FirDBHFec$DBH),]
 with(cleanFIR, plot(TOTCONES~DBH))
 ```
 
-We can see that the average cone production increases with the diameter but
-also the scatter in the data. Therefore, it might be a good idea to model how
-this scatter increases with diameter. 
+We are dealing with count data. We can first assess whether there is over-
+dispersion in these counts. We can assess this by comparing the variances
+to the mean cone production. For this we need to bin the data into intervals
+of diameter at breast height:
 
-To helps us figure out a way to model this, we can try to visualize how the
-standard deviation varies across diameter but for that we need to bin the data.
-I show you below how to do this, and I also calculate the coefficient of 
-variation because in many distributions (like Gamma and Log-Normal) the standard
-deviation is not constant but the coefficient of variation is.
 
 ```r
-# Remove missing data
-cleanFIR = FirDBHFec[!is.na(FirDBHFec$TOTCONES) & !is.na(FirDBHFec$DBH),]
 # Create bins
 DBHpoints = c(6,8,10,12,14,18)
-# Allocate vetor to store cvs and sd and calculate for first bin
-cvs = numeric(length(DBHpoints))
-sds = numeric(length(DBHpoints))
+# Allocate vetor to store vars calculate for first bin
+vars = numeric(length(DBHpoints))
+means = numeric(length(DBHpoints))
 temp = subset(cleanFIR, DBH <= DBHpoints[1])$TOTCONES
-cvs[1] = sd(temp)/mean(temp)
-sds[1] = sd(temp)
+vars[1]  = var(temp)
+means[1] = mean(temp)
 # Repeat for all bins
 for(i in 2:length(DBHpoints)) {
   temp = subset(cleanFIR, DBH <= DBHpoints[i] & DBH >= DBHpoints[i - 1])$TOTCONES
-  cvs[i] = sd(temp)/mean(temp)
-  sds[i] = sd(temp)
+  vars[i] = var(temp)
+  means[i] = mean(temp)
 }
 ```
 
 We can now plot the results
 
 ```r
-par(mfrow = c(1,2))
-plot(c(5,7,9,11,13,16), sds, xlab = "DBH", ylab = "sd TOTCONES")
-plot(c(5,7,9,11,13,16), cvs, xlab = "DBH", ylab = "cv TOTCONES")
-par(mfrow = c(1,1))
+plot(means, vars, xlab = "means TOTCONES", ylab = "vars TOTCONES",
+     ylim = range(means, vars), xlim = range(means, vars))
+abline(a = 0, b = 1)
 ```
 
-We can see that while the standard deviation increases with DBH, the coefficient
-of variation decreases. If I were to model these data with a normal distribution
-(which is not a good idea because it will predict a lot of negative cone
-production) I would need to add an increase in the standard deviation with 
-diameter. If I were to model with a log-normal parameterized with a coefficient
-of variation (like in the example with clams), I would need to model the 
-decrease in the coefficient of variation wit diameter.
+We can clearly see that the variance is much larger than the mean cone production
+so we might want to use a negative binomial defined by a mean (`mu`) and a 
+dispersion parameter `size`. The question is whether assuming a constant `size`
+is good enough to capture the overdispersion or whether we want `size` to vary
+as a function of DBH. A method of moments estimate of `size` is `size = mu^2/(var - mu)`:
+
+
+```r
+plot(DBHpoints, means^2/(vars - means), xlab = "DBH", ylab = "size TOTCONES")
+```
+
+We can see that the `size` parameter is increasing with diameter, indicating that
+as the number of cone production increases, the overdispersion actually decreases,
+so we may want to try modelling this increase. The data suggest that a non-linear
+increase appears to be most adequate. For example, a scaled and shifted logistic
+seems to fit quite well:
+
+```r
+plot(DBHpoints, means^2/(vars - means), xlab = "DBH", ylab = "size TOTCONES")
+curve(1 + 5.5/(1 + exp(-0.7*(x  - 12))), add = TRUE)
+```
+
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Fit a non-linear model with a log-normal error distribution to the relationship 
-between `TOTCONES` and `DBH` using the same parameterization as we used for the
-study on clams. Make sure to include a component to capture the decrease in 
-the coefficient of variation with diameter.
+1. Fit a non-linear model to the relationship between `TOTCONES` and `DBH` with 
+a negative binomial error distribution where the `size` parameter increases with
+diameter at breast height following a shifted and scaled logistic function.
 
-Be careful that `TOTCONES` contains zeros so you will need to adjust those (the
-trick that Bolker uses is to just add 1).
-
+2. Simulate some observations from the fitted model and compare to original
+data visually
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
 :::: {.callout-tip title="Solution" collapse="true"}
 
-I am going to fit a power law for the mean trend, just like for the clams. Let's 
-eyeball its coefficients from the raw data:
+I am going to fit a power law for the mean trend. Let's eyeball its coefficients 
+from the raw data:
 
 ```r
 with(cleanFIR, plot(TOTCONES~DBH))
 curve(0.5*x^2, add = TRUE)
 ```
 
-And I am going to assume an exponential decrease in the coefficient of 
-variation with respect to diameter.
+We can now fit the model using the power law for `mean` and logistic for `size`
+using the eye-balled parameters from above:
 
 ```r
-with(cleanFIR, plot(cvs~c(5,7,9,11,13,16)))
-curve(3*exp(-0.15*x), add = TRUE)
-```
-
-We can now fit the model using these four starting values:
-
-```r
-nll = function(a, b, c, d) {
+nll = function(a, b, c, d, e, f) {
   mu = a*cleanFIR$DBH^b
-  cv = c*exp(-d*cleanFIR$DBH)
-  meanlog = log(mu/sqrt(1 + cv^2))
-  sdlog   = sqrt(log(1 + cv^2))
-  NLL = -sum(dlnorm(cleanFIR$TOTCONES + 1, meanlog, sdlog, log = TRUE))
+  size = c + d/(1 + exp(-e*(cleanFIR$DBH - f)))
+  NLL = -sum(dnbinom(as.integer(cleanFIR$TOTCONES), mu = mu, size = size, log = TRUE))
   NLL
 }
-par0 = c(a = 0.5, b = 2, c = 3, d = 0.15)
+par0 = c(a = 0.5, b = 2, c = 1, d = 5.5, e = 0.7, f  = 12)
+nll(a = 0.5, b = 2, c = 1, d = 5.5, e = 0.7, f  = 12)
 fit = mle2(minuslogl = nll, start = as.list(par0), method = "L-BFGS-B",
-           lower = c(a = 0.1, b = 1, c = 1, d = 0),
-           upper = c(a = 2, b = 4, c = 10, d = 1),
-           control = list(parscale = abs(par0), trace = TRUE))
+           lower = c(a = 0.1, b = 1, c = 0.1, d = 2, e = 0.2, f = 2),
+           upper = c(a = 2,   b = 4, c = 1.5, d = 8, e = 5.0, f = 20),
+           control = list(parscale = abs(par0)))
 summary(fit)
 ```
+
+2. We can simulate results using fitted model by computing the `mean` and `size`
+and sampling from NBinom rather than computing the density of observations:
+
+```r
+set.seedd(101)
+p = coef(fit)
+mu = p[1]*cleanFIR$DBH^p[2]
+size = p[3] + p[4]/(1 + exp(-p[5]*(cleanFIR$DBH - p[6])))
+sample = rnbinom(nrow(cleanFIR), mu = mu, size = size)
+plot(TOTCONES~DBH, data = cleanFIR)
+points(cleanFIR$DBH, sample, col = 2)
+```
+
+That looks quite reasonable!
 
 ::::
 

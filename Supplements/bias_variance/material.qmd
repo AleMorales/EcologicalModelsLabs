@@ -8,7 +8,7 @@ You will learn how to:
 
 # Reducing bias in estimates: Restricted maximum likelihood (REML)
 
-REML is a technique that originated in linear models but can be extended to 
+REML is a technique that originated in linear models but can be extended to
 non-linear models and has to do with the concept of bias. Bias of an estimator
 means that if you were to take many samples from the same population and fit the
 same model to each sample, the distribution of parameter estimates across
@@ -16,7 +16,7 @@ samples would be centered around the true values.
 
 ## Bias in estimates of linear models
 
-In a linear model the maximum likelihood estimates of intercepts and slopes are 
+In a linear model the maximum likelihood estimates of intercepts and slopes are
 unbiased, but the maximum likelihood estimate of the variance ($\sigma^2$) is
 biased. This motivated the development of REML to compute unbiased estimates
 of the parameters related to the variance in linear models. If you are fitting
@@ -71,9 +71,9 @@ This makes more relative to the true values:
 bias/c(2, 10, 1)
 ```
 
-Notice how the estimates of the coefficient relating $\sigma$ to $x$ is being 
+Notice how the estimates of the coefficient relating $\sigma$ to $x$ is being
 overestimated by 15% when we compare the average of the sampling distribution to
-the true value. We do not see this bias in the intercept and slope. 
+the true value. We do not see this bias in the intercept and slope.
 
 If we now redo the fits using REML we will get also unbiased estimates for the
 coefficient related to the variance:
@@ -115,7 +115,7 @@ We can see that in the parameters `a` and `b` all the error is due to variance
 in the parameter (since they are unbiased) and in `c` only 11% of the error is
 due to the bias.
 
-This means that using REML only reduces the error of the estimation by a small 
+This means that using REML only reduces the error of the estimation by a small
 amount. Let's compare the new MSE with REML:
 
 ```r
@@ -127,7 +127,7 @@ cbind(MSE, MSE_REML, Reduction = (MSE - MSE_REML)/MSE)
 
 So, using REML decreased the error in the estimation by `c` by 33% (incidentally
 the error in `a` and `b` also decreased, that will not always happen but can).
-This is a pretty good result, especially if you care about the variation in 
+This is a pretty good result, especially if you care about the variation in
 your data (i.e., if it is of ecological relevance and not just noise). So, if
 you can use REML in a linear model, it pays off to use it.
 
@@ -143,7 +143,7 @@ versions of your model).
 
 ## Bias in estimates of non-linear models
 
-Let's do a similar analysis for the log-normal model with exponentially 
+Let's do a similar analysis for the log-normal model with exponentially
 decaying `cv` that we fitted in Lab 9 I am going to assume some true parameter
 values (similar to what we got after fitting to the data):
 
@@ -173,14 +173,14 @@ Y = future_sapply(1:1e3, function(x) rlnorm(N, meanlog, sdlog), future.seed=TRUE
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Fit the model to each of the simulated datasets (check how you did it 
-before). Make sure that the bounds are sufficiently wide so that none of the 
-estimates lie on the bound. 
+1. Fit the model to each of the simulated datasets (check how you did it
+before). Make sure that the bounds are sufficiently wide so that none of the
+estimates lie on the bound.
 
-2. Check the bias in the parameter estimates. How does it differ from  the 
+2. Check the bias in the parameter estimates. How does it differ from  the
 linear model?
 
-3. Compare the bias to the mean absolute error of the parameter estimates, how 
+3. Compare the bias to the mean absolute error of the parameter estimates, how
 relevant is the bias?
 
 ::::: {.content-hidden unless-meta="show_solution"}
@@ -237,7 +237,7 @@ bias/c(0.61, 2.1, 4, 0.13)
 We can see that the estimate of `c` and `d`, related to the coefficient of
 variation are biased, but so is `a`, which is related to the mean. This differs
 from the linear model where the parameters related to the mean were unbiased. In
-fact the bias in `c` and `d` are smaller than the bias in `a`. 
+fact the bias in `c` and `d` are smaller than the bias in `a`.
 
 Let's compute the MSE and how bias and variance contribute to it
 
@@ -246,7 +246,7 @@ MSE = c(a = mean((coefs[,1] - 0.61)^2),
         b = mean((coefs[,2] - 2.1)^2),
         c = mean((coefs[,3] - 4)^2),
         d = mean((coefs[,4] - 0.13)^2))
-vars = c(a = var(coefs[,1]), b = var(coefs[,2]), 
+vars = c(a = var(coefs[,1]), b = var(coefs[,2]),
          c = var(coefs[,3]), d = var(coefs[,4]))
 cbind(MSE = MSE, bias_MSE = bias^2/MSE, var_MSE = vars/MSE)
 ```
@@ -256,7 +256,7 @@ so large, that the bias becomes pretty much irrelevant to the overall error. SO,
 not only do we have biases in parameters related to mean (unlike in the linear
 model) but these biases matter very little given the high variance of the
 estimates. For that reason, even trying REML (which is much hard in a non-linear
-non-Normal model) its not worth it. 
+non-Normal model) its not worth it.
 ::::
 
 :::::
@@ -268,7 +268,7 @@ non-Normal model) its not worth it.
 # Reducing variance in estimates: Maximum a posteriori (MAP)
 
 We saw in the previous exercise that using REML we could minimize the bias of
-parameter estimates in linear models and reduce significantly the error of 
+parameter estimates in linear models and reduce significantly the error of
 estimation in parameters related to variance. In the case of non-linear models,
 any parameter estimate can be biased but reducing it would not significantly
 improve the error of estimation.
@@ -282,8 +282,8 @@ $$
 \text{MSE} = \text{bias}^2 + \text{var}
 $$
 
-This shows that if your errors of estimation are dominated by the variance 
-component, you are better off focusing your efforts in reducing the variance 
+This shows that if your errors of estimation are dominated by the variance
+component, you are better off focusing your efforts in reducing the variance
 rather than the bias. In fact, the techniques to do so often increase the bias
 but this is compensated by an even larger decrease in variance. This tradeoff
 will show again in the next chapter on multilevel models, but we can also apply
@@ -292,7 +292,7 @@ distribution (with good priors) achieves this goal of reducing MSE. A similar
 approach is used in machine learning (called *regularized regression*)
 
 To calculate the mode of the posterior distribution we can use Laplace's approximation
-as described in Lab chapter 6. We are actually going to do it in R this time 
+as described in Lab chapter 6. We are actually going to do it in R this time
 because we can do approximation in R (Stan is really needed for the Hamiltonian
 Monte Carlo). I modify the NL function we used before by adding the negative log prior
 densities for each parameter:
@@ -310,7 +310,7 @@ nlpd = function(a, b, c, d, Y) {
           dnorm(b, hp[3], hp[4], log = TRUE) -
           dnorm(c, hp[5], hp[6], log = TRUE) -
           dnorm(d, hp[7], hp[8], log = TRUE)
-  NLL + NLPD       
+  NLL + NLPD
 }
 ```
 For simplicity I assigned a normal prior to each parameter and I will estimate
@@ -340,7 +340,7 @@ summary(fit)
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Use the procedure described above on all the simulated datasets (`Y`) 
+1. Use the procedure described above on all the simulated datasets (`Y`)
 
 2. Check the bias, variance and MSE of parameter estimates and compare to the
 maximum likelihood estimates in the previous exercise.
@@ -393,6 +393,8 @@ we still reduce the variance.
 
 ::::::
 
+:::::::
+
 # Conclusions
 
 - The error of a point estimate of a parameter is determined by its bias and
@@ -404,25 +406,20 @@ overall error.
 variance-related parameters are not. Restricted Maximum Likelihood (REML) is a
 technique that removes this bias and reduces the error of the estimates. This is
 relevant to modelling variance as a function of groups or covariates and also for
-multilevel models. The relevant canned methods in packages (`nlme`, `lme4`, etc) 
+multilevel models. The relevant canned methods in packages (`nlme`, `lme4`, etc)
 provide ways to apply REML to these models.
 
-- In non-linear models (and in generlized linear models), any parameter estimate 
-may be biased and variance-related parameters do not have to be more biased that 
-mean-related parameters. In addition, the bias in the estimate may only be a 
-small fraction of the total error. You can apply REML to simple non-linear (mixed) 
+- In non-linear models (and in generlized linear models), any parameter estimate
+may be biased and variance-related parameters do not have to be more biased that
+mean-related parameters. In addition, the bias in the estimate may only be a
+small fraction of the total error. You can apply REML to simple non-linear (mixed)
 models with Normal errors using the package `nlme` or `TMB` (coding in C++). You
-can apply REML to `glm` models using `nlme`. If you are dealing with GLMM, you 
+can apply REML to `glm` models using `nlme`. If you are dealing with GLMM, you
 can also use `lme4` or `glmmTMB`.
 
 - In all models, the overall error in the parameter estimates may be reduced by
-using alternatives to maximum likelihood where the estimates do not only depend 
-on the data. This includes mode or mean of posterior distributions with (weakly) 
+using alternatives to maximum likelihood where the estimates do not only depend
+on the data. This includes mode or mean of posterior distributions with (weakly)
 informative priors and regularized regressions such lasso and ridge. For the
-Bayesian estimator you can use `Stan` or the package `brms` or `stanarm` for 
+Bayesian estimator you can use `Stan` or the package `brms` or `stanarm` for
 more canned methods.
-
-
-
-
-

@@ -5,4 +5,253 @@ date: today
 visual: false
 ---
 
-*Work in progress*
+#  Introduction
+In the course, two functions are introduced to perform parameter estimation via
+maximum likelihood, the function `optim()` from the stats package (loaded by
+default) and the function `mle2()` from the bbmle package. Internally, `mle2()`
+will call `optim()` by default, so there should not be any difference in the
+parameter estimates themselves (assuming the same initial values and optimizer).
+However, there are some advantages to using `mle2()`:
+
+* The objects created by `mle2()` can be used in additional methods defined by
+the `bbmle` package. This methods allow automatic computation of confidence
+intervals via likelihood profiling (via `confint()`) or computation of AIC and
+BIC (via `AIC()` and `BIC()`, respectively).
+
+* It is possible to use alternative optimization algorithms to those contained
+in `optim()`. This includes optimizers offered by `optimx()`, `constrOptim()`
+and `nlminb()` (additional packages will be required to use these).
+
+* The variance-covariance matrix can be approximated using a generalized inverse
+algorithm (`ginv()` from the package `MASS`) that is more robust against
+numerical instability than the built-in `solve()` (this makes the Hessian
+approximation more reliable on highly non-linear models with “difficult”
+parameterizations).
+
+This would suggest that one should always use `mle2()` instead of `optim()` and
+this is indeed what we do in the course. But the fact that `mle2()` does most
+calculations automatically is both a blessing and a curse. Sometimes those
+calculations will fail (most notably, the likelihood profiling). Using `optim()`
+will force users to perform many of the calculations themselves, which is useful
+for learning purposes and gives more control when calculations fail. For that
+reason, it may be useful to learn how to use both functions.
+
+The main issue with learning both `optim()` and `mle2()` is that the function
+used to compute the negative log-likelihood (which the user needs to defined in
+both cases) should use a different syntax. This means that switching from
+`optim()` to `mle2()` can be tedious and error prone. In this document, these
+differences are illustrated with the use of a simple example.
+
+# Introduction to the example
+
+In order to compare `optim()` and `mle2()`, we will fit a monomolecular model to
+the  first dataset provided in Lab 3:
+
+```r
+data = read.csv("shapes1.csv")
+head(data)
+```
+
+This dataset represents a response curve to light intensity (response curves are
+very common in plant ecophysiology). The response variable (y) is continuous and
+includes negative values so it makes to use a normal distribution. The
+relationship between average y and x is non-linear linear and can be
+approximated with a monomolecular model (values are eyeballed):
+
+```r
+plot(y~x, data = data)
+ymin = -1
+deltay = 25
+k = 0.01
+curve(ymin + deltay*(1 - exp(-k*x)), add = TRUE)
+```
+
+In order to obtain the maximum likelihood estimates of `ymin`, `deltay` and `k`
+we need to write a function to compute the negative log-likelihood as a function
+of the data and parameter values. The core of that function will look like this
+(the part that is not commented out):
+
+```r
+#NLLfun = function(pars, data) {
+#  ymin   = pars[1]
+#  deltay = pars[2]
+#  k      = pars[3]
+#  sd     = pars[4]
+#  y      = data$y
+#  x      = data$x
+  ymodel = ymin + deltay*(1 - exp(-k*x))
+  NLL = -sum(dnorm(y, mean = ymodel, sd = sigma, log = TRUE))
+#}
+```
+
+However, the question is how to pass the data (i.e., y and x, or data) as well
+as the parameters `ymin`, `deltay` and `k` to the function computing NLL. The
+mechanism that is used by default by `optim()` and `mle2()` to pass the
+parameters is different, so we cannot reuse the same negative log-likelihood
+function with both. They also have different approaches to pass the data
+although here the user has more flexibility. Also, note that `mle2()` allows
+specifying the model as a formula (`optim()` does not) but we will ignore this
+approach as it is limited to very simple models. Two ways to solve the example,
+using `optim()` and `mle2()`, are presented below.
+
+# Using `optim()`
+
+The function `optim()` will pass the parameters packed into a vector as the
+first argument to the user-defined function. Hence, the user will have to unpack
+this vector prior to using them within the function. Any addition input to the
+function (i.e., `y` and `x`, or data) can also be passed along by `optim()`
+provided that we use the correct name. The user can decided whether to pass `x`
+and `y` separately, or use data and extract them inside the function (the latter
+is recommended to avoid cluttering the R workspace).
+
+Thus a canonical way of implementing the function calculating NLL would be as
+follows:
+
+```r
+NLLfun = function(pars, data) {
+  # Unpack the parameters
+  ymin   = pars[1]
+  deltay = pars[2]
+  k      = pars[3]
+  sd     = pars[4]
+  # Unpack the data (assumes data is a data.frame)
+  y      = data$y
+  x      = data$x
+  # Compute the negative log-likelihood
+  ymodel = ymin + deltay*(1 - exp(-k*x))
+  NLL    = -sum(dnorm(y, mean = ymodel, sd = sd, log = TRUE))
+}
+```
+
+As a side note: the user can also choose to not pass the data to the function as
+data that are in the R environment are accessible to R functions anyhow, but it
+is better coding practice to do so.
+
+Note that parameter values must be passed as they are defined in a calling
+function, and such parameters are not available in the R environment as values
+defined in functions are only available within that function.
+
+After you have created the function, you should always test it with the initial
+parameter values to make sure it runs without problems at the initial negative,
+i.e. to test if the log-likelihood is a finite number. The inital estimates for
+the parameter values should be stored in a vector in the same order in which
+they are unpacked inside NLLfun (you may use names for future reference but it
+is not compulsory):
+
+```r
+pars0 = c(ymin = -1, deltay = 25, k = 0.005, sd = 2)
+NLL0  = NLLfun(pars0, data)
+NLL0
+```
+
+That looks good. Now we can run the optimization with `optim()`. If we want to
+rely on default settings, the following function call suffices. Note that
+`data = data` is a way to indicate to `optim()` that there is an argument called
+data in `NLLfun()` and that it needs to pass along the object we give it. If you
+need to use the Hessian matrix you must also specify `hessian = TRUE` (if you do
+not need, you can omit that part):
+
+```r
+fit = optim(par = pars0, fn = NLLfun, data = data, hessian = TRUE)
+fit
+```
+
+The object returned by `optim()` includes the optimal parameter values (with the
+names!), the value of the negative log-likelihood (`value`) and the convergence
+flag (it should be 0, if not, the algorithm ran into trouble and you should help
+of `optim()`). The Hessian matrix is also included in the returned object.
+
+From here onwards, if you want to compute AIC, BIC, likelihood profile or other
+quantities of interest you will need to write the code yourself, as `optim()`
+knows nothing about these concepts (it is a general purpose optimization
+function that can be used for many things besides maximum likelihood estimation).
+
+
+# Using `mle2()`
+
+If you wan to use `mle2()` instead, you will need to write a different function
+to compute the negative log-likelihood. Now, the function will take as argument
+the different parameters (rather than a vector of parameter values). Although
+you can ommit the data as argment (and `mle2()` will use some advanced R dark
+magic to somehow pass the data to the function), this is not recommended as you
+will not be able to call the function on your own. There are different ways to
+solve this problem, the easiest one is to use data directly inside the function
+which will simply look for the right variable in the workspace (or environment
+as Rstudio calls it). It would then look like this:
+
+```r
+bbNLLfun = function(ymin, deltay, k, sd) {
+  # Unpack the data (assumes data is a data.frame)
+  y      = data$y # just the variable data in your R workspace
+  x      = data$x
+  # Compute the negative log-likelihood
+  ymodel = ymin + deltay*(1 - exp(-k*x))
+  NLL    = -sum(dnorm(y, mean = ymodel, sd = sd, log = TRUE))
+}
+```
+
+Note that this will make the `bbNLLfun()` function less generic. If you want to
+use it with different datasets, you will need to either overwrite the variable
+data before calling the function each time, or change the name of the variable
+used inside the function. This strategy is known as using data as a global
+variable and it is frown upon by programmers (it can lead to many bugs) but it
+is easiest way to use `mle2()` as a beginner (later you can learn more
+sophisticated ways of doing it).
+
+A further difference is that the initial values of the parameters need to be
+stored in a list rather than a vector (i.e. use `list()` instead of `c()`). In
+this case the order of the parameters does not parameter but you must use the
+exact same names as in `bbNLLfun()`:
+
+```r
+bbpars0 = list(ymin = -1, deltay = 25, k = 0.005, sd = 2)
+```
+
+We can now call the `bbNLLfun()` as before. A trick to avoid repeating `bbpars0$`
+for every parameter is to use the `with()` function which will unpack the list
+of parameters and make then available to any piece of R code you pass along:
+
+```r
+bbNLL0 = with(bbpars0, bbNLLfun(ymin, deltay, k, sd))
+bbNLL0
+```
+
+The call to `mle2()` itself is similar to `optim()`. The negative log-likelihood
+function is now assigned to `minuslogl` and the initial values of the parameters
+are assigned to `start`. We do not need to pass the data as the function
+`bbNLLfun()` is already retrieving the data as a global variable (see above):
+
+```r
+library(bbmle)
+bbfit = mle2(start = bbpars0, minuslogl = bbNLLfun, method = "Nelder-Mead")
+bbfit
+```
+
+You can verify that `bbfit` and fit contain the same solution. Note that the
+default algorithm in `mle2()` is BFGS whereas the default algorithm for `optim()`
+is Nelder-Mead. If I had not specified `method = "Nelder-Mead"` in the above, I
+may have gotten slightly different results as I would be comparing two different
+optimization algorithms (remember that we are performing a numerical
+optimization, so results are not 100% accurate and will differ across
+algorithms).
+
+If we now want to compute the confidence intervals from the likelihood profiles
+it is as easy as:
+
+```r
+bbconf = confint(bbfit)
+bbconf
+```
+
+AIC is easy retrieve:
+
+```r
+AIC(bbfit)
+```
+
+If you want to compute BIC just change the penalty term per parameter (by
+default 2) to the correct one (i.e. log(n)):
+
+```r
+AIC(bbfit, k = log(nrow(data)))
+```

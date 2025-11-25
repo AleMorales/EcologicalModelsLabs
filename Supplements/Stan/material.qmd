@@ -1,0 +1,1046 @@
+
+# Learning goals
+
+You will learn how to:
+
+1. Build programs for the Stan language
+
+2. Run Laplace's approximation with Stan.
+
+3. Run Hamiltonian Monte Carlo with Stan
+
+# Why Stan?
+
+Stan is considered the golden standard for Bayesian inference nowadays. It is a
+implemented in C++ meaning that it cannot work with models written in R, so we
+will need to write the models in a separate language and file, but we can run
+the setup and analysis of the posterior samples in R.
+
+The usual experience is
+that writing models in Stan can be a bit harder because of the stricter syntax of
+C++. Also, users may find it frustrating that when we want to run the model we
+need to wait for the model to compile, but once it compiles, it runs extremely
+fast! For simple models such as the one in Lab 6 and 7, Stan does not offer
+much advantage (except that the samples from the posterior may be of higher
+quality due to the superiority of Hamiltonian Monte Carlo). But when it comes
+to larger, multilevel models (e.g., the problems in Lab 10) Stan is really the
+tool to go. Also, the package `brms` (see Supplement on formulate-based methods)
+has made Bayesian statistics much more accessible to the average R user, but this
+package is just a way to generate Stan code.
+
+# Installation of Stan and Rtools
+
+You need to be able to compile C++ code in your computer. If you are using
+Windows, please install Rtools: https://cran.r-project.org/bin/windows/Rtools/rtools45/rtools.html
+
+Then you need to install the package RStan. Please go to https://github.com/stan-dev/rstan/wiki/Rstan-Getting-Started and follow the
+instructions there. Make sure that you test the installation to check that
+everything is correct.
+
+# Analyzing `shapes2` using Laplace's approximation
+
+We are going to analyze the `shapes2` dataset again with Laplace's approximation
+as in Lab 6. Remember that we want to fit a Michaelis-Menten model ($y = ax/(b + x)$)
+and we came up with the following priors:
+
+$$
+\begin{align*}
+a &\sim \text{Half-Normal}(\mu=50,\sigma=50) \\
+b &\sim \text{Half-Normal}(\mu=50,\sigma=100) \\
+\sigma &\sim \text{Half-Normal}(\mu=0,\sigma=10) \\
+\end{align*}
+$$
+
+Where Half-Normal refers to the fact that all the parameters were assumed to be
+positive.
+
+Stan models need to be built in their own files and are made of different blocks.
+You have been given the Stan file for this first exercise but please try to
+understand how it is structured based on the description before as you will not
+be given the solutions for posterior exercises. This Youtube video may also help
+you: https://youtu.be/YZZSYIx1-mw?si=5nSuDzOV8lrMKyCv
+
+A Stan model is composed of different blocks. First, we need to specify the data
+that will be used:
+
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
+}
+```
+
+Here we specify the length of the data `N` as a positive integer `int<lower=0>`.
+The two variables in the model (`x` and `y`) are defined as vectors of positive
+(real) values (`vector<lower=0>`) and length `N`. Finally, there are six values
+passed along the vector `hp` which will be used to parameterize the prior
+distributions (in case we want to try different priors!).
+
+The next block represents the parameters of the model that will be estimated:
+
+```stan
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
+}
+
+```
+
+These are the three parameters of our likelihood function (`a` and `b` for the
+deterministic model and `sigma` for the error) which are all assumed to be
+positive.
+
+Finally we have the model block, that actually implements the priors and likelihood.
+There are two ways to implement thids in Stan, either using the probabilistic
+modelling approach (which resembles the BUGS code in the book) or by adding up
+log probability densities (which resembles the way we build the negative
+log-likelihood functions).
+
+The probabilistic approach looks as follows:
+
+```stan
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*x./(b + x), sigma);
+}
+```
+
+The first three lines indicate that the parameters `a`, `b` and `sigma` follow
+normal distributions with hyperparameters take from the vector `hp`. The last
+line indicates that the observations `y` follow a normal distribution which mean
+is given by the deterministic model `a*x./(b + x)` and the standard deviation is
+`sigma`. Notice the `.` before `/`. This is to signal that I am making this
+calculation for multiple values of `x` (by default C++ cannot apply element-wise
+calculations on vectors like R, Stan extends some of these capabilities).
+
+The alternative approach looks like this:
+
+```stan
+model {
+  target += normal_lpdf(a | hp[1], hp[2]);
+  target += normal_lpdf(b | hp[3], hp[4]);
+  target += normal_lpdf(sigma | hp[5], hp[6]);
+  target += normal_lpdf(y | a*x./(b + x), sigma);
+}
+```
+
+Where `target` is a special variable in Stan that accumulates the log-likelihood
+and log-prior, `normal_lpdf` stands for the log probability density of the normal
+distribution and `|` is the symbol for conditionality (on the left of `|` we
+indicate the random variable and on the right other parameters of the distribution).
+
+
+We can compile and load the model as follows (here I assume the model is in a
+file called `mm.stan` in the local folder).
+
+```r
+library(rstan)
+options(mc.cores = parallel::detectCores()) # To enable parallel chains
+rstan_options(auto_write = TRUE) # To avoid recompilation
+mm_model = stan_model(file = "mm.stan")
+```
+
+This took a while because the Stan model needs to be compiled to machine code
+that can then be executed. C++ compilation can be quite slow so please be patient
+(it will pay off later, trust me).
+
+We are going to fit this model the data using Laplace's approximation. This
+approximates the posterior distribution as a Normal distribution with a mean
+equal to the maximum posterior estimates and variance derived from the Hessian
+matrix. Mathematically this is equivalent to maximum likelihood + quadratic
+approximation (section 6.5 in the book) but with prior distributions. We can do
+this in Stan using `optimizing()`:
+
+```r
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y,
+            hp = c(50, 50, 50, 100, 0, 10)) # see above for priors
+mm_fit = optimizing(mm_model, data = data, init = list(a = 50, b = 40, sigma = 1),
+                    hessian = TRUE)
+```
+
+We can retrieve the estimated mode of the posterior:
+
+```r
+mm_fit$par
+```
+
+And we can use the Hessian to compute a variance-covariance matrix:
+
+```r
+V = MASS::ginv(-mm_fit$hessian)
+```
+
+And now our posterior is defined as a multivariate normal with `mu = mm_fit$par`
+and `Sigma = V`. We can generate samples using `mvrnorm`:
+
+```r
+posterior_samples = MASS::mvrnorm(1000, mu = mm_fit$par, Sigma = V)
+```
+
+We can directly visualize the marginal distribution from this sample:
+
+```r
+par(mfrow = c(1,2))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+```
+
+But also the correlation among these two parameters:
+
+```r
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
+```
+
+:::::: {.callout-important title="Exercise" collapse="true"}
+
+Fit the model `a*x^2/(b + x^2)` to the same dataset as the model above using
+Laplace's approximation and Stan.
+
+::::: {.content-hidden unless-meta="show_solution"}
+
+:::: {.callout-tip title="Solution" collapse="true"}
+
+The stan model will look as follows (I use the probabilistic flavour because
+it is a bit easier to write down)
+
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
+}
+
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
+}
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*pow(x, 2)./(b + pow(x, 2)), sigma);
+}
+```
+
+Notice than in C++, `x^2` needs to be written as `pow(x, 2)`.
+
+I can adjust the priors based on the new scale (no `a` is in the scale of `y`
+but `b` is in the scale of `x`)
+
+```r
+b = rtruncnorm(N, mean = 10000/2, sd = 10000, a = 0) # b scales with half prey density
+mu_y_prior = sapply(1:N, function(i) a[i]*xseq^2/(b[i] + xseq^2))
+mean_mu_y_prior = rowMeans(mu_y_prior)
+lower_mu_y_prior = apply(mu_y_prior, 1, quantile, prob = 0.025)
+upper_mu_y_prior = apply(mu_y_prior, 1, quantile, prob = 0.975)
+plot(xseq, mean_mu_y_prior, type = "l", ylim = c(0, 100))
+lines(xseq, lower_mu_y_prior, lty = 2)
+lines(xseq, upper_mu_y_prior, lty = 2)
+points(shapes2)
+```
+
+We then load the new model and run Laplace's approximation:
+
+```r
+mm2_model = stan_model(file = "./Lab6/mm2.stan")
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y,
+            hp = c(50, 50, 100, 200, 0, 10)) # see above for priors
+mm2_fit = optimizing(mm2_model, data = data, init = list(a = 50, b = 4000, sigma = 1),
+                    hessian = TRUE)
+```
+
+And I can retrieve the parameter values as I did before
+
+```r
+V = MASS::ginv(-mm2_fit$hessian)
+posterior_samples = MASS::mvrnorm(1000, mu = mm2_fit$par, Sigma = V)
+par(mfrow = c(1,3))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
+```
+::::
+
+:::::
+
+::::::
+
+
+# Analyzing `shapes2` using Hamiltonian Monte Carlo
+
+The software Stan implements a different type of MCMC algorithm to the one
+described in Bolker's book. It uses an algorithm called Hamiltonian Monte Carlo
+that has a smart way to generate candidate points in the posterior distribution
+that lead to a much more efficient sampling (less autocorrelation, much faster
+adaptation, etc). We will not learn the details of the algorithm (is much more
+complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM),
+instead we will focus on how to assess the results.
+
+In the previosu section we created a model for the predation data (`shapes2`).
+We will modify that model to keep track of the log-likelihood for the different
+parameter combinations (we need it for model comparison later). The original code
+was as follows
+
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
+}
+
+
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
+}
+
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*x./(b + x), sigma);
+}
+```
+
+You need to add an extra block that computes the log-likelihood for each
+parameter value (we will use this for modern model comparison indices):
+
+```r
+generated quantities {
+  vector[N] log_lik;
+  for(n in N) log_lik[n] = normal_lpdf(y[n] | a*x[n]/(b + x[n]), sigma);
+}
+```
+
+This can be added at the end of the file with the model implementation. Notice
+that inside the `generated quantities` block you can only use the `normal_lpdf`
+style of programming (not the `y ~ normal` style).
+
+
+We can compile and load the model as follows:
+
+```r
+library(rstan)
+mm_model = stan_model(file = "mm_ll.stan")
+```
+
+Now, instead of applying Laplace's approximation we will generate the samples
+using HMC. We can achieve this with the function `sampling` (assuming you
+have loaded the `shapes2` data:
+
+```r
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y,
+            hp = c(50, 50, 50, 100, 0, 10)) # see above for priors
+options(mc.cores = 4) # Adjust to the number of cores you have
+mm_fit = sampling(mm_model, data = data, cores = 4, chains = 4,
+                   warmup = 1000, iter = 4000)
+```
+
+In this called to `sampling()` we are running 4 chains in parallel `ncores = 4`
+and `nchains = 4`. Each chain will first run for 1000 iterations to adapt (*warmup*
+is equivalent to *burn-in*) and then 3000 more to fill up the `iter = 4000`. This
+means we get in total 12000 samples from posterior across 4 independent chains.
+
+We can look at summaries of the samples with the usual function. You should
+specify the parameters you want out (otherwise you get all the `log_lik`
+estimates printed:
+
+```r
+summary(mm_fit, pars = c("a", "b", "sigma"))[[1]]
+```
+Stan is calculate the mean of each marginal posterior distribution (one per
+parameter). It also gives several quantiles, an
+estimate of the effective sample size (corrected for autocorrelation) and the
+$\hat{R}$ (`Rhat`) statistic (Bolker calls it *Gelman-Rubin* diagnostic). This
+statistic should be as close to 1 as possible, with values about 1.2 indicating
+a quite bad convergence (the results we get here are pretty much perfect).
+
+When you get an $\hat{R}$ of 1.00, there is no much need to look at the traces
+of the chains, but if you want to you can still do it:
+
+```r
+traceplot(mm_fit, pars = c("a", "b", "sigma"))
+```
+
+We can see that the four chains are well mixed for all parameters and they look
+like white noise. If you want to process the samples your self, you can convert
+the Stan object into a data.frame
+
+```r
+posterior_samples = as.data.frame(mm_fit, pars = c("a", "b", "sigma"))
+```
+
+And now we can reproduce the plots we made in the previous section
+
+```r
+par(mfrow = c(1,3))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
+```
+
+Note that the uncertainty in the parameter `b` is much larger than what we
+estimated with Laplace's approximation. This is indeed the problem of using
+quadratic approximation to estimate uncertainty. It does not matter whether
+we are using in a Bayesian context or for maximum likelihood, in both cases
+we often underestimate uncertainty.
+
+### Modern Bayesian information criteria
+
+Finally, we can compute information criteria for model comparison. Bolker mentions
+DIC but this criterion has by now been superseded by two more recent approaches.
+The first one is WAIC which is a Bayesian generalization of AIC. The other one
+is an estimate of leave-one-out cross-validation (that can be done in a Bayesian
+context and is much faster than actual cross-validation). The package `loo`
+implements these indices:
+
+```r
+library(loo)
+# Extract the log-likelihoods from the fit
+log_lik = extract_log_lik(mm_fit)
+# Compute the WAIC
+waic_mm = waic(log_lik)
+# Compute the loo IC
+loo_mm = loo(log_lik)
+```
+
+Notice that there were some warnings, they refer to one data point (2% of the
+data) that is probably a bit of an outlier and this can have an influence on
+any information criterion. The `loo` criteria is however more robust (and in any
+casem if it is only one point we should worry too much).
+
+```r
+waic_mm
+loo_mm
+```
+
+They give practically the same result. Sometimes they will not and in that case the
+recommendation is to use `loo` instead of `waic`. This will tend to happen with
+fewer datapoints and/or more complex models. There are a lot of numbers there:
+
+- `elpd_` is the average predictive log-likelihood (so it is already penalized by model complexity).
+
+- `p_` is the effective degrees of freedom we would need to compute `elpd` from our sample. In AIC this would $2k = 6$. The reason why this number is smaller than 6 in a Bayesian prior is because prior information constrains the model, so the effective number of degrees of freedom is lower than the number of parameters being estimated. The effective degrees of freedom will also depend on the sample size (the more data we have, the less informative the priors become).
+
+- `waic` and `looic` is just -2 times elpd so that it is expressed in the same units as AIC or BIC.
+
+You can use WAIC or LOO-IC in a similar way to how you use AIC or BIC. Notice that we also get a standard error `SE` for the index, so you may also use that information for model comparison (i.e., if the WAIC or two models differ by more than twice the SE, you can assume a difference in predictive power between the models).
+
+:::::: {.callout-important title="Exercise" collapse="true"}
+
+1. Fit the model `a*x^2/(b + x^2)` to the same dataset as the model above using
+Hamiltonian Monte Carlo.
+
+2. Compare the two models using WAIC or LOO-IC
+
+::::: {.content-hidden unless-meta="show_solution"}
+
+:::: {.callout-tip title="Solution" collapse="true"}
+
+The stan model will look as follows (I use the probabilistic flavour because
+it is a bit easier to write down)
+
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
+}
+
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
+}
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*pow(x, 2)./(b + pow(x, 2)), sigma);
+}
+
+generated quantities {
+  vector[N] log_lik;
+  for(n in 1:N)
+    log_lik[n] = normal_lpdf(y[n] | a*pow(x[n],2)/(b + pow(x[n],2)), sigma);
+}
+```
+
+We then load the new model and run HMC on it:
+
+```r
+mm2_model = stan_model(file = "./Lab7/mm2_ll.stan")
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y,
+            hp = c(50, 50, 100, 200, 0, 10)) # see above for priors
+mm2_fit = sampling(mm2_model, data = data, cores = 4, chains = 4,
+                   warmup = 1000, iter = 4000)
+```
+
+And I can retrieve the parameter values as I did before
+
+```r
+summary(mm2_fit, pars = c("a", "b", "sigma"))[[1]]
+```
+
+And visualize them:
+
+```r
+posterior_samples = as.data.frame(mm2_fit, pars = c("a", "b", "sigma"))
+par(mfrow = c(1,3))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
+```
+
+To compare with the other model we should compute cross-validation also without
+data point 7:
+
+```r
+library(loo)
+# Extract the log-likelihoods from the fit
+log_lik = extract_log_lik(mm2_fit)[,-7]
+# Compute the WAIC
+waic_mm2 = waic(log_lik)
+waic_mm2
+```
+ Ok, there seems to be another suspect, let's check with `loo`
+
+```r
+loo_mm2 = loo(log_lik)
+loo_mm2
+```
+We do not get warnings so we should be safe. We can now compare the two models.
+
+```r
+rbind(loo_mm$estimates["looic",],
+      loo_mm2$estimates["looic",])
+```
+
+We can see that the first model we tried was much better than the second model
+even when accounting for the standard error in the estimation. We can use the
+`loo_compare` function, which compares `elpd` values (i.e., without multiplying
+by -2, so bigger is better):
+
+```r
+loo_compare(loo_mm, loo_mm2)
+```
+
+::::
+
+:::::
+
+::::::
+
+# Hierarchical models
+
+In the Bayesian approach we can estimate all the parameters and latent random
+variables by applying Markov Chain Monte Carlo. In fact, no changes are needed
+to the estimation procedure at all, and a single pass of MCMC gives use all the
+information we need. If you use a probabilistic language (like Stan,
+JAGS or NIMBLE) it is also straightforward to add levels to the model. Given
+reasonable priors, it can be much easier to estimate non-linear multilevel
+models in a Bayesian way than the procedure describe in the first half. In fact,
+fitting multilevel models (and other models with latent random variables) is the
+most common reason why ecologist switch to Bayesian methods.
+
+## Model with measurement error
+
+We can estimate this model using Stan as shown in previous tutorials. Remember
+that the stan model needs to be defined in its own file with the extension `.stan`
+or add your code in a Quarto document with the label `stan`. If you are getting
+lost in the code, please check the supplement on Stan (also compare with the
+BUGS code in the book).
+
+```stan
+data {
+  int N; # Number of observations/true values
+  vector[N] x_obs; # The observed growth rate
+  vector[6] hp; # Hyperparameters of the prior distributiobs
+}
+
+parameters {
+  vector<lower = 0>[N] x_true; # Estimated true growth rates
+  real<lower = 0> a; # Shape parameter of Gamma
+  real<lower = 0> s; # Scale parameter of Gamma
+  real<lower = 0> sigma; # Scale parameter of Normal
+}
+
+model {
+  # Priors (different from Bolker)
+  a ~ normal(hp[1], hp[2]); # Shape (95% <  26), 10, 10
+  s ~ normal(hp[3], hp[4]); # rate (95% < 40), 15, 15
+  sigma ~ normal(hp[5], hp[6]); # sigma (95% < 40), 10, 10
+  # True growth rate
+  x_true ~ gamma(a, 1/s); # gamma(shape, rate = 1/scale)
+  # Observed growth rate with error
+  x_obs ~ normal(x_true, sigma);
+}
+```
+
+
+I made the following changes to the code with respect to Bolker:
+
+- All parameters are given (truncated) Normal distributions as priors because
+it is easier to reason about prior means and standard deviations.
+
+- I do not hard-code the hyperparameters, so that you can rerun sampling with
+different priors (for prior sensitivity analysis).
+
+- The normal distribution is parameterized with the standard deviation rather
+than precision.
+
+- There is no need to specify initial values for chains since the priors are
+not excessively wide (so random samples from them are good starting values).
+
+In all cases we are using Normal prior distribution that are *weakly informative*
+meaning that we only incorporate knowledge of the scale of the parameters. They
+will be automatically truncated as parameters are all positive. Note that the
+Bayesian approach will estimate a true value for each observation in addition to
+the three parameters of the model (so technically we will get 1003 estimates!):
+The details below are as usual (see Stan supplement). Notice that I increase
+`adapt_delta` to `0.95` because this was a harder fit and I want a total of 40
+thousand samples:
+
+```r
+set.seed(1001)
+x_true <- rgamma(1000, shape = 3, scale = 10) # True growth rates
+x_obs  <- rnorm(1000, mean = x_true, sd = 10) # Observed growth rates with error
+library(rstan)
+ncores = parallel::detectCores()
+nchains = min(8, ncores)
+niter = 1000 + round(40e3/nchains, 0)
+options(mc.cores = ncores)
+bayesian_fit <- sampling(error_growth_model,
+                         cores = nchains, chains = nchains,
+                         iter = niter, warmup = 1000,
+                         data = list(N = length(x_obs), x_obs = x_obs,
+                                     hp = c(10, 10, 15, 15, 10, 10)),
+                         control = list(adapt_delta = 0.95))
+```
+
+This ran in about a minute on my computer. Let's look at the summaries for the
+population parameters (`a`, `s` and `sigma`):
+
+```r
+print(bayesian_fit, pars=c("a", "s", "sigma"), probs=c(.025,.5,.975))
+```
+
+We are getting perfect Rhat values (Gelman-Rubin diagnostics) and the effective
+sample size is in the thousands, which means that our estimations of the posterior
+distributions from these samples would be very accurate (in fact a bit overkill
+if you use my originally settings).
+
+Both the median and mean are quite similar suggesting a posterior
+distribution that is fairly symmetric (in fact with this sample size it should be
+fairly normal and the
+priors should have a very small effect). We can compare these estimates to the
+maximum likelihood estimates from before:
+
+```r
+pars
+exp(confint(fit, method = "quad"))
+```
+
+We are getting very similar values to the maximum likelihood approach, as
+expected from the large sample sizes (so again, the priors did not have much effect).
+If you check table 10.1 in the book (section 10.5.2) the intervals computed from
+the posterior distribution are very close to the confidence intervals from the
+likelihood profile.
+
+The Bayesian procedure also gives us the estimates `x_true` directly. We can
+convert the samples from the posterior into a matrix:
+
+```r
+posterior <- as.matrix(bayesian_fit);
+dim(posterior)
+posterior[1:4,1:4]
+```
+
+We can compare the different estimates of `x` for the first observation using a
+kernel density plot:
+
+```r
+plot(density(posterior[,1]), xlab = "Growth rate", main = "", las = 1)
+abline(v = c(x_obs[1], x_true[1], x_obs[1] - est_eps[1]), col = 1:3)
+abline(v = quantile(posterior[,1], prob = c(0.025,0.975)), lty = 2, col = 4)
+legend("topright", c("Obs", "True", "Max Lik", "CI 95%"), col = c(1:3,4,4),
+       bty= "n", lty = c(1,1,1,2,2))
+```
+
+We can see that the Bayesian estimate of the true growth rate for the first
+observation has a maximum around the same value as the point estimate we obtained
+using maximum likelihood (and therefore in between observed and true growth
+rates). However, we actually have quite a bit of uncertainty in this estimate as
+reflected by the 95% credible interval.
+
+Of course, given that we know the true values of x in this simulation, we can
+test how often these 95% intervals include the true values (for a perfect
+estimation we should cover the true value 95% of the times). Let's compute the
+lower and upper bounds of the intervals for each observation:
+
+```r
+lower_ci = quantile(posterior[,1:1000], 2, prob = 0.025)
+upper_ci = quantile(posterior[,1:1000], 2, prob = 0.975)
+inside   = (x_true >= lower_ci) & (x_true <= upper_ci)
+coverage = sum(inside)/1e3
+coverage
+```
+
+That is pretty much spot on! Getting exactly 95% is very difficult (especially
+with only 1000 values, we would need more for the coverage estimate to
+stabilize). The fact that it errors on the side of caution (i.e., simulated coverage
+is slightly higher than 95%) is also a good thing (we generally prefer to be
+pessimistic rather than optimistic). So even though our uncertainty about the true
+growth rate of individual trees remains high given how big the measurement error
+is, achieving a practically perfect coverage is the best we can do.
+
+
+## Model for nested data
+
+Let's implement the model in Stan. This time we are going to include all traits
+as varying across replicates but we will ignore correlations as that makes the
+model much more complex (but it would be possible). The predictions of heights
+is as before:
+
+$$
+h_{ij} \sim \text{Normal} \left(\frac{h_{mi}}{1 + e^{-b_i\left(t_j - c_i \right)}}, \sigma \right)
+$$
+Where the suffix $i$ refers to the tree and $j$ to the time point. The variation
+in heights across the population is assumed to follow a normal distribution (note
+that this can technically produce negative values but we will ignore this for
+simplicity):
+
+$$
+\begin{align*}
+h_{mi} &= \mu_{hm} + \sigma_{hm} z_{hmi} \\
+z_{hmi}  &\sim \text{Normal}(0, 1) \\
+\end{align*}
+$$
+
+Notice that we have further decomposed the Normal distribution based on the fact
+that $\text{Normal}(\mu, \sigma) = \mu + \sigma \text{Normal}(0,1)$ which tends
+to make MCMC sampling much faster. We repeat the same decomposition for the rest
+of the trees:
+
+$$
+\begin{align*}
+b_{i} &= \mu_{b} + \sigma_{b} z_{bi} \\
+z_{bi}  &\sim \text{Normal}(0, 1) \\
+c_{i} &= \mu_{c} + \sigma_{c} z_{ci} \\
+z_{ci}  &\sim \text{Normal}(0, 1) \\
+\end{align*}
+$$
+
+The model in Stan would look at follows
+
+```stan
+data {
+  int N; # Number of observations
+  int Ntree; # Number of trees
+  vector[N] h; # The observed growth rate
+  vector[N] t; # The age associated to each observation
+  int tree[N]; # Id of the tree (not seed, but 1 - 14)
+  vector[14] hp; # Hyperparameters
+}
+
+parameters {
+  # Population-level parameters
+  real<lower = 0> mu_hm; # Mean maximum height
+  real<lower = 0> mu_b;  # Mean parameter b
+  real<lower = 0> mu_c;  # Mean parameter c
+  real<lower = 0> sigma_hm; # Variation in maximum height
+  real<lower = 0> sigma_b;  # Variation in parameter b
+  real<lower = 0> sigma_c;  # Variation in parameter c
+  real<lower = 0> sigma;    # Measurement/observation error
+  vector[Ntree] z_hm; # Standardized deviations of maximum height in population
+  vector[Ntree] z_b;  # Standardized deviations of b in population
+  vector[Ntree] z_c;  # Standardized deviations of c in population
+}
+
+# In this block we can do intermediate calculations (makes it run faster)
+transformed parameters{
+  # Individual-level parameters
+  vector[Ntree] hm; # Maximum height of each tree
+  vector[Ntree] b; # Trait b of each tree
+  vector[Ntree] c; # Trait c of each tree
+  # Observations
+  vector[N] h_mod;
+  # Compute the trait value of each tree
+  hm = mu_hm + sigma_hm*z_hm;
+  b  = mu_b  + sigma_b*z_b;
+  c  = mu_c  + sigma_c*z_c;
+  # Compute the height of each tree at each timepoint
+  for(i in 1:N) {
+    int id = tree[i]; # Check which tree we are dealing with
+    h_mod[i] = hm[id]/(1 + exp(-b[id]*(t[i] - c[id]))); # Logistic model
+  }
+}
+
+# Here we only list the distributions since we already have done the calculations
+# of growth in the transformed parameters block
+model {
+  // Population-level parameters (priors)
+  mu_hm ~ normal(hp[1], hp[2]);
+  mu_b  ~ normal(hp[3], hp[4]);
+  mu_c  ~ normal(hp[5], hp[6]);
+  sigma_hm ~ normal(hp[7], hp[8]);
+  sigma_b  ~ normal(hp[9], hp[10]);
+  sigma_c  ~ normal(hp[11], hp[12]);
+  sigma ~ normal(hp[13], hp[14]);
+  // Standardized deviations from population mean (actual tree-level traits above)
+  z_hm ~ normal(0, 1);
+  z_b ~ normal(0, 1);
+  z_c ~ normal(0, 1);
+  // Observations within tree
+  h ~ normal(h_mod, sigma);
+}
+```
+
+For this example, I came up with more informative priors based on general I could
+find online on the growth of Loblolly pine. I put the whole reasoning to come up
+with the priors at the end of the lab as an example of how one could come up with
+reasonable priors and check that they produce sensible predictions. So please go
+there if you want to check it.
+
+Once we have chosen some prior distributions we can sample from the posterior
+distribution:
+
+```r
+library(rstan)
+
+# Parallelize
+ncores = parallel::detectCores()
+nchains = min(8, ncores)
+niter = 1000 + round(40e3/nchains, 0)
+options(mc.cores = ncores)
+
+# See section below on prior elicitation
+priors = c(65, 10,          # mean and sd of mu_hm
+           0.25, 0.25/4,    # mean and sd of mu_b
+           10, 10/4,        # mean and sd of mu_c
+           65/5, 65/10,     # mean and sd of sigma_hm
+           0.25/5, 0.25/10, # mean and sd of sigma_b
+           10/5, 10/10,     # mean and sd of sigma_c
+           1, 1)            # mean and sd of sigma
+
+bayesian_fit <- sampling(logistic_growth_model,
+                         cores = nchains, chains = nchains,
+                         iter = niter, warmup = 1000,
+                         data = list(N = nrow(Loblolly),
+                                     Ntree = length(unique(Loblolly$Seed)),
+                                     h = Loblolly$height,
+                                     t = Loblolly$age,
+                                     tree = as.numeric(Loblolly$Seed),
+                                     hp = priors),
+                         control = list(adapt_delta = 0.95))
+
+print(bayesian_fit, pars=c("mu_hm", "mu_b", "mu_c",
+                           "sigma_hm", "sigma_b", "sigma_c", "sigma"),
+      probs=c(.025,.5,.975))
+```
+
+Compare this to the estimates we obtained from the stepwise approach:
+
+```r
+means = colMeans(traits)
+sds   = apply(traits, 2, sd)
+cbind(means, sds)
+```
+
+The Bayesian estimate of the standard deviations are a bit smaller than the ones
+obtained in the stepwise approach, but they are in the right order of magnitude
+and the 95% credible interval includes the estimates from the stepwise approach.
+Let's look at the posterior distributions of this standard deviations:
+
+```r
+posterior = as.matrix(bayesian_fit)
+par(mfrow = c(1,3))
+plot(density(posterior[,"sigma_hm"], from = 0), main = "", xlab = "sigma_hm")
+plot(density(posterior[,"sigma_b"], from = 0), main = "", xlab = "sigma_b")
+plot(density(posterior[,"sigma_c"], from = 0), main = "", xlab = "sigma_c")
+```
+
+Note how the posterior distributions of standard deviations of b and c are quite
+small but also highly asymmetric. This is typical of constrained variables that
+are highly uncertain. Methods based on maximum marginal likelihood will struggle
+estimating optimal values `sigma_b` and `sigma_c`.
+
+The samples for `hm`, `b` and `c` of each can be retrieved directly from
+posterior. For  example, for the first tree:
+
+```r
+par(mfrow = c(1,3))
+plot(density(posterior[,"hm[1]"]), main = "", xlab = "hm")
+plot(density(posterior[,"b[1]"]), main = "",  xlab = "b")
+plot(density(posterior[,"c[1]"]), main = "",  xlab = "c")
+```
+
+We can also print the summary information directly from othe original fitted object:
+
+```r
+print(bayesian_fit, pars=c("hm"), probs=c(.025,.5,.975))
+```
+
+Similarly, we can also extract the predicted values for each observation of
+height (I only show it for one observation, otherwise it becomes too long):
+
+```r
+print(bayesian_fit, pars=c("h_mod[1]"), probs=c(.025,.5,.975))
+```
+
+
+## Informative prior elicitation
+
+Let's define some reasonable priors. Let's start with the priors for the means
+of the populations. The parameter `hm` is the maximum height of the trees. We
+are dealing with a pine tree that growth is humid warm areas of North America
+and typical has heights of 50 to 80 feet with record heights
+(https://edis.ifas.ufl.edu/publication/ST478). Since it is often between 50
+and 80, we can specify our prior to have a mean of 65 feet and a standard deviation
+of 10:
+
+```r
+library(truncnorm)
+set.seed(1234)
+prior_mu_hm = rtruncnorm(1000, mean = 65, sd = 10, a = 0)
+sum(prior_mu_hm > 50 & prior_mu_hm < 80)/1e3 # 87% of heights within this range
+hist(prior_mu_hm)
+```
+
+We know that parameter `b` is related to growth rates (it is 4 times the maximum
+growth rate normalized by maximum height, see Chapter 3 of the book). Searching the literature
+(actually using AI with sources...) tells use that average growth rate in this
+species is about 2 feet/year. How does `b` related to this? First let's
+compute the derivative of the logistic (which would tell you the growth rate).
+I will let the computer compute the derivative for me...
+
+```r
+library(Deriv) # Package to compute symbolic derivatives
+deriv_logistic = Deriv(logistic, "t")
+curve(deriv_logistic(b = 0.25, c = 12, h_m = 65, t = x), 0, 35, ylab = "Growth rate")
+```
+
+We can now calculate the average growth rate by averaging the first 30 years of
+growth (after that it does not seem to grow much):
+
+```r
+avg_growth_rate = mean(deriv_logistic(b = 0.25, c = 12, h_m = 65, t = 1:30))
+```
+
+Ok, that is exactly the value we got from literature (I guess our data is very
+average, but you will not always be so lucky), meaning that an average
+growth rate of 2 feet/year corresponds to `b = 0.25`. We don't have information
+on uncertainty, so we can take a conservative estimate of say, quarter of the mean:
+
+```r
+prior_mu_b = rtruncnorm(1000, mean = 0.25, sd = 0.25/4, a = 0)
+hist(prior_mu_b)
+```
+
+This would lead to maximum growth rates of 0.5 - 7 feet/year. Finally the
+parameter `c` that tells us about the age at which half of maximum height is
+reached. Again, checking our AI-powered Google and some of the sources within,
+we see that most of the growth happens in the first 20 years and after that
+growth rate decrease significantly as the tree matures. Since the logistic curve
+is symmetric, this would imply a value of `c = 10` and we can assume again a
+standard deviation of a quarter of that:
+
+```r
+prior_mu_c = rtruncnorm(1000, mean = 10, sd = 10/4, a = 0)
+hist(prior_mu_c)
+```
+
+To double check that our priors make sense, we can simulate 1000 growth curves
+based on the parameters we just obtained
+```r
+# Simulation prior population means
+t = tree1$age
+prior_mu = sapply(t, function(x)
+                  logistic(b = prior_mu_b, c = prior_mu_c, h_m = prior_mu_hm, x))
+head(prior_mu) # Each column is a different age
+```
+
+Let's summarise all these trajectories:
+
+```r
+mean_prior_mu = colMeans(prior_mu)
+med_prior_mu = apply(prior_mu, 2, quantile, prob = 0.5)
+lower_prior_mu = apply(prior_mu, 2, quantile, prob = 0.025)
+upper_prior_mu = apply(prior_mu, 2, quantile, prob = 0.975)
+plot(t, mean_prior_mu, ylim = range(prior_mu), t = "l")
+lines(t, med_prior_mu, col = 2)
+lines(t, lower_prior_mu, col = 3)
+lines(t, upper_prior_mu, col = 3)
+```
+
+We can see that this covers a wide range of trajectories, but it looks very
+reasonable. Of course later we can test what happens if our priors are wider
+but if you have information do use it and come up with sensible priors rather
+than covering an unreasonable range "just to be sure".
+
+More complicated is coming up with reasonable priors for the variances. The
+reason is that the variation across trees is going to depend on the context. Is
+this a wild population or a more artificial plantation? If it is a wild population,
+is it a mixed forest or a very homogeneous system? Unfortunately, most of the
+published research focuses on averages, so even if you are an expert, it can be
+hard to justify prior distributions for the variances. Given that we have 14
+replicates we can allow to be rather vague and calculate these variances as a
+function of the better defined means above. For example, we could expect a
+standard deviation of 20% around the mean for each trait and half the value for
+our uncertainty of what the exact value should be:
+
+```r
+prior_sigma_hm = rtruncnorm(1000, mean = 65/5, sd = 65/10, a = 0)
+prior_sigma_b = rtruncnorm(1000, mean = 0.25/5, sd = 0.25/10, a = 0)
+prior_sigma_c = rtruncnorm(1000, mean = 10/5, sd = 10/10, a = 0)
+```
+
+We can now simulate individual trees by combining the priors for means and
+standard deviations.
+
+```r
+prior_hm = rtruncnorm(1000, mean = prior_mu_hm, sd = prior_sigma_hm, a = 0)
+prior_b  = rtruncnorm(1000, mean = prior_mu_b, sd = prior_sigma_b, a = 0)
+prior_c  = rtruncnorm(1000, mean = prior_mu_c, sd = prior_sigma_c, a = 0)
+```
+
+The resulting population should be more variable than the averages above:
+
+```r
+t = 1:25
+prior_h = sapply(t, function(x)
+                  logistic(b = prior_b, c = prior_c, h_m = prior_hm, x))
+mean_prior_h = colMeans(prior_h)
+med_prior_h = apply(prior_h, 2, quantile, prob = 0.5)
+lower_prior_h = apply(prior_h, 2, quantile, prob = 0.025)
+upper_prior_h = apply(prior_h, 2, quantile, prob = 0.975)
+plot(t, mean_prior_h, ylim = range(prior_h), t = "l", ylab = "Tree height")
+lines(t, med_prior_h, col = 2)
+lines(t, lower_prior_h, col = 3)
+lines(t, upper_prior_h, col = 3)
+```
+
+The last variable which prior we need to specify is the measurement error. The
+measurement errors that we should expect depend on how the measurements were taken
+which of course we do not know. Assuming a visual estimation using trigonometry,
+the reported errors seem to be 1 - 4% of the tree height. This means a prior we
+believe an error of 0.2 - 3 m based on the prior predicted heights. We can
+achieve this as follows:
+
+```r
+prior_sigma = rtruncnorm(1000, mean = 1, sd = 1, a = 0)
+hist(prior_sigma)
+```

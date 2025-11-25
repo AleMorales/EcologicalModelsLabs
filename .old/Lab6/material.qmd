@@ -462,27 +462,18 @@ contour(muvec,kvec,resmat,nlevels=100,lty=2,add=TRUE)
 
 ::::::
 
-## (OPTIONAL) Bayesian parameter estimation: Laplace's approximation
+## (OPTIONAL) Bayesian parameter estimation: Quadratic approximation
+
 
 
 We are going to analyze the `shapes2` dataset again, but this time using a
-Bayesian approach where we approximate the posterior distribution. This
-approximation is sometimes called Laplace's approximation, but that name is also
-reserved for a related technique that we will use in Chapter 10, so here we will
-call it *quadratic approximation* because it uses the same mathematical tools
-as the quadratic approximation in maximum likelihood (in fact, the two are
-equivalent if you assume uniform priors). 
+Bayesian approach where we approximate the posterior distribution. Notice that
+When you use maximum likelihood, it makes sense to just generate some fake data
+and fit models to it (for practice), but without context we cannot come up with 
+priors in a Bayesian setting. The *shapes* dataset is fake data so we need to 
+come up with some *fake* context and derive priors from it.
 
-We will work with the second of the shapes datasets and we will construct a type of 
-prior know as *Weakly Informative Priors* (WIPs). These are used when you do not 
-have clear prior information (or don't want to use it) except for knowing what 
-the order of magnitude of the parameters should be. WIPs are very popular in 
-modern Bayesian statistics because they have a small effect on the posterior
-distribution while addressing many of the complicated numerical issues that we
-encounter in maximum likelihood. Use quadratic approximation with WIPs is
-basically an enhanced version of maximum likelihood.
-
-### Constructing priors
+### Constructing priors for the shapes2 dataset
 
 Let's assume that these data represent the predation rate as a function of prey
 density, so it makes to try the functional responses we learnt in Chapter 3. Let's
@@ -504,7 +495,7 @@ scale of the response variable.
 
 Let's first start with the functional response Type II that has the form 
 `a*x/(b + x)`. We will come up with reasonable prior distributions and generate
-a bunch of simulations (these are called prior predictions and the can be used
+a bunch of simulations (these are called prior predictions and the can be uses
 to check your priors are reasonable). Because all parameters should be positive,
 I use truncated normals (that only keep positive part):
 
@@ -526,7 +517,7 @@ mu_y_prior = sapply(1:N, function(i) a[i]*xseq/(b[i] + xseq))
 
 This matrix has 1000 columns (one for each sample of the priors) and 201 rows for
 the seq of x values. We can summarize all these predictions into an average and
-quantiles:
+qunatiles:
 
 ```r
 mean_mu_y_prior = rowMeans(mu_y_prior)
@@ -537,315 +528,233 @@ upper_mu_y_prior = apply(mu_y_prior, 1, quantile, prob = 0.975)
 And now we can visualize it:
 
 ```r
-plot(xseq, mean_mu_y_prior, type = "l", ylim = c(0, 100),
-    xlab = = "Prey density", ylab = "Predation rate")
+plot(xseq, mean_mu_y_prior, type = "l", ylim = c(0, 100))
 lines(xseq, lower_mu_y_prior, lty = 2)
 lines(xseq, upper_mu_y_prior, lty = 2)
 points(shapes2)
 ```
 
 With WIPS you want to make sure that the range of predictions is much wider than
-the observed data, while avoiding nonsensical predictions (e.g., negative values
-or values that are way too high).
+the observed data.
 
-### Laplace's approximation: How Bayes rule was solved originally
+### Building the model in Stan
 
-Remember that Bayes rule was
+Before continuing with this section you need to install RStan in your computer.
+Please go to https://github.com/stan-dev/rstan/wiki/Rstan-Getting-Started to 
+install Stan in your computer and test that it works.
 
-$$
-P(\theta | D) = \frac{P(D|\theta)P(\theta)}{P(D)},
-$$
-where $P(D|\theta)$ is equivalent to the likelihood function, $P(\theta)$ is the
-prior probability of parameter values, $P(\theta | D)$ is the posterior
-probability and $P(D)$ is the probability of seeing thee particular data under
-the assumed mode. 
+Stan models need to be built in their own files and are made of different blocks. 
+You have been given the Stan file for this first exercise but please try to 
+understand how it is structured based on the description before as you will not
+be given the solutions for posterior exercises. This Youtube video may also help
+you: https://youtu.be/YZZSYIx1-mw?si=5nSuDzOV8lrMKyCv 
 
-Note that $P(D|\theta)$ and $P(\theta)$ are built by you (they are functions of 
-$\theta$) and therefore you know them, but you do not know $P(D)$ (this is an
-unknown value). If you knew it, then Bayesian statistics would be "straightforward"
-in the sense that you just need to multiple two functions and divide by a constant. 
-In practice you would need to do some extra work as this only gives you a probability
-density function, you would then need to figure out the cumulative density function, 
-how to generate random samples from the posterior, etc. 
+A Stan model is composed of different blocks. First, we need to specify the data 
+that will be used:
 
-The first person to solve Bayes rule was called Laplace and he realized you could 
-calculate $P(D)$ as:
-
-$$
-P(D) = \int{P(D|\theta)P(\theta)d\theta}
-$$
-
-This seemingly innocent integral can be quite hard (or in practice impossible) to
-solve beyond the simplest of models (the calculus of probability of functions can
-be too nasty). He developed a mathematical approximation that consists of:
-
-1. Take the log of $P(D|\theta)P(\theta$ (let's call it the *log probability density* 
-or *lpd*).  
-
-2. Find its maximum.  
-
-3. Approximate the lpd with a 2nd Order Taylor approximation around the maximum.  
-
-From that he derived what the integral should be if the approximation was exact,
-based on the Normal distribution. This procedure for approximating integrals
-will come back in Chapter 10.
-
-After Laplace published his method it was shown (not sure when or by whom) that 
-his method of approximating $P(D)$ was equivalent to the following:
-
-1. Find the value of $\theta$ that maximizes lpd (we call
-it **M**aximum **a** **P**osteriori, or MAP).  
-
-2. Approximate the posterior distribution $P(\theta | D)$ by a normal distribution
-with mean equal to MAP and covariance matrix derive from the Hessian matrix of
-second order derivatives.  
-
-That is, Laplace's approximation to $P(D)$ is equivalent to approximating the 
-posterior distribution by a Normal distribution centered around its mode.
-
-Does this procedure sound familiar? If we assume uniform priors, Laplace's 
-approximation is exactly the same as maximum likelihood with quadratic approximation 
-(section 6.5 in the book) which is the original maximum likelihood method published
-by Fisher in 1922. Indeed, Laplace invented this method 150 years before Fisher, 
-but in a Bayesian rather than Frequentist context. The only difference is that in 
-the Bayesian context you take into account prior distributions rather than just 
-the likelihood.
-
-As discussed in the book, this approximation becomes better as the amount of
-data increases (i.e., it is only exact asymptotically) and this remains true in
-the Bayesian context too. Some authors seem to think that the only
-correct way to do Bayesian statistics is to run complex algorithms such as Markov
-Chain Monte Carlo (we cover that in the next chapter) but using Laplace's 
-approximation is as valid as using the quadratic approximation for maximum 
-likelihood. Thus, we will learn how to use this approach first and leave the
-more complex MCMC approaches for later.
-
-
-### Implementing Laplace's approximation
-
-We can implement Laplace's approximation in a similar way to how we implemented
-the method of maximum likelihood. First, we build a function to compute the
-log posterior density (for consistency, we will use the negative, as in the
-maximum likelihood theory):
-
-```r
-# First the negative log likelihood
-nll = function(a, b, sd, x, y) {
-  mu = (a*x)/(b+x)
-  nll = -sum(dnorm(y, mean = mu,sd = sd, log = TRUE))
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
 }
-# Now we add the prior
-nlpd = function(a, b, sd, x, y){
-    nlpd = nll(a, b, sd, x, y) - 
-           dnorm(a, mean = 50, sd = 50, log = TRUE) -
-           dnorm(b, mean = 50, sd = 100, log = TRUE) -
-           dnorm(sd, mean = 0,  sd = 10, log = TRUE)
-    return(nlpd)
+```
+
+Here we specify the length of the data `N` as a positive integer `int<lower=0>`.
+The two variables in the model (`x` and `y`) are defined as vectors of positive
+(real) values (`vector<lower=0>`) and length `N`. Finally, there are six values
+passed along the vector `hp` which will be used to parameterize the prior
+distributions.
+
+The next block represents the parameters of the model that will be estimated:
+
+```stan
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
 }
-nlpd(a = 50, b = 50, sd = 10, x = shapes2$x, y = shapes2$y)
+
 ```
 
-We can now run the optimizer as usual
+These are the three parameters of our likelihood function (`a` and `b` for the 
+deterministic model and `sigma` for the error) which are all assumed to be 
+positive.
 
-```r
-MAP = mle2(nlpd, start = list(a = 20, b = 10, sd = 1), 
-           data = shapes2, method="L-BFGS-B",
-           lower = c(a = 0, b = 0, sd = 0))
-```
+Finally we have the model block, that actually implements the priors and likelihood.
+There are two ways to implement thids in Stan, either using the probabilistic
+modelling approach (which resembles the BUGS code in the book) or by adding up
+log probability densities (which resembles the way we build the negative 
+log-likelihood functions). 
 
-Let's look at the results:
+The probabilistic approach looks as follows:
 
-```r
-summary(MAP)
-```
-
-Of course these results assume we were doing maximum likelihood, so much of the
-information is not relevant. But the first two columns of the `Coefficients` 
-sector are now giving us the mode of the posterior distribution and the standard
-deviation of each of the posterior marginal distributions.
-
-In good Bayesian fashion we may want to generate a sample of values from the 
-posterior distribution and use to make other calculations (e.g., predictions).
-We first need to extract the variance-covariance matrix
-
-```r
-V = vcov(MAP)
-```
-
-Then we use a multivariate normal with mean equal to the MAP estimate and using 
-the variance-covariance matrix we just extracted:
-
-```r
-library(mvtnorm)
-posterior = rmvnorm(n = 1e4, mean = coef(MAP), sigma = V)
-```
-
-Let's visualize it (I only choose 1000 values because otherwise it is too slow):
-
-```r
-pairs(posterior[1:1e3,], pch = ".")
-```
-
-We can also look at the marginal distributions and compare the posterior and prior:
-
-```r
-prior = cbind(a = a, b = b, sd = sigma)
-par(mfrow = c(1,3))
-for(i in 1:3) {
-  plot(density(posterior[,i]), xlab = colnames(posterior)[i], main = "")
-  lines(density(prior[,i]), col = 2)
+```stan
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*x./(b + x), sigma);
 }
-par(mfrow = c(1,1))
 ```
 
-Notice that in the region where the posterior samples where generated (basically
-where most of the probability is located), the prior distributions are practically
-flat. This is what makes a prior weakly informative. It has practically no effect
-on the posterior but it can help the algorithm find the solution much faster. This
-will lead to Bayesian results that are very similar to Maximum Likelihood results.
+The first three lines indicate that the parameters `a`, `b` and `sigma` follow
+normal distributions with hyperparameters take from the vector `hp`. The last
+line indicates that the observations `y` follow a normal distribution which mean
+is given by the deterministic model `a*x./(b + x)` and the standard deviation is
+`sigma`.
 
-We can also make predictions and compare it to the prior predictions we did before.
+The alternative approach looks like this:
+
+```stan
+model {
+  target += normal_lpdf(a | hp[1], hp[2]);
+  target += normal_lpdf(b | hp[3], hp[4]);
+  target += normal_lpdf(sigma | hp[5], hp[6]);
+  target += normal_lpdf(y | a*x./(b + x), sigma);  
+}
+```
+
+Where `target` is a special variable in Stan that accumulates the log-likelihood
+and log-prior, `normal_lpdf` stands for the log probability density of the normal
+distribution and `|` is the symbol for conditionality (on the left of `|` we 
+indicate the random variable and on the right other parameters of the distribution).
+
+### Loading the model in Stan and running Laplace's approximation
+
+We can compile and load the model as follows (here I assume the model is in a
+file called `mm.stan` inside the folder `Lab6`).
 
 ```r
-N = nrow(posterior)
-xseq = 0:200
-mu_y_posterior = sapply(1:N, function(i) posterior[i,"a"]*xseq/(posterior[i,"b"] + xseq))
+library(rstan)
+options(mc.cores = parallel::detectCores()) # To enable parallel chains
+rstan_options(auto_write = TRUE) # To avoid recompilation
+mm_model = stan_model(file = "./Lab6/mm.stan")
 ```
 
-This matrix has 1000 columns (one for each sample of the priors) and 201 rows for
-the seq of x values. We can summarize all these predictions into an average and
-quantiles:
+This took a while because the Stan model needs to be compiled to machine code
+that can then be executed. C++ compilation can be quite slow so please be patient
+(it will pay off later, trust me).
+
+We are going to fit this model the data using Laplace's approximation. This 
+approximates the posterior distribution as a Normal distribution with a mean
+equal to the maximum posterior estimates and variance derived from the Hessian
+matrix. Mathematically this is equivalent to maximum likelihood + quadratic
+approximation (section 6.5 in the book) but with prior distributions. We can do
+this in Stan using `optimizing()`:
 
 ```r
-mean_mu_y_posterior = rowMeans(mu_y_posterior)
-lower_mu_y_posterior = apply(mu_y_posterior, 1, quantile, prob = 0.025)
-upper_mu_y_posterior = apply(mu_y_posterior, 1, quantile, prob = 0.975)
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y, 
+            hp = c(50, 50, 50, 100, 0, 10)) # see above for priors
+mm_fit = optimizing(mm_model, data = data, init = list(a = 50, b = 40, sigma = 1),
+                    hessian = TRUE)
 ```
 
-And now we can visualize it:
+We can retrieve the estimated mode of the posterior:
 
 ```r
-plot(xseq, mean_mu_y_posterior, type = "l", ylim = c(0, 100),
-    xlab = "Prey density", ylab = "Predation rate")
-lines(xseq, lower_mu_y_posterior, lty = 2)
-lines(xseq, upper_mu_y_posterior, lty = 2)
-lines(xseq, mean_mu_y_prior, col = 2)
-lines(xseq, lower_mu_y_prior, lty = 2, col = 2)
-lines(xseq, upper_mu_y_prior, lty = 2, col = 2)
-points(shapes2)
+mm_fit$par
 ```
 
-If you look hard you will see that the black lines are now plotted through the
-cloud of points and the uncertainty is quite small. Remember that this
-represents our uncertainty about the average predation rate and not individual
-values (that would require including the parameter `sd` too). The fact that our
-prior distribution was a bit off is not a problem as we made our prior uncertainty
-big enough to accommodate a wide range of possible responses.
-
-### Computing DIC 
-
-We can compute DIC. Remember that this requires two calculations:
-
-1. Twice the negative log likelihood at the mean posterior estimate.
-
-2. The same quantity but averaged over the posterior distribution.
-
-Let's do the first one:
+And we can use the Hessian to compute a variance-covariance matrix:
 
 ```r
-mean_posterior = colMeans(posterior)
-term1 = 2*nll(a = mean_posterior[1], b = mean_posterior[2], sd = mean_posterior[3], 
-             shapes2$x, shapes2$y)
+V = MASS::ginv(-mm_fit$hessian)
 ```
 
-The second one is more involved but since we already have a sample of values
-from the posterior we can use them directly to estimate the mean deviance (this
-is essentially the Monte Carlo method to calculate averages):
+And now our posterior is defined as a multivariate normal with `mu = mm_fit$par`
+and `Sigma = V`. We can generate samples using `mvrnorm`:
 
 ```r
-all_nlls = apply(posterior, 1, function(x) 2*nll(a = x[1], b = x[2], sd = x[3],
-                                                 x = shapes2$x, y = shapes2$y))
-term2 = mean(all_nlls)                                                 
+posterior_samples = MASS::mvrnorm(1000, mu = mm_fit$par, Sigma = V)
 ```
 
-The effective number of parameters is the difference of `term2` and `term1`:
+We can directly visualize the marginal distribution from this sample:
 
 ```r
-pDIC = term2 - term1
+par(mfrow = c(1,2))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
 ```
 
-Notice that this is slightly larger than 3. The Deviance Information Criterion 
-then becomes:
+But also the correlation among these two parameters:
 
 ```r
-DIC = term1 + 2*pDIC
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
 ```
-
-In the next chapter (where we will use Markov Chain Monte Carlo) we will also
-learn more modern information criteria that are are meant to replace DIC.
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Fit the model `a*x^2/(b + x^2)` to the same dataset as the model above using
-Laplace's approximation.
-
-2. Compare this model and the previous model using DIC
+Fit the model `a*x^2/(b + x^2)` to the same dataset as the model above using
+Laplace's approximation and Stan.
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
 :::: {.callout-tip title="Solution" collapse="true"}
 
-1 Fit the model
+The stan model will look as follows (I use the probabilistic flavour because 
+it is a bit easier to write down)
 
-The model would be 
-
-```r
-nll2 = function(a, b, sd, x, y) {
-    mu = (a*x^2)/(b^2+x^2)
-    nll = -sum(dnorm(y, mean = mu,sd = sd, log = TRUE))
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
 }
-nlpd2 = function(a, b, sd, x, y) {
-    # We add the negative log prior density
-    nlpd = nll2(a, b, sd, x, y) - 
-           dnorm(a, mean = 50, sd = 50, log = TRUE) -
-           dnorm(b, mean = 50, sd = 100, log = TRUE) -
-           dnorm(sd, mean = 0,  sd = 10, log = TRUE)
-    return(nlpd)
+
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
 }
-nlpd2(a = 50, b = 50, sd = 10, x = shapes2$x, y = shapes2$y)
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*pow(x, 2)./(b + pow(x, 2)), sigma);
+}
 ```
 
-And then I run the optimization as usual:
+Notice than in C++, `x^2` needs to be written as `pow(x, 2)`. 
+
+I can adjust the priors based on the new scale (no `a` is in the scale of `y`
+but `b` is in the scale of `x`)
 
 ```r
-MAP2 = mle2(nlpd2, start = list(a = 20, b = 10, sd = 1), 
-           data = shapes2, method="L-BFGS-B",
-           lower = c(a = 0, b = 0, sd = 0))
-summary(MAP2)
+b = rtruncnorm(N, mean = 10000/2, sd = 10000, a = 0) # b scales with half prey density
+mu_y_prior = sapply(1:N, function(i) a[i]*xseq^2/(b[i] + xseq^2))
+mean_mu_y_prior = rowMeans(mu_y_prior)
+lower_mu_y_prior = apply(mu_y_prior, 1, quantile, prob = 0.025)
+upper_mu_y_prior = apply(mu_y_prior, 1, quantile, prob = 0.975)
+plot(xseq, mean_mu_y_prior, type = "l", ylim = c(0, 100))
+lines(xseq, lower_mu_y_prior, lty = 2)
+lines(xseq, upper_mu_y_prior, lty = 2)
+points(shapes2)
 ```
 
-2. Compute DIC
+We then load the new model and run Laplace's approximation:
 
 ```r
-V2 = vcov(MAP2)
-posterior2 = rmvnorm(n = 1e4, mean = coef(MAP2), sigma = V2)
-mean_posterior2 = colMeans(posterior2)
-term1 = 2*nll2(a = mean_posterior2[1], b = mean_posterior2[2], sd = mean_posterior2[3], 
-             shapes2$x, shapes2$y)
-all_nlls2 = apply(posterior2, 1, function(x) 2*nll2(a = x[1], b = x[2], sd = x[3],
-                                                 x = shapes2$x, y = shapes2$y))
-term2 = mean(all_nlls2)    
-pDIC2 = term2 - term1
-DIC2 = term1 + 2*pDIC2
-c(pDIC, pDIC2)
-c(DIC, DIC2)
+mm2_model = stan_model(file = "./Lab6/mm2.stan")
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y, 
+            hp = c(50, 50, 100, 200, 0, 10)) # see above for priors
+mm2_fit = optimizing(mm2_model, data = data, init = list(a = 50, b = 4000, sigma = 1),
+                    hessian = TRUE)
 ```
 
-Like for AIC, the smaller the DIC the better. In this case the effective number
-of parameters is (practically) the same, which makes sense since the actual number
-of parameters is the same. But adding the quadratic term has not improved the fit
-so it is clearly not a better model.
+And I can retrieve the parameter values as I did before
 
+```r
+V = MASS::ginv(-mm2_fit$hessian)
+posterior_samples = MASS::mvrnorm(1000, mu = mm2_fit$par, Sigma = V)
+par(mfrow = c(1,3))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
+```
 ::::
 
 :::::

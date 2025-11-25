@@ -21,15 +21,17 @@ website:
       - href: Lab7/no_solution.qmd
         text: "Lab 7"
       - href: Lab9/no_solution.qmd
-        text: "Lab 9"        
+        text: "Lab 9"
       - href: Lab10/no_solution.qmd
         text: "Lab 10"
       - href: Supplements/optim.qmd
-        text: "Supplement: mle2 vs optim"         
+        text: "Supplement: mle2 vs optim"
       - href: Supplements/canned.qmd
-        text: "Supplement: Canned methods"        
+        text: "Supplement: Formula-based methods"
       - href: Supplements/bias_variance/no_solution.qmd
         text: "Supplement: Variance and bias of estimates"
+      - href: Supplements/Stan/no_solution.qmd
+        text: "Supplement: Bayesian inference with Stan"
       - section: "Solutions"
         contents:
           - href: Lab1/solution.qmd
@@ -45,11 +47,13 @@ website:
           - href: Lab7/solution.qmd
             text: "Lab 7 (solutions)"
           - href: Lab9/solution.qmd
-            text: "Lab 9 (solutions)"             
+            text: "Lab 9 (solutions)"
           - href: Lab10/solution.qmd
             text: "Lab 10 (solutions)"
           - href: Supplements/bias_variance/solution.qmd
-            text: "Variance and bias of estimates (solutions)"            
+            text: "Variance and bias of estimates (solutions)"
+          - href: Supplements/Stan/solution.qmd
+            text: "Supplement: Bayesian inference with Stan (solutions)"
 format:
   html:
     theme: cosmo

@@ -1,5 +1,5 @@
 ---
-title: "Lab 9: Canned functions and modeling variance"
+title: "Lab 9: Modeling variance and dispersion"
 author: "Alejandro Morales"
 date: today
 visual: false

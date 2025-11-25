@@ -192,260 +192,291 @@ abline(v=c(0.007177,0.0107589),col="blue")
 ::::::
 
 
-## (OPTIONAL) Bayesian parameter estimation: Markov Chain Monte Carlo
+## (OPTIONAL) Bayesian parameter estimation: Hamiltonian Monte Carlo
 
 In this section we will revisit the examples we did in Lab 6 but using a 
 Markov Chain Monte Carlo approach to generate samples from the posterior
 distribution without having to make assumptions about its shape. 
 
-There are different libraries to perform Bayesian analysis in R. If we want to
-implement our own model from scratch then the options available are:
+The software Stan implements a different type of MCMC algorithm to the one
+described in Bolker's book. It uses an algorithm called Hamiltonian Monte Carlo
+that has a smart way to generate candidate points in the posterior distribution
+that lead to a much more efficient sampling (less autocorrelation, much faster
+adaptation, etc). We will not learn the details of the algorithm (is much more
+complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM), 
+instead we will focus on how to assess the results.
 
-1. `BayesianTools`: Write the log-likelihood and prior functions (as we have
-done before) and sample from the posterior using one of the algorithms available
-in the package `BayesianTools`. This is the most flexible option, the only caveat
-is that it might be slow because all the code is running within R (which is a 
-slow language) and the little documentation availabe is really bad.
+Remember that in lab 6 we created a model for the predation data (`shapes2`). 
+We will modify that model to keep track of the log-likelihood for the different
+parameter combinations (we need it for model comparison later). The original code
+was as follows
 
-2. `Nimble`: Write your model using the BUGS language, compile it to C++ and 
-sample from the posterior using Metropolis-Hastings, Gibbs or Hamiltonian Monte
-Carlo. This package is popular in ecology though it is lacking some documentation
-and support (and sometimes it crashes).
-
-3. `Stan`: Write your model using Stan's own language (an extension of BUGS) in
-C++ and then sample from the posterior using Hamiltonian Monte Carlo. This is
-considered the golden standard for Bayesian inference nowadays. It is fast and 
-very well documented and supported.
-
-We will use the first option in the course because it is easiest to transition
-from maximum likelihood to using BayesianTools the way course is setup. However,
-if you really want to use Bayesian inference in your own research I recommend
-you learn to use `Stan` or the (very flexible) package `brms` if your model can
-be specified as a formula. To help you with that I provide a supplement on `Stan` 
-where I do the examples in the course in Stan. I also show examples of `brms`
-in the supplement on formula-based methods.
-
-We will learn how to use BayesianTools using the same model we fitted in the previous
-lab (`shapes2` with a Michaelis-Menten). BayesianTools require the (positive)
-log-likelihood and the priors to be specified as follows (notice that parameters
-are all included inside `par` and the data has to be accessed directly from
-within the function):
-
-```r
-# First the log likelihood (NOT NEGATIVE)
-ll = function(par) {
-  x = shapes2$x
-  y = shapes2$y
-  a = par[1]
-  b = par[2]
-  sd = par[3]
-  mu = (a*x)/(b+x)
-  ll = sum(dnorm(y, mean = mu,sd = sd, log = TRUE))
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
 }
-# Wrap into special object
-likelihood = createLikelihood(likelihood = ll, names = c("a","b","sd"))
-# Test the function
-likelihood$density(c(a = 50, b = 50, sd = 1))
-```
 
-Then the priors using BayesianTool's built-in `createPrior` function, where we
-include (i) the log prior density, (ii) a function to sample from priors and (iii)
-lower and upper bounds on parameters (if relevant). As with the likelihood,
-parameters must be passed as a vector. Also the sampler should return a matrix
-of initial samples.
 
-```r
-# Prior density
-lpd = function(par){
-  a = par[1]
-  b = par[2]
-  sd = par[3]
-  pd = dnorm(a, mean = 50, sd = 50, log = TRUE) +
-       dnorm(b, mean = 50, sd = 100, log = TRUE) +
-       dnorm(sd, mean = 0,  sd = 10, log = TRUE)
-  return(pd)
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
 }
-# Generate samples from prior
-library(truncnorm)
-sampler = function(n = 1) {
-  a  = rtruncnorm(n, mean = 50, sd = 50, a = 0)
-  b  = rtruncnorm(n, mean = 50, sd = 100, a = 0)
-  sd = rtruncnorm(n, mean = 0, sd = 10, a = 0)
-  cbind(a, b, sd)
+
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*x./(b + x), sigma);
 }
-# Wrap into special object
-priors = createPrior(density = lpd, sampler = sampler, lower = c(0, 0, 0),
-                     upper = rep(Inf, 3))
-# Test the functions
-par = priors$sampler()
-priors$density(par)
 ```
 
-We have all the information to setup the Bayesian problem:
+You need to add an extra block that computes the log-likelihood for each 
+parameter value:
 
 ```r
-setup = createBayesianSetup(likelihood = likelihood, prior = priors)
+generated quantities {
+  vector[N] log_lik;
+  for(n in N) log_lik[n] = normal_lpdf(y[n] | a*x[n]/(b + x[n]), sigma);
+}
 ```
 
-And now we can run the MCMC algorithm. BayesianTools contain many options for
-MCMC algorithms. There are a series of Metropolis algorithms that we could try
-but these algorithms are quite outdated and are quite difficult to tune properly.
-Nowadays other algorithms are being used by default:
+This can be added at the end of the file with the model implementation. Notice
+that inside the `generated quantities` block you can only use the `normal_lpdf`
+style of programming (not the `y ~ normal` style).
 
-1. Hamiltonian Monte Carlo: Considered to be the most efficient, it requires
-accurate calculations of gradients (similar to the derivative-based optimization
-algorithms). This is implemented in state-of-the-art Bayesian platforms such as
-Stan, PyMC or Turing. I provide a supplement for Stan (that uses C++) but here 
-we will focus on native R implementations.
 
-2. Differential Evolution Markov Chain: A modern version of MCMC that approximates
-the shape of the log posterior by keeping a number of internal chains that explore
-the surface. It is inspired by the Differential Evolution algorithm for optimization
-and it was partly developed at Wageningen University.
 
-BayesianTools implemented several flavours of DEMC and it we will use the version
-called `DEzs` (because it is the most robust and it was the one developed partly
-at WUR). See [here](http://dx.doi.org/10.1007/s11222-008-9104-9) for the publication.
+We could compile and load the model as follows:
 
 ```r
-set.seed(1234)
-start = priors$sampler(4)
-settings = list(iterations = 2e4, nrChains = 4, startValue = start, 
-                burnin = 5e3, thin = 1)
-posterior = runMCMC(setup, sampler = "DEzs", settings = settings)
+library(rstan)
+mm_model = stan_model(file = "./Lab7/mm_ll.stan")
 ```
 
-We can get most of the information we need from the `summary`:
+Now, instead of applying Laplace's approximation we will generate the samples
+using HMC. We can achieve this with the function `sampling` (assuming you
+have loaded the `shapes2` data:
 
 ```r
-summary(posterior)
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y, 
+            hp = c(50, 50, 50, 100, 0, 10)) # see above for priors
+options(mc.cores = 4) # Adjust to the number of cores you have
+mm_fit = sampling(mm_model, data = data, cores = 4, chains = 4,
+                   warmup = 1000, iter = 4000)
 ```
 
-We can see that 16 chains were ran because the DEzs algorithm runs internally
-4 chains in order to learn the shape of the posterior distribution. Those internal
-chains are not independent of each other, so you should still this as 4 independent
-MCMC runs.
+In this called to `sampling()` we are running 4 chains in parallel `ncores = 4`
+and `nchains = 4`. Each chain will first run for 1000 iterations to adapt (*warmup*
+is equivalent to *burn-in*) and then 3000 more to fill up the `iter = 4000`. This
+means we get in total 12000 samples from posterior across 4 independent chains.
 
-The effective sample size is equal to the total sample size (60,000 = 15,000 x 4)
-correct for autocorrelation.
-
-The summary on parameters is the most important bit: it tells us information on 
-the maginal posterior distributions of each parameter. The columns `2.5%` and 
-`97.5%` can be used to construct credible intervals and the median can be used
-as a point estimate (similar to MLE or MAP estimates). Note that the MAP estimate
-is approximate since we did not run optimization.
-
-The `psf` is the Gelman-Rubin diagnostic, which is calculated for each parameter
-individually and for the overall posterior (the multivariate version). Values 
-below 1.2 are considered acceptable. Here we have values below 1.01 so we are
-doing quite well!
-
-Finally, the summary also reports `DIC` which we can use for model comparison and
-the correlations among parameters in the posterior distribution
-
-We can visualize the trace plot as follows (note there is a bug in BayesianPlots
-that forces me to say `start = 2`):
+We can look at summaries of the samples with the usual function. You should
+specify the parameters you want out (otherwise you get all the `log_lik` 
+estimates printed:
 
 ```r
-plot(posterior, start = 2)
+summary(mm_fit, pars = c("a", "b", "sigma"))[[1]]
+```
+Stan is calculate the mean of each marginal posterior distribution (one per 
+parameter). It also gives several quantiles, an 
+estimate of the effective sample size (corrected for autocorrelation) and the
+$\hat{R}$ (`Rhat`) statistic (Bolker calls it *Gelman-Rubin* diagnostic). This
+statistic should be as close to 1 as possible, with values about 1.2 indicating
+a quite bad convergence (the results we get here are pretty much perfect).
+
+When you get an $\hat{R}$ of 1.00, there is no much need to look at the traces
+of the chains, but if you want to you can still do it:
+
+```r
+traceplot(mm_fit, pars = c("a", "b", "sigma"))
 ```
 
-Note how the chains are well mixed and we are getting sensible shapes for the
-marginal distributions. They are unimodal and approximately symmetric, but they
-all have a slightly longer tail to the right. These longer tails are caused by
-the fact that these parameters are constrained to be positive (and is why a 
-Normal approximation will never be exact). 
-
-We can plot the posterior marginal distributions against the priors
-
-Notice that this does not show the entire prior distribution but only the part.
-Let's extract the posterior samples to further process them:
+We can see that the four chains are well mixed for all parameters and they look
+like white noise. If you want to process the samples your self, you can convert
+the Stan object into a data.frame
 
 ```r
-posterior_sample = getSample(posterior, start = 2)
-head(posterior_sample)
+posterior_samples = as.data.frame(mm_fit, pars = c("a", "b", "sigma"))
 ```
 
-We can now do the same type of plot we did in the previous lab. Note that I 
-am going to use a histogram to deal better with the noise in the MCMC sample 
-(density plots can be too sensitive to that noise):
+And now we can reproduce the plots we made in the previous Lab
 
 ```r
-prior_sample = priors$sampler(1e4)
 par(mfrow = c(1,3))
-for(i in 1:3) {
-  histdata = hist(posterior_sample[,i], plot = FALSE, breaks = 30)
-  plot(histdata$mids, histdata$density, t = "s",
-       xlab = colnames(posterior_sample)[i], ylab = "Density")
-  lines(density(prior_sample[,i]), col = 2)
-}
-par(mfrow = c(1,1))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
 ```
 
-We can see, just like before, that the priors are practically flat in the area
-where the posterior probability concentrates, so the influence
+Note that the uncertainty in the parameter `b` is much larger than what we 
+estimated with Laplace's approximation. This is indeed the problem of using
+quadratic approximation to estimate uncertainty. It does not matter whether
+we are using in a Bayesian context or for maximum likelihood, in both cases
+we often underestimate uncertainty.
 
+### Modern Bayesian information criteria
+
+Finally, we can compute information criteria for model comparison. Bolker mentions
+DIC but this criterion has by now been superseded by two more recent approaches.
+The first one is WAIC which is a Bayesian generalization of AIC. The other one
+is an estimate of leave-one-out cross-validation (that can be done in a Bayesian
+context and is much faster than actual cross-validation). The package `loo`
+implements these indices:
+
+```r
+library(loo)
+# Extract the log-likelihoods from the fit
+log_lik = extract_log_lik(mm_fit)
+# Compute the WAIC
+waic_mm = waic(log_lik)
+# Compute the loo IC
+loo_mm = loo(log_lik)
+```
+
+Notice that there were some warnings, they refer to one data point (2% of the
+data) that is probably a bit of an outlier and this can have an influence on 
+any information criterion. We can identify as follows:
+
+```r
+suspect = pareto_k_ids(loo_mm)
+plot(shapes2)
+points(shapes2[suspect,], col = 2)
+```
+
+Indeed, that value is way above the rest of the curve (for that value of `x`).
+We can remove the column in `log_lik` that corresponds to this point and 
+recalculate the indices:
+
+```r
+log_lik_clean = log_lik[,-7]
+waic_mm = waic(log_lik_clean)
+loo_mm = loo(log_lik_clean)
+```
+
+And now complaints anymore. Let's look at these objects
+
+```r
+waic_mm
+loo_mm
+```
+
+They give exactly the same result. Sometimes they will not and in that case the
+recommendation is to use `loo` instead of `waic`. This will tend to happen with
+fewer datapoints and/or more complex models. There are a lot of numbers there:
+
+- `elpd_` is the average predictive log-likelihood (so it is already penalized by model complexity).
+
+- `p_` is the effective degrees of freedom we would need to compute `elpd` from our sample. In AIC this would $2k = 6$. The reason why this number is smaller than 6 in a Bayesian prior is because prior information constrains the model, so the effective number of degrees of freedom is lower than the number of parameters being estimated. The effective degrees of freedom will also depend on the sample size (the more data we have, the less informative the priors become).
+
+- `waic` and `looic` is just -2 times elpd so that it is expressed in the same units as AIC or BIC.
+
+You can use WAIC or LOO-IC in a similar way to how you use AIC or BIC. Notice that we also get a standard error `SE` for the index, so you may also use that information for model comparison (i.e., if the WAIC or two models differ by more than twice the SE, you can assume a difference in predictive power between the models).
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Fit the model `a*x^2/(b^2 + x^2)` to the same dataset as the model above using
+1. Fit the model `a*x^2/(b + x^2)` to the same dataset as the model above using
 Hamiltonian Monte Carlo.
 
-2. Compare the two models using DIC
+2. Compare the two models using WAIC or LOO-IC
 
 ::::: {.content-hidden unless-meta="show_solution"}
 
 :::: {.callout-tip title="Solution" collapse="true"}
 
-Like in the previous lab, we just need to change the likelihood as we will keep
-the same priors (the models are similar enough):
+The stan model will look as follows (I use the probabilistic flavour because 
+it is a bit easier to write down)
 
-```r
-# First the log likelihood (NOT NEGATIVE)
-ll2 = function(par) {
-  x = shapes2$x
-  y = shapes2$y
-  a = par[1]
-  b = par[2]
-  sd = par[3]
-  mu = (a*x^2)/(b^2+x^2)
-  ll = sum(dnorm(y, mean = mu,sd = sd, log = TRUE))
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
 }
-# Wrap into special object
-likelihood2 = createLikelihood(likelihood = ll2, names = c("a","b","sd"))
-# Test the function
-likelihood2$density(c(a = 50, b = 50, sd = 1))
+
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
+}
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*pow(x, 2)./(b + pow(x, 2)), sigma);
+}
+
+generated quantities {
+  vector[N] log_lik;
+  for(n in 1:N) 
+    log_lik[n] = normal_lpdf(y[n] | a*pow(x[n],2)/(b + pow(x[n],2)), sigma);
+}
 ```
 
-We now create the Bayesian setup
+We then load the new model and run HMC on it:
 
 ```r
-setup2 = createBayesianSetup(likelihood = likelihood2, prior = priors)
+mm2_model = stan_model(file = "./Lab7/mm2_ll.stan")
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y, 
+            hp = c(50, 50, 100, 200, 0, 10)) # see above for priors
+mm2_fit = sampling(mm2_model, data = data, cores = 4, chains = 4,
+                   warmup = 1000, iter = 4000)
 ```
 
-And run the DEzs algorithm to sample from the posterior:
+And I can retrieve the parameter values as I did before
 
 ```r
-set.seed(1234)
-start = priors$sampler(4)
-settings = list(iterations = 2e4, nrChains = 4, startValue = start, 
-                burnin = 5e3, thin = 1)
-posterior2 = runMCMC(setup2, sampler = "DEzs", settings = settings)
+summary(mm2_fit, pars = c("a", "b", "sigma"))[[1]]
 ```
 
-We can get most of the information we need from the `summary`:
+And visualize them:
 
 ```r
-summary(posterior2)
+posterior_samples = as.data.frame(mm2_fit, pars = c("a", "b", "sigma"))
+par(mfrow = c(1,3))
+hist(posterior_samples[,"a"], main = "", xlab = "a", prob = T)
+hist(posterior_samples[,"b"], main = "", xlab = "b", prob = T)
+plot(posterior_samples[,1:2], xlab = "a", ylab = "b")
 ```
 
-We can extract the DIC values directly:
+To compare with the other model we should compute cross-validation also without
+data point 7:
 
 ```r
-c(Model1 = DIC(posterior)$DIC, Model2 = DIC(posterior2)$DIC)
+library(loo)
+# Extract the log-likelihoods from the fit
+log_lik = extract_log_lik(mm2_fit)[,-7]
+# Compute the WAIC
+waic_mm2 = waic(log_lik)
+waic_mm2
+```
+ Ok, there seems to be another suspect, let's check with `loo`
+
+```r
+loo_mm2 = loo(log_lik)
+loo_mm2
+```
+We do not get warnings so we should be safe. We can now compare the two models.
+
+```r
+rbind(loo_mm$estimates["looic",],
+      loo_mm2$estimates["looic",])
 ```
 
-Just like before, it is clear that this second model does not perform better.
+We can see that the first model we tried was much better than the second model
+even when accounting for the standard error in the estimation. We can use the
+`loo_compare` function, which compares `elpd` values (i.e., without multiplying
+by -2, so bigger is better):
+
+```r
+loo_compare(loo_mm, loo_mm2)
+```
 
 ::::
 
