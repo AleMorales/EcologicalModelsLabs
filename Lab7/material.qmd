@@ -194,157 +194,103 @@ abline(v=c(0.007177,0.0107589),col="blue")
 
 ## (OPTIONAL) Bayesian parameter estimation: Markov Chain Monte Carlo
 
-In this section we will revisit the examples we did in Lab 6 but using a 
+In this section we will revisit the examples we did in Lab 6 but using a
 Markov Chain Monte Carlo approach to generate samples from the posterior
-distribution without having to make assumptions about its shape. 
+distribution without having to make assumptions about its shape.
 
-There are different libraries to perform Bayesian analysis in R. If we want to
-implement our own model from scratch then the options available are:
+The software Stan implements a different type of MCMC algorithm to the one
+described in Bolker's book. It uses an algorithm called Hamiltonian Monte Carlo
+that has a smart way to generate candidate points in the posterior distribution
+that lead to a much more efficient sampling (less autocorrelation, much faster
+adaptation, etc). We will not learn the details of the algorithm (is much more
+complex that basic Metropolis, an easy-ish introduction is here: https://www.youtube.com/watch?v=ZGtezhDaSpM),
+instead we will focus on how to assess the results.
 
-1. `BayesianTools`: Write the log-likelihood and prior functions (as we have
-done before) and sample from the posterior using one of the algorithms available
-in the package `BayesianTools`. This is the most flexible option, the only caveat
-is that it might be slow because all the code is running within R (which is a 
-slow language) and the little documentation availabe is really bad.
+Remember that in lab 6 we created a model for the prediation data (`shapes2`).
+We will modify that model to keep track of the log-likelihood for the different
+parameter combinations (we need it for model comparison later). The original code
+was as follows
 
-2. `Nimble`: Write your model using the BUGS language, compile it to C++ and 
-sample from the posterior using Metropolis-Hastings, Gibbs or Hamiltonian Monte
-Carlo. This package is popular in ecology though it is lacking some documentation
-and support (and sometimes it crashes).
-
-3. `Stan`: Write your model using Stan's own language (an extension of BUGS) in
-C++ and then sample from the posterior using Hamiltonian Monte Carlo. This is
-considered the golden standard for Bayesian inference nowadays. It is fast and 
-very well documented and supported.
-
-We will use the first option in the course because it is easiest to transition
-from maximum likelihood to using BayesianTools the way course is setup. However,
-if you really want to use Bayesian inference in your own research I recommend
-you learn to use `Stan` or the (very flexible) package `brms` if your model can
-be specified as a formula. To help you with that I provide a supplement on `Stan` 
-where I do the examples in the course in Stan. I also show examples of `brms`
-in the supplement on formula-based methods.
-
-We will learn how to use BayesianTools using the same model we fitted in the previous
-lab (`shapes2` with a Michaelis-Menten). BayesianTools require the (positive)
-log-likelihood and the priors to be specified as follows (notice that parameters
-are all included inside `par` and the data has to be accessed directly from
-within the function):
-
-```r
-# First the log likelihood (NOT NEGATIVE)
-ll = function(par) {
-  x = shapes2$x
-  y = shapes2$y
-  a = par[1]
-  b = par[2]
-  sd = par[3]
-  mu = (a*x)/(b+x)
-  ll = sum(dnorm(y, mean = mu,sd = sd, log = TRUE))
+```stan
+data {
+  int<lower=0> N;
+  vector<lower=0>[N] x;
+  vector<lower=0>[N] y;
+  vector[6] hp;
 }
-# Wrap into special object
-likelihood = createLikelihood(likelihood = ll, names = c("a","b","sd"))
-# Test the function
-likelihood$density(c(a = 50, b = 50, sd = 1))
-```
 
-Then the priors using BayesianTool's built-in `createPrior` function, where we
-include (i) the log prior density, (ii) a function to sample from priors and (iii)
-lower and upper bounds on parameters (if relevant). As with the likelihood,
-parameters must be passed as a vector. Also the sampler should return a matrix
-of initial samples.
 
-```r
-# Prior density
-lpd = function(par){
-  a = par[1]
-  b = par[2]
-  sd = par[3]
-  pd = dnorm(a, mean = 50, sd = 50, log = TRUE) +
-       dnorm(b, mean = 50, sd = 100, log = TRUE) +
-       dnorm(sd, mean = 0,  sd = 10, log = TRUE)
-  return(pd)
+parameters {
+  real<lower=0> a;
+  real<lower=0> b;
+  real<lower=0> sigma;
 }
-# Generate samples from prior
-library(truncnorm)
-sampler = function(n = 1) {
-  a  = rtruncnorm(n, mean = 50, sd = 50, a = 0)
-  b  = rtruncnorm(n, mean = 50, sd = 100, a = 0)
-  sd = rtruncnorm(n, mean = 0, sd = 10, a = 0)
-  cbind(a, b, sd)
+
+
+model {
+  a     ~ normal(hp[1], hp[2]);
+  b     ~ normal(hp[3], hp[4]);
+  sigma ~ normal(hp[5], hp[6]);
+  y ~ normal(a*x./(b + x), sigma);
 }
-# Wrap into special object
-priors = createPrior(density = lpd, sampler = sampler, lower = c(0, 0, 0),
-                     upper = rep(Inf, 3))
-# Test the functions
-par = priors$sampler()
-priors$density(par)
 ```
 
-We have all the information to setup the Bayesian problem:
+You need to add an extra block that computes the log-likelihood for each
+parameter value:
 
 ```r
-setup = createBayesianSetup(likelihood = likelihood, prior = priors)
+generated quantities {
+  vector[N] log_lik;
+  for(n in N) log_lik[n] = normal_lpdf(y[n] | a*x[n]/(b + x[n]), sigma);
+}
 ```
 
-And now we can run the MCMC algorithm. BayesianTools contain many options for
-MCMC algorithms. There are a series of Metropolis algorithms that we could try
-but these algorithms are quite outdated and are quite difficult to tune properly.
-Nowadays other algorithms are being used by default:
+This can be added at the end of the file with the model implementation. Notice
+that inside the `generated quantities` block you can only use the `normal_lpdf`
+style of programming (not the `y ~ normal` style).
 
-1. Hamiltonian Monte Carlo: Considered to be the most efficient, it requires
-accurate calculations of gradients (similar to the derivative-based optimization
-algorithms). This is implemented in state-of-the-art Bayesian platforms such as
-Stan, PyMC or Turing. I provide a supplement for Stan (that uses C++) but here 
-we will focus on native R implementations.
 
-2. Differential Evolution Markov Chain: A modern version of MCMC that approximates
-the shape of the log posterior by keeping a number of internal chains that explore
-the surface. It is inspired by the Differential Evolution algorithm for optimization
-and it was partly developed at Wageningen University.
 
-BayesianTools implemented several flavours of DEMC and it we will use the version
-called `DEzs` (because it is the most robust and it was the one developed partly
-at WUR). See [here](http://dx.doi.org/10.1007/s11222-008-9104-9) for the publication.
+We could compile and load the model as follows:
 
 ```r
-set.seed(1234)
-start = priors$sampler(4)
-settings = list(iterations = 2e4, nrChains = 4, startValue = start, 
-                burnin = 5e3, thin = 1)
-posterior = runMCMC(setup, sampler = "DEzs", settings = settings)
+library(rstan)
+mm_model = stan_model(file = "./Lab7/mm_ll.stan")
 ```
 
-We can get most of the information we need from the `summary`:
+Now, instead of applying Laplace's approximation we will generate the samples
+using HMC. We can achieve this with the function `sampling` (assuming you
+have loaded the `shapes2` data:
 
 ```r
-summary(posterior)
+data = list(N = nrow(shapes2), x = shapes2$x, y = shapes2$y,
+            hp = c(50, 50, 50, 100, 0, 10)) # see above for priors
+options(mc.cores = 4) # Adjust to the number of cores you have
+mm_fit = sampling(mm_model, data = data, cores = 4, chains = 4,
+                   warmup = 1000, iter = 4000)
 ```
 
-We can see that 16 chains were ran because the DEzs algorithm runs internally
-4 chains in order to learn the shape of the posterior distribution. Those internal
-chains are not independent of each other, so you should still this as 4 independent
-MCMC runs.
+In this called to `sampling()` we are running 4 chains in parallel `ncores = 4`
+and `nchains = 4`. Each chain will first run for 1000 iterations to adapt (*warmup*
+is equivalent to *burn-in*) and then 3000 more to fill up the `iter = 4000`. This
+means we get in total 12000 samples from posterior across 4 independent chains.
 
-The effective sample size is equal to the total sample size (60,000 = 15,000 x 4)
-correct for autocorrelation.
+We can look at summaries of the samples with the usual function. You should
+specify the parameters you want out (otherwise you get all the `log_lik`
+estimates printed:
 
-The summary on parameters is the most important bit: it tells us information on 
-the maginal posterior distributions of each parameter. The columns `2.5%` and 
-`97.5%` can be used to construct credible intervals and the median can be used
-as a point estimate (similar to MLE or MAP estimates). Note that the MAP estimate
-is approximate since we did not run optimization.
+```r
+summary(mm_fit, pars = c("a", "b", "sigma"))[[1]]
+```
+Stan is calculate the mean of each marginal posterior distribution (one per
+parameter). It also gives several quantiles, an
+estimate of the effective sample size (corrected for autocorrelation) and the
+$\hat{R}$ (`Rhat`) statistic (Bolker calls it *Gelman-Rubin* diagnostic). This
+statistic should be as close to 1 as possible, with values about 1.2 indicating
+a quite bad convergence (the results we get here are pretty much perfect).
 
-The `psf` is the Gelman-Rubin diagnostic, which is calculated for each parameter
-individually and for the overall posterior (the multivariate version). Values 
-below 1.2 are considered acceptable. Here we have values below 1.01 so we are
-doing quite well!
-
-Finally, the summary also reports `DIC` which we can use for model comparison and
-the correlations among parameters in the posterior distribution
-
-We can visualize the trace plot as follows (note there is a bug in BayesianPlots
-that forces me to say `start = 2`):
+When you get an $\hat{R}$ of 1.00, there is no much need to look at the traces
+of the chains, but if you want to you can still do it:
 
 ```r
 plot(posterior, start = 2)
@@ -353,8 +299,8 @@ plot(posterior, start = 2)
 Note how the chains are well mixed and we are getting sensible shapes for the
 marginal distributions. They are unimodal and approximately symmetric, but they
 all have a slightly longer tail to the right. These longer tails are caused by
-the fact that these parameters are constrained to be positive (and is why a 
-Normal approximation will never be exact). 
+the fact that these parameters are constrained to be positive (and is why a
+Normal approximation will never be exact).
 
 We can plot the posterior marginal distributions against the priors
 
@@ -366,8 +312,8 @@ posterior_sample = getSample(posterior, start = 2)
 head(posterior_sample)
 ```
 
-We can now do the same type of plot we did in the previous lab. Note that I 
-am going to use a histogram to deal better with the noise in the MCMC sample 
+We can now do the same type of plot we did in the previous lab. Note that I
+am going to use a histogram to deal better with the noise in the MCMC sample
 (density plots can be too sensitive to that noise):
 
 ```r
@@ -428,7 +374,7 @@ And run the DEzs algorithm to sample from the posterior:
 ```r
 set.seed(1234)
 start = priors$sampler(4)
-settings = list(iterations = 2e4, nrChains = 4, startValue = start, 
+settings = list(iterations = 2e4, nrChains = 4, startValue = start,
                 burnin = 5e3, thin = 1)
 posterior2 = runMCMC(setup2, sampler = "DEzs", settings = settings)
 ```

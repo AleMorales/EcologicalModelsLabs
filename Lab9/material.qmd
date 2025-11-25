@@ -10,10 +10,10 @@ You will learn how to:
 
 In previous labs we have been modelling the mean of the population or process
 under study. In this lab we are going to look into models of the variance or
-parameters related to variance (called scale parameters). For many distributions, 
-the mean and variance are not independent and it might not be possible to specify 
-them directly with the usual parameterizations. When it doubt, check Chapter 4 
-of the book (I will give you some hints on possible ways to decouple mean and 
+parameters related to variance (called scale parameters). For many distributions,
+the mean and variance are not independent and it might not be possible to specify
+them directly with the usual parameterizations. When it doubt, check Chapter 4
+of the book (I will give you some hints on possible ways to decouple mean and
 scale parameters).
 
 In this first section we will work with allometry data relating the length and
@@ -49,8 +49,8 @@ test = rlnorm(10000, meanlog = meanlog, sdlog = sdlog)
 
 1. Fit a power law of the form $a x ^b$ to the clam data with a fixed `cv`. Make
 sure to use proper lower and upper bounds on all parameters. Make sure that `mu`
-remains positive or the code will crash. Also, since `a` is very small you 
-probably want to work with `log(a)` or something like that and undo the 
+remains positive or the code will crash. Also, since `a` is very small you
+probably want to work with `log(a)` or something like that and undo the
 transformation inside the `nll` function.
 
 2. The scatter seems to vary across months. Refit the model but vary `cv` per
@@ -89,7 +89,7 @@ fit = mle2(minuslogl = nll, start = as.list(par0), method = "L-BFGS-B",
 summary(fit)
 ```
 
-Look at results 
+Look at results
 
 ```r
 mle_a = 10^coef(fit)[1]
@@ -125,7 +125,7 @@ summary(fit2)
 ```
 
 There is substantial variation in the estimated `cv`s that cannot be explain by
-uncertainty, suggesting that they might be different across months (at least 
+uncertainty, suggesting that they might be different across months (at least
 when we hold `a` and `b` constant).
 
 Because the models are nested and we have a lot of data, we could use a likelihood
@@ -188,7 +188,7 @@ abline(a = 0, b = 1)
 ```
 
 We can clearly see that the variance is much larger than the mean cone production
-so we might want to use a negative binomial defined by a mean (`mu`) and a 
+so we might want to use a negative binomial defined by a mean (`mu`) and a
 dispersion parameter `size`. The question is whether assuming a constant `size`
 is good enough to capture the overdispersion or whether we want `size` to vary
 as a function of DBH. A method of moments estimate of `size` is `size = mu^2/(var - mu)`:
@@ -212,7 +212,7 @@ curve(1 + 5.5/(1 + exp(-0.7*(x  - 12))), add = TRUE)
 
 :::::: {.callout-important title="Exercise" collapse="true"}
 
-1. Fit a non-linear model to the relationship between `TOTCONES` and `DBH` with 
+1. Fit a non-linear model to the relationship between `TOTCONES` and `DBH` with
 a negative binomial error distribution where the `size` parameter increases with
 diameter at breast height following a shifted and scaled logistic function.
 
@@ -223,7 +223,7 @@ data visually
 
 :::: {.callout-tip title="Solution" collapse="true"}
 
-I am going to fit a power law for the mean trend. Let's eyeball its coefficients 
+I am going to fit a power law for the mean trend. Let's eyeball its coefficients
 from the raw data:
 
 ```r
@@ -270,4 +270,3 @@ That looks quite reasonable!
 :::::
 
 ::::::
-

@@ -432,6 +432,7 @@ Variance response: Non-linear function of covariates and/or correlation structur
 | Paradigm    | Package   | Function  |
 |-------------|-----------|-----------|
 | Likelihood  | `nlme`    | `gls`     |
+| Likelihood  | `stats4`  | `mle`     |
 | Likelihood  | `bbmme`   | `mle2`    |
 | Bayesian    | `brms`    | `brm`     |
 
@@ -909,6 +910,7 @@ Variance response: Variance can be modeled as non-linear function of covariates.
 
 | Paradigm    | Package   | Function  |
 |-------------|-----------|-----------|
+| Likelihood  | `stats4`  | `mle`     |
 | Likelihood  | `bbmle`   | `mle2`    |
 | Bayesian    | `brms`^1^ | `brm`     |
 
